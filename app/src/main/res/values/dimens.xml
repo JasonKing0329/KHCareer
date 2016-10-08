@@ -70,4 +70,7 @@
     <dimen name="match_item_head_size">50dp</dimen>
     <dimen name="player_item_head_width">60dp</dimen>
     <dimen name="player_item_head_height">50dp</dimen>
+
+    <!-- download -->
+    <dimen name="download_dlg_height">400dp</dimen>
 </resources>

@@ -18,6 +18,7 @@ public class SettingProperty {
 	private static final String SLIDING_ENABLE = "setting_slidingmenu_enable";
 	private static final String SLIDING_MODE = "setting_slidingmenu_mode";
 	private static final String DEFAULT_UI = "setting_default_ui";
+	private static final String PREF_HTTP_SERVER = "pref_http_server";
 
 	private static final String QUICK_ENTER_TIME = "setting_quickenter_time";
 	private static final String QUICK_ENTER_MATCH = "setting_quickenter_match";
@@ -130,6 +131,15 @@ public class SettingProperty {
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.putString(QUICK_ENTER_PLAYER, value);
 		editor.commit();
+	}
+
+	/**
+	 * http服务器站点
+	 */
+	public static String getServerBaseUrl(Context context) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		String url = preferences.getString(PREF_HTTP_SERVER, "");
+		return url;
 	}
 
 }

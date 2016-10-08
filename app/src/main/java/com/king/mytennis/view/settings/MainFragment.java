@@ -11,12 +11,14 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.king.mytennis.model.Configuration;
 import com.king.mytennis.net.UploadHelper;
 import com.king.mytennis.service.FingerPrintController;
 import com.king.mytennis.service.LanguageService;
+import com.king.mytennis.update.UpdateManager;
 import com.king.mytennis.view.R;
 import com.king.mytennis.view.SafeSetDialog;
 
@@ -26,8 +28,8 @@ public class MainFragment extends PreferenceFragment implements OnPreferenceChan
 	private CheckBoxPreference loginPref;
 	private CheckBoxPreference supportMultFormPref;
 	private ListPreference lanPref, httpPref, uiPref;
-	private EditTextPreference dirConfigPref, dirTempPref, dirDBPref;
-	private Preference autoFillPref, safePref, uploadPref, cachePref;
+	private EditTextPreference dirConfigPref, dirTempPref, dirDBPref, httpServerPref;
+	private Preference autoFillPref, safePref, uploadPref, cachePref, checkUpdatePref;
 	private String currentLanguage;
 	
 	private static Toast fpNotSupportToast;
@@ -48,10 +50,12 @@ public class MainFragment extends PreferenceFragment implements OnPreferenceChan
 		dirConfigPref = (EditTextPreference) findPreference("setting_default_dir_config");
 		dirTempPref = (EditTextPreference) findPreference("setting_default_dir_temp");
 		dirDBPref = (EditTextPreference) findPreference("setting_default_dir_db");
+		httpServerPref = (EditTextPreference) findPreference("pref_http_server");
 		autoFillPref = findPreference("setting_auto_fill_form_default");
 		safePref = findPreference("setting_safeset");
 		uploadPref = findPreference("setting_upload");
 		cachePref = findPreference("setting_cache");
+		checkUpdatePref = findPreference("pref_http_update");
 		loginPref.setOnPreferenceChangeListener(this);
 		supportMultFormPref.setOnPreferenceChangeListener(this);
 		lanPref.setOnPreferenceChangeListener(this);
@@ -90,12 +94,15 @@ public class MainFragment extends PreferenceFragment implements OnPreferenceChan
 		dirDBPref.setSummary(str);
 		str = dirTempPref.getSharedPreferences().getString("setting_default_dir_temp", Configuration.TEMP_DIR);
 		dirTempPref.setSummary(str);
+
+		httpServerPref.setSummary(SettingProperty.getServerBaseUrl(getActivity()));
 		
 		loginPref.setOnPreferenceClickListener(this);
 		autoFillPref.setOnPreferenceClickListener(this);
 		safePref.setOnPreferenceClickListener(this);
 		uploadPref.setOnPreferenceClickListener(this);
 		cachePref.setOnPreferenceClickListener(this);
+		checkUpdatePref.setOnPreferenceClickListener(this);
 
 		Configuration.getInstance().loadFromPreference(getActivity());
 		AutoFillItem item = Configuration.getInstance().autoFillItem;
@@ -194,6 +201,16 @@ public class MainFragment extends PreferenceFragment implements OnPreferenceChan
 			}
 			cacheController.clearCache();
 			cachePref.setSummary("0KB");
+		}
+		else if (preference == checkUpdatePref) {
+			if (TextUtils.isEmpty(SettingProperty.getServerBaseUrl(getActivity()))) {
+				Toast.makeText(getActivity(), R.string.server_url_empty, Toast.LENGTH_LONG).show();
+			}
+			else {
+				UpdateManager manager = new UpdateManager(getActivity());
+				manager.showMessageWarning();
+				manager.startCheck();
+			}
 		}
 		return true;
 	}

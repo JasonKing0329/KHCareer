@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name" translatable="false">KHCareer</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
     <string name="login">Identity Confirm</string>
     <string name="error_password">error password</string>
     <!--string name="fgtpwd">foget password?</string-->
@@ -206,6 +208,9 @@
     <string name="setting_slidingmenu_right">Menu at right</string>
     <string name="setting_slidingmenu_twoway">Menu at two side</string>
     <string name="setting_slidingmenu_enable">Enable in main view</string>
+    <string name="setting_http">Http</string>
+    <string name="setting_http_server">Config server</string>
+    <string name="setting_http_update">Check update</string>
     
     <!-- ***************************h2h http********************************* -->
     <string name="h2h_title">Head to head</string>
@@ -255,4 +260,13 @@
     <string name="swipecard_sortby_date">Sort by date</string>
     <string name="swipecard_sortby_restore">Restore last card</string>
     <string name="swipecard_player_latest">Latest record</string>
+
+    <!-- *************************** http ********************************* -->
+    <string name="app_update_found">Found new application version %s, click ok to update.</string>
+    <string name="app_is_latest">Applacation is already the latest version.</string>
+    <string name="gdb_server_online">Connect to server successfully!</string>
+    <string name="gdb_server_offline">Can\'t connect to server!</string>
+    <string name="gdb_request_fail">Rquest failed!</string>
+    <string name="download_title">Rquest failed!</string>
+    <string name="server_url_empty">Please set server url first.</string>
 </resources>

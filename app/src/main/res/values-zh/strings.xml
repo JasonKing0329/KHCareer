@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="yes">是</string>
+    <string name="no">否</string>
     <string name="login">身份验证</string>
     <string name="error_password">密码错误</string>
     <string name="fgtpwd">忘记密码？</string>
@@ -196,6 +198,9 @@
     <string name="setting_slidingmenu_right">右侧菜单</string>
     <string name="setting_slidingmenu_twoway">双向菜单</string>
     <string name="setting_slidingmenu_enable">主界面启用</string>
+    <string name="setting_http">网络</string>
+    <string name="setting_http_server">配置服务器</string>
+    <string name="setting_http_update">检查更新</string>
     <!-- ***************************h2h http********************************* -->
     <string name="h2h_title">Head to head</string>
     <string name="menu_h2h_atpwta_save">保存数据库</string>
@@ -242,4 +247,13 @@
     <string name="swipecard_sortby_date">按时间排列</string>
     <string name="swipecard_sortby_restore">恢复上张卡片</string>
     <string name="swipecard_player_latest">最近交手记录</string>
+
+    <!-- *************************** http ********************************* -->
+    <string name="app_update_found">发现程序新版本%s，点击确定以下载</string>
+    <string name="app_is_latest">程序已是最新版本</string>
+    <string name="gdb_server_online">成功连接到服务器</string>
+    <string name="gdb_server_offline">无法连接到服务器</string>
+    <string name="gdb_request_fail">请求失败</string>
+    <string name="download_title">下载</string>
+    <string name="server_url_empty">请先配置服务器</string>
 </resources>

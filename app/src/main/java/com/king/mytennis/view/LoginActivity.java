@@ -2,6 +2,7 @@ package com.king.mytennis.view;
 
 import com.king.mytennis.glory.ActionBar;
 import com.king.mytennis.glory.ActionBar.ActionBarListener;
+import com.king.mytennis.http.BaseUrl;
 import com.king.mytennis.model.Configuration;
 import com.king.mytennis.model.MySQLHelper;
 import com.king.mytennis.service.FingerPrintController;
@@ -70,6 +71,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Call
 
 		//to debug
 //        checkOK();
+		BaseUrl.getInstance().setBaseUrl(SettingProperty.getServerBaseUrl(this));
 	}
 
 	@Override

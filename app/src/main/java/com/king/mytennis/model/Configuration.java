@@ -75,6 +75,8 @@ public class Configuration implements Serializable {
 
 	public static final String AUTOFILL_DIR = CONF_DIR + "autofill/";
 
+	public static final String APP_UPDATE_DIR = CONF_DIR + "app/";
+
 	public static final String PREF_INSERT_MATCH = "pref_insert_match";
 	public static final String PREF_INSERT_COUNTRY = "pref_insert_country";
 	public static final String PREF_INSERT_CITY = "pref_insert_city";
@@ -153,6 +155,7 @@ public class Configuration implements Serializable {
 		createDir(new File(DOWNLOAD_BASE));
 		createDir(new File(DOWNLOAD_IMAGE));
 		createDir(new File(EXTEND_RES_DIR));
+		createDir(new File(APP_UPDATE_DIR));
 		ExternalRecordTool.copyDbFromAssets(context, ExternalRecordTool.DATABASE);
 		ExternalRecordTool.copyDbFromAssets(context, ExternalRecordTool.DATABASE_PLAYER);
 		ExternalRecordTool.copyDbFromAssets(context, ExternalRecordTool.DATABASE_TIANQI);
