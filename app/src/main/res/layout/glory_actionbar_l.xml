@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/actionbar_height"
+    android:background="?attr/actionbar_bk_color"
+    android:gravity="center_vertical">
+    <ImageView 
+        style="@style/ActionbarIcon_L"
+        android:id="@+id/actionbar_back"
+	    android:layout_width="@dimen/actionbar_icon_width"
+	    android:layout_height="match_parent"
+	    android:src="@drawable/actionbar_back"/>
+
+    <ImageView 
+        android:id="@+id/actionbar_title_icon"
+	    android:layout_width="@dimen/actionbar_icon_width"
+	    android:layout_height="match_parent"
+		android:layout_marginTop="5dp"
+		android:layout_marginBottom="5dp"
+	    android:scaleType="fitCenter"
+	    android:visibility="gone"/>
+    <TextView
+        android:id="@+id/actionbar_title"
+	    android:layout_width="0dp"
+	    android:layout_weight="1"
+	    android:layout_height="match_parent"
+	    android:gravity="center_vertical"
+	    android:textSize="20dp"
+	    android:textColor="@color/white"
+	    android:text="Title"/>
+    
+    <RelativeLayout 
+	    android:id="@+id/actionbar_search_layout"
+	    android:layout_width="@dimen/actionbar_search_width"
+	    android:layout_height="match_parent"
+		android:gravity="center_vertical"
+		android:visibility="gone">
+	    <EditText 
+	        android:id="@+id/actionbar_search_edittext"
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent"
+		    android:layout_centerVertical="true"
+		    android:layout_marginTop="5dp"
+		    android:layout_marginBottom="5dp"
+		    android:paddingLeft="12dp"
+		    android:singleLine="true"
+		    android:cursorVisible="true"
+		    android:textCursorDrawable="@null"
+		    android:background="@drawable/actionbar_search_bk"
+		    android:textColor="@color/white"/>
+        
+	    <ImageView 
+        	style="@style/ActionbarCloseIcon"
+	        android:id="@+id/actionbar_search_close"
+		    android:layout_width="@dimen/actionbar_icon_width"
+		    android:layout_height="match_parent"
+		    android:layout_alignParentRight="true"
+		    android:src="@drawable/actionbar_cancel"/>
+    
+    </RelativeLayout>
+    
+    <ImageView 
+        style="@style/ActionbarIcon_L"
+        android:id="@+id/actionbar_search"
+	    android:layout_width="@dimen/actionbar_icon_width"
+	    android:layout_height="match_parent"
+	    android:src="@drawable/actionbar_search"
+		android:visibility="gone"/>
+    
+    <ImageView 
+        style="@style/ActionbarIcon_L"
+        android:id="@+id/actionbar_add"
+	    android:layout_width="@dimen/actionbar_icon_width"
+	    android:layout_height="match_parent"
+	    android:src="@drawable/actionbar_add"
+		android:visibility="gone"/>
+    
+    <ImageView 
+        style="@style/ActionbarIcon_L"
+        android:id="@+id/actionbar_delete"
+	    android:layout_width="@dimen/actionbar_icon_width"
+	    android:layout_height="match_parent"
+	    android:src="@drawable/actionbar_delete"
+		android:visibility="gone"/>
+    
+    <ImageView 
+        style="@style/ActionbarIcon_L"
+        android:id="@+id/actionbar_edit"
+	    android:layout_width="@dimen/actionbar_icon_width"
+	    android:layout_height="match_parent"
+	    android:src="@drawable/actionbar_edit"
+		android:visibility="gone"/>
+    
+    <ImageView 
+        style="@style/ActionbarIcon_L"
+        android:id="@+id/actionbar_save"
+	    android:layout_width="@dimen/actionbar_icon_width"
+	    android:layout_height="match_parent"
+		android:visibility="gone"
+	    android:src="@drawable/actionbar_save"/>
+    
+    <ImageView 
+        style="@style/ActionbarIcon_L"
+        android:id="@+id/actionbar_ok"
+	    android:layout_width="@dimen/actionbar_icon_width"
+	    android:layout_height="match_parent"
+		android:visibility="gone"
+	    android:src="@drawable/actionbar_ok"/>
+    
+    <ImageView 
+        style="@style/ActionbarIcon_L"
+        android:id="@+id/actionbar_cancel"
+	    android:layout_width="@dimen/actionbar_icon_width"
+	    android:layout_height="match_parent"
+		android:visibility="gone"
+	    android:src="@drawable/actionbar_cancel"/>
+    
+    <ImageView 
+        style="@style/ActionbarIcon_L"
+        android:id="@+id/actionbar_index"
+	    android:layout_width="@dimen/actionbar_icon_width"
+	    android:layout_height="match_parent"
+	    android:src="@drawable/actionbar_index"
+		android:visibility="gone"/>
+    
+    <ImageView 
+        style="@style/ActionbarIcon_L"
+        android:id="@+id/actionbar_color"
+	    android:layout_width="@dimen/actionbar_icon_width"
+	    android:layout_height="match_parent"
+	    android:src="@drawable/actionbar_color_picker"
+		android:visibility="gone"/>
+    
+    <ImageView 
+        style="@style/ActionbarIcon_L"
+        android:id="@+id/actionbar_menu"
+	    android:layout_width="@dimen/actionbar_icon_width"
+	    android:layout_height="match_parent"
+	    android:src="@drawable/actionbar_menu"
+		android:visibility="gone"/>
+    
+    <Spinner 
+        android:id="@+id/actionbar_glory_level"
+	    android:layout_width="wrap_content"
+	    android:layout_height="match_parent"
+	    android:entries="@array/actionbar_spinner_level"
+		android:visibility="gone"
+		android:background="@drawable/tw_spinner_bk"/>
+    <Spinner 
+        android:id="@+id/actionbar_glory_court"
+	    android:layout_width="wrap_content"
+	    android:layout_height="match_parent"
+	    android:entries="@array/actionbar_spinner_court"
+		android:visibility="gone"
+		android:background="@drawable/tw_spinner_bk"/>
+    
+</LinearLayout>

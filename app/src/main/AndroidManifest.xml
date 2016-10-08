@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.king.mytennis.view">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <!-- *****往sdcard中写入数据的权限******* -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"></uses-permission>
+    <!-- *****在sdcard中创建/删除文件的权限******* -->
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"></uses-permission>
+    <uses-permission android:name="android.permission.MOUNT_FORMAT_FILESYSTEMS"></uses-permission>
+
+    <!-- *****samsung fingerprint sdk permission******* -->
+    <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+
+        <meta-data android:name="com.samsung.android.sdk.multiwindow.enable" android:value="true"/>
+        <meta-data android:name="com.samsung.android.sdk.multiwindow.multiinstance.enable" android:value="true"/>
+        <meta-data android:name="com.sec.android.multiwindow.STYLE" android:value="fixedRatio"/>
+        <meta-data android:name="com.sec.android.support.multiwindow" android:value="true"/>
+
+        <activity android:name=".LoginActivity"
+            android:label="@string/app_name"
+            android:theme="@style/ActionBarBlue">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name="com.king.mytennis.view.ManagerActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActionBarBlue"/>
+        <activity android:name="com.king.mytennis.update_v_6_0.ManagerActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActionBarBlue"/>
+        <activity
+            android:name="com.king.mytennis.view_v_7_0.V7MainActivity"
+            android:theme="@style/ActionBarBlue"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.king.mytennis.view.detail.DetailGallery"
+            android:theme="@android:style/Theme.Holo.NoActionBar"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.king.mytennis.view.RecordEditorActivity"
+            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.king.mytennis.glory.GloryModuleActivity"
+            android:theme="@style/ActionBarBlue"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.king.mytennis.view.settings.SettingActivity"
+            android:theme="@style/ActionBarBlue"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.king.mytennis.view.settings.AutoFillFormEditor"
+            android:theme="@style/ActionBarBlue"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.king.mytennis.view.H2hMainActivity"
+            android:theme="@style/ActionBarBlue"
+            android:screenOrientation="portrait">
+        </activity>
+        <activity
+            android:name="com.king.mytennis.view.player.H2HSearcher"
+            android:theme="@style/ActionBarBlue"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.king.mytennis.view.RankActivity"
+            android:theme="@style/ActionBarBlue"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.king.mytennis.view_v_7_0.ClassicActivity"
+            android:theme="@style/ActionBarBlue"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.king.mytennis.view_v_7_0.swipecard.SwipeCardActivity"
+            android:theme="@style/ActionBarBlue"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.king.mytennis.view_v_7_0.view.MatchActivity"
+            android:theme="@style/ActionBarBlue"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.king.mytennis.view_v_7_0.view.PlayerActivity"
+            android:theme="@style/ActionBarBlue"
+            android:screenOrientation="portrait"/>
+
+    </application>
+
+</manifest>

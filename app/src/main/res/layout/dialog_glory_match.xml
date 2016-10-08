@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+	android:padding="5dp">
+    <ImageView 
+        android:id="@+id/glory_match_image"
+	    android:layout_width="match_parent"
+	    android:layout_height="120dp"
+	    android:scaleType="fitCenter"/>
+
+    <LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+		android:layout_marginTop="10dp"
+		android:layout_marginLeft="10dp"
+	    android:orientation="horizontal">
+        
+	    <TextView 
+	        android:id="@+id/glory_match_place"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:textStyle="bold"
+		    android:textSize="16sp"/>
+	    
+	    <TextView 
+	        android:id="@+id/glory_match_levelcourt"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_marginLeft="30dp"
+		    android:textStyle="bold"
+		    android:textSize="16sp"/>
+    </LinearLayout>
+    
+    <LinearLayout 
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+		android:layout_marginLeft="10dp"
+	    android:orientation="horizontal">
+        
+	    <TextView 
+	        android:id="@+id/glory_match_rank"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:textStyle="bold"
+		    android:textSize="16sp"/>
+	    
+	    <TextView 
+	        android:id="@+id/glory_match_seed"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_marginLeft="30dp"
+		    android:textStyle="bold"
+		    android:textSize="16sp"/>
+    </LinearLayout>
+    
+    <TextView 
+        android:id="@+id/glory_match_achieve"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+		android:layout_marginLeft="10dp"
+		android:textStyle="bold"
+		android:textSize="16sp"/>
+    
+    <ListView 
+        android:id="@+id/glory_match_list"
+	    android:layout_width="match_parent"
+	    android:layout_height="270dp"
+	    android:layout_marginTop="10dp"
+	    android:divider="@null"/>
+</LinearLayout>

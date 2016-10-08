@@ -1,0 +1,14 @@
+<resources>
+
+    <!-- ***************************color picker********************************* -->
+    <string name="colorpicker_tip_warning">Warning</string>
+    <string name="colorpicker_tip_ok">OK</string>
+    <string name="colorpicker_tip_cancel">Cancel</string>
+    <string name="colorpicker_text_error">Text value error</string>
+    <string name="colorpicker_title">Color Picker</string>
+    <string name="colorpicker_more">More operation</string>
+    <string name="colorpicker_editself">Edit ColorPicker</string>
+    <string name="colorpicker_restore">Apply default style</string>
+    <string name="colorpicker_warning_giveup">Give up current operation?</string>
+    <string name="colorpicker_warning_applydefault">Current style will be replaced by original style, still going on?</string>
+</resources>

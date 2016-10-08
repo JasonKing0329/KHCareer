@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/folder_item_expand_height" >
+
+    <LinearLayout
+        android:id="@+id/layout_right"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentRight="true"
+    	android:orientation="vertical" >
+	    <LinearLayout
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+	    	android:orientation="horizontal" >
+		    <TextView
+		        style="@style/View7MoreDetailBtn"
+		        android:id="@+id/view7_more_rank"
+			    android:layout_width="@dimen/folder_item_height"
+			    android:layout_height="@dimen/folder_item_height"
+			    android:background="#576069"
+			    android:text="@string/view7_more_rank" />
+		    <TextView
+		        style="@style/View7MoreDetailBtn"
+		        android:id="@+id/view7_more_h2h"
+			    android:layout_width="@dimen/folder_item_height"
+			    android:layout_height="@dimen/folder_item_height"
+			    android:background="#adc3c0"
+			    android:text="@string/view7_more_h2h" />
+	    </LinearLayout>
+	    <LinearLayout
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+	    	android:orientation="horizontal" >
+		    <TextView
+		        style="@style/View7MoreDetailBtn"
+		        android:id="@+id/view7_more_bk"
+			    android:layout_width="@dimen/folder_item_height"
+			    android:layout_height="@dimen/folder_item_height"
+			    android:background="#aaaaaa"
+			    android:text="@string/view7_more_background" />
+		    <TextView
+		        style="@style/View7MoreDetailBtn"
+		        android:id="@+id/view7_more_packup"
+			    android:layout_width="@dimen/folder_item_height"
+			    android:layout_height="@dimen/folder_item_height"
+			    android:background="#b9e3d9"
+			    android:text="@string/view7_more_packup" />
+	    </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/view7_more_glory"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+		android:layout_toLeftOf="@id/layout_right"
+		android:background="#f74461"
+		android:gravity="center"
+    	android:orientation="vertical" >
+	    <ImageView
+		    android:layout_width="70dp"
+		    android:layout_height="70dp"
+		    android:src="@drawable/mview_trophy" />
+	    <TextView
+		    style="@style/View7MoreDetailBtn"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_marginTop="10dp"
+			android:text="@string/view7_more_glory" />
+    </LinearLayout>
+</RelativeLayout>

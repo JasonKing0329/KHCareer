@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <LinearLayout
+        android:id="@+id/match_head_name_layout"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_centerHorizontal="true"
+	    android:background="@drawable/shape_match_head_name_bk"
+	    android:orientation="vertical"
+	    android:paddingTop="10dp"
+	    android:paddingBottom="10dp"
+	    android:paddingLeft="30dp"
+	    android:paddingRight="30dp"
+	    android:layout_marginTop="30dp"
+	    android:gravity="center" >
+	    <TextView
+	        android:id="@+id/match_head_name"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:textColor="@color/yellow"
+	    	android:textStyle="bold"
+		    android:textSize="20sp" />
+	    <TextView
+	        android:id="@+id/match_head_place"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:textColor="@color/white"
+		    android:layout_marginTop="5dp"
+		    android:textSize="16sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/match_head_level"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+	    android:textColor="@color/white"
+	    android:layout_marginBottom="20dp"
+	    android:layout_marginLeft="15dp"
+	    android:textStyle="bold"
+	    android:textSize="16sp" />
+    <TextView
+        android:id="@+id/match_head_court"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+		android:layout_alignParentBottom="true"
+		android:layout_alignParentRight="true"
+	    android:textColor="@color/white"
+	    android:layout_marginBottom="20dp"
+	    android:layout_marginRight="15dp"
+	    android:textStyle="bold"
+	    android:textSize="16sp" />
+</RelativeLayout>

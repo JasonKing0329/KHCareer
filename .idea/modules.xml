@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/KHCareer.iml" filepath="$PROJECT_DIR$/KHCareer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libcolorpicker/libcolorpicker.iml" filepath="$PROJECT_DIR$/libcolorpicker/libcolorpicker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libresmanager/libresmanager.iml" filepath="$PROJECT_DIR$/libresmanager/libresmanager.iml" />
+      <module fileurl="file://$PROJECT_DIR$/libtool/libtool.iml" filepath="$PROJECT_DIR$/libtool/libtool.iml" />
+      <module fileurl="file://$PROJECT_DIR$/prjcolorpicker/prjcolorpicker.iml" filepath="$PROJECT_DIR$/prjcolorpicker/prjcolorpicker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/pulltozoomview/pulltozoomview.iml" filepath="$PROJECT_DIR$/pulltozoomview/pulltozoomview.iml" />
+      <module fileurl="file://$PROJECT_DIR$/shapimageview/shapimageview.iml" filepath="$PROJECT_DIR$/shapimageview/shapimageview.iml" />
+    </modules>
+  </component>
+</project>

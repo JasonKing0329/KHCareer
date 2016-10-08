@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<!-- 注意，除了longtouch_menu和languageChoices，其他的array都只能用当前版本，因为程序中
+是根据这些array，直接把item的内容赋给数据记录的 -->
+    <array name="spinner_court">
+    	<item>硬地</item>
+    	<item>红土</item>
+    	<item>草地</item>
+    	<item>室内硬地</item>
+    </array>
+    <array name="spinner_level">
+    	<item>Grand Slam</item>
+    	<item>Master Cup</item>
+    	<item>ATP1000</item>
+    	<item>ATP500</item>
+    	<item>ATP250</item>
+    	<item>Davi\'s Cup</item>
+    </array>
+    <array name="actionbar_spinner_court">
+        <item>全部</item>
+    	<item>硬地</item>
+    	<item>红土</item>
+    	<item>草地</item>
+    	<item>室内硬地</item>
+    </array>
+    <array name="actionbar_spinner_level">
+        <item>全部</item>
+    	<item>Grand Slam</item>
+    	<item>Master Cup</item>
+    	<item>ATP1000</item>
+    	<item>ATP500</item>
+    	<item>ATP250</item>
+    </array>
+    <array name="spinner_region">
+    	<item>Europe</item>
+    	<item>North America</item>
+    	<item>Asia</item>
+    	<item>South America</item>
+    	<item>Oceania</item>
+    	<item>Africa</item>
+    </array>
+    <array name="spinner_round">
+    	<item>Final</item>
+    	<item>Semi Final</item>
+    	<item>1/4 Final</item>
+    	<item>Round 16</item>
+    	<item>Round 32</item>
+    	<item>Round 64</item>
+    	<item>Round 128</item>
+    	<item>Group</item>
+    </array>
+    <array name="spinner_round_show_in_glorymatch">
+    	<item>F</item>
+    	<item>SF</item>
+    	<item>QF</item>
+    	<item>R16</item>
+    	<item>R32</item>
+    	<item>R64</item>
+    	<item>R128</item>
+    	<item>Group</item>
+    </array>
+    <array name="spinner_achive_gs">
+    	<item>--</item>
+    	<item>冠军</item>
+    	<item>亚军</item>
+    	<item>四强</item>
+    	<item>八强</item>
+    	<item>第四轮</item>
+    	<item>第三轮</item>
+    	<item>第二轮</item>
+    	<item>第一轮</item>
+    </array>
+    <array name="longtouch_menu">
+    	<item>update</item>
+    	<item>delete</item>
+    	<item>details of this</item>
+    	<item>details of all</item>
+    </array>
+    <array name="languageChoices" translatable="false">
+    	<item>简体中文</item>
+    	<item>English</item>
+    </array>
+    <array name="uiChoices" translatable="false">
+    	<item>Popup to select</item>
+    	<item>Classic UI</item>
+    	<item>UI 6.0</item>
+    	<item>UI 7.0</item>
+    </array>
+    <array name="httpMethodChoices">
+    	<item>@string/setting_default_http_method_apache</item>
+    	<item>@string/setting_default_http_method_url</item>
+    </array>
+    <array name="cptdlg_item_oper">
+    	<item>update image(local)</item>
+    	<item>update image(server)</item>
+    </array>
+    <array name="recordlistview_menu">
+    	<item>@string/menu_exactselect</item>
+    	<item>@string/menu_showall</item>
+    	<item>@string/menu_show_by_player</item>
+    	<item>@string/menu_cmplist</item>
+    	<item>@string/menu_change_theme</item>
+    	<item>@string/menu_saveas</item>
+    	<item>@string/exit</item>
+    </array>
+    <array name="mainview_menu">
+    	<item>@string/menu_save</item>
+    	<item>@string/menu_load</item>
+    	<item>@string/menu_saveas</item>
+    	<item>@string/menu_saveconf</item>
+    	<item>@string/menu_choosebk</item>
+    	<item>@string/menu_change_theme</item>
+    	<item>@string/exit</item>
+    </array>
+    <array name="view7_main_menu">
+    	<item>@string/menu_load</item>
+    	<item>@string/menu_save</item>
+    	<item>@string/menu_saveas</item>
+    	<item>@string/exit</item>
+    </array>
+    
+    <string-array name="theme_key" translatable="false">
+        <item>blue</item>
+        <item>green</item>
+        <item>lightgreen</item>
+        <item>orange</item>
+        <item>deepblue</item>
+        <item>purple</item>
+    </string-array>
+    
+    <string-array name="setting_slidingmenu_mode">
+	    <item>@string/setting_slidingmenu_left</item>
+	    <item>@string/setting_slidingmenu_right</item>
+	    <item>@string/setting_slidingmenu_twoway</item>
+    </string-array>
+    
+    <string-array name="setting_slidingmenu_mode_value" translatable="false">
+	    <item>left</item>
+	    <item>right</item>
+	    <item>twoway</item>
+    </string-array>
+    
+    <string-array name="multiuser_list" translatable="false">
+	    <item>King</item>
+	    <item>John Flamenco</item>
+	    <item>Michael Henry</item>
+	    <item>Tian Qi</item>
+    </string-array>
+    <string-array name="multiuser_display_list" translatable="false">
+	    <item>King</item>
+	    <item>Flamenco</item>
+	    <item>Henry</item>
+	    <item>Tian Qi</item>
+    </string-array>
+    <string-array name="data_count_year">
+	    <item>@string/data_count_rate_total</item>
+	    <item>@string/data_count_rate_gs</item>
+	    <item>@string/data_count_rate_mastercup</item>
+	    <item>@string/data_count_rate_master1000</item>
+	    <item>@string/data_count_rate_master500</item>
+	    <item>@string/data_count_rate_master250</item>
+    </string-array>
+    <string-array name="data_count_player">
+	    <item>@string/data_count_rate_player_no1</item>
+	    <item>@string/data_count_rate_player_top10</item>
+	    <item>@string/data_count_rate_player_top1020</item>
+	    <item>@string/data_count_rate_player_top2050</item>
+	    <item>@string/data_count_rate_player_top50100</item>
+	    <item>@string/data_count_rate_player_outof100</item>
+    </string-array>
+    
+</resources>

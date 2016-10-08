@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape android:shape="rectangle"
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <gradient android:startColor="@color/swipecard_index_popup_bk"
+         android:endColor="@color/swipecard_index_popup_bk" android:angle="90.0" />
+    <corners
+        android:radius="10dp"/>
+    
+</shape>

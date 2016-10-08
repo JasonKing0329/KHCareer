@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:state_pressed="true" android:drawable="@color/actionbar_bk_pressed"/>
+    <item android:drawable="@color/actionbar_bk_orange"/>
+    <!-- item android:drawable="@drawable/shape_actionbar_bk_color"/ -->
+    <!-- 直接引用attr指向的color会FC，所以定义shape文件填充背景色 -->
+    <!-- 用shape方式在Android5.0能用，但是在4.4的系统上依然FC。所以还是单独定义attr actionbar_icon_bk -->
+
+</selector>

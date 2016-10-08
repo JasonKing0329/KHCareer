@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:picker="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp"
+    android:paddingBottom="15dp" >
+    
+    <RelativeLayout 
+        android:id="@+id/colorpicker_titlebar"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="12dp" >
+	    
+	    <ImageView 
+	        android:id="@+id/colorpicker_icon"
+	        android:layout_width="@dimen/colorpicker_icon"
+       		android:layout_height="@dimen/colorpicker_icon"
+       		android:layout_marginLeft="5dp"
+	        android:layout_centerVertical="true"
+       		android:src="@drawable/ic_color_picker" />
+	    <TextView 
+	        android:id="@+id/colorpicker_title"
+	        android:layout_width="wrap_content"
+       		android:layout_height="wrap_content"
+	        android:layout_centerVertical="true"
+	        android:layout_toRightOf="@id/colorpicker_icon"
+       		android:layout_marginLeft="5dp"
+       		android:text="@string/colorpicker_title"
+       		android:textColor="@color/colorpicker_title"
+       		android:textSize="@dimen/colorpicker_title_size"
+       		android:textStyle="bold"/>
+	    
+	    <ImageView 
+		    android:id="@+id/colorpicker_close"
+	        android:layout_width="@dimen/colorpicker_cancle_icon_size"
+       		android:layout_height="@dimen/colorpicker_cancle_icon_size"
+       		android:layout_alignParentRight="true"
+	        android:layout_centerVertical="true"
+       		android:layout_marginRight="5dp"
+       		android:src="@drawable/colorpicker_ic_cancel_bk" />
+	    
+	    <ImageView 
+		    android:id="@+id/colorpicker_ok"
+	        android:layout_width="@dimen/colorpicker_cancle_icon_size"
+       		android:layout_height="@dimen/colorpicker_cancle_icon_size"
+       		android:layout_toLeftOf="@id/colorpicker_close"
+	        android:layout_centerVertical="true"
+       		android:layout_marginRight="10dp"
+       		android:src="@drawable/colorpicker_ic_ok_bk" />
+	    
+    </RelativeLayout>
+    
+    <View 
+        android:id="@+id/colorpicker_divider"
+        android:layout_width="match_parent"
+    	android:layout_height="1dp"
+    	android:layout_margin="5dp"
+    	android:layout_below="@id/colorpicker_titlebar"
+		android:background="@color/colorpicker_divider"/>
+    
+    <LinearLayout 
+        android:id="@+id/colorpicker_layout_picker"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+    	android:layout_below="@id/colorpicker_divider"
+	    android:layout_marginTop="12dp"
+	    android:orientation="horizontal" >
+	    <RelativeLayout 
+	        android:id="@+id/colorpicker_part_color"
+		    android:layout_width="0dp"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="0.7" >
+		    <com.github.danielnilsson9.colorpickerview.view.ColorPickerView
+		        android:id="@+id/colorpicker_picker"
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        picker:alphaChannelVisible="true"
+		        picker:borderColor="#646464" />
+		    
+		    <RelativeLayout
+		        android:layout_width="match_parent"
+		        android:layout_height="wrap_content"
+		        android:layout_below="@id/colorpicker_picker"
+		        android:layout_marginTop="10dp" >
+		        
+		        <com.github.danielnilsson9.colorpickerview.view.ColorPanelView
+		            android:id="@+id/colorpicker_panel"
+		            android:layout_width="@dimen/colorpicker_panel_width"
+		            android:layout_height="@dimen/colorpicker_panel_height"
+					picker:borderColor="@color/colorpicker_frame_border" />
+		        
+			    <EditText
+			        android:id="@+id/colorpicker_text_edit"
+			        android:layout_width="@dimen/colorpicker_colortext_width"
+			        android:layout_height="wrap_content"
+			        android:layout_alignParentRight="true"
+			        android:layout_centerVertical="true"
+			        android:background="@drawable/colorpicker_frame_bk"
+			        android:padding="5dp"
+			        android:maxLength="8"
+			        android:textColor="@color/colorpicker_color_text" />
+			    
+			    <TextView
+			        android:layout_width="wrap_content"
+			        android:layout_height="wrap_content"
+					android:layout_toLeftOf="@id/colorpicker_text_edit"
+			        android:layout_centerVertical="true"
+			        android:textColor="@color/colorpicker_color_text"
+			        android:text="#"
+			        android:textSize="20sp" />
+			</RelativeLayout>
+		</RelativeLayout>
+	    <RelativeLayout 
+	        android:id="@+id/colorpicker_part_list"
+		    android:layout_width="0dp"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="0.3"
+		    android:visibility="gone" >
+		    <ListView 
+		        android:id="@+id/colorpicker_list"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:listSelector="@color/colorpicker_list_selector"
+			    android:divider="@null"/>
+		</RelativeLayout>
+	</LinearLayout>
+	<LinearLayout
+        android:id="@+id/colorpicker_layout_more"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+    	android:layout_below="@id/colorpicker_layout_picker"
+    	android:layout_marginTop="10dp"
+    	android:gravity="center_vertical" >
+	    <ImageView
+        	android:id="@+id/colorpicker_more_icon"
+		    android:layout_width="@dimen/colorpicker_more_icon_size"
+		    android:layout_height="@dimen/colorpicker_more_icon_size"
+		    android:scaleType="fitCenter"
+		    android:layout_marginLeft="10dp"
+		    android:src="@drawable/colorpicker_more_drop" />
+	    <TextView
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_marginLeft="10dp"
+		    android:textColor="@color/colorpicker_color_text"
+		    android:textSize="@dimen/colorpicker_more_text_size"
+		    android:text="@string/colorpicker_more" />
+	</LinearLayout>
+    <TextView
+        android:id="@+id/colorpicker_editself"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:visibility="gone"
+	    android:layout_marginLeft="10dp"
+    	android:layout_below="@id/colorpicker_layout_more"
+    	android:layout_marginTop="10dp"
+	    android:textColor="@color/colorpicker_color_text"
+		android:textSize="@dimen/colorpicker_more_text_size"
+	    android:text="@string/colorpicker_editself" />
+    <TextView
+        android:id="@+id/colorpicker_restore"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:visibility="gone"
+	    android:layout_marginLeft="10dp"
+    	android:layout_below="@id/colorpicker_editself"
+    	android:layout_marginTop="10dp"
+	    android:textColor="@color/colorpicker_color_text"
+		android:textSize="@dimen/colorpicker_more_text_size"
+	    android:text="@string/colorpicker_restore" />
+</RelativeLayout>

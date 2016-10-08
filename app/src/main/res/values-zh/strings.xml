@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="login">身份验证</string>
+    <string name="error_password">密码错误</string>
+    <string name="fgtpwd">忘记密码？</string>
+    <string name="question">密码问题：</string>
+    <string name="answer">答案：</string>
+    <string name="submit">提交</string>
+    <string name="mview_checkall">Check all</string>
+    <string name="warning">警告</string>
+    <string name="exit_msg">确定离开？</string>
+    <string name="ok">确定</string>
+    <string name="exit">退出</string>
+    <string name="save">保存</string>
+    <string name="cancel">取消</string>
+    <string name="delete">删除</string>
+    <string name="successful">操作成功！</string>
+    <string name="champion">冠军</string>
+    <string name="runnerup">亚军</string>
+    <string name="details_h2h">Head To Head</string>
+    <string name="no_content">没有记录</string>
+    <string name="default_directory">目录： </string>
+    <!-- ***************************upload********************************* -->
+    <string name="uploading">上传中...</string>
+    <string name="upload_ok">上传成功！</string>
+    <string name="upload_fail">上传失败！</string>
+    <string name="upload_confirm">今日已上传文件，确定替换？</string>
+    <string name="upload_overtime">操作超时，请重试！</string>
+    <!-- ***************************login********************************* -->
+    <string name="loading">加载中...</string>
+    <string name="preparing_app">正在初始化程序，请稍后...</string>
+    <string name="login_finger_not_support">该设备不支持指纹识别！</string>
+    <string name="login_finger_not_register">设备尚未注册任何指纹，请先注册指纹！</string>
+    <!-- ***************************record long click********************************* -->
+    <string name="record_longclick_update">修改</string>
+    <string name="record_longclick_delete">删除</string>
+    <string name="record_longclick_detailofthis">详细信息（当前列表）</string>
+    <string name="record_longclick_detailofall">详细信息（全部记录）</string>
+    <!-- ***************************safeset********************************* -->
+    <string name="alterpwd">修改密码</string>
+    <string name="oldpwd">旧密码：</string>
+    <string name="newpwd">新密码</string>
+    <string name="alter_qstans">修改密码提示问题及答案</string>
+    <string name="setting_safeset_update">修改密码及提示问题与答案</string>
+    <string name="safeset_wrongpwd">您输入的旧密码错误，无权进行该操作！</string>
+    <string name="safeset_alterok">修改成功，新的安全设置已经生效！</string>
+    <string name="safeset_submit_warning">输入旧密码以执行修改操作。</string>
+    <!-- ********************************************************************** -->
+    <!-- ***************************insert表单********************************* -->
+    <string name="player_infor">选手信息</string>
+    <string name="match_infor">赛事信息</string>
+    <string name="insert_title">确定添加</string>
+    <string name="insert_next">确定并继续添加</string>
+    <string name="rankp1">世界排名(k)</string>
+    <string name="seedp1">种子(k)</string>
+    <string name="comp_name">选手名</string>
+    <string name="country">国家</string>
+    <string name="rank">世界排名</string>
+    <string name="seed">种子</string>
+    <string name="pinyin">拼音</string>
+    <string name="add_pinyin_warning">新选手！请添加排序音序！</string>
+    <string name="city">城市</string>
+    <string name="matchname">赛事名称</string>
+    <string name="match">赛事</string>
+    <string name="score">比分</string>
+    <string name="winner">胜者</string>
+    <string name="next_page">下一页</string>
+    <string name="previous_page">上一页</string>
+    <string name="insert_done">完成</string>
+    <string name="insert_continue">继续添加</string>
+    <string name="insert_warning">警告：一些搜索或删除操作已执行，list与数据库的记录已经存在不一致。请在载入全部记录的情况下执行此操作。</string>
+    <!-- ********************************************************************** -->
+    <string name="result_count">全部:0 胜:0 负:0 胜率:0</string>
+    <string name="show_actionbar">显示标题栏</string>
+    <string name="show_indexview">显示索引栏</string>
+    <!-- ***************************search表单********************************* -->
+    <string name="nullRecord">空记录</string>
+    <string name="search">搜索</string>
+    <string name="search_court">场地类型</string>
+    <string name="search_match">赛事名称</string>
+    <string name="search_round">比赛轮次</string>
+    <string name="search_level">赛事级别</string>
+    <string name="search_region">赛事区域</string>
+    <string name="search_match_country">举办国家</string>
+    <string name="search_compname">选手姓名</string>
+    <string name="search_player_country">选手国籍</string>
+    <string name="search_date">日期</string>
+    <string name="search_date_start">始</string>
+    <string name="search_date_end">末</string>
+    <string name="search_rank_min">最高</string>
+    <string name="search_rank_max">最低</string>
+    <string name="search_score">比分</string>
+    <string name="search_winlose">胜/负</string>
+    <string name="search_win">胜</string>
+    <string name="search_lose">负</string>
+    <string name="search_sql">sql</string>
+    <string name="search_where_hint">预编译where语句</string>
+    <string name="search_wherevalue_hint">where对应的value值，用“,”隔开，中间不要有空格</string>
+    <!-- ********************************************************************** -->
+    <!-- ***************************菜单********************************* -->
+    <string name="menu_save">保存</string>
+    <string name="menu_saveas">另存为..</string>
+    <string name="menu_saveconf">保存配置</string>
+    <string name="menu_load">载入</string>
+    <string name="menu_set">设置数据源</string>
+    <string name="menu_dbtofile">数据库转文件</string>
+    <string name="menu_filetodb">文件转数据库</string>
+    <string name="menu_exactselect">搜索</string>
+    <string name="menu_glory">Glory</string>
+    <string name="menu_change_theme">更换主题</string>
+    <string name="menu_showall">重新载入</string>
+    <string name="menu_sort">排序</string>
+    <string name="menu_sort_comp">按对手姓名</string>
+    <string name="menu_sort_date">按日期</string>
+    <string name="menu_cmplist">全部对手列表</string>
+    <string name="menu_choosebk">更换背景</string>
+    <string name="menu_safeset">安全设置</string>
+    <string name="menu_setting">设置</string>
+    <string name="menu_uploadrecord">上传record文件</string>
+    <string name="menu_ranking">世界排名</string>
+    <string name="menu_show_by_date">按时间显示</string>
+    <string name="menu_show_by_player">按对手显示</string>
+    <!-- **************************************************************** -->
+    <string name="record_listview_allrecords">全部记录</string>
+    <string name="dlg_loading_msg">加载中...</string>
+    <string name="dlg_sorting_msg">排序中...</string>
+    <string name="exception_loading">警告：加载记录出现异常！</string>
+    <string name="exception_save">警告：保存过程出现异常！</string>
+    <string name="loading_ok">加载成功！</string>
+    <string name="loading_fail">警告：加载失败！</string>
+    <string name="save_ok">保存成功！</string>
+    <string name="save_fail">警告：保存失败！</string>
+    <string name="saveas_title">另存为</string>
+    <string name="saveas_msg">输入目标目录如：</string>
+    <string name="update_datafrom">数据源文件：</string>
+    <string name="source_not_found">警告：资源未找到！</string>
+    <string name="update_success">修改成功！</string>
+    <string name="update_title">修改</string>
+    
+    <string name="transmitting">转化中...</string>
+    <string name="dbtofile">数据库记录导入外部文件成功！</string>
+    <string name="filetodb">外部文件记录导入数据库成功！</string>
+    
+    <string name="longtouch_title">请选择</string>
+    <string name="details_title">详细信息</string>
+    
+    <string name="head_load_ok">头像资源全部加载完成！</string>
+    <string name="loadmore">加载更多</string>
+    <string name="load_from_warning_msg">选择数据库将替换默认数据库，确定继续？</string>
+    
+    <string name="save_db_success">数据已存储到目录：%s</string>
+    <string name="save_folder_already_exist">目标文件夹已存在，请重新命名</string>
+    <!-- *********************SQLite操作部分******************************* -->
+    <string name="notables">警告：目标表不存在！</string>
+    <string name="dlg_choosebk">选择背景</string>
+    
+    
+    <string name="xlistview_header_hint_normal">下拉刷新</string>
+    <string name="xlistview_header_hint_ready">松开刷新数据</string>
+    <string name="xlistview_header_hint_loading">正在加载。。。</string>
+    <string name="xlistview_header_last_time">上次更新时间：</string>
+    <string name="xlistview_footer_hint_normal">查看更多</string>
+    <string name="xlistview_footer_hint_ready">松开载入更多</string>
+    <string name="person_icon">个人头像</string>
+    <string name="str_time">13-07-15</string>
+    <string name="str_vertical">竖线</string>
+    <string name="str_content_icon">内容标志</string>
+    <!-- ***************************glory********************************* -->
+    <string name="match_name_not_null">赛事名称不能为空！</string>
+    <string name="date_not_null">日期不能为空！</string>
+    <string name="glory_match_achieve">最终成绩： </string>
+    <string name="glory_match_winner">冠军</string>
+    <string name="glory_match_ru">亚军</string>
+    <!-- ***************************setting********************************* -->
+    <string name="action_setting">设置</string>
+    <string name="setting_login_mode_title">登陆模式</string>
+    <string name="setting_login_fingerprint">验证指纹</string>
+    <string name="setting_application">应用程序</string>
+    <string name="setting_default_http_method">默认Http连接方式</string>
+    <string name="setting_default_language">默认语言</string>
+    <string name="setting_default_ui">默认主界面</string>
+    <string name="setting_default_dir_config">默认配置目录</string>
+    <string name="setting_default_dir_db">默认历史记录目录</string>
+    <string name="setting_default_dir_temp">默认临时目录</string>
+    <string name="setting_feature_mult_form">支持多表单</string>
+    <string name="setting_auto_fill_form_insert">自动填写表单(Insert) 点击以切换</string>
+    <string name="setting_auto_fill_option_title">说明</string>
+    <string name="setting_auto_fill_option">选择默认使用表单，该表单将会在您增加一条新记录时自动填充相关信息。</string>
+    <string name="setting_auto_fill_form_list">表单列表</string>
+    <string name="setting_auto_fill_null">未添加</string>
+    <string name="setting_auto_fill_del_option">确认删除%d个选择项？</string>
+    <string name="setting_cache">清除缓存</string>
+    <string name="setting_slidingmenu">Sliding菜单</string>
+    <string name="setting_slidingmenu_mode">位置模式</string>
+    <string name="setting_slidingmenu_left">左侧菜单</string>
+    <string name="setting_slidingmenu_right">右侧菜单</string>
+    <string name="setting_slidingmenu_twoway">双向菜单</string>
+    <string name="setting_slidingmenu_enable">主界面启用</string>
+    <!-- ***************************h2h http********************************* -->
+    <string name="h2h_title">Head to head</string>
+    <string name="menu_h2h_atpwta_save">保存数据库</string>
+    <string name="menu_h2h_atpwta_load">导入数据库</string>
+    <!-- ***************************rank http********************************* -->
+    <string name="rank_no_data">无排名数据。</string>
+    <string name="rank_cache_outofdate">缓存文件并非本星期内容，请按刷新按钮联网更新！</string>
+    <!-- ***************************card view********************************* -->
+    <string name="card_year_data_count">数据统计</string>
+    <string name="data_count_rate_total">总胜负</string>
+    <string name="data_count_rate_gs">大满贯胜负</string>
+    <string name="data_count_rate_mastercup">大师杯胜负</string>
+    <string name="data_count_rate_master1000">大师赛胜负</string>
+    <string name="data_count_rate_master500">ATP500 胜负</string>
+    <string name="data_count_rate_master250">ATP250 胜负</string>
+    <string name="card_color_edit_success">修改颜色成功！</string>
+    <string name="card_color_edit_fail">修改颜色失败！</string>
+    <!-- ***************************color picker********************************* -->
+    <string name="colorpicker_text_error">颜色值有误</string>
+    <string name="colorpicker_title">颜色选择器</string>
+    <string name="colorpicker_more">更多操作</string>
+    <string name="colorpicker_editself">编辑颜色选择器</string>
+    <string name="colorpicker_restore">应用默认样式</string>
+    <string name="colorpicker_warning_giveup">确定放弃当前操作？</string>
+    <string name="colorpicker_warning_applydefault">当前样式将会被默认样式替代，确定继续？</string>
+    <!-- ***************************view 7.0********************************* -->
+    <string name="app_init">程序初始化中，请稍后&#8230;</string>
+    <string name="view7_folder_quick_enter">快速进入</string>
+    <string name="view7_home">首页</string>
+    <string name="view7_title_timeline">时间线</string>
+    <string name="view7_title_player">球员</string>
+    <string name="view7_title_match">赛事</string>
+    <string name="view7_title_more">更多</string>
+    <string name="view7_folder_classic">经典</string>
+    <string name="view7_folder_card_hor">切划卡片</string>
+    <string name="view7_folder_card_ver">翻滚卡片</string>
+    <string name="view7_folder_timeline">时间线</string>
+    <string name="view7_folder_default">(默认)</string>
+    <string name="view7_main_add">添加新纪录</string>
+    <string name="view7_more_background">更换背景</string>
+    <string name="view7_more_packup">收起</string>
+    <string name="swipecard_refresh">重新加载卡片</string>
+    <string name="swipecard_sortby_name">按音序排列</string>
+    <string name="swipecard_sortby_date">按时间排列</string>
+    <string name="swipecard_sortby_restore">恢复上张卡片</string>
+    <string name="swipecard_player_latest">最近交手记录</string>
+</resources>

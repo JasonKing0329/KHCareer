@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center_vertical"
+    android:background="@color/lightseagreen"
+    android:orientation="horizontal" >
+    <ImageView 
+        android:id="@+id/recordlist_title_image"
+	    android:layout_width="30dp"
+	    android:layout_height="30dp"
+	    android:layout_marginLeft="5dp"
+	    android:scaleType="fitCenter"
+	    android:src="@drawable/group_expand_down"/>
+    <ImageView 
+        android:id="@+id/recordlist_title_image_player"
+	    android:layout_width="40dp"
+	    android:layout_height="40dp"
+	    android:layout_margin="3dp"
+	    android:scaleType="fitXY"/>
+	<LinearLayout
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+		android:layout_marginLeft="7dp"
+	    android:orientation="horizontal" >
+	   <TextView 
+	        android:id="@+id/recordlist_player_title_player"
+		    android:layout_width="0dp"
+		    android:layout_height="wrap_content"
+		    android:textStyle="bold"
+		    android:textColor="@color/recordlist_title_text"
+		    android:layout_weight="0.8"/>
+	   <TextView 
+	        android:id="@+id/recordlist_player_title_h2h"
+		    android:layout_width="0dp"
+		    android:layout_height="wrap_content"
+			android:gravity="center"
+			android:layout_marginRight="10dp"
+		    android:textColor="@color/recordlist_title_text"
+		    android:layout_weight="0.2"/>
+	</LinearLayout>
+
+</LinearLayout>

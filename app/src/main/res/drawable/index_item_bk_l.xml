@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item android:state_pressed="true" android:drawable="@color/index_bk_press"/>
+    <item android:drawable="@drawable/shape_index_item_bk_l"/>
+    <!-- item android:drawable="?attr/actionbar_bk_color"/ --><!-- 这里直接用attr会出现resnotfound问题 -->
+</selector>

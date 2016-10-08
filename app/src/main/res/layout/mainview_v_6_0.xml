@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    <com.king.mytennis.update_v_6_0.CardPage 
+        android:id="@+id/cardpage"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"/>
+	<com.king.mytennis.view.publicview.PageTagView 
+        android:id="@+id/cardpage_side"
+	    android:layout_width="wrap_content"
+	    android:layout_height="match_parent"
+	    android:layout_alignParentRight="true"/>
+	<FrameLayout 
+        android:id="@+id/cardpage_shadow"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:visibility="gone"/>
+	<com.king.mytennis.view.publicview.DragSideBar 
+        android:id="@+id/cardpage_dragside"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:paddingLeft="@dimen/dragsidebar_padding_left"/>
+	<FrameLayout 
+        android:id="@+id/classic_container"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:visibility="gone"/>
+</RelativeLayout>

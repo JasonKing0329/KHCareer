@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <item
+        android:id="@+id/record_item_update"
+        android:orderInCategory="100"
+        android:showAsAction="never"
+        android:title="@string/record_longclick_update"/>
+    <item
+        android:id="@+id/record_item_delete"
+        android:orderInCategory="101"
+        android:showAsAction="never"
+        android:title="@string/record_longclick_delete"/>
+    <item
+        android:id="@+id/record_item_detailcurrent"
+        android:orderInCategory="102"
+        android:showAsAction="never"
+        android:title="@string/record_longclick_detailofthis"/>
+    <item
+        android:id="@+id/record_item_detailall"
+        android:orderInCategory="103"
+        android:showAsAction="never"
+        android:title="@string/record_longclick_detailofall"/>
+
+</menu>

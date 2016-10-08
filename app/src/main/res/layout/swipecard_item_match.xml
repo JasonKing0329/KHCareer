@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:layout_marginLeft="18dp"
+    android:layout_marginRight="18dp"
+    android:layout_marginTop="18dp"
+    android:background="@drawable/swipecard_bg"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/swipecard_match_img"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginTop="20dp"
+        android:contentDescription="@null"
+        android:scaleType="fitXY"
+        android:src="@drawable/swipecard_default_img" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:minHeight="150dp"
+        android:padding="12dp" >
+
+        <TextView
+            android:id="@+id/swipecard_match_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/swipecard_text_hard"
+            android:textStyle="bold"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/swipecard_match_city"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/swipecard_match_name"
+            android:layout_marginTop="8dp"
+            android:singleLine="true"
+            android:textColor="@color/swipecard_text_normal"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/swipecard_match_level"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/swipecard_match_city"
+            android:singleLine="true"
+            android:textColor="@color/swipecard_text_normal"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/swipecard_match_court"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/swipecard_match_level"
+            android:singleLine="true"
+            android:textColor="@color/swipecard_text_hard"
+            android:textSize="14sp" />
+        
+        <TextView
+            android:id="@+id/swipecard_match_total"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/swipecard_match_court"
+            android:layout_marginTop="8dp"
+            android:singleLine="true"
+            android:textColor="@color/swipecard_text_normal"
+            android:textSize="14sp" />
+        
+        <TextView
+            android:id="@+id/swipecard_match_best"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/swipecard_match_total"
+            android:textColor="@color/swipecard_text_normal"
+            android:minLines="2"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+</LinearLayout>

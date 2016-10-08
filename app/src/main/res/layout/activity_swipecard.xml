@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:swipe="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/view7_home_background" >
+
+    <include
+        android:id="@+id/swipe_actionbar"
+        layout="@layout/view7_layout_actionbar" />
+
+    <TextView
+        android:id="@+id/swipe_refresh"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/swipecard_refresh"
+        android:textSize="18sp"
+        android:textColor="#666666"
+        android:gravity="center"
+        android:layout_centerInParent="true" />
+    
+    <com.king.mytennis.view_v_7_0.swipecard.view.SwipeFlingAdapterView
+        android:id="@+id/swipe_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/swipe_actionbar"
+        swipe:max_visible="4"
+        swipe:min_adapter_stack="4"
+        swipe:y_offset_step="28dp" />
+
+    <TextView
+        android:id="@+id/swipe_card_index"
+        android:layout_width="@dimen/swipecard_cardindex_size"
+        android:layout_height="@dimen/swipecard_cardindex_size"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        android:gravity="center"
+		android:layout_alignParentBottom="true"
+		android:layout_marginBottom="15dp"
+		android:layout_centerHorizontal="true" />
+    
+	<LinearLayout 
+	    android:id="@+id/layout_init"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:layout_below="@id/swipe_actionbar"
+	    android:orientation="horizontal"
+	    android:gravity="center" >
+	    <ProgressBar
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content" />
+	    <TextView
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="@string/app_init"
+		    android:layout_marginLeft="15dp" />
+	</LinearLayout>
+	
+	<RelativeLayout
+	    android:id="@+id/swipe_bottombar"
+	    android:layout_width="match_parent"
+	    android:layout_height="@dimen/view7_actionbar_height"
+	    android:visibility="gone"
+	    android:layout_alignParentBottom="true" >
+	    <LinearLayout
+	        android:layout_width="180dp"
+	        android:layout_height="match_parent"
+	    	android:background="@color/white"
+	        android:orientation="vertical" >
+		    <View
+			    android:layout_width="match_parent"
+			    android:layout_height="1px"
+			    android:background="#999999" />
+		    <TextView
+	        	android:id="@+id/swipe_btn_sort"
+			    android:layout_width="match_parent"
+			    android:layout_height="match_parent"
+			    android:textColor="#666666"
+			    android:gravity="center"
+			    android:textSize="16sp"
+			    android:text="@string/swipecard_sortby_name" />
+	    </LinearLayout>
+	    <LinearLayout
+	        android:id="@+id/swipe_btn_restore"
+	        android:layout_width="180dp"
+	        android:layout_height="match_parent"
+	        android:layout_alignParentRight="true"
+	    	android:background="@color/white"
+			android:visibility="gone"
+	        android:orientation="vertical" >
+		    <View
+			    android:layout_width="match_parent"
+			    android:layout_height="1px"
+			    android:background="#999999" />
+		    <TextView
+			    android:layout_width="match_parent"
+			    android:layout_height="match_parent"
+			    android:textColor="#666666"
+			    android:gravity="center"
+			    android:textSize="16sp"
+			    android:text="@string/swipecard_sortby_restore" />
+	    </LinearLayout>
+	    <TextView
+	        android:id="@+id/swipe_card_index1"
+	        android:layout_width="@dimen/view7_actionbar_height"
+	        android:layout_height="@dimen/view7_actionbar_height"
+	        android:textSize="16sp"
+	        android:textColor="@color/white"
+	        android:gravity="center"
+			android:layout_alignParentBottom="true"
+			android:layout_centerHorizontal="true" />
+    
+	</RelativeLayout>
+	
+	<com.king.mytennis.view.publicview.SideBar 
+        android:id="@+id/swipe_sidebar"
+	    android:layout_width="@dimen/swipecard_indexbar_width"
+	    android:layout_height="match_parent"
+        android:layout_below="@id/swipe_actionbar"
+        android:layout_above="@id/swipe_bottombar"
+    	android:layout_alignParentRight="true"
+		android:visibility="gone"
+		swipe:sideBackground="@drawable/shape_swipecard_sidebar_bg"
+		swipe:indexTextSize="@dimen/swipecard_indexbar_text_size"
+		swipe:indexColor="@color/white"
+		swipe:indexColorFocus="@color/swipecard_index_text_focus"/>
+	
+    <TextView
+        android:id="@+id/swipe_indexview_popup"
+        android:layout_width="@dimen/swipecard_indexbar_popup_size"
+        android:layout_height="@dimen/swipecard_indexbar_popup_size"
+        android:background="@drawable/shape_swipecard_sidebar_popup_bk"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/swipecard_indexbar_popup_text_size"
+        android:visibility="gone" />
+</RelativeLayout>

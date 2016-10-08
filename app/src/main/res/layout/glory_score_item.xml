@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" 
+    android:gravity="center_vertical">
+    <TextView 
+        android:id="@+id/glory_score_index"
+	    android:layout_width="30dp"
+	    android:layout_height="30dp"
+	    android:layout_marginLeft="5dp"
+	    android:gravity="center_vertical"
+        />
+    <EditText 
+	    style="@style/DrawsBlue_Toolbar"
+        android:id="@+id/glory_score_match"
+	    android:layout_width="0dp"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="0.7"
+	    android:layout_marginRight="10dp"
+	    android:textSize="14dp"
+        />
+    <EditText 
+	    style="@style/DrawsBlue_Toolbar"
+        android:id="@+id/glory_score_score"
+	    android:layout_width="0dp"
+	    android:layout_height="wrap_content"
+	    android:layout_weight="0.3"
+	    android:layout_marginRight="20dp"
+	    android:textSize="14dp"
+	    android:inputType="number"
+        />
+    <ImageView 
+        android:id="@+id/glory_score_remove_item"
+	    android:layout_width="30dp"
+	    android:layout_height="30dp"
+	    android:src="@drawable/icon_decrease"
+	    android:background="@drawable/custom_dialog_icon_bk"
+	    android:layout_marginRight="10dp"
+        />
+
+</LinearLayout>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:id="@+id/menu_h2h_atpwta_save"
+        android:title="@string/menu_h2h_atpwta_save"/>
+
+    <item
+        android:id="@+id/menu_h2h_atpwta_load"
+        android:title="@string/menu_h2h_atpwta_load"/>
+    
+    <item
+        android:id="@+id/menu_h2h_atpwta_setting"
+        android:title="@string/action_setting"/>
+</menu>

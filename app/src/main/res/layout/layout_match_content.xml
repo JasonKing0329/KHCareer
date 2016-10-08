@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/match_content_parent"
+    android:background="@color/white"
+    android:paddingLeft="10dp"
+    android:paddingRight="10dp" >
+    <com.king.mytennis.view_v_7_0.view.LimitExpandableListView
+        android:id="@+id/match_expanlist"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:groupIndicator="@null"
+	    android:divider="@null" />
+
+</RelativeLayout>

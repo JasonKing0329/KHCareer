@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- ***************************color picker********************************* -->
+    <string name="colorpicker_tip_warning">警告</string>
+    <string name="colorpicker_tip_ok">确认</string>
+    <string name="colorpicker_tip_cancel">取消</string>
+    <string name="colorpicker_text_error">颜色值有误</string>
+    <string name="colorpicker_title">颜色选择器</string>
+    <string name="colorpicker_more">更多操作</string>
+    <string name="colorpicker_editself">编辑颜色选择器</string>
+    <string name="colorpicker_restore">应用默认样式</string>
+    <string name="colorpicker_warning_giveup">确定放弃当前操作？</string>
+    <string name="colorpicker_warning_applydefault">当前样式将会被默认样式替代，确定继续？</string>
+</resources>

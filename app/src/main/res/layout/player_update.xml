@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="15dp" >
+    <TextView 
+	    android:id="@+id/player_update_mode"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"/>
+	<EditText 
+	    android:id="@+id/player_update_id"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="10dp"
+	    android:hint="pa_id"
+	    android:inputType="text"/>
+	<AutoCompleteTextView 
+	    android:id="@+id/player_update_eng_name"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="10dp"
+	    android:hint="pa_eng_name"
+		android:completionThreshold="1"
+	    android:inputType="text"/>
+	<EditText 
+	    android:id="@+id/player_update_support_my"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="10dp"
+	    android:hint="pa_support_my"
+	    android:inputType="text"/>
+	<Button 
+	    android:id="@+id/player_update_reset"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="10dp"
+	    android:text="reset"/>
+	<Button 
+	    android:id="@+id/player_update_continue"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_marginTop="10dp"
+	    android:text="continue"/>
+</LinearLayout>

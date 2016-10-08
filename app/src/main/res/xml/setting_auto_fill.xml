@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory 
+        android:key="setting_auto_fill_option_title"
+        android:title="@string/setting_auto_fill_option_title"/>
+    <Preference 
+        android:key="setting_auto_fill_option"
+        android:layout="@layout/setting_autofill_option"/>
+    
+    <PreferenceCategory 
+        android:key="setting_auto_fill_form_list"
+        android:title="@string/setting_auto_fill_form_list"/>
+</PreferenceScreen>

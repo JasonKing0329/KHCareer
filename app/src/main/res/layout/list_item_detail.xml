@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright 2015 Worldline.
+  ~
+  ~ Licensed under the Apache License, Version 2.0 (the "License");
+  ~ you may not use this file except in compliance with the License.
+  ~ You may obtain a copy of the License at
+  ~
+  ~    http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing, software
+  ~ distributed under the License is distributed on an "AS IS" BASIS,
+  ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~ See the License for the specific language governing permissions and
+  ~ limitations under the License.
+  -->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/folder_item_expand_height">
+
+    <ImageView
+        android:id="@+id/folder_image_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="fitXY" />
+    
+    <LinearLayout
+        android:id="@+id/folder_detail_layout_4"
+        android:layout_width="@dimen/folder_item_expand_height"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
+	    <LinearLayout
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+        	android:gravity="center">
+		    <LinearLayout
+				android:id="@+id/folder_detail_classic_layout"
+		        android:layout_width="@dimen/folder_detail_btn_size"
+		        android:layout_height="@dimen/folder_detail_btn_size"
+		        android:layout_margin="5dp"
+		        android:orientation="vertical">
+				<TextView
+				    android:id="@+id/folder_detail_classic"
+				    style="@style/View7FolderDetailButton"
+			        android:layout_width="match_parent"
+			        android:layout_height="match_parent"
+			        android:text="@string/view7_folder_classic" />
+		    </LinearLayout>
+		    <LinearLayout
+				android:id="@+id/folder_detail_card_hor_layout"
+		        android:layout_width="@dimen/folder_detail_btn_size"
+		        android:layout_height="@dimen/folder_detail_btn_size"
+		        android:layout_margin="5dp"
+		        android:orientation="vertical">
+				<TextView
+				    android:id="@+id/folder_detail_card_hor"
+				    style="@style/View7FolderDetailButton"
+			        android:layout_width="match_parent"
+			        android:layout_height="match_parent"
+			        android:text="@string/view7_folder_card_hor" />
+		    </LinearLayout>
+	    </LinearLayout>
+	    <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:orientation="horizontal"
+        	android:gravity="center">
+		    <LinearLayout
+				android:id="@+id/folder_detail_card_ver_layout"
+		        android:layout_width="@dimen/folder_detail_btn_size"
+		        android:layout_height="@dimen/folder_detail_btn_size"
+		        android:layout_margin="5dp"
+		        android:orientation="vertical">
+				<TextView
+				    android:id="@+id/folder_detail_card_ver"
+				    style="@style/View7FolderDetailButton"
+			        android:layout_width="match_parent"
+			        android:layout_height="match_parent"
+			        android:text="@string/view7_folder_card_ver" />
+		    </LinearLayout>
+		    <LinearLayout
+				android:id="@+id/folder_detail_timeline_layout"
+		        android:layout_width="@dimen/folder_detail_btn_size"
+		        android:layout_height="@dimen/folder_detail_btn_size"
+		        android:layout_margin="5dp"
+		        android:orientation="vertical">
+				<TextView
+				    android:id="@+id/folder_detail_timeline"
+				    style="@style/View7FolderDetailButton"
+			        android:layout_width="match_parent"
+			        android:layout_height="match_parent"
+			        android:text="@string/view7_folder_classic" />
+		    </LinearLayout>
+	    </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

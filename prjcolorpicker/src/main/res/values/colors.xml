@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    
+    <color name="colorpicker_list_selector">#00000000</color>
+    <color name="colorpicker_background">#eeffffff</color>
+    <color name="colorpicker_title">#999999</color>
+    <color name="colorpicker_divider">#24ceec</color>
+    <color name="colorpicker_list_text">#666666</color>
+    <color name="colorpicker_color_text">#666666</color>
+    <color name="colorpicker_frame_border">#646464</color>
+</resources>

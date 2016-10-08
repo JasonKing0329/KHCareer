@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:mytennis="http://schemas.android.com/apk/res/com.king.mytennis.view">
+	<RelativeLayout
+	  android:id="@+id/layout_lookresult"
+	  android:layout_width="fill_parent"
+	  android:layout_height="fill_parent"
+	  android:background="@drawable/bk_mainview">
+		<include layout="@layout/glory_actionbar"
+		     android:id="@+id/actionbar"
+		     android:layout_alignParentTop="true"
+		     android:visibility="gone"/>
+		
+		<RelativeLayout 
+		    android:id="@+id/recordlistview_bottom"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:background="@color/trans_black"
+			android:layout_alignParentBottom="true"
+			android:paddingLeft="50dp"
+			android:orientation="horizontal">
+		    
+			<TextView
+				android:id="@+id/result_tv_count"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="@string/result_count"
+				android:textColor="@color/white"/>
+			<CheckBox 
+				android:id="@+id/recordlistview_showactionbar"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:paddingRight="5dp"
+				android:layout_alignParentRight="true"
+				android:layout_centerVertical="true"
+				android:button="@drawable/checkbox_bk"
+				android:text="@string/show_actionbar"
+				android:textColor="@color/white"/>
+		</RelativeLayout>
+		
+	    <ExpandableListView 
+	        android:id="@+id/recordList"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:layout_above="@id/recordlistview_bottom"
+	        android:layout_below="@id/actionbar"
+			android:layout_marginLeft="5dp"
+			android:layout_marginRight="5dp"
+	        android:groupIndicator="@null"
+	        android:divider="@null"
+	        />
+		
+		<TextView 
+		    android:id="@+id/no_content_view"
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent"
+	        android:layout_above="@id/recordlistview_bottom"
+	        android:layout_below="@id/actionbar"
+			android:layout_marginLeft="5dp"
+			android:layout_marginRight="5dp"
+		    android:gravity="center"
+		    android:textSize="26sp"
+			android:textColor="@color/white"
+		    android:text="@string/no_content"
+			android:background="@color/trans_black"/>
+		
+		<com.king.mytennis.view.publicview.SideBar 
+	        android:id="@+id/indexview_sidebar"
+		    android:layout_width="@dimen/recordlist_index_width"
+		    android:layout_height="match_parent"
+	        android:layout_above="@id/recordlistview_bottom"
+	        android:layout_below="@id/actionbar"
+	    	android:layout_alignParentRight="true"
+			android:visibility="gone"
+			mytennis:sideBackground="@drawable/shape_sidebar_background"
+			mytennis:indexTextSize="@dimen/recordlist_index_text_size"
+			mytennis:indexColor="@color/white"
+			mytennis:indexColorFocus="@color/index_sidebar_text_color"/>
+	</RelativeLayout>
+
+    <TextView
+        android:id="@+id/indexview_popup"
+        android:layout_width="@dimen/recordlist_index_popup_size"
+        android:layout_height="@dimen/recordlist_index_popup_size"
+        android:layout_gravity="center"
+        android:background="@drawable/shape_sidebar_popup_bk"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/recordlist_index_popup_text_size"
+        android:visibility="gone" />
+    
+    <include layout="@layout/arcbutton_recordlist"/>
+</FrameLayout>

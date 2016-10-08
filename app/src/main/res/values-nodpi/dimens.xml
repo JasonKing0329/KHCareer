@@ -1,0 +1,6 @@
+<resources>
+
+    <dimen name="arc_button_size">38dp</dimen>
+    <dimen name="arc_expand_size">38dp</dimen>
+    <dimen name="arc_radius">170dp</dimen>
+</resources>

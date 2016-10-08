@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="actionbar_bk_color" format="reference"/>
+    <attr name="actionbar_icon_bk" format="reference"/>
+    
+    <attr name="rightPadding" format="dimension" />
+    <attr name="leftPadding" format="dimension" />
+
+    <declare-styleable name="SlidingMenuLeft">
+        <attr name="rightPadding" />
+        <attr name="leftPadding" />
+    </declare-styleable>
+    
+    <attr name="indexTextSize" format="dimension" />
+    <attr name="indexColor" format="reference" />
+    <attr name="indexColorFocus" format="reference" />
+    <attr name="sideBackground" format="reference" />
+
+    <declare-styleable name="SideBarParams">
+        <attr name="sideBackground" />
+        <attr name="indexTextSize" />
+        <attr name="indexColor" />
+        <attr name="indexColorFocus" />
+    </declare-styleable>
+    
+    <!-- 圆形头像 -->
+    <declare-styleable name="CircleImageView">
+        <!-- 边框宽度 -->
+        <attr name="civ_border_width" format="dimension" />
+        <!-- 边框颜色 -->
+        <attr name="civ_border_color" format="color" />
+        <attr name="civ_border_overlay" format="boolean" />
+        <!-- 头像内填充色 -->
+        <attr name="civ_fill_color" format="color" />
+    </declare-styleable>
+    
+    <!-- swipe card -->
+    <declare-styleable name="SwipeFlingAdapterView">
+        <attr name="y_offset_step" format="dimension" />
+        <attr name="rotation_degrees" format="float" />
+        <attr name="min_adapter_stack" format="integer" />
+        <attr name="max_visible" format="integer" />
+    </declare-styleable>
+</resources>

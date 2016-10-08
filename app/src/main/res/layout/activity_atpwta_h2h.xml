@@ -1,0 +1,63 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".H2hMainActivity"
+    android:background="@drawable/wall_bk2" >
+
+	<ImageView 
+	    android:id="@+id/h2h_button_atp"
+	    android:layout_width="130dp"
+	    android:layout_height="130dp"
+	    android:layout_marginTop="70dp"
+	    android:layout_centerHorizontal="true"
+	    android:src="@drawable/atp_logo"
+	    android:background="@drawable/selector_h2hmain_icon_bk"/>
+	
+    <TextView 
+        android:id="@+id/h2h_atp_add_player"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+		android:layout_below="@id/h2h_button_atp"
+		android:layout_marginTop="10dp"
+	    android:layout_centerHorizontal="true"
+	    android:text="Add player"
+	    android:textSize="25dp"
+	    android:textColor="@drawable/selector_h2hmain_addplayer_color"
+	    android:textStyle="bold"/>
+    
+	<ImageView 
+	    android:id="@+id/h2h_button_wta"
+	    android:layout_width="150dp"
+	    android:layout_height="150dp"
+		android:layout_marginTop="40dp"
+	    android:layout_centerHorizontal="true"
+	    android:src="@drawable/wta_logo"
+	    android:layout_below="@id/h2h_atp_add_player"
+	    android:background="@drawable/selector_h2hmain_icon_bk"/>
+	
+    <TextView 
+        android:id="@+id/h2h_wta_add_player"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@id/h2h_button_wta"
+	    android:layout_centerHorizontal="true"
+	    android:text="Add player"
+	    android:textSize="25dp"
+	    android:textColor="@drawable/selector_h2hmain_addplayer_color"
+	    android:textStyle="bold"/>
+    
+	<ImageView 
+		android:id="@+id/h2h_button_menu"
+		android:layout_width="@dimen/actionbar_icon_width"
+		android:layout_height="@dimen/actionbar_icon_width"
+		android:src="@drawable/actionbar_menu"
+		android:padding="5dp"
+		android:background="@drawable/mainview_menu_icon_bk"
+		android:layout_alignParentTop="true"
+		android:layout_alignParentRight="true"/>
+</RelativeLayout>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/detail_bk">
+    <CheckBox 
+        android:id="@+id/detail_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:paddingLeft="50dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:textSize="30sp"
+        android:text="Gallery is Circular"/>
+    <com.king.mytennis.view.detail.FlingGallery
+        android:id="@+id/detail_flinggallery"
+        android:layout_above="@id/detail_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="5dp"/>
+    
+    <ImageView 
+        style="@style/ActionbarIcon_L"
+        android:id="@+id/actionbar_color"
+	    android:layout_width="@dimen/actionbar_icon_width"
+	    android:layout_height="@dimen/actionbar_icon_width"
+	    android:src="@drawable/actionbar_color_picker"
+	    android:layout_alignParentRight="true"
+	    android:layout_marginTop="10dp"
+	    android:layout_marginRight="10dp"/>
+    
+</RelativeLayout>

@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name" translatable="false">KHCareer</string>
+    <string name="login">Identity Confirm</string>
+    <string name="error_password">error password</string>
+    <!--string name="fgtpwd">foget password?</string-->
+    <string name="fgtpwd">foget password?</string>
+    <string name="question">question:</string>
+    <string name="answer">answer:</string>
+    <string name="submit">submit</string>
+    <string name="mview_checkall">Check all</string>
+    <string name="warning">warning</string>
+    <string name="exit_msg">Are you sure to exit?</string>
+    <string name="ok">ok</string>
+    <string name="exit">Exit</string>
+    <string name="save">Save</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="successful">successful!</string>
+    <string name="champion">Champion</string>
+    <string name="runnerup">Runnerup</string>
+    <string name="details_h2h">h2h</string>
+    <string name="no_content">No content</string>
+    <string name="default_directory">Directory: </string>
+    <!-- ***************************upload********************************* -->
+    <string name="uploading">uploading...</string>
+    <string name="upload_ok">upload successed!</string>
+    <string name="upload_fail">upload failed!</string>
+    <string name="upload_confirm">You have uploaded a file today! Are you sure to replace it?</string>
+    <string name="upload_overtime">Operation over time. Please try again!</string>
+    <!-- ***************************login********************************* -->
+    <string name="loading">loading...</string>
+    <string name="preparing_app">Initting application, please waiting...</string>
+    <string name="login_finger_not_support">Fingerprint is not supported on current device!</string>
+    <string name="login_finger_not_register">Fingerprint has never been registered in device, please register first!</string>
+    
+    <!-- ***************************record long click********************************* -->
+    <string name="record_longclick_update">update</string>
+    <string name="record_longclick_delete">delete</string>
+    <string name="record_longclick_detailofthis">details of this</string>
+    <string name="record_longclick_detailofall">details of all</string>
+    
+    <!-- ***************************safeset********************************* -->
+    <string name="alterpwd">alter password</string>
+    <string name="oldpwd">old password:</string>
+    <string name="newpwd">new password:</string>
+    <string name="alter_qstans">alter hint</string>
+    <string name="setting_safeset_update">Modify password and option question/answer</string>
+    <string name="safeset_wrongpwd">The old password is wrong, please correct it!</string>
+    <string name="safeset_alterok">Alter OK! New safe sets is effective.</string>
+    <string name="safeset_submit_warning">Submit form with old password.</string>
+    <!-- ********************************************************************** -->
+    <!-- ***************************insert表单********************************* -->
+    <string name="player_infor">player infor</string>
+    <string name="match_infor">match infor</string>
+    <string name="insert_title">insert</string>
+    <string name="insert_next">next</string>
+    <string name="rankp1">rankp1</string>
+    <string name="seedp1">seedp1</string>
+    <string name="comp_name">competitor name</string>
+    <string name="country">country</string>
+    <string name="pinyin">pinyin</string>
+    <string name="add_pinyin_warning">New player! Please add sort index!</string>
+    <string name="rank">rank</string>
+    <string name="seed">seed</string>
+    <string name="city">city</string>
+    <string name="matchname">match name</string>
+    <string name="match">match</string>
+    <string name="score">score</string>
+    <string name="winner">winner</string>
+    <string name="next_page">next page</string>
+    <string name="previous_page">previous page</string>
+    <string name="insert_done">Done</string>
+    <string name="insert_continue">Continue insert</string>
+    <string name="insert_warning">Notice: Some search or delete operations have been done! Please take the insert action in the situation that all records have loaded in.</string>
+    <!-- ********************************************************************** -->
+    <string name="result_count">total:0 win:0 lose:0 winrate:0</string>
+    <string name="show_actionbar">actionbar</string>
+    <string name="show_indexview">index view</string>
+    <!-- ***************************search表单********************************* -->
+    <string name="nullRecord">null record</string>
+    <string name="search">exact search</string>
+    <string name="search_court">court</string>
+    <string name="search_match">match</string>
+    <string name="search_round">round</string>
+    <string name="search_level">match level</string>
+    <string name="search_region">region</string>
+    <string name="search_match_country">m.country</string>
+    <string name="search_compname">competitor</string>
+    <string name="search_player_country">p.coutry</string>
+    <string name="search_date">date</string>
+    <string name="search_date_start">start</string>
+    <string name="search_date_end">end</string>
+    <string name="search_rank_min">min</string>
+    <string name="search_rank_max">max</string>
+    <string name="search_score">score</string>
+    <string name="search_winlose">win/lose</string>
+    <string name="search_win">win</string>
+    <string name="search_lose">lose</string>
+    <string name="search_sql">sql</string>
+    <string name="search_where_hint">PreparedStatement expression.</string>
+    <string name="search_wherevalue_hint">Splited by ",". No space existed.</string>
+    <!-- ********************************************************************** -->
+    <!-- ***************************菜单********************************* -->
+    <string name="menu_save">save</string>
+    <string name="menu_saveas">save as..</string>
+    <string name="menu_saveconf">save configuration</string>
+    <string name="menu_load">load</string>
+    <string name="menu_set">set</string>
+    <string name="menu_dbtofile">DB to File</string>
+    <string name="menu_filetodb">File to DB</string>
+    <string name="menu_exactselect">exact select</string>
+    <string name="menu_showall">show all</string>
+    <string name="menu_sort">sort</string>
+    <string name="menu_sort_comp">by competitor</string>
+    <string name="menu_sort_date">by date</string>
+    <string name="menu_cmplist">cpt_list</string>
+    <string name="menu_choosebk">Choose background</string>
+    <string name="menu_safeset">safe setting</string>
+    <string name="menu_setting">Settings</string>
+    <string name="menu_glory">Glory</string>
+    <string name="menu_h2h" translatable="false">H2H</string>
+    <string name="menu_change_theme">Change theme</string>
+    <string name="menu_uploadrecord">upload record</string>
+    <string name="menu_ranking">world ranking</string>
+    <string name="menu_show_by_date">show by date</string>
+    <string name="menu_show_by_player">show by player</string>
+    <!-- **************************************************************** -->
+    <string name="record_listview_allrecords">All records</string>
+    <string name="dlg_loading_msg">loading...</string>
+    <string name="dlg_sorting_msg">sorting...</string>
+    <string name="exception_loading">There\'s an exception in loading.</string>
+    <string name="exception_save">Save failed!</string>
+    <string name="loading_ok">File has been loaded in.</string>
+    <string name="loading_fail">It occurs an error when loading.</string>
+    <string name="save_ok">File has been saved succesfuly.</string>
+    <string name="save_fail">It occurs an error when saving.</string>
+    <string name="saveas_title">Save as</string>
+    <string name="saveas_msg">Input the destination like this:</string>
+    <string name="update_datafrom">Data\' originally file:</string>
+    <string name="source_not_found">source not found</string>
+    <string name="update_success">update success!</string>
+    <string name="update_title">update</string>
+    
+    <string name="transmitting">transmitting...</string>
+    <string name="dbtofile">Database file has turned to external file.</string>
+    <string name="filetodb">External file has turned to database file.</string>
+    
+    <string name="longtouch_title">function</string>
+    <string name="details_title">details</string>
+    
+    <string name="head_load_ok">All images has been loaded!</string>
+    <string name="loadmore">Load more</string>
+    
+    <string name="load_from_warning_msg">Selected database will cover default database, sure to continue?</string>
+    
+    <string name="save_db_success">Data has been saved in path: %s</string>
+    <string name="save_folder_already_exist">Target folder is already exist!</string>
+    <!-- *********************SQLite操作部分******************************* -->
+    <string name="notables">There\'re no tables.</string>
+    <string name="dlg_choosebk">Choose background</string>
+    
+    
+    <string name="xlistview_header_hint_normal">pull to refresh</string>
+    <string name="xlistview_header_hint_ready">loosen to refresh data</string>
+    <string name="xlistview_header_hint_loading">loading。。。</string>
+    <string name="xlistview_header_last_time">last updated time:</string>
+    <string name="xlistview_footer_hint_normal">show more</string>
+    <string name="xlistview_footer_hint_ready">loosen to load more</string>
+    <string name="person_icon">个人头像</string>
+    <string name="str_time">13-07-15</string>
+    <string name="str_vertical">竖线</string>
+    <string name="str_content_icon">内容标志</string>
+    
+    <!-- ***************************glory********************************* -->
+    <string name="match_name_not_null">Match name coudn\'t be null!</string>
+    <string name="date_not_null">Date coudn\'t be null!</string>
+    <string name="glory_match_achieve">Final round: </string>
+    <string name="glory_match_winner">Winner</string>
+    <string name="glory_match_ru">Runnerup</string>
+    <!-- ***************************setting********************************* -->
+    <string name="action_setting">Settings</string>
+    <string name="setting_login_mode_title">Login mode</string>
+    <string name="setting_login_fingerprint">Identify fingerprint</string>
+    <string name="setting_application">Application</string>
+    <string name="setting_default_http_method">Default Http method</string>
+    <string name="setting_default_http_method_apache" translatable="false">Apache HttpClient</string>
+    <string name="setting_default_http_method_url" translatable="false">URLConnection</string>
+    <string name="setting_default_language">Default Language</string>
+    <string name="setting_default_ui">Default main UI</string>
+    <string name="setting_default_dir_config">Configuration</string>
+    <string name="setting_default_dir_db">Database history</string>
+    <string name="setting_default_dir_temp">Temperary</string>
+    <string name="setting_default_dir_name" translatable="false">history</string>
+    <string name="setting_feature_mult_form">Support Mult-Form</string>
+    <string name="setting_auto_fill_form_insert">Auto fill form(Insert) Click to select</string>
+    <string name="setting_auto_fill_option_title">Description</string>
+    <string name="setting_auto_fill_option">Select default used form which will auto-fill the form when you try to add a new record.</string>
+    <string name="setting_auto_fill_form_list">Form list</string>
+    <string name="setting_auto_fill_null">Empty</string>
+    <string name="setting_auto_fill_del_option">Delete selected %d items?</string>
+    <string name="setting_cache">Clear cache</string>
+    <string name="setting_slidingmenu">Sliding menu</string>
+    <string name="setting_slidingmenu_mode">Position mode</string>
+    <string name="setting_slidingmenu_left">Menu at left</string>
+    <string name="setting_slidingmenu_right">Menu at right</string>
+    <string name="setting_slidingmenu_twoway">Menu at two side</string>
+    <string name="setting_slidingmenu_enable">Enable in main view</string>
+    
+    <!-- ***************************h2h http********************************* -->
+    <string name="h2h_title">Head to head</string>
+    <string name="menu_h2h_atpwta_save">Save database</string>
+    <string name="menu_h2h_atpwta_load">Load database</string>
+    <!-- ***************************rank http********************************* -->
+    <string name="rank_no_data">No ranking data.</string>
+    <string name="rank_cache_outofdate">Cache file is out of date, it\'s new week, please click refresh icon to update rank file!</string>
+    <!-- ***************************card view********************************* -->
+    <string name="card_year_data_count">Data count</string>
+    <string name="data_count_rate_total">Total Rate</string>
+    <string name="data_count_rate_gs">GS Rate</string>
+    <string name="data_count_rate_mastercup">Master Cup Rate</string>
+    <string name="data_count_rate_master1000">Master1000 Rate</string>
+    <string name="data_count_rate_master500">ATP500  Rate</string>
+    <string name="data_count_rate_master250">ATP250 Rate</string>
+    <string name="data_count_year_career" translatable="false">Career</string>
+    <string name="data_count_rate_player_no1" translatable="false">No.1</string>
+    <string name="data_count_rate_player_top10" translatable="false">Top 10</string>
+    <string name="data_count_rate_player_top1020" translatable="false">Top 10 - Top 20</string>
+    <string name="data_count_rate_player_top2050" translatable="false">Top 20 - Top 50</string>
+    <string name="data_count_rate_player_top50100" translatable="false">Top 50 - Top 100</string>
+    <string name="data_count_rate_player_outof100" translatable="false">Out of 100</string>
+    <string name="card_color_edit_success">Edit color successfully!</string>
+    <string name="card_color_edit_fail">Edit color failed.</string>
+    <!-- ***************************view 7.0********************************* -->
+    <string name="view7_home">Home</string>
+    <string name="app_init">Initializing&#8230;</string>
+    <string name="view7_title_timeline">Timeline</string>
+    <string name="view7_title_player">Player</string>
+    <string name="view7_title_match">Match</string>
+    <string name="view7_title_more">More</string>
+    <string name="view7_folder_quick_enter">Quick enter</string>
+    <string name="view7_folder_classic">Classic</string>
+    <string name="view7_folder_card_hor">Card-hor</string>
+    <string name="view7_folder_card_ver">Card-ver</string>
+    <string name="view7_folder_timeline">TimeLine</string>
+    <string name="view7_folder_default">(default)</string>
+    <string name="view7_main_add">Add new record</string>
+    <string name="view7_more_glory">Glory</string>
+    <string name="view7_more_rank">Rank</string>
+    <string name="view7_more_h2h">H2H</string>
+    <string name="view7_more_background">Background</string>
+    <string name="view7_more_packup">Pack up</string>
+    <string name="swipecard_refresh">Reload cards</string>
+    <string name="swipecard_sortby_name">Sort by name</string>
+    <string name="swipecard_sortby_date">Sort by date</string>
+    <string name="swipecard_sortby_restore">Restore last card</string>
+    <string name="swipecard_player_latest">Latest record</string>
+</resources>

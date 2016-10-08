@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/view7_actionbar_height"
+    android:background="@color/view7_actionbar_bk" >
+    <RelativeLayout
+		android:id="@+id/layout_icon"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+		android:layout_centerVertical="true" >
+	    <com.king.mytennis.view_v_7_0.view.CircleImageView
+			android:id="@+id/view7_actionbar_img"
+		    android:layout_width="35dp"
+		    android:layout_height="35dp"
+		    android:layout_marginLeft="5dp"
+		    android:src="@drawable/icon_list"
+		    app:civ_border_width="1dp"
+		    android:visibility="gone"
+		    app:civ_border_color="@color/white" />
+	    <ImageView
+			android:id="@+id/view7_actionbar_back"
+		    android:layout_width="35dp"
+		    android:layout_height="match_parent"
+		    android:padding="6dp"
+		    android:layout_marginLeft="5dp"
+		    android:visibility="gone"
+		    android:src="@drawable/actionbar_back"
+		    android:scaleType="fitCenter" />
+    </RelativeLayout>
+    <TextView
+        android:id="@+id/view7_actionbar_title"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_centerVertical="true"
+	    android:layout_marginLeft="5dp"
+	    android:layout_toRightOf="@id/layout_icon"
+	    android:textSize="20sp"
+	    android:textColor="@color/white"
+	    android:text="@string/view7_home"
+	    android:textStyle="bold" />
+	<ImageView
+        android:id="@+id/view7_actionbar_menu"
+	    android:layout_width="@dimen/view7_actionbar_height"
+	    android:layout_height="@dimen/view7_actionbar_height"
+	    android:padding="@dimen/view7_actionbar_icon_padding"
+	    android:src="@drawable/actionbar_menu"
+	    android:layout_alignParentRight="true" />
+</RelativeLayout>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--selectableItemBackgroundBorderless 在framelayout里，如果覆盖在别的底层控件之上，那么波纹效果就被遮挡了，看来是将波纹绘制在window底层的
+ ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/white"/ -->
+
+
+<!--selectableItemBackground-->
+<ripple xmlns:android="http://schemas.android.com/apk/res/android"
+    android:color="@color/ripple_white">
+    <!--item android:id="@android:id/mask"
+        android:drawable="@drawable/ripple_shape"/>< 将ripple效果限定在drawable指定的非透明区域内，透明的区域就看不到ripple -->
+</ripple>

@@ -1,0 +1,182 @@
+package com.king.mytennis.multiuser;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+import android.util.Log;
+
+import com.king.mytennis.model.Configuration;
+import com.king.mytennis.model.DatabaseStruct;
+import com.king.mytennis.view.R;
+import com.king.mytennis.view.settings.SettingProperty;
+
+/**
+ *
+ * @author tstcit
+ *
+ */
+public class MultiUserManager {
+
+	private final String TAG = "MultiUserManager";
+	private final String PREF_KEY = "target_user";
+	private static MultiUserManager multiUserManager;
+
+	/**
+	 * 用来判断数据库里的winner字段是否是当前user获胜
+	 */
+	public static final String USER_DB_FLAG = "_user";
+
+	private MultiUser[] users;
+	private MultiUser currentUser;
+	private int[] selectorResIds = new int[] {
+			R.drawable.logo_ao, R.drawable.logo_fo, R.drawable.logo_wo, R.drawable.logo_uo
+	};
+	private int[] selectorResIds_view7 = new int[] {
+			R.drawable.icon_list, R.drawable.logo_fo, R.drawable.logo_wo, R.drawable.icon_list
+	};
+	private boolean userChangedFlag;
+
+	private MultiUserManager() {
+		Log.i(TAG, "construct");
+	}
+
+	public static MultiUserManager getInstance() {
+		if (multiUserManager == null) {
+			multiUserManager = new MultiUserManager();
+		}
+		return multiUserManager;
+	}
+
+	public String getTargetDatabase() {
+		if (users != null && currentUser != null) {
+			if (currentUser.getId().equals(users[0].getId())) {
+				return DatabaseStruct.DATABASE;
+			}
+			else if (currentUser.getId().equals(users[1].getId())) {
+				return DatabaseStruct.DATABASE_FLAMENCO;
+			}
+			else if (currentUser.getId().equals(users[2].getId())) {
+				return DatabaseStruct.DATABASE_HENRY;
+			}
+			else if (currentUser.getId().equals(users[3].getId())) {
+				return DatabaseStruct.DATABASE_TIANQI;
+			}
+		}
+		return DatabaseStruct.DATABASE;
+	}
+
+	public MultiUser[] getUsers() {
+		return users;
+	}
+
+	public void setCurrentUser(MultiUser user) {
+		if (!user.equals(currentUser)) {
+			userChangedFlag = true;
+			currentUser = user;
+		}
+	}
+
+	/**
+	 * only fit for call by once
+	 * @return
+	 */
+	public boolean isUserChanged() {
+		boolean result = userChangedFlag;
+		if (userChangedFlag) {
+			userChangedFlag = false;
+		}
+		return result;
+	}
+
+	public void loadFromPreference(Context context) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		String id = preferences.getString(PREF_KEY, "King");
+		for (MultiUser user:users) {
+			if (user.getId().equals(id)) {
+				currentUser = user;
+				break;
+			}
+		}
+	}
+
+	public void saveToPreference(Context context, MultiUser user) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putString(PREF_KEY, user.getId());
+		editor.commit();
+	}
+
+	public MultiUser getCurrentUser() {
+		return currentUser;
+	}
+	public int getUserSelectorResId(Context context, MultiUser user) {
+
+		int[] resIds = selectorResIds;
+		String viewMode = SettingProperty.getDefaultUiMode(context);
+		String[] array = context.getResources().getStringArray(R.array.uiChoices);
+		if (array[3].equals(viewMode)) {//UI 7.0
+			resIds = selectorResIds_view7;
+		}
+
+		if (users != null) {
+			for (int i = 0; i < users.length; i ++) {
+				if (users[i].getId().equals(user.getId())) {
+					return resIds[i];
+				}
+			}
+		}
+		return -1;
+	}
+
+	public static void destroy() {
+		multiUserManager = null;
+	}
+
+	public void loadUsers(Context context) {
+		String[] array = context.getResources().getStringArray(R.array.multiuser_list);
+		String[] array1 = context.getResources().getStringArray(R.array.multiuser_display_list);
+		users = new MultiUser[array.length];
+		for (int i = 0; i < array.length; i ++) {
+			users[i] = new MultiUser(array[i], array1[i]);
+		}
+	}
+
+	public String getTargetScoreFile() {
+		if (users != null && currentUser != null) {
+			if (currentUser.getId().equals(users[0].getId())) {
+				return Configuration.SEASON_SCORE_FILE;
+			}
+			else if (currentUser.getId().equals(users[1].getId())) {
+				return Configuration.SEASON_SCORE_FILE_FLAMENCO;
+			}
+			else if (currentUser.getId().equals(users[2].getId())) {
+				return Configuration.SEASON_SCORE_FILE_HENRY;
+			}
+			else if (currentUser.getId().equals(users[3].getId())) {
+				return Configuration.SEASON_SCORE_FILE_TIANQI;
+			}
+		}
+		return DatabaseStruct.DATABASE;
+	}
+
+	public String getTargetRankFile() {
+		if (users != null && currentUser != null) {
+			if (currentUser.getId().equals(users[0].getId())) {
+				return Configuration.RANK_FILE;
+			}
+			else if (currentUser.getId().equals(users[1].getId())) {
+				return Configuration.RANK_FILE_FLAMENCO;
+			}
+			else if (currentUser.getId().equals(users[2].getId())) {
+				return Configuration.RANK_FILE_HENRY;
+			}
+			else if (currentUser.getId().equals(users[3].getId())) {
+				return Configuration.RANK_FILE_TIANQI;
+			}
+		}
+		return DatabaseStruct.DATABASE;
+	}
+
+
+}
+	

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    
+    <PreferenceCategory
+        android:key="setting_login_mode_title"
+        android:title="@string/setting_login_mode_title" >
+    </PreferenceCategory>
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="setting_login_fingerprint"
+        android:title="@string/setting_login_fingerprint" />
+    
+    <ListPreference
+        android:defaultValue="Popup to select"
+        android:dialogTitle="@string/setting_default_ui"
+        android:entries="@array/uiChoices"
+        android:entryValues="@array/uiChoices"
+        android:key="setting_default_ui"
+        android:title="@string/setting_default_ui" />
+    
+    <PreferenceCategory
+        android:key="setting_application"
+        android:title="@string/setting_application" >
+    </PreferenceCategory>
+    
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="setting_feature_mult_form"
+        android:title="@string/setting_feature_mult_form" />
+    
+    <ListPreference
+        android:defaultValue="Chinese"
+        android:dialogTitle="@string/setting_default_language"
+        android:entries="@array/languageChoices"
+        android:entryValues="@array/languageChoices"
+        android:key="setting_default_language"
+        android:title="@string/setting_default_language" />
+    
+    <ListPreference
+        android:defaultValue="HttpClient"
+        android:dialogTitle="@string/setting_default_http_method"
+        android:entries="@array/httpMethodChoices"
+        android:entryValues="@array/httpMethodChoices"
+        android:key="setting_default_http_method"
+        android:title="@string/setting_default_http_method" />
+    
+    <Preference 
+        android:key="setting_upload"
+        android:title="@string/menu_uploadrecord"/>
+    
+    <EditTextPreference
+        android:key="setting_default_dir_config"
+        android:summary="@string/setting_default_dir_name"
+        android:title="@string/setting_default_dir_config" />
+    
+    <EditTextPreference
+        android:key="setting_default_dir_db"
+        android:summary="@string/setting_default_dir_name"
+        android:title="@string/setting_default_dir_db" />
+    
+    <EditTextPreference
+        android:key="setting_default_dir_temp"
+        android:summary="@string/setting_default_dir_name"
+        android:title="@string/setting_default_dir_temp" />
+    <Preference 
+        android:key="setting_cache"
+        android:title="@string/setting_cache"/>
+    
+    <PreferenceCategory
+        android:key="setting_auto_fill_form_insert"
+        android:title="@string/setting_auto_fill_form_insert" >
+    </PreferenceCategory>
+    
+    <Preference 
+        android:key="setting_auto_fill_form_default"/>
+    
+    <PreferenceCategory
+        android:key="setting_safeset_title"
+        android:title="@string/menu_safeset" >
+    </PreferenceCategory>
+    
+    <Preference 
+        android:key="setting_safeset"
+        android:title="@string/setting_safeset_update"/>
+    
+    <PreferenceCategory
+        android:key="setting_slidingmenu"
+        android:title="@string/setting_slidingmenu" >
+    </PreferenceCategory>
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="setting_slidingmenu_enable"
+        android:title="@string/setting_slidingmenu_enable" />
+    
+    <ListPreference
+        android:defaultValue="3"
+        android:dialogTitle="@string/setting_slidingmenu_mode"
+        android:entries="@array/setting_slidingmenu_mode"
+        android:entryValues="@array/setting_slidingmenu_mode_value"
+        android:key="setting_slidingmenu_mode"
+        android:title="@string/setting_slidingmenu_mode" />
+    
+</PreferenceScreen>
