@@ -5,6 +5,8 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
+    <color name="pullview_content_bk">#ee333333</color>
+
     <color name="orange1">#ffaa00</color>
     <color name="dark_grey">#555555</color>
     <color name="trans_black">#77000000</color>

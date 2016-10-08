@@ -11,6 +11,7 @@ import com.king.mytennis.model.RecordDAOImp;
 import com.king.mytennis.multiuser.MultiUserManager;
 import com.king.mytennis.service.RecordEditorService;
 import com.king.mytennis.service.RecordService;
+import com.king.mytennis.utils.PinyinUtil;
 
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
@@ -37,7 +38,7 @@ public class RecordEditorActivity extends BaseActivity implements OnClickListene
 	private TextView nextPageView, previousPageView, doneView, continueView;
 	private RelativeLayout bkLayout;
 	private TextView titleView;
-	private LinearLayout playerLayout, matchLayout, pinyinLayout;
+	private LinearLayout playerLayout, matchLayout;
 	private ProgressDialog progressDialog;
 
 	private RecordEditorService recordEditorService;
@@ -46,7 +47,7 @@ public class RecordEditorActivity extends BaseActivity implements OnClickListene
 	protected String[] arr_year, arr_month;
 	private String[] arr_names, arr_matches;
 	protected EditText et_rankp1, et_seedp1, et_playercountry, et_rank,
-			et_seed, et_pinyin;
+			et_seed;
 	protected AutoCompleteTextView actv_compname, actv_matchname;
 	protected EditText et_matchcountry, et_city, et_winner, et_score;
 	protected Spinner sp_year, sp_month, sp_round, sp_level, sp_court,
@@ -125,21 +126,12 @@ public class RecordEditorActivity extends BaseActivity implements OnClickListene
 	@Override
 	public void onClick(View v) {
 		if (v == nextPageView) {
-			if (pinyinLayout.getVisibility() == View.VISIBLE
-					|| recordEditorService.isPlayerExisted(this, actv_compname.getText().toString())) {
-
-				playerLayout.setVisibility(View.GONE);
-				matchLayout.setVisibility(View.VISIBLE);
-				titleView.setText(getResources().getString(R.string.match_infor));
-				previousPageView.setVisibility(View.VISIBLE);
-				nextPageView.setVisibility(View.GONE);
-				doneView.setVisibility(View.VISIBLE);
-			}
-			else {
-				pinyinLayout.setVisibility(View.VISIBLE);
-				et_pinyin.setFocusable(true);
-				Toast.makeText(this, R.string.add_pinyin_warning, Toast.LENGTH_LONG).show();
-			}
+			playerLayout.setVisibility(View.GONE);
+			matchLayout.setVisibility(View.VISIBLE);
+			titleView.setText(getResources().getString(R.string.match_infor));
+			previousPageView.setVisibility(View.VISIBLE);
+			nextPageView.setVisibility(View.GONE);
+			doneView.setVisibility(View.VISIBLE);
 		}
 		else if (v == previousPageView) {
 			matchLayout.setVisibility(View.GONE);
@@ -172,7 +164,6 @@ public class RecordEditorActivity extends BaseActivity implements OnClickListene
 			previousPageView.setVisibility(View.GONE);
 			nextPageView.setVisibility(View.VISIBLE);
 			doneView.setVisibility(View.GONE);
-			pinyinLayout.setVisibility(View.GONE);
 
 			continueInsert();
 		}
@@ -237,9 +228,6 @@ public class RecordEditorActivity extends BaseActivity implements OnClickListene
 	private void initView() {
 
 		ArrayAdapter<String> spinnerAdapter;
-
-		pinyinLayout = (LinearLayout) findViewById(R.id.editor_layout_pinyin);
-		et_pinyin = (EditText) findViewById(R.id.insert_et_pinyin);
 
 		et_rankp1 = (EditText) findViewById(R.id.insert_et_rank1);
 		et_seedp1 = (EditText) findViewById(R.id.insert_et_seed1);
@@ -416,18 +404,10 @@ public class RecordEditorActivity extends BaseActivity implements OnClickListene
 		conf.index_month = cur_month;
 		conf.index_year = cur_year;
 
-		if (pinyinLayout.getVisibility() == View.VISIBLE) {
-			String name = actv_compname.getText().toString();
-			String pinyin = et_pinyin.getText().toString();
-			if (pinyin != null && pinyin.trim().length() != 0) {
-				pinyin = pinyin.toLowerCase();
-				if (!recordEditorService.insertNamePinyin(this, name, pinyin)) {
-					return false;
-				}
-			}
-			else {
-				return false;
-			}
+		String name = actv_compname.getText().toString();
+		if (!recordEditorService.isPlayerExisted(this, name)) {
+			String pinyin = PinyinUtil.getPinyin(name);
+			recordEditorService.insertNamePinyin(this, name, pinyin);
 		}
 		RecordService service = new RecordService(this);
 		return service.insert(record);

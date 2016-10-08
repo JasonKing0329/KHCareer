@@ -213,7 +213,7 @@
 		</LinearLayout>
 		<LinearLayout 
 			android:orientation="horizontal"
-			android:layout_width="fill_parent"
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
 			>
 			<CheckBox 
@@ -224,20 +224,22 @@
 			/>
 			<LinearLayout 
 				android:orientation="horizontal"
-				android:layout_width="fill_parent"
+				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:gravity="right"
 				>
 				<EditText 
 					android:id="@+id/search_rank_min"
-					android:layout_width="100px"
+					android:layout_width="0dp"
+					android:layout_weight="1"
 					android:layout_height="wrap_content"
 					android:visibility="invisible"
 					android:hint="@string/search_rank_min"
 				/>
 				<EditText 
 					android:id="@+id/search_rank_max"
-					android:layout_width="100px"
+					android:layout_width="0dp"
+					android:layout_weight="1"
 					android:layout_height="wrap_content"
 					android:layout_marginLeft="20px"
 					android:visibility="invisible"
