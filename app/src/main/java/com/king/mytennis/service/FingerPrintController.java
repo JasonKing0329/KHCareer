@@ -31,13 +31,13 @@ public class FingerPrintController implements IdentifyListener {
         try {
             mSpass.initialize(context);
             isSupported = true;
+			isFeatureEnabled = mSpass.isFeatureEnabled(Spass.DEVICE_FINGERPRINT);
         } catch (SsdkUnsupportedException e) {
             Log.d(TAG, "Exception: " + e);
         } catch (UnsupportedOperationException e){
         	isSupported = false;
         	Log.d(TAG, "Fingerprint Service is not supported in the device");
         }
-        isFeatureEnabled = mSpass.isFeatureEnabled(Spass.DEVICE_FINGERPRINT);
         
         if (isSupported()) {
         	mSpassFingerprint = new SpassFingerprint(context);

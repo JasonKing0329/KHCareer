@@ -79,6 +79,16 @@
             android:textColor="@color/swipecard_text_normal"
             android:minLines="2"
             android:textSize="14sp" />
+
+        <ImageView
+            android:id="@+id/swipecard_match_download"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/ic_file_download_blue_500_36dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignBottom="@id/swipecard_match_best"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="15dp"/>
     </RelativeLayout>
 
 </LinearLayout>

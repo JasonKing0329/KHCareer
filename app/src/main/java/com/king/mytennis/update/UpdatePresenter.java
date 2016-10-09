@@ -7,7 +7,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 
 import com.king.mytennis.http.Command;
-import com.king.mytennis.http.progress.AppHttpClient;
+import com.king.mytennis.http.AppHttpClient;
 import com.king.mytennis.model.Configuration;
 
 import java.io.File;

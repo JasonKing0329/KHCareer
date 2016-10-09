@@ -98,6 +98,7 @@ public class MatchSwipeCardAdapter extends AbstractSwipeAdapter {
 			convertView = LayoutInflater.from(mContext).inflate(R.layout.swipecard_item_match, parent, false);
 			holder = new ViewHolder();
 			holder.image = (ImageView) convertView.findViewById(R.id.swipecard_match_img);
+			holder.download = (ImageView) convertView.findViewById(R.id.swipecard_match_download);
 			holder.name = (TextView) convertView.findViewById(R.id.swipecard_match_name);
 			holder.place = (TextView) convertView.findViewById(R.id.swipecard_match_city);
 			holder.level = (TextView) convertView.findViewById(R.id.swipecard_match_level);
@@ -142,6 +143,7 @@ public class MatchSwipeCardAdapter extends AbstractSwipeAdapter {
 	private class ViewHolder {
 		View convertView;
 		ImageView image;
+		ImageView download;
 		TextView name, place, level, court, total, best;
 	}
 

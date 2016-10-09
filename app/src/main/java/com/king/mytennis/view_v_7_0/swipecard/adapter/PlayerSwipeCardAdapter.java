@@ -1,17 +1,25 @@
 package com.king.mytennis.view_v_7_0.swipecard.adapter;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
+import com.king.mytennis.download.DownloadItem;
+import com.king.mytennis.http.Command;
+import com.king.mytennis.http.RequestCallback;
+import com.king.mytennis.http.bean.ImageUrlBean;
+import com.king.mytennis.model.Configuration;
 import com.king.mytennis.model.ImageFactory;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.multiuser.MultiUserManager;
 import com.king.mytennis.service.ImageUtil;
+import com.king.mytennis.view.CustomDialog;
 import com.king.mytennis.view.R;
 import com.king.mytennis.view_v_7_0.controller.ObjectCache;
+import com.king.mytennis.view_v_7_0.interaction.InteractionController;
 import com.king.mytennis.view_v_7_0.model.PlayerBean;
 import com.king.mytennis.view_v_7_0.view.PlayerActivity;
 
@@ -25,13 +33,14 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 /**
  * @author JingYang
  * @version create time：2016-3-11 上午11:32:25
  *
  */
-public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter {
+public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter implements RequestCallback {
 
 	private List<PlayerBean>  mList;
 	private List<PlayerBean> mOriginList;
@@ -44,6 +53,8 @@ public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter {
 	private String[] courtValues;
 
 	private ViewHolder firstItemHolder;
+
+	private InteractionController interactionController;
 
 	public PlayerSwipeCardAdapter(Context context, List<PlayerBean> list) {
 		super(context);
@@ -64,6 +75,8 @@ public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter {
 		colorClay = mContext.getResources().getColor(R.color.swipecard_text_clay);
 		colorGrass = mContext.getResources().getColor(R.color.swipecard_text_grass);
 		colorInnerHard = mContext.getResources().getColor(R.color.swipecard_text_innerhard);
+
+		interactionController = new InteractionController(this);
 	}
 	@Override
 	public int getCount() {
@@ -106,6 +119,7 @@ public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter {
 			holder.lastTitle = (TextView) convertView.findViewById(R.id.swipecard_player_latest);
 			holder.lastRecordLine1 = (TextView) convertView.findViewById(R.id.swipecard_player_latest_line1);
 			holder.lastRecordLine2 = (TextView) convertView.findViewById(R.id.swipecard_player_latest_line2);
+			holder.download = (ImageView) convertView.findViewById(R.id.swipecard_icon_download);
 			holder.convertView = convertView;
 			convertView.setTag(holder);
 		}
@@ -142,11 +156,85 @@ public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter {
 		int color = getCardIndexColor(position);
 		holder.lastRecordLine1.setTextColor(color);
 		holder.lastRecordLine2.setTextColor(color);
+
+		holder.download.setTag(record);
+		holder.download.setOnClickListener(downloadListener);
+	}
+
+	View.OnClickListener downloadListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			String name = ((Record) v.getTag()).getCompetitor();
+			interactionController.getImages(name);
+		}
+	};
+
+	@Override
+	public void onServiceDisConnected() {
+		Toast.makeText(mContext, R.string.gdb_server_offline, Toast.LENGTH_LONG).show();
+	}
+
+	@Override
+	public void onRequestError() {
+		Toast.makeText(mContext, R.string.gdb_request_fail, Toast.LENGTH_LONG).show();
+	}
+
+	@Override
+	public void onImagesReceived(final ImageUrlBean bean) {
+		if (bean.getUrlList() != null) {
+			// 直接下载更新
+			if (bean.getUrlList().size() == 1) {
+				List<DownloadItem> list = new ArrayList<>();
+				DownloadItem item = new DownloadItem();
+				item.setKey(bean.getUrlList().get(0));
+				item.setFlag(Command.TYPE_IMG_PLAYER);
+				item.setSize(bean.getSizeList().get(0));
+				item.setName(bean.getUrlList().get(0));
+				list.add(item);
+
+				startDownload(list, bean.getKey());
+			}
+			// 显示对话框选择下载
+			else {
+				interactionController.showImageDialog(mContext, new CustomDialog.OnCustomDialogActionListener() {
+					@Override
+					public boolean onSave(Object object) {
+						List<DownloadItem> list = (List<DownloadItem>) object;
+						startDownload(list, bean.getKey());
+						return false;
+					}
+
+					@Override
+					public boolean onCancel() {
+						return false;
+					}
+
+					@Override
+					public void onLoadData(HashMap<String, Object> data) {
+						data.put("data", bean);
+						data.put("flag", Command.TYPE_IMG_PLAYER);
+					}
+				});
+			}
+		}
+	}
+
+	@Override
+	public void onDownloadFinished() {
+
+	}
+
+	private void startDownload(List<DownloadItem> list, String key) {
+		File file = new File(Configuration.HISTORY_PLAYER_BASE + key);
+		if (!file.exists() || !file.isDirectory()) {
+			file.mkdir();
+		}
+		interactionController.downloadImage(mContext, list, file.getPath(), true);
 	}
 
 	private class ViewHolder {
 		View convertView;
-		ImageView image;
+		ImageView image, download;
 		TextView name, country, h2h, lastTitle, lastRecordLine1, lastRecordLine2;
 	}
 

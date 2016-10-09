@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/dlg_bg_selector_recyclerview"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dlg_loadfrom_list_height"
+        android:layout_margin="@dimen/dialog_bg_selector_padding"/>
+</RelativeLayout>

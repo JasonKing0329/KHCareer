@@ -1,7 +1,4 @@
-package com.king.mytennis.http.progress;
-
-import com.king.mytennis.http.AppService;
-import com.king.mytennis.http.BaseHttpClient;
+package com.king.mytennis.http;
 
 import retrofit2.Retrofit;
 
