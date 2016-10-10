@@ -9,7 +9,7 @@ public class DownloadItem {
      */
     private String key;
     /**
-     * 下载文件的文件名
+     * 下载文件的文件名，保存的时候存为的文件名
      */
     private String name;
     /**

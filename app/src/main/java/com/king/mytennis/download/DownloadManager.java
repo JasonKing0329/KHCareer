@@ -108,7 +108,7 @@ public class DownloadManager {
 
                 @Override
                 public void onNext(final ResponseBody responseBody) {
-                    saveFile(pack.item.getKey(), responseBody.byteStream());
+                    saveFile(pack.item.getName(), responseBody.byteStream());
                     mCallback.onDownloadFinish(pack.item);
                 }
             });

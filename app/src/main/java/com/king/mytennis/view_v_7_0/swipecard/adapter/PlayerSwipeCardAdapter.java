@@ -16,6 +16,7 @@ import com.king.mytennis.model.ImageFactory;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.multiuser.MultiUserManager;
 import com.king.mytennis.service.ImageUtil;
+import com.king.mytennis.utils.DebugLog;
 import com.king.mytennis.view.CustomDialog;
 import com.king.mytennis.view.R;
 import com.king.mytennis.view_v_7_0.controller.ObjectCache;
@@ -27,6 +28,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
+import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,21 +56,29 @@ public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter implements Requ
 
 	private ViewHolder firstItemHolder;
 
+	/**
+	 * 下载/浏览网络图库 控制器
+	 */
 	private InteractionController interactionController;
+
+	/**
+	 * 保存首次从文件夹加载的图片序号
+	 */
+	private Map<String, Integer> imageIndexMap;
 
 	public PlayerSwipeCardAdapter(Context context, List<PlayerBean> list) {
 		super(context);
 		mContext = context;
 		if (list == null) {
-			mList = new ArrayList<PlayerBean>();
-			mOriginList = new ArrayList<PlayerBean>();
+			mList = new ArrayList<>();
+			mOriginList = new ArrayList<>();
 		}
 		else {
 			mOriginList = list;
-			mList = new ArrayList<PlayerBean>();
+			mList = new ArrayList<>();
 			mList.addAll(mOriginList);
 		}
-		indexPosMap = new HashMap<String, Integer>();
+		indexPosMap = new HashMap<>();
 
 		courtValues = mContext.getResources().getStringArray(R.array.spinner_court);
 		colorHard = mContext.getResources().getColor(R.color.swipecard_text_hard);
@@ -76,6 +86,7 @@ public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter implements Requ
 		colorGrass = mContext.getResources().getColor(R.color.swipecard_text_grass);
 		colorInnerHard = mContext.getResources().getColor(R.color.swipecard_text_innerhard);
 
+		imageIndexMap = new HashMap<>();
 		interactionController = new InteractionController(this);
 	}
 	@Override
@@ -120,6 +131,7 @@ public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter implements Requ
 			holder.lastRecordLine1 = (TextView) convertView.findViewById(R.id.swipecard_player_latest_line1);
 			holder.lastRecordLine2 = (TextView) convertView.findViewById(R.id.swipecard_player_latest_line2);
 			holder.download = (ImageView) convertView.findViewById(R.id.swipecard_icon_download);
+			holder.refresh = (ImageView) convertView.findViewById(R.id.swipecard_icon_refresh);
 			holder.convertView = convertView;
 			convertView.setTag(holder);
 		}
@@ -137,8 +149,14 @@ public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter implements Requ
 
 	private void fillHolder(ViewHolder holder, int position) {
 		PlayerBean bean = mList.get(position);
-		ImageUtil.load("file://" + ImageFactory.getDetailPlayerPath(bean.getName())
-				, holder.image, R.drawable.swipecard_default_img);
+		String filePath = null;
+		if (imageIndexMap.get(bean.getName()) == null) {
+			filePath = ImageFactory.getDetailPlayerPath(bean.getName(), imageIndexMap);
+		}
+		else {
+			filePath = ImageFactory.getDetailPlayerPath(bean.getName(), imageIndexMap.get(bean.getName()));
+		}
+		ImageUtil.load("file://" + filePath, holder.image, R.drawable.swipecard_default_img);
 		holder.name.setText(bean.getName());
 		holder.country.setText(bean.getCountry());
 		holder.h2h.setText("交手记录  " + bean.getWin() + " - " + bean.getLose());
@@ -159,13 +177,25 @@ public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter implements Requ
 
 		holder.download.setTag(record);
 		holder.download.setOnClickListener(downloadListener);
+		holder.refresh.setTag(record);
+		holder.refresh.setOnClickListener(refreshListener);
 	}
 
 	View.OnClickListener downloadListener = new View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			String name = ((Record) v.getTag()).getCompetitor();
-			interactionController.getImages(name);
+			interactionController.getImages(Command.TYPE_IMG_PLAYER, name);
+		}
+	};
+
+	View.OnClickListener refreshListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			String name = ((Record) v.getTag()).getCompetitor();
+			ImageFactory.getDetailPlayerPath(name, imageIndexMap);
+			// 开源小bug，不能用notifyDataSetChanged通知第0个刷新
+			refreshFirstItem(null);
 		}
 	};
 
@@ -181,7 +211,12 @@ public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter implements Requ
 
 	@Override
 	public void onImagesReceived(final ImageUrlBean bean) {
-		if (bean.getUrlList() != null) {
+		if (bean.getUrlList() == null) {
+			String text = mContext.getString(R.string.image_not_found);
+			text = String.format(text, bean.getKey());
+			Toast.makeText(mContext, text, Toast.LENGTH_LONG).show();
+		}
+		else {
 			// 直接下载更新
 			if (bean.getUrlList().size() == 1) {
 				List<DownloadItem> list = new ArrayList<>();
@@ -189,7 +224,14 @@ public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter implements Requ
 				item.setKey(bean.getUrlList().get(0));
 				item.setFlag(Command.TYPE_IMG_PLAYER);
 				item.setSize(bean.getSizeList().get(0));
-				item.setName(bean.getUrlList().get(0));
+
+				String url = bean.getUrlList().get(0);
+				if (url.contains("/")) {
+					String[] array = url.split("/");
+					url = array[array.length - 1];
+				}
+				item.setName(url);
+
 				list.add(item);
 
 				startDownload(list, bean.getKey());
@@ -221,11 +263,11 @@ public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter implements Requ
 
 	@Override
 	public void onDownloadFinished() {
-
+		refreshFirstItem(null);
 	}
 
 	private void startDownload(List<DownloadItem> list, String key) {
-		File file = new File(Configuration.HISTORY_PLAYER_BASE + key);
+		File file = new File(Configuration.IMG_PLAYER_BASE + key);
 		if (!file.exists() || !file.isDirectory()) {
 			file.mkdir();
 		}
@@ -234,7 +276,7 @@ public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter implements Requ
 
 	private class ViewHolder {
 		View convertView;
-		ImageView image, download;
+		ImageView image, download, refresh;
 		TextView name, country, h2h, lastTitle, lastRecordLine1, lastRecordLine2;
 	}
 

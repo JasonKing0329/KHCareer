@@ -6,6 +6,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -125,14 +128,71 @@ public class ImageFactory {
 	}
 
 	/**
+	 * 采用开源框架ImageLoader加载文件路径（加载文件夹中指定序号的图片）
+	 * 调用该方法表示已有player对应的文件夹
+	 * @param name
+	 * @param indexInFolder
+	 * @return
+	 */
+	public static String getDetailPlayerPath(String name, int indexInFolder) {
+		try {
+			File file = new File(Configuration.IMG_PLAYER_BASE + name);
+			name = file.listFiles()[indexInFolder].getPath();
+		} catch (Exception e) {
+			e.printStackTrace();
+			name = getDetailPlayerPath(name);
+		}
+		return name;
+	}
+	/**
 	 * 采用开源框架ImageLoader加载文件路径
 	 * @param name
-	 * @param court
 	 * @return
 	 */
 	public static String getDetailPlayerPath(String name) {
-		name = Configuration.IMG_PLAYER_BASE + name+".jpg";
-		if (!new File(name).exists()) {
+		return getDetailPlayerPath(name, null);
+	}
+	/**
+	 * 采用开源框架ImageLoader加载文件路径
+	 * @param name
+	 * @param indexMap 如果存在文件夹，保存本次随机的序号
+	 * @return
+	 */
+	public static String getDetailPlayerPath(String name, Map<String, Integer> indexMap) {
+		File file = new File(Configuration.IMG_PLAYER_BASE + name);
+		// 存在文件夹，则随机显示里面的任何图片
+		if (file.exists() && file.isDirectory()) {
+			File files[] = file.listFiles();
+			// 没有图片
+			if (files == null || files.length == 0) {
+				name = null;
+			}
+			else {
+				if (files.length == 1) {
+					if (indexMap != null) {
+						indexMap.put(name, 0);
+					}
+					name = files[0].getPath();
+				}
+				else {
+					int index = Math.abs(new Random().nextInt()) % files.length;
+					if (indexMap != null) {
+						indexMap.put(name, index);
+					}
+					name = files[index].getPath();
+				}
+			}
+		}
+		else {
+			// 只有单张图的情况
+			name = Configuration.IMG_PLAYER_BASE + name+".jpg";
+			// 没有图片
+			if (!new File(name).exists()) {
+				name = null;
+			}
+		}
+		// 没有图片显示默认图片
+		if (name == null) {
 			name = Configuration.IMG_DEFAULT_BASE + Configuration.DEF_IMG_PLAYER;
 		}
 		return name;
@@ -204,7 +264,6 @@ public class ImageFactory {
 	/**
 	 * 采用开源框架ImageLoader加载文件路径
 	 * @param name
-	 * @param court
 	 * @return
 	 */
 	public static String getPlayerHeadPath(String name) {
@@ -238,9 +297,63 @@ public class ImageFactory {
 	 * @param court
 	 * @return
 	 */
+	public static String getMatchHeadPath(String name, String court, int indexInFolder) {
+		try {
+			File file = new File(Configuration.IMG_MATCH_BASE + name);
+			name = file.listFiles()[indexInFolder].getPath();
+		} catch (Exception e) {
+			e.printStackTrace();
+			name = getDetailPlayerPath(name);
+		}
+		return name;
+	}
+	/**
+	 * 采用开源框架ImageLoader加载文件路径
+	 * @param name
+	 * @param court
+	 * @return
+	 */
 	public static String getMatchHeadPath(String name, String court) {
-		name = Configuration.IMG_MATCH_BASE + name + ".jpg";
-		if (!new File(name).exists()) {
+		return getMatchHeadPath(name, court, null);
+	}
+	/**
+	 * 采用开源框架ImageLoader加载文件路径
+	 * @param name
+	 * @param court
+	 * @return
+	 */
+	public static String getMatchHeadPath(String name, String court, Map<String, Integer> indexMap) {
+		File file = new File(Configuration.IMG_MATCH_BASE + name);
+		// 存在文件夹，则随机显示里面的任何图片
+		if (file.exists() && file.isDirectory()) {
+			File files[] = file.listFiles();
+			// 没有图片
+			if (files == null || files.length == 0) {
+				name = null;
+			}
+			else {
+				if (files.length == 1) {
+					if (indexMap != null) {
+						indexMap.put(name, 0);
+					}
+					name = files[0].getPath();
+				}
+				else {
+					int index = Math.abs(new Random().nextInt()) % files.length;
+					if (indexMap != null) {
+						indexMap.put(name, index);
+					}
+					name = files[index].getPath();
+				}
+			}
+		}
+		else {
+			name = Configuration.IMG_MATCH_BASE + name + ".jpg";
+			if (!new File(name).exists()) {
+				name = null;
+			}
+		}
+		if (name == null) {
 			if (court.equals("硬地")) {
 				name = Configuration.IMG_DEFAULT_BASE + Configuration.DEF_IMG_HARD;
 			}

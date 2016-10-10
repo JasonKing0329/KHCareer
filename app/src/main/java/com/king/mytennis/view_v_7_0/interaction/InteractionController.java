@@ -29,7 +29,7 @@ public class InteractionController {
         mCallback = callback;
     }
 
-    public void getImages(final String key) {
+    public void getImages(final String flag, final String key) {
         AppHttpClient.getInstance().getAppService().isServerOnline()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -47,15 +47,15 @@ public class InteractionController {
                     @Override
                     public void onNext(GdbRespBean gdbRespBean) {
                         if (gdbRespBean.isOnline()) {
-                            requestGetImages(key);
+                            requestGetImages(flag, key);
                         }
                     }
                 });
 
     }
 
-    private void requestGetImages(String key) {
-        KHCareerHttpClient.getInstance().getService().getImages(Command.TYPE_IMG_PLAYER, key)
+    private void requestGetImages(String flag, String key) {
+        KHCareerHttpClient.getInstance().getService().getImages(flag, key)
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

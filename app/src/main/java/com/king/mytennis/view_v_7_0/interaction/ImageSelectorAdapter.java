@@ -64,7 +64,7 @@ public class ImageSelectorAdapter extends RecyclerView.Adapter<ImageSelectorAdap
             holder.check.setChecked(false);
         }
         holder.name.setText(FileSizeUtil.convertFileSize(imageUrlBean.getSizeList().get(position)));
-        String url = SettingProperty.getServerBaseUrl(mContext) + imageUrlBean.getUrlList().get(position);
+        String url = "http://" + SettingProperty.getServerBaseUrl(mContext) + imageUrlBean.getUrlList().get(position);
         DebugLog.e(url);
         ImageUtil.load(url, holder.image);
     }

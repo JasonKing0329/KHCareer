@@ -36,6 +36,12 @@ public class ImageSelector extends CustomDialog {
         imageUrlBean = (ImageUrlBean) map.get("data");
         downloadFlag = (String) map.get("flag");
         setTitle(imageUrlBean.getKey());
+        initAdapter();
+    }
+
+    private void initAdapter() {
+        mAdapter = new ImageSelectorAdapter(getContext(), imageUrlBean);
+        recyclerView.setAdapter(mAdapter);
     }
 
     @Override
@@ -46,9 +52,6 @@ public class ImageSelector extends CustomDialog {
 
         GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
         recyclerView.setLayoutManager(layoutManager);
-
-        mAdapter = new ImageSelectorAdapter(getContext(), imageUrlBean);
-        recyclerView.setAdapter(mAdapter);
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT, getContext().getResources().getDimensionPixelSize(R.dimen.dlg_loadfrom_list_height)
@@ -70,10 +73,17 @@ public class ImageSelector extends CustomDialog {
             List<DownloadItem> list = new ArrayList<>();
             for (int i = 0; i < indexList.size(); i ++) {
                 DownloadItem item = new DownloadItem();
-                item.setKey(imageUrlBean.getUrlList().get(0));
+                item.setKey(imageUrlBean.getUrlList().get(indexList.get(i)));
                 item.setFlag(downloadFlag);
-                item.setSize(imageUrlBean.getSizeList().get(0));
-                item.setName(imageUrlBean.getUrlList().get(0));
+                item.setSize(imageUrlBean.getSizeList().get(indexList.get(i)));
+
+                String url = imageUrlBean.getUrlList().get(indexList.get(i));
+                if (url.contains("/")) {
+                    String[] array = url.split("/");
+                    url = array[array.length - 1];
+                }
+                item.setName(url);
+
                 list.add(item);
             }
             actionListener.onSave(list);

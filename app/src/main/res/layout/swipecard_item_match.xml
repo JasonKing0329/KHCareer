@@ -81,14 +81,18 @@
             android:textSize="14sp" />
 
         <ImageView
-            android:id="@+id/swipecard_match_download"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/ic_file_download_blue_500_36dp"
+            android:id="@+id/swipecard_icon_download"
+            android:src="@drawable/ic_file_download_grey_700_36dp"
             android:layout_alignParentRight="true"
-            android:layout_alignBottom="@id/swipecard_match_best"
-            android:layout_marginBottom="15dp"
-            android:layout_marginRight="15dp"/>
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="10dp"
+            style="@style/SwipeItemIcon" />
+        <ImageView
+            android:id="@+id/swipecard_icon_refresh"
+            android:src="@drawable/ic_refresh_grey_700_36dp"
+            android:layout_toLeftOf="@id/swipecard_icon_download"
+            android:layout_alignTop="@id/swipecard_icon_download"
+            style="@style/SwipeItemIcon"/>
     </RelativeLayout>
 
 </LinearLayout>

@@ -269,4 +269,5 @@
     <string name="gdb_request_fail">Rquest failed!</string>
     <string name="download_title">Rquest failed!</string>
     <string name="server_url_empty">Please set server url first.</string>
+    <string name="image_not_found">No image of %s found in server.</string>
 </resources>

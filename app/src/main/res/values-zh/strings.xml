@@ -256,4 +256,5 @@
     <string name="gdb_request_fail">请求失败</string>
     <string name="download_title">下载</string>
     <string name="server_url_empty">请先配置服务器</string>
+    <string name="image_not_found">没有找到“%s”的图片</string>
 </resources>
