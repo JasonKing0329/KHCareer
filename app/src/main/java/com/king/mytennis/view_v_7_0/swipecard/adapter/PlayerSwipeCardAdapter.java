@@ -16,11 +16,10 @@ import com.king.mytennis.model.ImageFactory;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.multiuser.MultiUserManager;
 import com.king.mytennis.service.ImageUtil;
-import com.king.mytennis.utils.DebugLog;
 import com.king.mytennis.view.CustomDialog;
 import com.king.mytennis.view.R;
 import com.king.mytennis.view_v_7_0.controller.ObjectCache;
-import com.king.mytennis.view_v_7_0.interaction.InteractionController;
+import com.king.mytennis.view_v_7_0.interaction.controller.InteractionController;
 import com.king.mytennis.view_v_7_0.model.PlayerBean;
 import com.king.mytennis.view_v_7_0.view.PlayerActivity;
 
@@ -28,7 +27,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.util.SparseIntArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -132,6 +130,7 @@ public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter implements Requ
 			holder.lastRecordLine2 = (TextView) convertView.findViewById(R.id.swipecard_player_latest_line2);
 			holder.download = (ImageView) convertView.findViewById(R.id.swipecard_icon_download);
 			holder.refresh = (ImageView) convertView.findViewById(R.id.swipecard_icon_refresh);
+			holder.local = (ImageView) convertView.findViewById(R.id.swipecard_icon_local);
 			holder.convertView = convertView;
 			convertView.setTag(holder);
 		}
@@ -179,6 +178,8 @@ public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter implements Requ
 		holder.download.setOnClickListener(downloadListener);
 		holder.refresh.setTag(record);
 		holder.refresh.setOnClickListener(refreshListener);
+		holder.local.setTag(record);
+		holder.local.setOnClickListener(localListener);
 	}
 
 	View.OnClickListener downloadListener = new View.OnClickListener() {
@@ -196,6 +197,34 @@ public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter implements Requ
 			ImageFactory.getDetailPlayerPath(name, imageIndexMap);
 			// 开源小bug，不能用notifyDataSetChanged通知第0个刷新
 			refreshFirstItem(null);
+		}
+	};
+
+	View.OnClickListener localListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			final String name = ((Record) v.getTag()).getCompetitor();
+			interactionController.showLocalImageDialog(mContext, new CustomDialog.OnCustomDialogActionListener() {
+				@Override
+				public boolean onSave(Object object) {
+					List<String> list = (List<String>) object;
+					interactionController.deleteImages(list);
+					refreshFirstItem(null);
+					return false;
+				}
+
+				@Override
+				public boolean onCancel() {
+					return false;
+				}
+
+				@Override
+				public void onLoadData(HashMap<String, Object> data) {
+					ImageUrlBean bean = interactionController.getPlayerImageUrlBean(name);
+					data.put("data", bean);
+					data.put("flag", Command.TYPE_IMG_PLAYER);
+				}
+			});
 		}
 	};
 
@@ -238,7 +267,7 @@ public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter implements Requ
 			}
 			// 显示对话框选择下载
 			else {
-				interactionController.showImageDialog(mContext, new CustomDialog.OnCustomDialogActionListener() {
+				interactionController.showHttpImageDialog(mContext, new CustomDialog.OnCustomDialogActionListener() {
 					@Override
 					public boolean onSave(Object object) {
 						List<DownloadItem> list = (List<DownloadItem>) object;
@@ -276,7 +305,7 @@ public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter implements Requ
 
 	private class ViewHolder {
 		View convertView;
-		ImageView image, download, refresh;
+		ImageView image, download, refresh, local;
 		TextView name, country, h2h, lastTitle, lastRecordLine1, lastRecordLine2;
 	}
 

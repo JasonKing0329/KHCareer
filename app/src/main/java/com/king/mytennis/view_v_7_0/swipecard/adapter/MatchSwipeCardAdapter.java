@@ -13,13 +13,12 @@ import com.king.mytennis.http.RequestCallback;
 import com.king.mytennis.http.bean.ImageUrlBean;
 import com.king.mytennis.model.Configuration;
 import com.king.mytennis.model.ImageFactory;
-import com.king.mytennis.model.Record;
 import com.king.mytennis.service.ImageUtil;
 import com.king.mytennis.utils.DebugLog;
 import com.king.mytennis.view.CustomDialog;
 import com.king.mytennis.view.R;
 import com.king.mytennis.view_v_7_0.controller.ObjectCache;
-import com.king.mytennis.view_v_7_0.interaction.InteractionController;
+import com.king.mytennis.view_v_7_0.interaction.controller.InteractionController;
 import com.king.mytennis.view_v_7_0.model.MatchBean;
 import com.king.mytennis.view_v_7_0.view.MatchActivity;
 
@@ -130,6 +129,7 @@ public class MatchSwipeCardAdapter extends AbstractSwipeAdapter implements Reque
 			holder.court = (TextView) convertView.findViewById(R.id.swipecard_match_court);
 			holder.total = (TextView) convertView.findViewById(R.id.swipecard_match_total);
 			holder.best = (TextView) convertView.findViewById(R.id.swipecard_match_best);
+			holder.local = (ImageView) convertView.findViewById(R.id.swipecard_icon_local);
 			holder.convertView = convertView;
 			convertView.setTag(holder);
 		}
@@ -175,6 +175,8 @@ public class MatchSwipeCardAdapter extends AbstractSwipeAdapter implements Reque
 		holder.download.setOnClickListener(downloadListener);
 		holder.refresh.setTag(bean);
 		holder.refresh.setOnClickListener(refreshListener);
+		holder.local.setTag(bean);
+		holder.local.setOnClickListener(localListener);
 	}
 
 	View.OnClickListener downloadListener = new View.OnClickListener() {
@@ -193,6 +195,35 @@ public class MatchSwipeCardAdapter extends AbstractSwipeAdapter implements Reque
 			DebugLog.e(path);
 			// 开源小bug，不能用notifyDataSetChanged通知第0个刷新
 			refreshFirstItem(null);
+		}
+	};
+
+	View.OnClickListener localListener = new View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			MatchBean bean = (MatchBean) v.getTag();
+			final String match = bean.getName();
+			interactionController.showLocalImageDialog(mContext, new CustomDialog.OnCustomDialogActionListener() {
+				@Override
+				public boolean onSave(Object object) {
+					List<String> list = (List<String>) object;
+					interactionController.deleteImages(list);
+					refreshFirstItem(null);
+					return false;
+				}
+
+				@Override
+				public boolean onCancel() {
+					return false;
+				}
+
+				@Override
+				public void onLoadData(HashMap<String, Object> data) {
+					ImageUrlBean bean = interactionController.getMatchImageUrlBean(match);
+					data.put("data", bean);
+					data.put("flag", Command.TYPE_IMG_MATCH);
+				}
+			});
 		}
 	};
 
@@ -235,7 +266,7 @@ public class MatchSwipeCardAdapter extends AbstractSwipeAdapter implements Reque
 			}
 			// 显示对话框选择下载
 			else {
-				interactionController.showImageDialog(mContext, new CustomDialog.OnCustomDialogActionListener() {
+				interactionController.showHttpImageDialog(mContext, new CustomDialog.OnCustomDialogActionListener() {
 					@Override
 					public boolean onSave(Object object) {
 						List<DownloadItem> list = (List<DownloadItem>) object;
@@ -274,7 +305,7 @@ public class MatchSwipeCardAdapter extends AbstractSwipeAdapter implements Reque
 	private class ViewHolder {
 		View convertView;
 		ImageView image;
-		ImageView download, refresh;
+		ImageView download, refresh, local;
 		TextView name, place, level, court, total, best;
 	}
 

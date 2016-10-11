@@ -20,6 +20,7 @@
     <dimen name="arc_radius">153dp</dimen>
     
     <dimen name="custom_dialog_toolbar_icon">30dp</dimen>
+    <dimen name="custom_dialog_icon_frame_radius">17dp</dimen>
     <dimen name="dialog_score_editor_height">350dp</dimen>
     
     <dimen name="rank_list_item_height">30dp</dimen>

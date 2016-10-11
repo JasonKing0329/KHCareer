@@ -22,14 +22,15 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2016/7/12 0012.
+ * 抽象出基类Adapter，local浏览和http浏览，不同点仅仅在于加载图片的方式
  */
-public class ImageSelectorAdapter extends RecyclerView.Adapter<ImageSelectorAdapter.BgHolder>
+public abstract class ImageSelectorAdapter extends RecyclerView.Adapter<ImageSelectorAdapter.BgHolder>
     implements View.OnClickListener{
 
-    private Context mContext;
-    private ImageUrlBean imageUrlBean;
-
-    private SparseBooleanArray mCheckMap;
+    protected Context mContext;
+    protected SparseBooleanArray mCheckMap;
+    protected ImageUrlBean imageUrlBean;
+    protected String imageFlag;
 
     public ImageSelectorAdapter(Context context, ImageUrlBean imageUrlBean) {
         mContext = context;
@@ -41,6 +42,15 @@ public class ImageSelectorAdapter extends RecyclerView.Adapter<ImageSelectorAdap
             }
         }
     }
+
+    /**
+     * 设置图片类型，player/match/player head
+     * @param flag see Command.TYPE_IMG_PLAYER ...
+     */
+    public void setImageFlag(String flag) {
+        imageFlag = flag;
+    }
+
     @Override
     public BgHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_image_selector, parent, false);
@@ -49,6 +59,7 @@ public class ImageSelectorAdapter extends RecyclerView.Adapter<ImageSelectorAdap
         holder.name = (TextView) view.findViewById(R.id.img_selector_size);
         holder.image = (ImageView) view.findViewById(R.id.img_selector_img);
         holder.check = (CheckBox) view.findViewById(R.id.img_selector_check);
+        holder.markNew = (ImageView) view.findViewById(R.id.img_selector_mark_new);
         return holder;
     }
 
@@ -64,10 +75,24 @@ public class ImageSelectorAdapter extends RecyclerView.Adapter<ImageSelectorAdap
             holder.check.setChecked(false);
         }
         holder.name.setText(FileSizeUtil.convertFileSize(imageUrlBean.getSizeList().get(position)));
-        String url = "http://" + SettingProperty.getServerBaseUrl(mContext) + imageUrlBean.getUrlList().get(position);
-        DebugLog.e(url);
-        ImageUtil.load(url, holder.image);
+
+        onBindItemImage(holder.image, position);
+        onBindItemMark(holder.markNew, position);
     }
+
+    /**
+     * 加载item图片
+     * @param imageView
+     * @param position
+     */
+    protected abstract void onBindItemImage(ImageView imageView, int position);
+
+    /**
+     * 加载Item角标
+     * @param markNew
+     * @param position
+     */
+    protected abstract void onBindItemMark(ImageView markNew, int position);
 
     @Override
     public int getItemCount() {
@@ -99,6 +124,7 @@ public class ImageSelectorAdapter extends RecyclerView.Adapter<ImageSelectorAdap
         public ImageView image;
         public CheckBox check;
         public int position;
+        public ImageView markNew;
 
         public BgHolder(View itemView) {
             super(itemView);

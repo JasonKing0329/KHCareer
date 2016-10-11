@@ -33,4 +33,12 @@
             android:scaleY="0.5"
             android:clickable="false"/>
     </RelativeLayout>
+    <ImageView
+        android:id="@+id/img_selector_mark_new"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/mark_new"
+        android:layout_alignParentRight="true"
+        android:visibility="gone"/>
 </RelativeLayout>

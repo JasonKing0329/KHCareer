@@ -7,26 +7,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
 
-import com.king.mytennis.download.DownloadItem;
 import com.king.mytennis.http.bean.ImageUrlBean;
 import com.king.mytennis.view.CustomDialog;
 import com.king.mytennis.view.R;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 /**
  * Created by Administrator on 2016/7/12 0012.
+ * 抽象成基类，local浏览和http浏览，区别在于：
+ * 1. 初始化的数据不一样
+ * 2. 选择的adapter不同
+ * 3. 点击确认后事件不同
  */
-public class ImageSelector extends CustomDialog {
+public abstract class ImageSelector extends CustomDialog {
 
-    private RecyclerView recyclerView;
-
-    private ImageSelectorAdapter mAdapter;
-    private ImageUrlBean imageUrlBean;
-
-    private String downloadFlag;
+    protected ImageUrlBean imageUrlBean;
+    protected RecyclerView recyclerView;
+    protected ImageSelectorAdapter mAdapter;
+    protected String imageFlag;
 
     public ImageSelector(Context context, OnCustomDialogActionListener actionListener) {
         super(context, actionListener);
@@ -34,15 +33,16 @@ public class ImageSelector extends CustomDialog {
         HashMap<String, Object> map = new HashMap<>();
         actionListener.onLoadData(map);
         imageUrlBean = (ImageUrlBean) map.get("data");
-        downloadFlag = (String) map.get("flag");
         setTitle(imageUrlBean.getKey());
+        imageFlag = (String) map.get("flag");
+        initData(map);
         initAdapter();
+        mAdapter.setImageFlag(imageFlag);
     }
 
-    private void initAdapter() {
-        mAdapter = new ImageSelectorAdapter(getContext(), imageUrlBean);
-        recyclerView.setAdapter(mAdapter);
-    }
+    protected abstract void initData(HashMap<String, Object> data);
+
+    protected abstract void initAdapter();
 
     @Override
     protected View getCustomView() {
@@ -68,26 +68,11 @@ public class ImageSelector extends CustomDialog {
 
     @Override
     public void onClick(View view) {
-        if (view == saveButton) {
-            List<Integer> indexList = mAdapter.getSelectedKey();
-            List<DownloadItem> list = new ArrayList<>();
-            for (int i = 0; i < indexList.size(); i ++) {
-                DownloadItem item = new DownloadItem();
-                item.setKey(imageUrlBean.getUrlList().get(indexList.get(i)));
-                item.setFlag(downloadFlag);
-                item.setSize(imageUrlBean.getSizeList().get(indexList.get(i)));
-
-                String url = imageUrlBean.getUrlList().get(indexList.get(i));
-                if (url.contains("/")) {
-                    String[] array = url.split("/");
-                    url = array[array.length - 1];
-                }
-                item.setName(url);
-
-                list.add(item);
-            }
-            actionListener.onSave(list);
+        if (view == saveButton || view == deleteButton) {
+            onConfirm();
         }
         super.onClick(view);
     }
+
+    protected abstract void onConfirm();
 }

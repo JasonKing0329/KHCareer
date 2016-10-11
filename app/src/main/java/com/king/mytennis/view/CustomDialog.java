@@ -9,6 +9,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.view.WindowManager.LayoutParams;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -18,9 +19,8 @@ public abstract class CustomDialog extends Dialog implements android.view.View.O
 	private TextView nullContentView;;
 	private LinearLayout customView;
 	private LinearLayout customToolbar;
-	private LinearLayout saveLayout, cancelLayout;
 
-	protected TextView saveButton, cancelButton;
+	protected ImageView saveButton, cancelButton, deleteButton;
 	protected Context context;
 	protected OnCustomDialogActionListener actionListener;
 	private Point startPoint, touchPoint;
@@ -33,14 +33,14 @@ public abstract class CustomDialog extends Dialog implements android.view.View.O
 		setContentView(R.layout.dialog_custom);
 		titleView = (TextView) findViewById(R.id.dialog_custom_title);
 		nullContentView = (TextView) findViewById(R.id.dialog_custom_view_null);
-		saveButton = (TextView) findViewById(R.id.dialog_custom_save);
-		cancelButton = (TextView) findViewById(R.id.dialog_custom_cancle);
+		saveButton = (ImageView) findViewById(R.id.dialog_custom_save);
+		cancelButton = (ImageView) findViewById(R.id.dialog_custom_cancle);
+		deleteButton = (ImageView) findViewById(R.id.dialog_custom_delete);
 		customView = (LinearLayout) findViewById(R.id.dialog_custom_view);
-		saveLayout = (LinearLayout) findViewById(R.id.dialog_custom_save_layout);
-		cancelLayout = (LinearLayout) findViewById(R.id.dialog_custom_cancle_layout);
 		customToolbar = (LinearLayout) findViewById(R.id.dialog_custom_toolbar);
 		saveButton.setOnClickListener(this);
 		cancelButton.setOnClickListener(this);
+		deleteButton.setOnClickListener(this);
 
 		windowParams = getWindow().getAttributes();
 		touchPoint = new Point();
@@ -134,11 +134,15 @@ public abstract class CustomDialog extends Dialog implements android.view.View.O
 	}
 
 	public void hideSaveButton() {
-		saveLayout.setVisibility(View.GONE);
+		saveButton.setVisibility(View.GONE);
+	}
+
+	public void showDeleteButton() {
+		deleteButton.setVisibility(View.VISIBLE);
 	}
 
 	public void hideCancelButton() {
-		cancelLayout.setVisibility(View.GONE);
+		cancelButton.setVisibility(View.GONE);
 	}
 
 	protected abstract View getCustomView();
@@ -178,6 +182,9 @@ public abstract class CustomDialog extends Dialog implements android.view.View.O
 			dismiss();
 		}
 		else if (view == saveButton) {
+			dismiss();
+		}
+		else if (view == deleteButton) {
 			dismiss();
 		}
 	}

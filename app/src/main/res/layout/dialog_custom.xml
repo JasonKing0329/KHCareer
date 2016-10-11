@@ -29,55 +29,47 @@
 	       		android:textSize="18dp"
 	       		android:textStyle="bold"/>
 	    </LinearLayout>
-	    <LinearLayout 
-	        style="@style/DrawsBlue_Toolbar"
-		    android:id="@+id/dialog_custom_cancle_layout"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-	        android:layout_centerVertical="true"
-	        android:layout_alignParentRight="true"
-		    android:gravity="center_vertical"
-       		android:layout_marginRight="5dp">
-		    <ImageView 
-		        android:layout_width="@dimen/custom_dialog_toolbar_icon"
-	       		android:layout_height="@dimen/custom_dialog_toolbar_icon"
-	       		android:src="@drawable/icon_cancel"
-		        />
-		    <TextView 
-		    	android:id="@+id/dialog_custom_cancle"
-		        android:layout_width="wrap_content"
-	       		android:layout_height="wrap_content"
-	       		android:layout_marginLeft="5dp"
-	       		android:textSize="18dp"
-	       		android:textStyle="bold"
-       			android:text="@string/cancel"/>
-	    </LinearLayout>
-	    <LinearLayout 
-	        style="@style/DrawsBlue_Toolbar"
-		    android:id="@+id/dialog_custom_save_layout"
-		    android:layout_width="wrap_content"
-		    android:layout_height="wrap_content"
-	        android:layout_toLeftOf="@id/dialog_custom_cancle_layout"
-	        android:layout_centerVertical="true"
-		    android:gravity="center_vertical"
-       		android:layout_marginRight="5dp">
-		    <ImageView 
-		        android:layout_width="@dimen/custom_dialog_toolbar_icon"
-	       		android:layout_height="@dimen/custom_dialog_toolbar_icon"
-	       		android:src="@drawable/icon_save"
-		        />
-		    <TextView 
-		    	android:id="@+id/dialog_custom_save"
-		        android:layout_width="wrap_content"
-	       		android:layout_height="wrap_content"
-	       		android:layout_marginLeft="5dp"
-	       		android:textSize="18dp"
-	       		android:textStyle="bold"
-       			android:text="@string/save"/>
-	    </LinearLayout>
+
+		<ImageView
+			android:id="@+id/dialog_custom_cancle"
+			android:layout_width="@dimen/custom_dialog_toolbar_icon"
+			android:layout_height="@dimen/custom_dialog_toolbar_icon"
+			android:layout_centerVertical="true"
+			android:layout_alignParentRight="true"
+			android:padding="5dp"
+			android:background="@drawable/selector_custom_dialog_icon_bk_l"
+			android:layout_marginRight="5dp"
+			android:src="@drawable/ic_close_white_36dp"
+			/>
+
+		<ImageView
+			android:id="@+id/dialog_custom_save"
+			android:layout_width="@dimen/custom_dialog_toolbar_icon"
+			android:layout_height="@dimen/custom_dialog_toolbar_icon"
+			android:src="@drawable/ic_check_white_36dp"
+			android:layout_toLeftOf="@id/dialog_custom_cancle"
+			android:layout_centerVertical="true"
+			android:padding="5dp"
+			android:background="@drawable/selector_custom_dialog_icon_bk_l"
+			android:layout_marginRight="5dp"
+			/>
+
+		<ImageView
+			android:id="@+id/dialog_custom_delete"
+			android:layout_width="@dimen/custom_dialog_toolbar_icon"
+			android:layout_height="@dimen/custom_dialog_toolbar_icon"
+			android:src="@drawable/ic_delete_white_36dp"
+			android:layout_toLeftOf="@id/dialog_custom_cancle"
+			android:layout_centerVertical="true"
+			android:padding="5dp"
+			android:background="@drawable/selector_custom_dialog_icon_bk_l"
+			android:layout_marginRight="5dp"
+			android:visibility="gone"
+			/>
+
 	    <LinearLayout 
 	        android:id="@+id/dialog_custom_toolbar"
-	        android:layout_toLeftOf="@id/dialog_custom_save_layout"
+	        android:layout_toLeftOf="@id/dialog_custom_save"
 	        android:layout_width="wrap_content"
 	      	android:layout_height="wrap_content"
 	      	android:orientation="vertical"

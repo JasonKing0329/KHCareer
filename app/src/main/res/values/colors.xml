@@ -6,6 +6,9 @@
     <color name="colorAccent">#FF4081</color>
 
     <color name="pullview_content_bk">#ee333333</color>
+    <color name="custom_dialog_icon_bk_frame">#ffffff</color>
+    <color name="custom_dialog_icon_bk_normal">#00a5e4</color>
+    <color name="custom_dialog_icon_bk_pressed">#cc6600</color>
 
     <color name="orange1">#ffaa00</color>
     <color name="dark_grey">#555555</color>
