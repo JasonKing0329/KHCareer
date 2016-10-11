@@ -4,7 +4,7 @@
 	android:scrollbars="vertical"
 	android:layout_width="fill_parent"
 	android:background="@color/white"
-	android:layout_height="600px"
+	android:layout_height="500dp"
 	>
 	<LinearLayout
 		android:orientation="vertical"
@@ -30,7 +30,7 @@
 				>
 				<Spinner 
 					android:id="@id/insert_spinner_court"
-					android:layout_width="200px"
+					android:layout_width="200dp"
 					android:layout_height="wrap_content"
 					android:visibility="invisible"
 				/>
@@ -55,7 +55,7 @@
 				>
 				<Spinner 
 					android:id="@id/insert_spinner_level"
-					android:layout_width="200px"
+					android:layout_width="200dp"
 					android:layout_height="wrap_content"
 					android:visibility="invisible"
 				/>
@@ -80,7 +80,7 @@
 				>
 				<EditText 
 					android:id="@+id/search_et_match"
-					android:layout_width="200px"
+					android:layout_width="200dp"
 					android:layout_height="wrap_content"
 					android:visibility="invisible"
 				/>
@@ -105,7 +105,7 @@
 				>
 				<Spinner 
 					android:id="@id/insert_spinner_round"
-					android:layout_width="200px"
+					android:layout_width="200dp"
 					android:layout_height="wrap_content"
 					android:visibility="invisible"
 				/>
@@ -130,7 +130,7 @@
 				>
 				<Spinner 
 					android:id="@id/insert_spinner_region"
-					android:layout_width="200px"
+					android:layout_width="200dp"
 					android:layout_height="wrap_content"
 					android:visibility="invisible"
 				/>
@@ -155,7 +155,7 @@
 				>
 				<EditText 
 					android:id="@+id/search_et_matchcountry"
-					android:layout_width="200px"
+					android:layout_width="200dp"
 					android:layout_height="wrap_content"
 					android:visibility="invisible"
 				/>
@@ -180,7 +180,7 @@
 				>
 				<EditText 
 					android:id="@+id/search_et_comp"
-					android:layout_width="200px"
+					android:layout_width="200dp"
 					android:layout_height="wrap_content"
 					android:visibility="invisible"
 				/>
@@ -205,7 +205,7 @@
 				>
 				<EditText 
 					android:id="@+id/search_et_compcountry"
-					android:layout_width="200px"
+					android:layout_width="200dp"
 					android:layout_height="wrap_content"
 					android:visibility="invisible"
 				/>
@@ -213,7 +213,7 @@
 		</LinearLayout>
 		<LinearLayout 
 			android:orientation="horizontal"
-			android:layout_width="match_parent"
+			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
 			>
 			<CheckBox 
@@ -222,21 +222,21 @@
 				android:layout_height="wrap_content"
 				android:text="@string/rank"
 			/>
-			<LinearLayout 
+			<LinearLayout
 				android:orientation="horizontal"
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:gravity="right"
 				>
-				<EditText 
+				<EditText
 					android:id="@+id/search_rank_min"
 					android:layout_width="0dp"
 					android:layout_weight="1"
 					android:layout_height="wrap_content"
 					android:visibility="invisible"
 					android:hint="@string/search_rank_min"
-				/>
-				<EditText 
+					/>
+				<EditText
 					android:id="@+id/search_rank_max"
 					android:layout_width="0dp"
 					android:layout_weight="1"
@@ -244,7 +244,7 @@
 					android:layout_marginLeft="20px"
 					android:visibility="invisible"
 					android:hint="@string/search_rank_max"
-				/>
+					/>
 			</LinearLayout>
 		</LinearLayout>
 		<LinearLayout 
@@ -267,16 +267,16 @@
 				<Button 
 					android:id="@+id/button_date_start"
 					android:text="@string/search_date_start"
-					android:layout_width="100px"
+					android:layout_width="100dp"
 					android:layout_height="wrap_content"
 					android:visibility="invisible"
 				/>
 				<Button 
 					android:id="@+id/button_date_end"
 					android:text="@string/search_date_end"
-					android:layout_width="100px"
+					android:layout_width="100dp"
 					android:layout_height="wrap_content"
-					android:layout_marginLeft="20px"
+					android:layout_marginLeft="20dp"
 					android:visibility="invisible"
 				/>
 			</LinearLayout>
@@ -300,7 +300,7 @@
 				>
 				<EditText 
 					android:id="@+id/search_et_score"
-					android:layout_width="200px"
+					android:layout_width="200dp"
 					android:layout_height="wrap_content"
 					android:visibility="invisible"
 				/>
@@ -323,7 +323,7 @@
 				android:contentDescription="@string/search_winlose"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="20px"
+				android:layout_marginLeft="20dp"
 				>
 				<RadioButton
 					android:id="@+id/radio_win"
@@ -338,7 +338,7 @@
 					android:id="@+id/radio_lose"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
-					android:layout_marginLeft="15px"
+					android:layout_marginLeft="20dp"
 					android:text="@string/search_lose"
 					android:visibility="invisible"
 				>

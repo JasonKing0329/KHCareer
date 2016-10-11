@@ -2,18 +2,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:gravity="center" >
     <ImageView 
         android:id="@+id/cptgrid_image"
-	    android:layout_width="70px"
-	    android:layout_height="70px"
+	    android:layout_width="160px"
+	    android:layout_height="160px"
 	    android:scaleType="fitXY"
         />
     <TextView 
         android:id="@+id/cptgrid_name"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:textColor="@color/white"
+	    android:textColor="@color/black"
+	    android:textSize="16sp"
         />
 
 </LinearLayout>

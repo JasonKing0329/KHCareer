@@ -25,11 +25,13 @@ public class ImageFactory {
 
 	}
 
+	@Deprecated //放弃该加载方式，全部改用ImageLoader加载
 	public Bitmap getDefBackground() {
 
 		return getBackground(Configuration.getInstance().DEF_BK);
 	}
 
+	@Deprecated //放弃该加载方式，全部改用ImageLoader加载
 	public Bitmap getBackground(String path) {
 		Bitmap background;
 		if (!path.equals("def")) {
@@ -51,6 +53,8 @@ public class ImageFactory {
 		return background;
 	}
 
+	/*
+	@Deprecated //放弃该加载方式，全部改用ImageLoader加载
 	public Bitmap getDetailMatch(String match_name, String court) {
 
 		InputStream stream=null;
@@ -93,6 +97,7 @@ public class ImageFactory {
 		return image_match;
 	}
 
+	@Deprecated //放弃该加载方式，全部改用ImageLoader加载
 	public Bitmap getDetailPlayer(String competitor) {
 
 		InputStream stream=null;
@@ -126,6 +131,7 @@ public class ImageFactory {
 
 		return image_player;
 	}
+	*/
 
 	/**
 	 * 采用开源框架ImageLoader加载文件路径（加载文件夹中指定序号的图片）
@@ -198,6 +204,7 @@ public class ImageFactory {
 		return name;
 	}
 
+	@Deprecated //由ImageLoader实现
 	public ArrayList<Bitmap> getContentImages(File[] files) {
 
 		ArrayList<Bitmap> bitmaps = new ArrayList<Bitmap>(files.length);

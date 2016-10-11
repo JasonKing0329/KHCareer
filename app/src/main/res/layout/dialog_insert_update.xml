@@ -271,6 +271,7 @@
 					android:layout_height="wrap_content"
 					android:layout_weight="0.5"
 					android:layout_marginLeft="10dp"
+					android:background="@drawable/tw_spinner_bk"
 				/>
 				<Spinner 
 					android:id="@+id/insert_spinner_month"
@@ -278,6 +279,7 @@
 					android:layout_marginLeft="10dp"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
+					android:background="@drawable/tw_spinner_bk"
 				/>
 			</LinearLayout>
 			<include layout="@layout/divider"/>
@@ -293,6 +295,7 @@
 					android:layout_height="wrap_content"
 					android:layout_weight="0.5"
 					android:layout_marginLeft="10dp"
+					android:background="@drawable/tw_spinner_bk"
 				/>
 				<Spinner 
 					android:id="@+id/insert_spinner_region"
@@ -300,6 +303,7 @@
 					android:layout_marginLeft="10dp"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
+					android:background="@drawable/tw_spinner_bk"
 				/>
 			</LinearLayout>
 			<include layout="@layout/divider"/>
@@ -315,6 +319,7 @@
 					android:layout_height="wrap_content"
 					android:layout_weight="0.5"
 					android:layout_marginLeft="10dp"
+					android:background="@drawable/tw_spinner_bk"
 				/>
 				<Spinner 
 					android:id="@+id/insert_spinner_round"
@@ -322,6 +327,7 @@
 					android:layout_marginLeft="10dp"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
+					android:background="@drawable/tw_spinner_bk"
 				/>
 			</LinearLayout>
 			<include layout="@layout/divider"/>

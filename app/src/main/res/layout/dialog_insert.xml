@@ -4,7 +4,7 @@
 	android:scrollbars="vertical"
 	android:background="@color/white"
 	android:layout_width="fill_parent"
-	android:layout_height="600px"
+	android:layout_height="500dp"
 	>
 	<!-- *****ScrollView的下一级只允许有一个子标签，因此把布局全部装进一个LinearLayout里****** -->
 	<LinearLayout
@@ -18,6 +18,9 @@
 			android:layout_height="wrap_content"
 			android:textColor="@color/white"
 			android:background="@color/dark_grey"
+			android:paddingLeft="10dp"
+				android:textSize="16sp"
+				android:textStyle="bold"
 		/>
 		<LinearLayout 
 			android:layout_width="fill_parent"
@@ -28,13 +31,14 @@
 				android:text="@string/rankp1"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="20px"
+				android:layout_marginLeft="10dp"
+				android:textSize="14sp"
 			/>
 			<EditText 
 				android:id="@+id/insert_et_rank1"
-				android:layout_width="100px"
+				android:layout_width="60dp"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="20px"
+				android:layout_marginLeft="10dp"
 				android:singleLine="true"
 				android:inputType="number"
 			/>
@@ -42,13 +46,14 @@
 				android:text="@string/seedp1"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="20px"
+				android:layout_marginLeft="10dp"
+				android:textSize="14sp"
 			/>
 			<EditText 
 				android:id="@+id/insert_et_seed1"
-				android:layout_width="100px"
+				android:layout_width="60dp"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="20px"
+				android:layout_marginLeft="10dp"
 				android:singleLine="true"
 				android:inputType="number"
 			/>
@@ -60,16 +65,17 @@
 			>
 		    <TextView
 				android:text="@string/comp_name"
-				android:layout_width="wrap_content"
+				android:layout_width="60dp"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="20px"
+				android:layout_marginLeft="10dp"
+				android:textSize="14sp"
 			/>
 	    	<!-- android:completionHint="下拉框注释" -->
 	    	<AutoCompleteTextView
 				android:id="@+id/insert_et_compname"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="20px"
+				android:layout_marginLeft="10dp"
 				android:completionThreshold="1"
 				
 	    	/>
@@ -82,15 +88,16 @@
 			>
 		    <TextView
 				android:text="@string/country"
-				android:layout_width="160px"
+				android:layout_width="60dp"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="20px"
+				android:layout_marginLeft="10dp"
+				android:textSize="14sp"
 			/>
 			<EditText 
 				android:id="@+id/insert_et_country"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="20px"
+				android:layout_marginLeft="10dp"
 				android:singleLine="true"
 			/>
 		</LinearLayout>
@@ -101,15 +108,16 @@
 			>
 		    <TextView
 				android:text="@string/rank"
-				android:layout_width="wrap_content"
+				android:layout_width="60dp"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="20px"
+				android:layout_marginLeft="10dp"
+				android:textSize="14sp"
 			/>
 			<EditText 
 				android:id="@+id/insert_et_rank"
-				android:layout_width="100px"
+				android:layout_width="60dp"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="20px"
+				android:layout_marginLeft="10dp"
 				android:singleLine="true"
 				android:inputType="number"
 			/>
@@ -117,13 +125,14 @@
 				android:text="@string/seed"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="20px"
+				android:layout_marginLeft="10dp"
+				android:textSize="14sp"
 			/>
 			<EditText 
 				android:id="@+id/insert_et_seed"
-				android:layout_width="100px"
+				android:layout_width="60dp"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="20px"
+				android:layout_marginLeft="10dp"
 				android:singleLine="true"
 				android:inputType="number"
 			/>
@@ -134,12 +143,15 @@
 			android:layout_height="wrap_content"
 			android:textColor="@color/white"
 			android:background="@color/dark_grey"
+			android:paddingLeft="10dp"
+				android:textSize="16sp"
+				android:textStyle="bold"
 		/>
     	<AutoCompleteTextView
 			android:id="@+id/insert_et_matchname"
 			android:layout_width="fill_parent"
 			android:layout_height="wrap_content"
-			android:layout_marginTop="15px"
+			android:layout_marginTop="10dp"
 			android:completionThreshold="1"
     	/>
     	
@@ -155,7 +167,7 @@
 			/>
 			<Spinner 
 				android:id="@+id/insert_spinner_month"
-				android:layout_marginLeft="20px"
+				android:layout_marginLeft="10dp"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 			/>
@@ -172,7 +184,7 @@
 			/>
 			<Spinner 
 				android:id="@+id/insert_spinner_region"
-				android:layout_marginLeft="20px"
+				android:layout_marginLeft="10dp"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 			/>
@@ -189,7 +201,7 @@
 			/>
 			<Spinner 
 				android:id="@+id/insert_spinner_round"
-				android:layout_marginLeft="20px"
+				android:layout_marginLeft="10dp"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 			/>
@@ -201,13 +213,14 @@
 			>
 		    <TextView
 				android:text="@string/country"
-				android:layout_width="wrap_content"
+				android:layout_width="60dp"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="20px"
+				android:layout_marginLeft="10dp"
+				android:textSize="14sp"
 			/>
 			<EditText 
 				android:id="@+id/insert_et_matchcountry"
-				android:layout_marginLeft="20px"
+				android:layout_marginLeft="10dp"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:singleLine="true"
@@ -220,13 +233,14 @@
 			>
 		    <TextView
 				android:text="@string/city"
-				android:layout_width="wrap_content"
+				android:layout_width="60dp"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="20px"
+				android:layout_marginLeft="10dp"
+				android:textSize="14sp"
 			/>
 			<EditText 
 				android:id="@+id/insert_et_city"
-				android:layout_marginLeft="20px"
+				android:layout_marginLeft="10dp"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:singleLine="true"
@@ -239,13 +253,14 @@
 			>
 		    <TextView
 				android:text="@string/winner"
-				android:layout_width="wrap_content"
+				android:layout_width="60dp"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="20px"
+				android:layout_marginLeft="10dp"
+				android:textSize="14sp"
 			/>
 			<EditText 
 				android:id="@+id/insert_et_winner"
-				android:layout_marginLeft="20px"
+				android:layout_marginLeft="10dp"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:singleLine="true"
@@ -258,13 +273,14 @@
 			>
 		    <TextView
 				android:text="@string/score"
-				android:layout_width="wrap_content"
+				android:layout_width="60dp"
 				android:layout_height="wrap_content"
-				android:layout_marginLeft="20px"
+				android:layout_marginLeft="10dp"
+				android:textSize="14sp"
 			/>
 			<EditText 
 				android:id="@+id/insert_et_score"
-				android:layout_marginLeft="20px"
+				android:layout_marginLeft="10dp"
 				android:layout_width="fill_parent"
 				android:layout_height="wrap_content"
 				android:singleLine="true"

@@ -15,12 +15,11 @@ import com.king.mytennis.multiuser.MultiUserManager;
 import com.king.mytennis.res.ColorRes;
 import com.king.mytennis.res.JResource;
 import com.king.mytennis.service.Application;
+import com.king.mytennis.service.ImageUtil;
 import com.king.mytennis.view.CustomDialog;
 import com.king.mytennis.view.R;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -44,8 +43,6 @@ public class ViewFactory implements OnItemClickListener {
 	public static final int VIEW_H2H = 1;
 	public static final int VIEW_PLAYER = 2;
 
-	private ImageFactory imageFactory;
-	private Bitmap player, match;
 	private H2HDetailAdapter h2hDetailAdapter;
 	private List<Record> h2hList;
 
@@ -60,7 +57,7 @@ public class ViewFactory implements OnItemClickListener {
 		this.context = context;
 		this.record = record;
 		this.h2hdao = h2hdao;
-		imageFactory = new ImageFactory();
+		ImageUtil.initImageLoader(context);
 		rippleColor = context.getResources().getColor(R.color.ripple_material_light);
 
 		h2hList = h2hdao.getH2HList();
@@ -128,13 +125,7 @@ public class ViewFactory implements OnItemClickListener {
 		mH2hHolder.detail.setAdapter(h2hDetailAdapter);
 		mH2hHolder.detail.setOnItemClickListener(this);
 
-		if (player == null) {
-			player = imageFactory.getDetailPlayer(record.getCompetitor());
-			if (player == null) {
-				player = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon);
-			}
-		}
-		mH2hHolder.image.setImageBitmap(player);
+		ImageUtil.load("file://" + ImageFactory.getDetailPlayerPath(record.getCompetitor()), mH2hHolder.image);
 
 		return view;
 	}
@@ -186,13 +177,7 @@ public class ViewFactory implements OnItemClickListener {
 		mMatchHolder.score.setText(winner + " " + record.getScore());
 		mMatchHolder.round.setText(record.getRound());
 
-		if (match == null) {
-			match = imageFactory.getDetailMatch(record.getMatch(), record.getCourt());
-			if (match == null) {
-				match = BitmapFactory.decodeResource(context.getResources(), R.drawable.icon);
-			}
-		}
-		mMatchHolder.image.setImageBitmap(match);
+		ImageUtil.load("file://" + ImageFactory.getMatchHeadPath(record.getMatch(), record.getCourt()), mMatchHolder.image);
 
 		return view;
 	}
@@ -227,15 +212,6 @@ public class ViewFactory implements OnItemClickListener {
 
 	public void setOnclickListener(OnClickListener listener) {
 		buttonListener = listener;
-	}
-
-	public void recycleImages() {
-		if (match != null) {
-			match.recycle();
-		}
-		if (player != null) {
-			player.recycle();
-		}
 	}
 
 	@Override

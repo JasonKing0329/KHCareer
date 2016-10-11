@@ -4,6 +4,7 @@ import com.king.mytennis.interfc.H2HDAO;
 import com.king.mytennis.model.ImageFactory;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.multiuser.MultiUserManager;
+import com.king.mytennis.service.ImageUtil;
 
 import android.app.AlertDialog;
 import android.content.Context;
@@ -33,6 +34,7 @@ public class DetailsDialog {
 		this.userActivity = activity;
 		this.record = record;
 		this.h2hdao = dao;
+		ImageUtil.initImageLoader(activity);
 		init();
 	}
 
@@ -55,12 +57,7 @@ public class DetailsDialog {
 		tv_h2h=(TextView)view.findViewById(R.id.details_h2h);
 		tv_h2h_all=(TextView)view.findViewById(R.id.details_h2h_all);
 
-		ImageFactory imageFactory = new ImageFactory();
-		Bitmap bitmap = imageFactory.getDetailPlayer(record.getCompetitor());
-		if (bitmap == null) {
-			bitmap = BitmapFactory.decodeResource(userActivity.getResources(), R.drawable.icon);
-		}
-		iv_player.setImageBitmap(bitmap);
+		ImageUtil.load("file://" + ImageFactory.getDetailPlayerPath(record.getCompetitor()), iv_player);
 		tv_match.setText(record.getMatch());
 		tv_player.setText(MultiUserManager.getInstance().getCurrentUser().getDisplayName()
 				+ "("+record.getRank()+"/"+record.getSeed()+")");
@@ -72,12 +69,8 @@ public class DetailsDialog {
 			winner = MultiUserManager.getInstance().getCurrentUser().getDisplayName();
 		}
 		tv_winner.setText(winner +"    "+record.getScore());
-		
-		bitmap = imageFactory.getDetailMatch(record.getMatch(), record.getCourt());
-		if (bitmap == null) {
-			bitmap = BitmapFactory.decodeResource(userActivity.getResources(), R.drawable.icon);
-		}
-		iv_court.setImageBitmap(bitmap);
+
+		ImageUtil.load("file://" + ImageFactory.getMatchHeadPath(record.getMatch(), record.getCourt()), iv_court);
 		
 		tv_date.setText(record.getStrDate());
 		tv_level.setText(record.getLevel());
