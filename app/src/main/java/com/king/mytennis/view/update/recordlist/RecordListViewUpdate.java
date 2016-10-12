@@ -663,6 +663,8 @@ public class RecordListViewUpdate implements
 		}
 	}
 
+	/*
+	@Deprecated // 由ImageUtil完成
 	ImageLoader imageLoader = new ImageLoader() {
 
 		@Override
@@ -699,6 +701,8 @@ public class RecordListViewUpdate implements
 		}
 
 	};
+	*/
+
 	public void reAdapt() {
 
 		Log.i("MyTennis", "reAdapt");
@@ -717,7 +721,6 @@ public class RecordListViewUpdate implements
 				adjustListDataByDate();
 			}
 			dateAdapter = new RecordListDateAdapter(userActivity, titleList, recordList);
-			dateAdapter.setImageLoader(imageLoader);
 			expandableListView.setAdapter(dateAdapter);
 
 			if (titleList.size() > 0 && expandStateMap.size() == 0) {
@@ -730,7 +733,6 @@ public class RecordListViewUpdate implements
 				adjustListDataByPlayer();
 			}
 			playerAdapter = new RecordListPlayerAdapter(userActivity, titleList, recordList);
-			playerAdapter.setImageLoader(imageLoader);
 			expandableListView.setAdapter(playerAdapter);
 			createIndexView();
 
@@ -1238,7 +1240,7 @@ public class RecordListViewUpdate implements
 
 					TextView menuItem = (TextView) v;
 					menuItem.setText(R.string.menu_show_by_date);
-					menuItem.setId(R.string.menu_show_by_date);
+//					menuItem.setId(R.string.menu_show_by_date);
 					break;
 				case R.string.menu_show_by_date:
 					setNeedReorderData(true);
@@ -1247,7 +1249,7 @@ public class RecordListViewUpdate implements
 
 					menuItem = (TextView) v;
 					menuItem.setText(R.string.menu_show_by_player);
-					menuItem.setId(R.string.menu_show_by_player);
+//					menuItem.setId(R.string.menu_show_by_player);
 					break;
 				case R.string.menu_saveas:
 					recordListViewService.startSaveAsDialog();

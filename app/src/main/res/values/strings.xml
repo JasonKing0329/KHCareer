@@ -261,6 +261,11 @@
     <string name="swipecard_sortby_restore">Restore last card</string>
     <string name="swipecard_player_latest">Latest record</string>
 
+    <!-- *************************** cpt dialog ********************************* -->
+    <string name="cptdlg_item_download">Download from server</string>
+    <string name="cptdlg_item_refresh">Refresh image</string>
+    <string name="cptdlg_item_manage">Manage images</string>
+
     <!-- *************************** http ********************************* -->
     <string name="app_update_found">Found new application version %s, click ok to update.</string>
     <string name="app_is_latest">Applacation is already the latest version.</string>

@@ -248,6 +248,11 @@
     <string name="swipecard_sortby_restore">恢复上张卡片</string>
     <string name="swipecard_player_latest">最近交手记录</string>
 
+    <!-- *************************** cpt dialog ********************************* -->
+    <string name="cptdlg_item_download">从服务端下载图片</string>
+    <string name="cptdlg_item_refresh">刷新图片</string>
+    <string name="cptdlg_item_manage">管理本地图片</string>
+
     <!-- *************************** http ********************************* -->
     <string name="app_update_found">发现程序新版本%s，点击确定以下载</string>
     <string name="app_is_latest">程序已是最新版本</string>

@@ -34,7 +34,6 @@ public class DetailsDialog {
 		this.userActivity = activity;
 		this.record = record;
 		this.h2hdao = dao;
-		ImageUtil.initImageLoader(activity);
 		init();
 	}
 

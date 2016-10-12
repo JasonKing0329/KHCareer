@@ -63,8 +63,6 @@ public class SwipeCardActivity extends BaseActivity implements onFlingListener
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		ImageUtil.initImageLoader(this);
-
 		setContentView(R.layout.activity_swipecard);
 
 		initViewParams();

@@ -181,6 +181,15 @@ public class InteractionController {
     }
 
     /**
+     * 获取本地player对应的图片
+     * @param player
+     * @return
+     */
+    public ImageUrlBean getPlayerHeadUrlBean(String player) {
+        return createImageUrlBean(player, Configuration.IMG_PLAYER_HEAD);
+    }
+
+    /**
      * key对应的本地图片包括basePath目录下的单张jpg图片，和basePath下以key为文件夹里的所有图片
      * @param key
      * @param basePath

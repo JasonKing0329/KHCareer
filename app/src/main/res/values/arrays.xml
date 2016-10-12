@@ -91,8 +91,9 @@
     	<item>@string/setting_default_http_method_url</item>
     </array>
     <array name="cptdlg_item_oper">
-    	<item>update image(local)</item>
-    	<item>update image(server)</item>
+    	<item>@string/cptdlg_item_download</item>
+		<item>@string/cptdlg_item_refresh</item>
+		<item>@string/cptdlg_item_manage</item>
     </array>
     <array name="recordlistview_menu">
     	<item>@string/menu_exactselect</item>

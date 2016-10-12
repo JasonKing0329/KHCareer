@@ -264,7 +264,7 @@ public class RecordListViewController implements RecordListViewService {
 			if (cptListDlg == null) {
 				cptListDlg = new CPTListDlg(mContext);
 			}
-			cptListDlg.show(headMap);
+			cptListDlg.show();
 			//由于该对话框是listview通过点击某一项后自动关闭对话框，而show返回dialogid用于关闭
 			//所有show直接在内部初始化调用
 		}

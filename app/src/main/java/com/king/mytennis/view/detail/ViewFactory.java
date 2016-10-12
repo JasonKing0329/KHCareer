@@ -57,7 +57,6 @@ public class ViewFactory implements OnItemClickListener {
 		this.context = context;
 		this.record = record;
 		this.h2hdao = h2hdao;
-		ImageUtil.initImageLoader(context);
 		rippleColor = context.getResources().getColor(R.color.ripple_material_light);
 
 		h2hList = h2hdao.getH2HList();

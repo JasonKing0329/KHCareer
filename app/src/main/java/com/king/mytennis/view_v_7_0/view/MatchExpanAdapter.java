@@ -1,6 +1,8 @@
 package com.king.mytennis.view_v_7_0.view;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.king.mytennis.model.ImageFactory;
 import com.king.mytennis.model.Record;
@@ -28,9 +30,15 @@ public class MatchExpanAdapter extends BaseExpandableListAdapter {
 	private Context mContext;
 	private int titleColor;
 
+	/**
+	 * 保存首次从文件夹加载的图片序号
+	 */
+	private Map<String, Integer> imageIndexMap;
+	
 	public MatchExpanAdapter(Context context, List<List<Record>> list) {
 		mContext = context;
 		childList = list;
+		imageIndexMap = new HashMap<>();
 		titleColor = mContext.getResources().getColor(R.color.actionbar_bk_blue);
 	}
 
@@ -114,8 +122,15 @@ public class MatchExpanAdapter extends BaseExpandableListAdapter {
 			winner = MultiUserManager.getInstance().getCurrentUser().getDisplayName();
 		}
 		holder.score.setText(winner + "  " + record.getScore());
-		ImageUtil.load("file://" + ImageFactory.getPlayerHeadPath(record.getCompetitor())
-				, holder.head, R.drawable.icon_list);
+
+		String filePath;
+		if (imageIndexMap.get(record.getCompetitor()) == null) {
+			filePath = ImageFactory.getPlayerHeadPath(record.getCompetitor(), imageIndexMap);
+		}
+		else {
+			filePath = ImageFactory.getPlayerHeadPath(record.getCompetitor(), imageIndexMap.get(record.getCompetitor()));
+		}
+		ImageUtil.load("file://" + filePath, holder.head, R.drawable.icon_list);
 		return convertView;
 	}
 

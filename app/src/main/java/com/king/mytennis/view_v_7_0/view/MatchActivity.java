@@ -45,7 +45,6 @@ public class MatchActivity extends BaseActivity implements OnGroupCollapseListen
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		ImageUtil.initImageLoader(this);
 		mController = new MatchController();
 
 		setContentView(R.layout.activity_match);

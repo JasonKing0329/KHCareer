@@ -18,7 +18,6 @@ public class WallpaperAdapter extends BaseAdapter {
 	public WallpaperAdapter(Context context, File[] files) {
 		this.context = context;
 		this.files = files;
-		ImageUtil.initImageLoader(context);
 	}
 	@Override
 	public int getCount() {

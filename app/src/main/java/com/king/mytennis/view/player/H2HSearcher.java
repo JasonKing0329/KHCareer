@@ -73,8 +73,8 @@ public class H2HSearcher extends BaseActivity implements OnClickListener
 		
 		setContentView(R.layout.h2hsearcher_main);
 
-		hourglassAnimDrawable1 = (AnimationDrawable) getResources().getDrawable(R.anim.hourglass);
-		hourglassAnimDrawable2 = (AnimationDrawable) getResources().getDrawable(R.anim.hourglass);
+		hourglassAnimDrawable1 = (AnimationDrawable) getResources().getDrawable(R.drawable.hourglass);
+		hourglassAnimDrawable2 = (AnimationDrawable) getResources().getDrawable(R.drawable.hourglass);
 		
 		player1Edit = (AutoCompleteTextView) findViewById(R.id.h2h_edit1);
 		player2Edit = (AutoCompleteTextView) findViewById(R.id.h2h_edit2);

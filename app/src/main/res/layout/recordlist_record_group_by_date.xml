@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal" 
     android:paddingLeft="10dp">
-    <ImageView 
-        android:id="@+id/recordlist_record_head"
-	    android:layout_width="130px"
-	    android:layout_height="130px"
-	    android:scaleType="fitXY"
-	    android:layout_gravity="center_vertical"
-        />
+	<com.king.mytennis.view_v_7_0.view.CircleImageView
+		android:id="@+id/recordlist_record_head"
+		android:layout_width="37dp"
+		android:layout_height="37dp"
+		android:layout_margin="1dp"
+		android:src="@drawable/icon_list"
+		android:layout_gravity="center_vertical"
+		app:civ_border_width="0dp"
+		app:civ_border_color="@color/white" />
 	<LinearLayout
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"

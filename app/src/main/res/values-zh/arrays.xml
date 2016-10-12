@@ -40,8 +40,4 @@
     	<item>详细信息（当前列表）</item>
     	<item>详细信息（全部记录）</item>
     </array>
-    <array name="cptdlg_item_oper">
-    	<item>更新图像(本地)</item>
-    	<item>更新图像(服务端)</item>
-    </array>
 </resources>

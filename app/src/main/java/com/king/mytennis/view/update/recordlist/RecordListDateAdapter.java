@@ -2,9 +2,12 @@ package com.king.mytennis.view.update.recordlist;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.king.mytennis.model.ImageFactory;
+import com.king.mytennis.service.ImageUtil;
 import com.king.mytennis.view.R;
+import com.king.mytennis.view_v_7_0.view.CircleImageView;
 
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -23,7 +26,11 @@ public class RecordListDateAdapter extends BaseExpandableListAdapter {
 	private int COLOR_TITLE_COURT_HARD;
 	private int COLOR_TITLE_COURT_CLAY;
 	private int COLOR_TITLE_COURT_GRASS;
-	private ImageLoader imageLoader;
+
+	/**
+	 * 保存首次从文件夹加载的图片序号
+	 */
+	private Map<String, Integer> playerImageIndexMap;
 
 	public RecordListDateAdapter(Context context, List<HashMap<String, String>> titleList, List<List<HashMap<String, String>>> recordList) {
 		this.context = context;
@@ -32,11 +39,9 @@ public class RecordListDateAdapter extends BaseExpandableListAdapter {
 		COLOR_TITLE_COURT_HARD = context.getResources().getColor(R.color.title_court_hard);
 		COLOR_TITLE_COURT_CLAY = context.getResources().getColor(R.color.title_court_clay);
 		COLOR_TITLE_COURT_GRASS = context.getResources().getColor(R.color.titlecourt_grass);
+		playerImageIndexMap = new HashMap<>();
 	}
 
-	public void setImageLoader(ImageLoader loader) {
-		imageLoader = loader;
-	}
 	@Override
 	public int getGroupCount() {
 
@@ -138,7 +143,7 @@ public class RecordListDateAdapter extends BaseExpandableListAdapter {
 		if (convertView == null) {
 			convertView = LayoutInflater.from(context).inflate(R.layout.recordlist_record_group_by_date, null);
 			holder = new RecordViewHolder();
-			holder.head = (ImageView) convertView.findViewById(R.id.recordlist_record_head);
+			holder.head = (CircleImageView) convertView.findViewById(R.id.recordlist_record_head);
 			holder.player = (TextView) convertView.findViewById(R.id.recordlist_record_player);
 			holder.line1 = (TextView) convertView.findViewById(R.id.recordlist_record_line1);
 			holder.score = (TextView) convertView.findViewById(R.id.recordlist_record_score);
@@ -150,13 +155,15 @@ public class RecordListDateAdapter extends BaseExpandableListAdapter {
 		List<HashMap<String, String>> childList = recordList.get(groupPosition);
 		HashMap<String, String> map = childList.get(childPosition);
 
-		Bitmap bitmap = imageLoader.loadPlayerHead(map.get("player"));
-		if (bitmap == null) {
-			holder.head.setImageResource(Integer.parseInt(map.get("head")));
+		String filePath;
+		if (playerImageIndexMap.get(map.get("player")) == null) {
+			filePath = ImageFactory.getPlayerHeadPath(map.get("player"), playerImageIndexMap);
 		}
 		else {
-			holder.head.setImageBitmap(ImageFactory.getCircleBitmap(bitmap));
+			filePath = ImageFactory.getPlayerHeadPath(map.get("player"), playerImageIndexMap.get(map.get("player")));
 		}
+		ImageUtil.load("file://" + filePath, holder.head, R.drawable.icon_list);
+
 		holder.player.setText(map.get("player"));
 		holder.line1.setText(map.get("line1"));
 		holder.score.setText(map.get("score"));
@@ -174,7 +181,7 @@ public class RecordListDateAdapter extends BaseExpandableListAdapter {
 		TextView date, level, match;
 	}
 	private class RecordViewHolder {
-		ImageView head;
+		CircleImageView head;
 		TextView player, line1, score;
 	}
 }

@@ -8,6 +8,7 @@ import com.king.mytennis.model.MySQLHelper;
 import com.king.mytennis.service.FingerPrintController;
 import com.king.mytennis.service.FingerPrintController.SimpleIdentifyListener;
 import com.king.mytennis.service.Application;
+import com.king.mytennis.service.ImageUtil;
 import com.king.mytennis.service.LanguageService;
 import com.king.mytennis.service.ThemeManager;
 import com.king.mytennis.service.UserLoginService;
@@ -171,6 +172,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Call
 	}
 
 	private void checkOK() {
+
+		ImageUtil.initImageLoader(this);
+
 		String uiMode = SettingProperty.getDefaultUiMode(this);
 		String[] array = getResources().getStringArray(R.array.uiChoices);
 		if (array[0].equals(uiMode)) {

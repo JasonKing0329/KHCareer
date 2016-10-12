@@ -50,7 +50,6 @@ public class PlayerActivity extends BaseActivity implements OnGroupCollapseListe
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		ImageUtil.initImageLoader(this);
 		mController = new PlayerController();
 
 		setContentView(R.layout.activity_player);

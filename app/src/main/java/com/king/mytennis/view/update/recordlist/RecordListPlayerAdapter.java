@@ -2,12 +2,14 @@ package com.king.mytennis.view.update.recordlist;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.king.mytennis.model.ImageFactory;
+import com.king.mytennis.service.ImageUtil;
 import com.king.mytennis.view.R;
+import com.king.mytennis.view_v_7_0.view.CircleImageView;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +27,16 @@ public class RecordListPlayerAdapter extends BaseExpandableListAdapter {
 	private int COLOR_COURT_GRASS;
 	private int PLAYER_TITLE_FLAG0;
 	private int PLAYER_TITLE_FLAG1;
-	private ImageLoader imageLoader;
+
+	/**
+	 * 保存首次从文件夹加载的图片序号
+	 */
+	private Map<String, Integer> playerImageIndexMap;
+
+	/**
+	 * 保存首次从文件夹加载的图片序号
+	 */
+	private Map<String, Integer> matchImageIndexMap;
 
 	public RecordListPlayerAdapter(Context context, List<HashMap<String, String>> titleList, List<List<HashMap<String, String>>> recordList) {
 		this.context = context;
@@ -36,10 +47,10 @@ public class RecordListPlayerAdapter extends BaseExpandableListAdapter {
 		COLOR_COURT_GRASS = context.getResources().getColor(R.color.court_grass);
 		PLAYER_TITLE_FLAG0 = context.getResources().getColor(R.color.groupbyplayer_flag0);
 		PLAYER_TITLE_FLAG1 = context.getResources().getColor(R.color.groupbyplayer_flag1);
+		playerImageIndexMap = new HashMap<>();
+		matchImageIndexMap = new HashMap<>();
 	}
-	public void setImageLoader(ImageLoader loader) {
-		imageLoader = loader;
-	}
+
 	@Override
 	public int getGroupCount() {
 
@@ -101,7 +112,7 @@ public class RecordListPlayerAdapter extends BaseExpandableListAdapter {
 			holder = new TitleViewHolder();
 			holder.arrow = (ImageView) convertView.findViewById(R.id.recordlist_title_image);
 			holder.player = (TextView) convertView.findViewById(R.id.recordlist_player_title_player);
-			holder.head = (ImageView) convertView.findViewById(R.id.recordlist_title_image_player);
+			holder.head = (CircleImageView) convertView.findViewById(R.id.recordlist_title_image_player);
 			holder.h2h = (TextView) convertView.findViewById(R.id.recordlist_player_title_h2h);
 			convertView.setTag(holder);
 		}
@@ -119,13 +130,14 @@ public class RecordListPlayerAdapter extends BaseExpandableListAdapter {
 
 		holder.h2h.setText(map.get("h2h"));
 
-		Bitmap bitmap = imageLoader.loadPlayerHead(map.get("player"));
-		if (bitmap == null) {
-			holder.head.setImageResource(R.drawable.icon_list);
+		String filePath;
+		if (playerImageIndexMap.get(map.get("player")) == null) {
+			filePath = ImageFactory.getPlayerHeadPath(map.get("player"), playerImageIndexMap);
 		}
 		else {
-			holder.head.setImageBitmap(ImageFactory.getCircleBitmap(bitmap));
+			filePath = ImageFactory.getPlayerHeadPath(map.get("player"), playerImageIndexMap.get(map.get("player")));
 		}
+		ImageUtil.load("file://" + filePath, holder.head, R.drawable.icon_list);
 
 		String bkFlag = map.get("bkFlag");
 		if (bkFlag != null) {
@@ -162,13 +174,14 @@ public class RecordListPlayerAdapter extends BaseExpandableListAdapter {
 		holder.match.setText(map.get("match"));
 		holder.score.setText(map.get("score"));
 
-		Bitmap bitmap = imageLoader.loadMatchImage(map.get("match_name"), map.get("court_name"));
-		if (bitmap == null) {
-			holder.matchImage.setImageResource(R.drawable.icon_list);
+		String filePath;
+		if (matchImageIndexMap.get(map.get("match_name")) == null) {
+			filePath = ImageFactory.getMatchHeadPath(map.get("match_name"), map.get("court_name"), matchImageIndexMap);
 		}
 		else {
-			holder.matchImage.setImageBitmap(bitmap);
+			filePath = ImageFactory.getMatchHeadPath(map.get("match_name"), map.get("court_name"), matchImageIndexMap.get(map.get("match_name")));
 		}
+		ImageUtil.load("file://" + filePath, holder.matchImage, R.drawable.icon_list);
 
 		if (map.get("player").contains("硬地")) {
 			convertView.setBackgroundColor(COLOR_COURT_HARD);
@@ -189,7 +202,8 @@ public class RecordListPlayerAdapter extends BaseExpandableListAdapter {
 	}
 
 	private class TitleViewHolder {
-		ImageView arrow, head;
+		ImageView arrow;
+		CircleImageView head;
 		TextView player, h2h;
 	}
 	private class RecordViewHolder {
