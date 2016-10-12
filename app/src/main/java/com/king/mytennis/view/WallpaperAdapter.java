@@ -1,33 +1,35 @@
 package com.king.mytennis.view;
 
-import java.util.ArrayList;
+import java.io.File;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import com.king.mytennis.service.ImageUtil;
+
 public class WallpaperAdapter extends BaseAdapter {
 
 	private Context context;
-	private ArrayList<Bitmap> bitmaps;
-	public WallpaperAdapter(Context context, ArrayList<Bitmap> drawables) {
+	private File[] files;
+	public WallpaperAdapter(Context context, File[] files) {
 		this.context = context;
-		bitmaps = drawables;
+		this.files = files;
+		ImageUtil.initImageLoader(context);
 	}
 	@Override
 	public int getCount() {
 
-		return bitmaps.size();//这个可不能不写，如果是默认的0那直接就没有任何东西显示了
+		return files == null ? 0:files.length;//这个可不能不写，如果是默认的0那直接就没有任何东西显示了
 	}
 
 	@Override
 	public Object getItem(int position) {
 
-		return bitmaps.get(position);
+		return files == null ? null:files[position];
 	}
 
 	@Override
@@ -40,9 +42,9 @@ public class WallpaperAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 
 		ImageView view = new ImageView(context);
-		view.setImageBitmap(bitmaps.get(position));
 		view.setScaleType(ImageView.ScaleType.FIT_CENTER);
 		view.setLayoutParams(new GridView.LayoutParams(250, 250));
+		ImageUtil.load("file://" + files[position].getPath(), view);
 		return view;
 	}
 

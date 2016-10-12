@@ -10,6 +10,7 @@ import com.king.mytennis.glory.GloryModuleActivity;
 import com.king.mytennis.model.Configuration;
 import com.king.mytennis.model.Constants;
 import com.king.mytennis.model.H2HDAOList;
+import com.king.mytennis.model.ImageFactory;
 import com.king.mytennis.model.MySQLHelper;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.model.FileIO;
@@ -463,13 +464,14 @@ public class ManagerActivity extends BaseActivity implements OnSlideChagedListen
 					HashMap<String, Object> map = (HashMap<String, Object>) object;
 					int kind = (Integer) map.get(ChooseBkDialog.BK_KIND_KEY);
 					if (kind == ChooseBkDialog.BK_KIND_MAINVIEW) {
-						Bitmap bitmap = (Bitmap) map.get("bitmap");
 						String path = (String) map.get("path");
+						Bitmap bitmap = new ImageFactory().getBackground(path);
 						notifyBackgroundChanged(bitmap, path);
 					}
 					else if (kind == ChooseBkDialog.BK_KIND_MENU) {
 						if (isSlidingEnable) {
-							Bitmap bitmap = (Bitmap) map.get("bitmap");
+							String path = (String) map.get("path");
+							Bitmap bitmap = new ImageFactory().getBackground(path);
 							if (!isTwoWayMenu) {
 								updateBackground(bitmap);
 							}

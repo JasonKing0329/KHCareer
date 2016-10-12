@@ -17,12 +17,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.king.lib.tool.ui.RippleFactory;
+import com.king.mytennis.model.Configuration;
+import com.king.mytennis.model.FileIO;
+import com.king.mytennis.model.ImageFactory;
 import com.king.mytennis.multiuser.MultiUser;
 import com.king.mytennis.multiuser.MultiUserManager;
 import com.king.mytennis.service.Application;
 import com.king.mytennis.service.InitService;
 import com.king.mytennis.service.MenuService;
 import com.king.mytennis.view.BaseActivity;
+import com.king.mytennis.view.ChooseBkDialog;
+import com.king.mytennis.view.CustomDialog;
 import com.king.mytennis.view.R;
 import com.king.mytennis.view.RecordEditorActivity;
 import com.king.mytennis.view_v_7_0.controller.BasicOperation;
@@ -31,6 +36,8 @@ import com.king.mytennis.view_v_7_0.view.CircleImageView;
 import com.king.mytennis.view_v_7_0.view.DragLayout;
 import com.king.mytennis.view_v_7_0.view.FoldableLayout;
 import com.king.mytennis.view_v_7_0.view.DragLayout.DragListener;
+
+import java.util.HashMap;
 
 /**
  * @author JingYang
@@ -44,6 +51,7 @@ public class V7MainActivity extends BaseActivity implements OnClickListener
 	private CircleImageView dragSideHead, mainSideHead;
 	private TextView dragSideName;
 	private TextView kingTextView, flamencoTextView, henryTextView, qiTextView;
+	private View changeBkView;
 
 	private FoldableLayout timeFolder;
 	private FoldableLayout playerFolder;
@@ -72,6 +80,7 @@ public class V7MainActivity extends BaseActivity implements OnClickListener
 		setContentView(R.layout.activity_view7_0_main);
 
 		dragLayout = (DragLayout) findViewById(R.id.view7_main_draglayout);
+		changeBkView = findViewById(R.id.view7_main_side_change_bk);
 		mainSideHead = (CircleImageView) findViewById(R.id.view7_actionbar_img);
 		mainSideHead.setVisibility(View.VISIBLE);
 		dragSideHead = (CircleImageView) findViewById(R.id.view7_main_side_user_head);
@@ -102,6 +111,7 @@ public class V7MainActivity extends BaseActivity implements OnClickListener
 		flamencoTextView.setOnClickListener(this);
 		henryTextView.setOnClickListener(this);
 		qiTextView.setOnClickListener(this);
+		changeBkView.setOnClickListener(this);
 		findViewById(R.id.view7_actionbar_menu).setOnClickListener(this);
 		findViewById(R.id.view7_main_add).setOnClickListener(this);
 
@@ -202,6 +212,10 @@ public class V7MainActivity extends BaseActivity implements OnClickListener
 			case R.id.view7_actionbar_img:
 				dragLayout.open(true);
 				break;
+
+			case R.id.view7_main_side_change_bk:
+				chooseBackground();
+				break;
 			default:
 				break;
 		}
@@ -214,6 +228,46 @@ public class V7MainActivity extends BaseActivity implements OnClickListener
 				onUserChanged(user);
 			}
 		}
+	}
+
+	private void chooseBackground() {
+		ChooseBkDialog bkDialog = new ChooseBkDialog(this, new CustomDialog.OnCustomDialogActionListener() {
+
+			@Override
+			public boolean onSave(Object object) {
+				@SuppressWarnings("unchecked")
+				HashMap<String, Object> map = (HashMap<String, Object>) object;
+				int kind = (Integer) map.get(ChooseBkDialog.BK_KIND_KEY);
+				if (kind == ChooseBkDialog.BK_KIND_MAINVIEW) {
+					String path = (String) map.get("path");
+					Bitmap bitmap = new ImageFactory().getBackground(path);
+					notifyBackgroundChanged(bitmap, path);
+				}
+				return true;
+			}
+
+			@Override
+			public void onLoadData(HashMap<String, Object> data) {
+
+			}
+
+			@Override
+			public boolean onCancel() {
+				return false;
+			}
+		});
+		bkDialog.show();
+	}
+
+	/**
+	 * @param bitmap
+	 * @param newDEF_BK
+	 */
+	private void notifyBackgroundChanged(Bitmap bitmap, String newDEF_BK) {
+		updateSideBackground(bitmap);
+		Configuration.getInstance().DEF_BK = newDEF_BK;
+		FileIO dao = new FileIO();
+		dao.saveConfigInfor(Configuration.getInstance());
 	}
 
 	public void updateSideBackground(Bitmap bitmap) {

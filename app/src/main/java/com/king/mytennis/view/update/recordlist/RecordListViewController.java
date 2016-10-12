@@ -18,6 +18,7 @@ import android.os.Handler.Callback;
 import com.king.mytennis.model.Configuration;
 import com.king.mytennis.model.FileIO;
 import com.king.mytennis.model.H2HDAOList;
+import com.king.mytennis.model.ImageFactory;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.service.ExternalRecordTool;
 import com.king.mytennis.service.RecordService;
@@ -219,8 +220,8 @@ public class RecordListViewController implements RecordListViewService {
 					HashMap<String, Object> map = (HashMap<String, Object>) object;
 					int kind = (Integer) map.get(ChooseBkDialog.BK_KIND_KEY);
 					if (kind == ChooseBkDialog.BK_KIND_MAINVIEW) {
-						Bitmap bitmap = (Bitmap) map.get("bitmap");
 						String path = (String) map.get("path");
+						Bitmap bitmap = new ImageFactory().getBackground(path);
 						notifyBackgroundChanged(bitmap, path);
 					}
 					return true;

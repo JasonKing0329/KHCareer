@@ -18,6 +18,7 @@ import com.king.lib.tool.ui.RippleFactory;
 import com.king.mytennis.glory.GloryModuleActivity;
 import com.king.mytennis.model.Configuration;
 import com.king.mytennis.model.FileIO;
+import com.king.mytennis.model.ImageFactory;
 import com.king.mytennis.service.Application;
 import com.king.mytennis.view.ChooseBkDialog;
 import com.king.mytennis.view.CustomDialog;
@@ -120,8 +121,8 @@ public class MoreFolderManager extends AbstractFolderManager {
 				HashMap<String, Object> map = (HashMap<String, Object>) object;
 				int kind = (Integer) map.get(ChooseBkDialog.BK_KIND_KEY);
 				if (kind == ChooseBkDialog.BK_KIND_MAINVIEW) {
-					Bitmap bitmap = (Bitmap) map.get("bitmap");
 					String path = (String) map.get("path");
+					Bitmap bitmap = new ImageFactory().getBackground(path);
 					notifyBackgroundChanged(bitmap, path);
 				}
 				return true;

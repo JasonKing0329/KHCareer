@@ -1,17 +1,14 @@
 package com.king.mytennis.view;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.king.mytennis.model.Configuration;
-import com.king.mytennis.model.ImageFactory;
 import com.king.mytennis.view.slidingmenu.SlidingMenuLeft;
 import com.king.mytennis.view.slidingmenu.SlidingMenuRight;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.os.Handler.Callback;
 import android.os.Handler;
 import android.os.Message;
@@ -32,10 +29,8 @@ public class ChooseBkDialog extends CustomDialog implements OnItemClickListener,
 	public static final int BK_KIND_MAINVIEW = 0;
 	public static final int BK_KIND_MENU = 1;
 	public static final String BK_KIND_KEY = "bk_kind";
-	
-	private ImageFactory imageFactory;
+
 	private WallpaperAdapter adapter;
-	private ArrayList<Bitmap> wallpapers;
 	private GridView gridView;
 	private ProgressBar progressBar;
 	private Handler handler;
@@ -54,8 +49,6 @@ public class ChooseBkDialog extends CustomDialog implements OnItemClickListener,
 		new Thread() {
 			public void run() {
 				files = new File(Configuration.IMG_BK_BASE).listFiles();
-				imageFactory = new ImageFactory();
-				wallpapers = imageFactory.getContentImages(files);
 				handler.sendMessage(new Message());
 			}
 		}.start();
@@ -65,14 +58,10 @@ public class ChooseBkDialog extends CustomDialog implements OnItemClickListener,
 	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
 		
 		String newDEF_BK = files[position].getPath();
-		Bitmap bitmap = imageFactory.getBackground(newDEF_BK);
-		if (bitmap != null) {
-			HashMap<String, Object> map = new HashMap<String, Object>();
-			map.put(BK_KIND_KEY, BK_KIND_MAINVIEW);
-			map.put("bitmap", bitmap);
-			map.put("path", newDEF_BK);
-			actionListener.onSave(map);
-		}
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put(BK_KIND_KEY, BK_KIND_MAINVIEW);
+		map.put("path", newDEF_BK);
+		actionListener.onSave(map);
 	}
 
 	@Override
@@ -98,14 +87,10 @@ public class ChooseBkDialog extends CustomDialog implements OnItemClickListener,
 					editor.putString(SlidingMenuLeft.BK_KEY, imagePath);
 					editor.commit();
 
-					Bitmap bitmap = imageFactory.getBackground(imagePath);
-					if (bitmap != null) {
-						HashMap<String, Object> map = new HashMap<String, Object>();
-						map.put(BK_KIND_KEY, BK_KIND_MENU);
-						map.put("bitmap", bitmap);
-						map.put("path", imagePath);
-						actionListener.onSave(map);
-					}
+					HashMap<String, Object> map = new HashMap<String, Object>();
+					map.put(BK_KIND_KEY, BK_KIND_MENU);
+					map.put("path", imagePath);
+					actionListener.onSave(map);
 					Toast.makeText(getContext(), R.string.save_ok, Toast.LENGTH_LONG).show();
 				}
 				else if (position == 1) {
@@ -113,15 +98,12 @@ public class ChooseBkDialog extends CustomDialog implements OnItemClickListener,
 					SharedPreferences.Editor editor = preferences.edit();
 					editor.putString(SlidingMenuRight.BK_KEY, imagePath);
 					editor.commit();
-					
-					Bitmap bitmap = imageFactory.getBackground(imagePath);
-					if (bitmap != null) {
-						HashMap<String, Object> map = new HashMap<String, Object>();
-						map.put(BK_KIND_KEY, BK_KIND_MENU);
-						map.put("bitmap", bitmap);
-						map.put("path", imagePath);
-						actionListener.onSave(map);
-					}
+
+					HashMap<String, Object> map = new HashMap<String, Object>();
+					map.put(BK_KIND_KEY, BK_KIND_MENU);
+					map.put("path", imagePath);
+					actionListener.onSave(map);
+
 					Toast.makeText(getContext(), R.string.save_ok, Toast.LENGTH_LONG).show();
 				}
 				setAsMenuBkPopup.dismiss();
@@ -152,7 +134,7 @@ public class ChooseBkDialog extends CustomDialog implements OnItemClickListener,
 	@Override
 	public boolean handleMessage(Message msg) {
 		progressBar.setVisibility(View.GONE);
-		adapter = new WallpaperAdapter(context, wallpapers);
+		adapter = new WallpaperAdapter(context, files);
 		gridView.setAdapter(adapter);
 		gridView.setVisibility(View.VISIBLE);
 		return true;
