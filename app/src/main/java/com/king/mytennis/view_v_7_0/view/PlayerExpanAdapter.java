@@ -150,10 +150,10 @@ public class PlayerExpanAdapter extends BaseExpandableListAdapter {
 
 		String filePath;
 		if (imageIndexMap.get(record.getCompetitor()) == null) {
-			filePath = ImageFactory.getMatchHeadPath(record.getCompetitor(), record.getCourt(), imageIndexMap);
+			filePath = ImageFactory.getMatchHeadPath(record.getMatch(), record.getCourt(), imageIndexMap);
 		}
 		else {
-			filePath = ImageFactory.getMatchHeadPath(record.getCompetitor(), record.getCourt(), imageIndexMap.get(record.getCompetitor()));
+			filePath = ImageFactory.getMatchHeadPath(record.getMatch(), record.getCourt(), imageIndexMap.get(record.getCompetitor()));
 		}
 		ImageUtil.load("file://" + filePath, holder.head, R.drawable.icon_list);
 		return convertView;

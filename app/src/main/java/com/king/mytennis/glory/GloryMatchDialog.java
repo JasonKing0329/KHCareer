@@ -21,6 +21,7 @@ import com.king.mytennis.glory.adapter.GloryMatchAdapter;
 import com.king.mytennis.model.ImageFactory;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.multiuser.MultiUserManager;
+import com.king.mytennis.service.ImageUtil;
 import com.king.mytennis.view.CustomDialog;
 import com.king.mytennis.view.R;
 import com.king.mytennis.view.detail.DetailGallery;
@@ -55,10 +56,9 @@ public class GloryMatchDialog extends CustomDialog implements OnItemLongClickLis
 		Collections.reverse(recordList);
 
 		setTitle(record.getMatch() + "  " + record.getStrDate());
-		Bitmap bitmap = imageLoader.loadMatchImage(record.getMatch(), record.getCourt());
-		if (bitmap != null) {
-			imageView.setImageBitmap(bitmap);
-		}
+
+		ImageUtil.load("file://" + ImageFactory.getMatchHeadPath(record.getMatch(), record.getCourt()), imageView);
+
 		placeView.setText(record.getMatchCountry() + "/" + record.getCity());
 		levelCourtView.setText(record.getLevel() + "/" + record.getCourt());
 		rankView.setText("排名： " + record.getRank());
@@ -79,7 +79,7 @@ public class GloryMatchDialog extends CustomDialog implements OnItemLongClickLis
 			achieveView.setText(getContext().getResources().getString(R.string.glory_match_achieve)
 					+ record.getRound());
 		}
-		GloryMatchAdapter adapter = new GloryMatchAdapter(context, recordList, imageLoader);
+		GloryMatchAdapter adapter = new GloryMatchAdapter(context, recordList);
 		listView.setAdapter(adapter);
 	}
 
@@ -109,35 +109,6 @@ public class GloryMatchDialog extends CustomDialog implements OnItemLongClickLis
 		hideCancelButton();
 		return null;
 	}
-
-	ImageLoader imageLoader = new ImageLoader() {
-
-		@Override
-		public Bitmap loadPlayerHead(String name) {
-
-			Bitmap bitmap = null;
-			try {
-				bitmap = new ImageFactory().getPlayerHead(name, 200);
-			} catch (FileNotFoundException e1) {
-				e1.printStackTrace();
-				bitmap = null;
-			}
-			return bitmap;
-		}
-
-		@Override
-		public Bitmap loadMatchImage(String name, String court) {
-			Bitmap bitmap = null;
-			try {
-				bitmap = new ImageFactory().getMatchHead(name, court, 600);
-			} catch (FileNotFoundException e) {
-				e.printStackTrace();
-				bitmap = null;
-			}
-			return bitmap;
-		}
-
-	};
 
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view,

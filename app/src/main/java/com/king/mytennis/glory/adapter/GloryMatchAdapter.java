@@ -1,14 +1,16 @@
 package com.king.mytennis.glory.adapter;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import com.king.mytennis.model.ImageFactory;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.multiuser.MultiUserManager;
+import com.king.mytennis.service.ImageUtil;
 import com.king.mytennis.view.R;
-import com.king.mytennis.view.update.recordlist.ImageLoader;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,14 +22,18 @@ public class GloryMatchAdapter extends BaseAdapter {
 
 	private Context context;
 	private List<Record> list;
-	private ImageLoader imageLoader;
 	private String[] roundArray, roundReferArray;
-	
-	public GloryMatchAdapter(Context context, List<Record> list, ImageLoader imageLoader) {
+
+	/**
+	 * 保存首次从文件夹加载的图片序号
+	 */
+	private Map<String, Integer> imageIndexMap;
+
+	public GloryMatchAdapter(Context context, List<Record> list) {
 
 		this.context = context;
 		this.list = list;
-		this.imageLoader = imageLoader;
+		imageIndexMap = new HashMap<>();
 		roundArray = context.getResources().getStringArray(R.array.spinner_round);
 		roundReferArray = context.getResources().getStringArray(R.array.spinner_round_show_in_glorymatch);
 	}
@@ -68,13 +74,16 @@ public class GloryMatchAdapter extends BaseAdapter {
 		}
 
 		Record record = list.get(position);
-		Bitmap bitmap = imageLoader.loadPlayerHead(record.getCompetitor());
-		if (bitmap == null) {
-			holder.head.setImageResource(R.drawable.icon_list);
+
+		String filePath;
+		if (imageIndexMap.get(record.getCompetitor()) == null) {
+			filePath = ImageFactory.getPlayerHeadPath(record.getCompetitor(), imageIndexMap);
 		}
 		else {
-			holder.head.setImageBitmap(bitmap);
+			filePath = ImageFactory.getPlayerHeadPath(record.getCompetitor(), imageIndexMap.get(record.getCompetitor()));
 		}
+		ImageUtil.load("file://" + filePath, holder.head, R.drawable.icon_list);
+
 		holder.player.setText(record.getCompetitor());
 		for (int i = 0; i < roundArray.length; i ++) {
 			if (record.getRound().equals(roundArray[i])) {
