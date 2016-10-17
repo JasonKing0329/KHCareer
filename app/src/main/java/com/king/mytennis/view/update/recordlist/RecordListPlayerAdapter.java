@@ -1,23 +1,35 @@
 package com.king.mytennis.view.update.recordlist;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.king.mytennis.download.DownloadItem;
+import com.king.mytennis.http.Command;
+import com.king.mytennis.http.RequestCallback;
+import com.king.mytennis.http.bean.ImageUrlBean;
+import com.king.mytennis.model.Configuration;
 import com.king.mytennis.model.ImageFactory;
 import com.king.mytennis.service.ImageUtil;
+import com.king.mytennis.view.CustomDialog;
 import com.king.mytennis.view.R;
+import com.king.mytennis.view_v_7_0.interaction.controller.InteractionController;
 import com.king.mytennis.view_v_7_0.view.CircleImageView;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
-public class RecordListPlayerAdapter extends BaseExpandableListAdapter {
+public class RecordListPlayerAdapter extends BaseExpandableListAdapter implements RequestCallback, View.OnClickListener {
 
 	private List<HashMap<String, String>> titleList;
 	private List<List<HashMap<String, String>>> recordList;
@@ -38,6 +50,16 @@ public class RecordListPlayerAdapter extends BaseExpandableListAdapter {
 	 */
 	private Map<String, Integer> matchImageIndexMap;
 
+	/**
+	 * Player list，下载图片/刷新头像/管理图片
+	 */
+	private InteractionController interactionController;
+
+	/**
+	 * 单击头像位置
+	 */
+	private int nGroupPosition;
+
 	public RecordListPlayerAdapter(Context context, List<HashMap<String, String>> titleList, List<List<HashMap<String, String>>> recordList) {
 		this.context = context;
 		this.titleList = titleList;
@@ -49,6 +71,7 @@ public class RecordListPlayerAdapter extends BaseExpandableListAdapter {
 		PLAYER_TITLE_FLAG1 = context.getResources().getColor(R.color.groupbyplayer_flag1);
 		playerImageIndexMap = new HashMap<>();
 		matchImageIndexMap = new HashMap<>();
+		interactionController = new InteractionController(this);
 	}
 
 	@Override
@@ -120,10 +143,10 @@ public class RecordListPlayerAdapter extends BaseExpandableListAdapter {
 			holder = (TitleViewHolder) convertView.getTag();
 		}
 		if (isExpanded) {
-			holder.arrow.setImageResource(R.drawable.group_expand_up);
+			holder.arrow.setImageResource(R.drawable.ic_expand_less_white_36dp);
 		}
 		else {
-			holder.arrow.setImageResource(R.drawable.group_expand_down);
+			holder.arrow.setImageResource(R.drawable.ic_expand_more_white_36dp);
 		}
 		HashMap<String, String> map = titleList.get(groupPosition);
 		holder.player.setText(map.get("player") + "(" + map.get("country") + ")");
@@ -138,6 +161,8 @@ public class RecordListPlayerAdapter extends BaseExpandableListAdapter {
 			filePath = ImageFactory.getPlayerHeadPath(map.get("player"), playerImageIndexMap.get(map.get("player")));
 		}
 		ImageUtil.load("file://" + filePath, holder.head, R.drawable.icon_list);
+		holder.head.setOnClickListener(this);
+		holder.head.setTag(R.id.tag_record_list_player_group_index, groupPosition);
 
 		String bkFlag = map.get("bkFlag");
 		if (bkFlag != null) {
@@ -199,6 +224,147 @@ public class RecordListPlayerAdapter extends BaseExpandableListAdapter {
 	public boolean isChildSelectable(int groupPosition, int childPosition) {
 
 		return true;//一定要在这里控制，否则单击、长按都没有效果
+	}
+
+	@Override
+	public void onClick(View v) {
+		nGroupPosition = (int) v.getTag(R.id.tag_record_list_player_group_index);
+
+		AlertDialog.Builder dlg = new AlertDialog.Builder(context);
+		dlg.setTitle(titleList.get(nGroupPosition).get("player"));
+		dlg.setItems(context.getResources().getStringArray(R.array.cptdlg_item_oper)
+				, itemListener);
+		dlg.show();
+	}
+
+	DialogInterface.OnClickListener itemListener = new DialogInterface.OnClickListener() {
+
+		private final int DOWNLOAD = 0;
+		private final int REFRESH = 1;
+		private final int MANAGE = 2;
+		@Override
+		public void onClick(DialogInterface dialog, int which) {
+			if (which == DOWNLOAD) {
+				onItemClickDownload(nGroupPosition);
+			}
+			else if (which == REFRESH) {
+				onItemClickRefresh(nGroupPosition);
+			}
+			else if (which == MANAGE) {
+				onItemClickManage(nGroupPosition);
+			}
+		}
+	};
+
+	public void onItemClickDownload(int position) {
+		String name = titleList.get(position).get("player");
+		interactionController.getImages(Command.TYPE_IMG_PLAYER_HEAD, name);
+	}
+
+	public void onItemClickRefresh(int position) {
+		String name = titleList.get(position).get("player");
+		ImageFactory.getPlayerHeadPath(name, playerImageIndexMap);
+		notifyDataSetChanged();
+	}
+
+	public void onItemClickManage(int position) {
+		final String name = titleList.get(position).get("player");
+		interactionController.showLocalImageDialog(context, new CustomDialog.OnCustomDialogActionListener() {
+			@Override
+			public boolean onSave(Object object) {
+				List<String> list = (List<String>) object;
+				interactionController.deleteImages(list);
+				notifyDataSetChanged();
+				return false;
+			}
+
+			@Override
+			public boolean onCancel() {
+				return false;
+			}
+
+			@Override
+			public void onLoadData(HashMap<String, Object> data) {
+				ImageUrlBean bean = interactionController.getPlayerHeadUrlBean(name);
+				data.put("data", bean);
+				data.put("flag", Command.TYPE_IMG_PLAYER_HEAD);
+			}
+		});
+	}
+
+	@Override
+	public void onServiceDisConnected() {
+		Toast.makeText(context, R.string.gdb_server_offline, Toast.LENGTH_LONG).show();
+	}
+
+	@Override
+	public void onRequestError() {
+		Toast.makeText(context, R.string.gdb_request_fail, Toast.LENGTH_LONG).show();
+	}
+
+	@Override
+	public void onImagesReceived(final ImageUrlBean bean) {
+		if (bean.getUrlList() == null) {
+			String text = context.getString(R.string.image_not_found);
+			text = String.format(text, bean.getKey());
+			Toast.makeText(context, text, Toast.LENGTH_LONG).show();
+		}
+		else {
+			// 直接下载更新
+			if (bean.getUrlList().size() == 1) {
+				List<DownloadItem> list = new ArrayList<>();
+				DownloadItem item = new DownloadItem();
+				item.setKey(bean.getUrlList().get(0));
+				item.setFlag(Command.TYPE_IMG_PLAYER_HEAD);
+				item.setSize(bean.getSizeList().get(0));
+
+				String url = bean.getUrlList().get(0);
+				if (url.contains("/")) {
+					String[] array = url.split("/");
+					url = array[array.length - 1];
+				}
+				item.setName(url);
+
+				list.add(item);
+
+				startDownload(list, bean.getKey());
+			}
+			// 显示对话框选择下载
+			else {
+				interactionController.showHttpImageDialog(context, new CustomDialog.OnCustomDialogActionListener() {
+					@Override
+					public boolean onSave(Object object) {
+						List<DownloadItem> list = (List<DownloadItem>) object;
+						startDownload(list, bean.getKey());
+						return false;
+					}
+
+					@Override
+					public boolean onCancel() {
+						return false;
+					}
+
+					@Override
+					public void onLoadData(HashMap<String, Object> data) {
+						data.put("data", bean);
+						data.put("flag", Command.TYPE_IMG_PLAYER_HEAD);
+					}
+				});
+			}
+		}
+	}
+
+	@Override
+	public void onDownloadFinished() {
+		notifyDataSetChanged();
+	}
+
+	private void startDownload(List<DownloadItem> list, String key) {
+		File file = new File(Configuration.IMG_PLAYER_HEAD + key);
+		if (!file.exists() || !file.isDirectory()) {
+			file.mkdir();
+		}
+		interactionController.downloadImage(context, list, file.getPath(), true);
 	}
 
 	private class TitleViewHolder {

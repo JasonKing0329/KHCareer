@@ -1,6 +1,5 @@
 package com.king.mytennis.view.update.recordlist;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -11,8 +10,9 @@ import com.king.mytennis.glory.ActionBar;
 import com.king.mytennis.glory.GloryController;
 import com.king.mytennis.glory.ActionBar.ActionBarListener;
 import com.king.mytennis.glory.GloryMatchDialog;
+import com.king.mytennis.http.RequestCallback;
+import com.king.mytennis.http.bean.ImageUrlBean;
 import com.king.mytennis.model.Constants;
-import com.king.mytennis.model.ImageFactory;
 import com.king.mytennis.model.NamePinyinPool;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.model.RecordListModel;
@@ -32,10 +32,13 @@ import com.king.mytennis.view.slidingmenu.SlidingMenuAbstract;
 import com.king.mytennis.view.slidingmenu.SlidingMenuCreator;
 import com.king.mytennis.view.slidingmenu.SlidingMenuLeft;
 import com.king.mytennis.view.slidingmenu.SlidingMenuService;
+import com.king.mytennis.view_v_7_0.interaction.controller.InteractionController;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
@@ -126,10 +129,6 @@ public class RecordListViewUpdate implements
 	private Context userActivity;
 	private MenuService menuService;
 
-	private HashMap<String, Bitmap> headMap;
-	private HashMap<String, Boolean> hasLoadHeadMap;
-	private HashMap<String, Bitmap> matchMap;
-	private HashMap<String, Boolean> hasLoadMatchMap;
 	private List<Record> tempList;
 	private List<Record> originList;
 
@@ -159,11 +158,7 @@ public class RecordListViewUpdate implements
 		userActivity = context;
 		recordListViewService = service;
 		menuService = new MenuService();
-		hasLoadHeadMap = new HashMap<String, Boolean>();
 		expandStateMap = new HashMap<Integer, Boolean>();
-		headMap = recordListViewService.getHeadMap();
-		matchMap = recordListViewService.getHeadMap();
-		hasLoadMatchMap = new HashMap<String, Boolean>();
 		setNeedReorderData(true);
 	}
 
@@ -1026,17 +1021,25 @@ public class RecordListViewUpdate implements
 	public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
 		ExpandableListView.ExpandableListContextMenuInfo info = (ExpandableListView.ExpandableListContextMenuInfo) menuInfo;
 		int type = ExpandableListView.getPackedPositionType(info.packedPosition);
-		int group = ExpandableListView.getPackedPositionGroup(info.packedPosition);
+//		nGroupSelected = ExpandableListView.getPackedPositionGroup(info.packedPosition);
 		if(type == ExpandableListView.PACKED_POSITION_TYPE_CHILD){
+//			int child = ExpandableListView.getPackedPositionChild(info.packedPosition);
 			((Activity) userActivity).getMenuInflater().inflate(R.menu.contextmenu_recorditem_longclick, menu);
 		}
 		else if (type == ExpandableListView.PACKED_POSITION_TYPE_GROUP) {
+			if (currentShowMode == SHOW_BY_PLAYER) {
 
+				// 移到单击头像
+//				AlertDialog.Builder dlg = new AlertDialog.Builder(userActivity);
+//				dlg.setTitle(titleList.get(nGroupSelected).get("player"));
+//				dlg.setItems(userActivity.getResources().getStringArray(R.array.cptdlg_item_oper)
+//						, itemListener);
+//				dlg.show();
+			}
 		}
 	}
 
 	public void onContextItemSelected(MenuItem item) {
-		Log.i("MyTennis", "onContextItemSelected");
 		ExpandableListContextMenuInfo info = (ExpandableListContextMenuInfo) item.getMenuInfo();
 		int group = ExpandableListView.getPackedPositionGroup(info.packedPosition);
 		int type = ExpandableListView.getPackedPositionType(info.packedPosition);
@@ -1047,10 +1050,8 @@ public class RecordListViewUpdate implements
 
 		HashMap<String, String> recordMap = recordList.get(group).get(child);
 		int realIndex = Integer.parseInt(recordMap.get("indexInRecordList"));
-		Log.i("MyTennis", "[group,child][" + group + "," + child +  "]  realIndex = " + realIndex);
 		switch (item.getItemId()) {
 			case R.id.record_item_update:
-				Log.i("MyTennis", "startUpdateDialog");
 				setNeedReorderData(true);
 				recordListViewService.startUpdateDialog(realIndex);
 				break;
