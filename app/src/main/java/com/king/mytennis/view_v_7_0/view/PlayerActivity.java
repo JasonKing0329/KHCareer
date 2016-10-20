@@ -22,6 +22,7 @@ import com.king.mytennis.model.ImageFactory;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.service.ImageUtil;
 import com.king.mytennis.service.ScreenUtils;
+import com.king.mytennis.utils.DebugLog;
 import com.king.mytennis.view.BaseActivity;
 import com.king.mytennis.view.CustomDialog;
 import com.king.mytennis.view.R;
@@ -35,9 +36,9 @@ import com.king.mytennis.view_v_7_0.model.PlayerBean;
  *
  */
 public class PlayerActivity extends BaseActivity implements OnGroupCollapseListener
-		, OnChildClickListener{
+		, OnChildClickListener, View.OnClickListener{
 
-	private final String TAG = "MatchActivity";
+	private final String TAG = "PlayerActivity";
 	private PullToZoomScrollViewEx pullView;
 	private ExpandableListView expandableListView;
 
@@ -45,6 +46,8 @@ public class PlayerActivity extends BaseActivity implements OnGroupCollapseListe
 	private PlayerController mController;
 
 	private PlayerBean mPlayerBean;
+
+	private TextView h2hView, countInforView;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,8 +79,10 @@ public class PlayerActivity extends BaseActivity implements OnGroupCollapseListe
 	private void initHeader(View headView, View zoomView) {
 		ImageUtil.load("file://" + ImageFactory.getDetailPlayerPath(mPlayerBean.getName())
 				, (ImageView) zoomView, R.drawable.swipecard_default_img);
-		((TextView) headView.findViewById(R.id.player_head_h2h)).setText(
-				mPlayerBean.getWin() + "胜" + mPlayerBean.getLose() + "负");
+		h2hView = (TextView) headView.findViewById(R.id.player_head_h2h);
+		countInforView = (TextView) headView.findViewById(R.id.player_head_count_details);
+		h2hView.setText(mPlayerBean.getWin() + "胜" + mPlayerBean.getLose() + "负");
+		headView.findViewById(R.id.player_head_count_layout).setOnClickListener(this);
 //        ((TextView) headView.findViewById(R.id.match_head_level)).setText(mMatchBean.getLevel());
 		((TextView) headView.findViewById(R.id.player_head_name)).setText(mPlayerBean.getName());
 		((TextView) headView.findViewById(R.id.player_head_place)).setText(
@@ -94,6 +99,8 @@ public class PlayerActivity extends BaseActivity implements OnGroupCollapseListe
 	private void initContent(View contentView) {
 		mController.loadRecords(this, mPlayerBean.getName());
 		mAdapter = new PlayerExpanAdapter(this, mController.getExpandList());
+
+		countInforView.setText(mController.getCountInfor());
 		expandableListView = (ExpandableListView) contentView.findViewById(R.id.match_expanlist);
 		expandableListView.setAdapter(mAdapter);
 		expandableListView.setOnGroupCollapseListener(this);
@@ -187,4 +194,17 @@ public class PlayerActivity extends BaseActivity implements OnGroupCollapseListe
 		return true;
 	}
 
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+			case R.id.player_head_count_layout:
+				if (countInforView.getVisibility() == View.VISIBLE) {
+					countInforView.setVisibility(View.GONE);
+				}
+				else {
+					countInforView.setVisibility(View.VISIBLE);
+				}
+				break;
+		}
+	}
 }

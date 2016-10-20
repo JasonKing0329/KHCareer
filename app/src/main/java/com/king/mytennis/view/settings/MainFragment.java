@@ -14,6 +14,7 @@ import android.preference.Preference.OnPreferenceClickListener;
 import android.text.TextUtils;
 import android.widget.Toast;
 
+import com.king.mytennis.http.BaseUrl;
 import com.king.mytennis.model.Configuration;
 import com.king.mytennis.net.UploadHelper;
 import com.king.mytennis.service.FingerPrintController;
@@ -96,6 +97,7 @@ public class MainFragment extends PreferenceFragment implements OnPreferenceChan
 		dirTempPref.setSummary(str);
 
 		httpServerPref.setSummary(SettingProperty.getServerBaseUrl(getActivity()));
+		httpServerPref.setOnPreferenceChangeListener(this);
 		
 		loginPref.setOnPreferenceClickListener(this);
 		autoFillPref.setOnPreferenceClickListener(this);
@@ -158,6 +160,10 @@ public class MainFragment extends PreferenceFragment implements OnPreferenceChan
 		}
 		else if (preference == uiPref) {
 			uiPref.setSummary(newValue.toString());
+		}
+		else if (preference == httpServerPref) {
+			httpServerPref.setSummary((String) newValue);
+			BaseUrl.getInstance().setBaseUrl((String) newValue);
 		}
 		return true;
 	}

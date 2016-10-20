@@ -31,16 +31,29 @@
 		    android:textSize="16sp" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/player_head_h2h"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
+	<LinearLayout
+		android:id="@+id/player_head_count_layout"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
 		android:layout_alignParentRight="true"
 		android:layout_alignParentBottom="true"
-	    android:textColor="@color/actionbar_bk_orange"
-	    android:layout_marginBottom="25dp"
-	    android:layout_marginRight="15dp"
-		android:background="@color/match_head_name_bk"
+		android:layout_marginBottom="25dp"
+		android:layout_marginRight="15dp"
 		android:padding="10dp"
-	    android:textSize="18sp" />
+		android:background="@color/match_head_name_bk"
+		android:orientation="vertical">
+		<TextView
+			android:id="@+id/player_head_h2h"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textColor="@color/actionbar_bk_orange"
+			android:textSize="18dp" />
+		<TextView
+			android:id="@+id/player_head_count_details"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textColor="@color/white"
+			android:textSize="14dp"
+			android:visibility="gone"/>
+	</LinearLayout>
 </RelativeLayout>

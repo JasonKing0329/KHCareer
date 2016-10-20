@@ -13,6 +13,7 @@ public class AutoFillItem implements Serializable {
 	private String match;
 	private String country;
 	private String city;
+	private String matchPinyin;
 	public int getCourtIndex() {
 		return courtIndex;
 	}
@@ -54,5 +55,13 @@ public class AutoFillItem implements Serializable {
 	}
 	public void setCity(String city) {
 		this.city = city;
+	}
+
+	public String getMatchPinyin() {
+		return matchPinyin;
+	}
+
+	public void setMatchPinyin(String matchPinyin) {
+		this.matchPinyin = matchPinyin;
 	}
 }

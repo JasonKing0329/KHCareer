@@ -1,11 +1,14 @@
 package com.king.mytennis.view.settings;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
 import com.king.mytennis.model.Configuration;
 import com.king.mytennis.model.FileIO;
+import com.king.mytennis.utils.PinyinUtil;
 import com.king.mytennis.view.R;
 
 import android.os.Bundle;
@@ -53,6 +56,7 @@ public class AutoFillFragment extends PreferenceFragment implements OnPreference
 		if (Configuration.supportMultiAutoFill) {
 			formList = new FileIO().getAllAutoFillForms();
 			if (formList != null && formList.size() > 0) {
+				Collections.sort(formList, new ItemComparator());
 				AutoFillListItemPreference preference = null;
 				for (AutoFillItem item:formList) {
 					preference = new AutoFillListItemPreference(getActivity());
@@ -106,7 +110,24 @@ public class AutoFillFragment extends PreferenceFragment implements OnPreference
 			formList.add(item);
 		}
 	}
-	
+
+	/**
+	 * 按match拼音升序排列
+	 */
+	private class ItemComparator implements Comparator<AutoFillItem> {
+
+		@Override
+		public int compare(AutoFillItem lhs, AutoFillItem rhs) {
+			if (lhs.getMatchPinyin() == null) {
+				lhs.setMatchPinyin(PinyinUtil.getPinyin(lhs.getMatch()));
+			}
+			if (rhs.getMatchPinyin() == null) {
+				rhs.setMatchPinyin(PinyinUtil.getPinyin(rhs.getMatch()));
+			}
+			return lhs.getMatchPinyin().compareTo(rhs.getMatchPinyin());
+		}
+	}
+
 	@Override
 	/**
 	 * only invoked in non-supportMultiAutoFill mode
