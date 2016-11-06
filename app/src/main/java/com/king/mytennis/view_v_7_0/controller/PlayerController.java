@@ -9,6 +9,7 @@ import java.util.Map;
 import android.content.Context;
 
 import com.king.mytennis.model.Configuration;
+import com.king.mytennis.model.Constants;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.service.RecordService;
 import com.king.mytennis.view.R;
@@ -65,6 +66,10 @@ public class PlayerController {
 			}
 			child.add(record);
 
+			//如果是赛前退赛不算作h2h
+			if (record.getScore().equals(Constants.SCORE_RETIRE)) {
+				continue;
+			}
 			// count h2h by court
 			if (record.getCourt().equals("硬地")) {
 				if (record.getCompetitor().equals(record.getWinner())) {

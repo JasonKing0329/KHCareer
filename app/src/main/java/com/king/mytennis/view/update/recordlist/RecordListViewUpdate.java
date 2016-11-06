@@ -809,6 +809,7 @@ public class RecordListViewUpdate implements
 				recordList.add(childList);
 			}
 			map = new HashMap<String, String>();
+			childList.add(0, map);
 			buffer = new StringBuffer("(");buffer.append(record.getCptRank()).append("/").append(record.getCptSeed());
 			buffer.append(")  ").append(record.getCourt()).append("  ").append(record.getStrDate());
 			map.put("player", buffer.toString());
@@ -828,27 +829,29 @@ public class RecordListViewUpdate implements
 			map.put("score", buffer.toString());
 			map.put("indexInRecordList", "" + i);
 
-			if (MultiUserManager.USER_DB_FLAG.equals(record.getWinner())) {
-				if (winMap.get(record.getCompetitor()) == null) {
-					win = 1;
-					winMap.put(record.getCompetitor(), 1);
+			//如果是赛前退赛不算作h2h
+			if (!record.getScore().equals(Constants.SCORE_RETIRE)) {
+				if (MultiUserManager.USER_DB_FLAG.equals(record.getWinner())) {
+					if (winMap.get(record.getCompetitor()) == null) {
+						win = 1;
+						winMap.put(record.getCompetitor(), 1);
+					}
+					else {
+						win = winMap.get(record.getCompetitor());
+						winMap.put(record.getCompetitor(), ++ win);
+					}
 				}
 				else {
-					win = winMap.get(record.getCompetitor());
-					winMap.put(record.getCompetitor(), ++ win);
+					if (loseMap.get(record.getCompetitor()) == null) {
+						lose = 1;
+						loseMap.put(record.getCompetitor(), 1);
+					}
+					else {
+						lose = loseMap.get(record.getCompetitor());
+						loseMap.put(record.getCompetitor(), ++ lose);
+					}
 				}
 			}
-			else {
-				if (loseMap.get(record.getCompetitor()) == null) {
-					lose = 1;
-					loseMap.put(record.getCompetitor(), 1);
-				}
-				else {
-					lose = loseMap.get(record.getCompetitor());
-					loseMap.put(record.getCompetitor(), ++ lose);
-				}
-			}
-			childList.add(0, map);
 		}
 		recordList.add(childList);
 

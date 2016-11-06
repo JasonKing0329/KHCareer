@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.king.mytennis.model.Constants;
 import com.king.mytennis.model.ImageFactory;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.multiuser.MultiUserManager;
@@ -54,6 +55,10 @@ public class PlayerExpanAdapter extends BaseExpandableListAdapter {
 				StringBuffer buffer = new StringBuffer(list.get(0).getStrDate().split("-")[0]);
 				buffer.append("（");
 				for (Record record:list) {
+					//如果是赛前退赛不算作h2h
+					if (record.getScore().equals(Constants.SCORE_RETIRE)) {
+						continue;
+					}
 					if (record.getWinner().equals(MultiUserManager.USER_DB_FLAG)) {
 						win ++;
 					}

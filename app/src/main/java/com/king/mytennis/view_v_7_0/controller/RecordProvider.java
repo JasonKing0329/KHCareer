@@ -11,6 +11,7 @@ import java.util.Map;
 import android.content.Context;
 import android.util.Log;
 
+import com.king.mytennis.model.Constants;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.multiuser.MultiUserManager;
 import com.king.mytennis.service.CharacterParser;
@@ -244,11 +245,14 @@ public class RecordProvider {
 				map.put(bean.getName(), bean);
 			}
 
-			if (record.getWinner().equals(MultiUserManager.USER_DB_FLAG)) {
-				bean.setWin(bean.getWin() + 1);
-			}
-			else {
-				bean.setLose(bean.getLose() + 1);
+			//如果是赛前退赛不算作h2h
+			if (!record.getScore().equals(Constants.SCORE_RETIRE)) {
+				if (record.getWinner().equals(MultiUserManager.USER_DB_FLAG)) {
+					bean.setWin(bean.getWin() + 1);
+				}
+				else {
+					bean.setLose(bean.getLose() + 1);
+				}
 			}
 		}
 		return playerList;
