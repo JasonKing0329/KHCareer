@@ -15,6 +15,7 @@
     	<item>ATP500</item>
     	<item>ATP250</item>
     	<item>Davi\'s Cup</item>
+		<item>Olympic Games</item>
     </array>
     <array name="actionbar_spinner_court">
         <item>全部</item>
@@ -48,6 +49,7 @@
     	<item>Round 64</item>
     	<item>Round 128</item>
     	<item>Group</item>
+		<item>Bronze medal</item>
     </array>
     <array name="spinner_round_show_in_glorymatch">
     	<item>F</item>
