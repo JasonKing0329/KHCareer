@@ -5,6 +5,7 @@ import com.king.mytennis.glory.ActionBar.ActionBarListener;
 import com.king.mytennis.http.BaseUrl;
 import com.king.mytennis.model.Configuration;
 import com.king.mytennis.model.MySQLHelper;
+import com.king.mytennis.model.PermissionUtil;
 import com.king.mytennis.service.FingerPrintController;
 import com.king.mytennis.service.FingerPrintController.SimpleIdentifyListener;
 import com.king.mytennis.service.Application;
@@ -22,6 +23,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -51,6 +53,31 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Call
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		// android6.0及以上需要动态分配权限
+		// 先获取读写以及存储权限，不然没法执行init里面的一些初始化操作
+		if (Application.isM()) {
+			if (PermissionUtil.isStoragePermitted(this)) {
+				executeOnCreate();
+			}
+			else {
+				PermissionUtil.requestStoragePermission(this, 1);
+				PermissionUtil.requestOtherPermission(this);
+			}
+		}
+		else {
+			executeOnCreate();
+		}
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+										   @NonNull int[] grantResults) {
+		if (PermissionUtil.isStoragePermitted(this)) {
+			executeOnCreate();
+		}
+	}
+
+	private void executeOnCreate() {
 		prepareDialog = new ProgressDialog(this);
 		prepareDialog.setTitle(R.string.loading);
 		prepareDialog.setMessage(getResources().getString(R.string.preparing_app));

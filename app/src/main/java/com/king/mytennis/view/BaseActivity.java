@@ -4,9 +4,10 @@ import com.king.mytennis.service.ThemeManager;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.view.WindowManager;
 
-public class BaseActivity extends Activity {
+public class BaseActivity extends FragmentActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

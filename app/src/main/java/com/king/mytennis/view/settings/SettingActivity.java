@@ -17,6 +17,12 @@ import com.king.mytennis.service.Application;
 
 public class SettingActivity extends BaseActivity implements ActionBarListener {
 
+	public static final int START_DEFAULT = 0;
+	public static final int START_AUTOFILL_SELECT = 1;
+	public static final String START_MODE = "start_mode";
+
+	private int startMode;
+
 	private final int FRAG_MAIN = 0;
 	private final int FRAG_AUTOFILL = 1;
 	private int fragMode = FRAG_MAIN;
@@ -36,11 +42,26 @@ public class SettingActivity extends BaseActivity implements ActionBarListener {
 		}
 		actionBar = new ActionBar(this, this);
 		actionBar.setTitle(getResources().getString(R.string.action_setting));
-		// getFragmentManager().beginTransaction().replace(android.R.id.content, new SettingFragment()).commit();
-		//通过观察源码看出android.R.id.content代表的是LinearLayout(属于ViewGroup)
+
+		startMode = getIntent().getIntExtra(START_MODE, START_DEFAULT);
+		switch (startMode) {
+			case START_AUTOFILL_SELECT:
+				changeToAutoFillFragment();
+				break;
+			default:
+				initMainSetting();
+				break;
+		}
+		super.onCreate(savedInstanceState);
+	}
+
+	public int getStartMode() {
+		return startMode;
+	}
+
+	private void initMainSetting() {
 		mainFragment = new MainFragment();
 		getFragmentManager().beginTransaction().replace(R.id.setting_container, mainFragment).commit();
-		super.onCreate(savedInstanceState);
 	}
 
 	public void changeToAutoFillFragment() {
@@ -82,7 +103,9 @@ public class SettingActivity extends BaseActivity implements ActionBarListener {
 
 	public void setAsPreference(AutoFillItem item) {
 		Configuration.getInstance().createPreference(this, item);
-		mainFragment.updateAutoFillPref(item);
+		if (startMode != START_AUTOFILL_SELECT) {
+			mainFragment.updateAutoFillPref(item);
+		}
 	}
 
 	@Override
@@ -142,7 +165,13 @@ public class SettingActivity extends BaseActivity implements ActionBarListener {
 			finish();
 		}
 		else {
-			changeToMainFrag();
+			if (startMode == START_AUTOFILL_SELECT) {
+				setResult(RESULT_OK);
+				finish();
+			}
+			else {
+				changeToMainFrag();
+			}
 		}
 	}
 
@@ -161,8 +190,6 @@ public class SettingActivity extends BaseActivity implements ActionBarListener {
 
 	@Override
 	public void onOk() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

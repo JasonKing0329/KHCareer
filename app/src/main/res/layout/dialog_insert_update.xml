@@ -242,6 +242,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:orientation="horizontal"
+				android:gravity="center_vertical"
 				>
 			    <TextView
 					android:text="@string/match"
@@ -251,11 +252,20 @@
 				/>
 		    	<AutoCompleteTextView
 					android:id="@+id/insert_et_matchname"
-					android:layout_width="match_parent"
+					android:layout_width="0dp"
+					android:layout_weight="1"
+					android:layout_marginRight="10dp"
 					android:layout_height="wrap_content"
 					android:layout_marginLeft="10dp"
 					android:completionThreshold="1"
 		    	/>
+				<ImageView
+					android:id="@+id/insert_iv_change_match"
+					android:layout_width="36dp"
+					android:layout_height="36dp"
+					android:padding="5dp"
+					android:src="@drawable/ic_loop_amber_500_36dp"
+					android:background="@drawable/ripple_white"/>
 			</LinearLayout>
 			
 			<include layout="@layout/divider"/>

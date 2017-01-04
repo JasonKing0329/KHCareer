@@ -12,8 +12,10 @@ import com.king.mytennis.multiuser.MultiUserManager;
 import com.king.mytennis.service.RecordEditorService;
 import com.king.mytennis.service.RecordService;
 import com.king.mytennis.utils.PinyinUtil;
+import com.king.mytennis.view.settings.SettingActivity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
@@ -26,6 +28,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -35,11 +38,13 @@ import android.widget.AdapterView.OnItemSelectedListener;
 
 public class RecordEditorActivity extends BaseActivity implements OnClickListener {
 
+	private final int REQUEST_CHANGE_MATCH = 101;
 	private TextView nextPageView, previousPageView, doneView, continueView;
 	private RelativeLayout bkLayout;
 	private TextView titleView;
 	private LinearLayout playerLayout, matchLayout;
 	private ProgressDialog progressDialog;
+	private ImageView ivChangeMatch;
 
 	private RecordEditorService recordEditorService;
 
@@ -167,6 +172,11 @@ public class RecordEditorActivity extends BaseActivity implements OnClickListene
 
 			continueInsert();
 		}
+		else if (v == ivChangeMatch) {
+			Intent intent = new Intent().setClass(this, SettingActivity.class);
+			intent.putExtra(SettingActivity.START_MODE, SettingActivity.START_AUTOFILL_SELECT);
+			startActivityForResult(intent, REQUEST_CHANGE_MATCH);
+		}
 	}
 
 	private void continueInsert() {
@@ -250,6 +260,8 @@ public class RecordEditorActivity extends BaseActivity implements OnClickListene
 		et_city = (EditText) findViewById(R.id.insert_et_city);
 		et_winner = (EditText) findViewById(R.id.insert_et_winner);
 		et_score = (EditText) findViewById(R.id.insert_et_score);
+		ivChangeMatch = (ImageView) findViewById(R.id.insert_iv_change_match);
+		ivChangeMatch.setOnClickListener(this);
 
 		sp_month = (Spinner) findViewById(R.id.insert_spinner_month);
 		sp_year = (Spinner) findViewById(R.id.insert_spinner_year);
@@ -411,5 +423,23 @@ public class RecordEditorActivity extends BaseActivity implements OnClickListene
 		}
 		RecordService service = new RecordService(this);
 		return service.insert(record);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == REQUEST_CHANGE_MATCH) {
+			if (resultCode == RESULT_OK) {
+				Configuration conf = Configuration.getInstance();
+				conf.loadFromPreference(this);
+				et_city.setText(conf.autoFillItem.getCity());
+				et_matchcountry.setText(conf.autoFillItem.getCountry());
+				actv_matchname.setText(conf.autoFillItem.getMatch());
+				sp_round.setSelection(conf.autoFillItem.getRoundIndex());
+				sp_court.setSelection(conf.autoFillItem.getCourtIndex());
+				sp_level.setSelection(conf.autoFillItem.getLevelIndex());
+				sp_region.setSelection(conf.autoFillItem.getRegionIndex());
+			}
+		}
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 }
