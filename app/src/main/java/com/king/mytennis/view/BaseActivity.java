@@ -3,8 +3,11 @@ package com.king.mytennis.view;
 import com.king.mytennis.service.ThemeManager;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.View;
 import android.view.WindowManager;
 
 public class BaseActivity extends FragmentActivity {
@@ -23,4 +26,11 @@ public class BaseActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 	}
 
+	public void showConfirmMessage(String msg, DialogInterface.OnClickListener listener) {
+		new AlertDialog.Builder(this)
+				.setTitle(null)
+				.setMessage(msg)
+				.setPositiveButton(getString(R.string.ok), listener)
+				.show();
+	}
 }

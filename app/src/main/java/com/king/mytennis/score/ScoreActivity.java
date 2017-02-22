@@ -6,7 +6,10 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.king.mytennis.view.BaseActivity;
+import com.king.mytennis.view.CustomDialog;
 import com.king.mytennis.view.R;
+
+import java.util.HashMap;
 
 /**
  * 描述:
@@ -26,6 +29,8 @@ public class ScoreActivity extends BaseActivity implements View.OnClickListener,
     private ScoreFragment ftYear;
     private ScoreFragment ft52Week;
 
+    private ScoreEditDialog editDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +43,8 @@ public class ScoreActivity extends BaseActivity implements View.OnClickListener,
 
         tvYear.setOnClickListener(this);
         tvWeeks.setOnClickListener(this);
+        findViewById(R.id.score_actionbar_edit).setOnClickListener(this);
+        findViewById(R.id.score_actionbar_back).setOnClickListener(this);
 
         mPresenter = new ScorePresenter(this);
         show52WeekScores();
@@ -52,7 +59,40 @@ public class ScoreActivity extends BaseActivity implements View.OnClickListener,
             case R.id.score_actionbar_week:
                 show52WeekScores();
                 break;
+            case R.id.score_actionbar_edit:
+                showScoreEditDialog();
+                break;
+            case R.id.score_actionbar_back:
+                finish();
+                break;
         }
+    }
+
+    private void showScoreEditDialog() {
+        if (editDialog == null) {
+            editDialog = new ScoreEditDialog(this, new CustomDialog.OnCustomDialogActionListener() {
+                @Override
+                public boolean onSave(Object object) {
+                    RankBean bean = (RankBean) object;
+                    ft52Week.onRankChanged(bean.getRank());
+                    if (ftYear != null) {
+                        ftYear.onRankChanged(bean.getRank());
+                    }
+                    return true;
+                }
+
+                @Override
+                public boolean onCancel() {
+                    return false;
+                }
+
+                @Override
+                public void onLoadData(HashMap<String, Object> data) {
+                }
+            });
+            editDialog.setTitle("Edit Rank");
+        }
+        editDialog.show();
     }
 
     private void show52WeekScores() {

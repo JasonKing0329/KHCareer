@@ -24,6 +24,9 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * v2.4.1 废弃rank部分，rank由score module的编辑对话框管理
+ */
 public class AchieveParentView implements IXListViewListener {
 
 	private Context context;

@@ -7,11 +7,9 @@ import android.database.sqlite.SQLiteDatabase;
 import com.king.mytennis.interfc.DatabaseAccess;
 import com.king.mytennis.match.MatchSeqBean;
 import com.king.mytennis.match.MatchSqlModel;
-import com.king.mytennis.match.MatchSqliteDB;
 import com.king.mytennis.model.DatabaseStruct;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.model.SQLiteDB;
-import com.king.mytennis.utils.DebugLog;
 import com.king.mytennis.view.R;
 
 import java.text.ParseException;
@@ -36,14 +34,20 @@ public class ScoreModel {
     private String[] arrRound;
     private String[] arrLevel;
 
-    public ScoreModel(Context context) {
+    private IScoreCallback callback;
+    private List<String> nonExistMatchList;
+
+    public ScoreModel(Context context, IScoreCallback callback) {
         sqLitePlayer = new SQLiteDB(context);
         matchSqlModel = new MatchSqlModel(context);
         arrRound = context.getResources().getStringArray(R.array.spinner_round);
         arrLevel = context.getResources().getStringArray(R.array.spinner_level);
+        this.callback = callback;
+        nonExistMatchList = new ArrayList<>();
     }
 
-    public List<ScoreBean> queryYearRecords() {
+    public void queryYearRecords() {
+        nonExistMatchList.clear();
         long minTime = getYearMinTime();
         long maxTime = getMonthMaxTime();
         // 查询出今年初一直到本月的记录
@@ -61,11 +65,12 @@ public class ScoreModel {
 
         // 去掉不在积分周期的记录
         List<ScoreBean> scoreList = distinctOutsideRecord(list);
-        return scoreList;
+        callback.onYearRecordsLoaded(scoreList, nonExistMatchList);
     }
 
-    public List<ScoreBean> query52WeekRecords() {
+    public void query52WeekRecords() {
 
+        nonExistMatchList.clear();
         long minTime = getLastYearMinTime();
         long maxTime = getMonthMaxTime();
 
@@ -84,7 +89,7 @@ public class ScoreModel {
         
         // 去掉不在积分周期的记录
         List<ScoreBean> scoreList = distinctOutsideRecord(list);
-        return scoreList;
+        callback.on52WeekRecordsLoaded(scoreList, nonExistMatchList);
     }
 
     private List<ScoreBean> distinctOutsideRecord(List<Record> list) {
@@ -131,7 +136,7 @@ public class ScoreModel {
     private void addScoreBean(List<ScoreBean> scoreList, ScoreBean bean, int weekOfLastYear, int weekOfYear, Record record) {
         MatchSeqBean matchSeqBean = matchSqlModel.getMatchSeqBeanByName(record.getMatch());
         if (matchSeqBean == null) {
-            DebugLog.e("Error: No match name '" + record.getMatch() + "' found in table match_seq!");
+            nonExistMatchList.add(record.getMatch());
             return;
         }
         // 如果在积分周期，则记录为score bean

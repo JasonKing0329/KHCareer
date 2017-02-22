@@ -12,8 +12,10 @@ import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
 import com.king.mytennis.model.Constants;
+import com.king.mytennis.model.FileIO;
 import com.king.mytennis.multiuser.MultiUser;
 import com.king.mytennis.multiuser.MultiUserManager;
+import com.king.mytennis.view.BaseActivity;
 import com.king.mytennis.view.R;
 
 import java.util.ArrayList;
@@ -47,6 +49,7 @@ public class ScoreFragment extends Fragment implements IScorePageView {
     private TextView tvMatchCount;
     private TextView tvHeight;
     private ImageView ivCountryFlag;
+    private TextView tvRank;
 
     private PieChart chartCourt;
     private PieChart chartYear;
@@ -78,6 +81,7 @@ public class ScoreFragment extends Fragment implements IScorePageView {
         tvBirthday = (TextView) view.findViewById(R.id.score_birthday);
         tvCountry = (TextView) view.findViewById(R.id.score_country);
         tvHeight = (TextView) view.findViewById(R.id.score_height);
+        tvRank = (TextView) view.findViewById(R.id.score_rank);
         tvMatchCount = (TextView) view.findViewById(R.id.score_match_number);
         ivCountryFlag = (ImageView) view.findViewById(R.id.score_flag_bg);
         chartCourt = (PieChart) view.findViewById(R.id.score_chart_court);
@@ -169,15 +173,41 @@ public class ScoreFragment extends Fragment implements IScorePageView {
         // 2016奥运会无积分，进入其他项显示
         List<ScoreBean> olyList = map.get(arrLevel[6]);
         if (olyList != null && olyList.size() > 0) {
-            otherList.addAll(olyList);
+            // 如果即打了半决赛又打了铜牌赛，会出现两条记录，只取第一条
+            otherList.add(olyList.get(0));
         }
         tvOther.setText(scoreView.getPresenter().getGroupText(otherList, null, null));
 
         tvScoreTotal.setText(String.valueOf(data.getCountScore()));
         tvMatchCount.setText(String.valueOf("Match count " + data.getScoreList().size()));
+        tvRank.setText(loadPlayerRank());
 
         showCourtChart(data);
         showYearChart(data);
+
+        // 有match没有在public数据库中，提示
+        if (data.getNonExistMatchList().size() > 0) {
+            StringBuffer buffer = new StringBuffer("Match not found: ");
+            for (int i = 0; i < data.getNonExistMatchList().size(); i ++) {
+                if (i == 0) {
+                    buffer.append(data.getNonExistMatchList().get(i));
+                }
+                else {
+                    buffer.append(",").append(data.getNonExistMatchList().get(i));
+                }
+            }
+            ((BaseActivity) getActivity()).showConfirmMessage(buffer.toString(), null);
+        }
+    }
+
+    private String loadPlayerRank() {
+        RankBean bean = new FileIO().readRankBean();
+        if (bean == null) {
+            return "0";
+        }
+        else {
+            return String.valueOf(bean.getRank());
+        }
     }
 
     private void showYearChart(ScorePageData data) {
@@ -224,4 +254,7 @@ public class ScoreFragment extends Fragment implements IScorePageView {
         chartHelper.showPieChart(chartCourt, contents, percents, colors, style);
     }
 
+    public void onRankChanged(int rank) {
+        tvRank.setText(String.valueOf(rank));
+    }
 }

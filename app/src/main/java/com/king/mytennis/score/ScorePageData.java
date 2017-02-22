@@ -18,6 +18,7 @@ public class ScorePageData {
     private int countScoreClay;
     private int countScoreGrass;
     private int countScoreInHard;
+    private List<String> nonExistMatchList;
 
     public List<ScoreBean> getScoreList() {
         return scoreList;
@@ -89,5 +90,13 @@ public class ScorePageData {
 
     public void setLevelMap(Map<String, List<ScoreBean>> levelMap) {
         this.levelMap = levelMap;
+    }
+
+    public List<String> getNonExistMatchList() {
+        return nonExistMatchList;
+    }
+
+    public void setNonExistMatchList(List<String> nonExistMatchList) {
+        this.nonExistMatchList = nonExistMatchList;
     }
 }

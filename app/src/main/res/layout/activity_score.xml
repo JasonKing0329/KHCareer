@@ -16,6 +16,7 @@
 			android:padding="6dp"
 			android:layout_marginLeft="5dp"
 			android:src="@drawable/actionbar_back"
+			android:background="?android:attr/selectableItemBackgroundBorderless"
 			android:scaleType="fitCenter" />
 
 		<LinearLayout
@@ -60,6 +61,15 @@
 				android:visibility="invisible"
 				android:background="@color/tab_actionbar_text_focus"/>
 		</LinearLayout>
+
+		<ImageView
+			android:id="@+id/score_actionbar_edit"
+			android:layout_width="@dimen/view7_actionbar_height"
+			android:layout_height="@dimen/view7_actionbar_height"
+			android:padding="@dimen/view7_actionbar_icon_padding"
+			android:layout_alignParentRight="true"
+			android:background="?android:attr/selectableItemBackgroundBorderless"
+			android:src="@drawable/ic_edit_white_36dp" />
 
 	</RelativeLayout>
 

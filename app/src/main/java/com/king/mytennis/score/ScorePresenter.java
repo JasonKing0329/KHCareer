@@ -17,7 +17,7 @@ import java.util.Map;
  * <p/>作者：景阳
  * <p/>创建时间: 2017/2/21 13:59
  */
-public class ScorePresenter {
+public class ScorePresenter implements IScoreCallback {
 
     private ScoreModel scoreModel;
     private IScorePageView scorePageView;
@@ -27,16 +27,18 @@ public class ScorePresenter {
     
     private ScoreComparator scoreComparator;
     private MatchSeqComparator matchSeqComparator;
+    private ScorePageData scorePageData;
 
     private int thisYear;
     
     public ScorePresenter(Context context) {
         arrCourt = context.getResources().getStringArray(R.array.spinner_court);
         arrLevel = context.getResources().getStringArray(R.array.spinner_level);
-        scoreModel = new ScoreModel(context);
+        scoreModel = new ScoreModel(context, this);
         scoreComparator = new ScoreComparator();
         matchSeqComparator = new MatchSeqComparator();
         thisYear = Calendar.getInstance().get(Calendar.YEAR);
+        scorePageData = new ScorePageData();
     }
 
     public void setScorePageView(IScorePageView scorePageView) {
@@ -44,31 +46,38 @@ public class ScorePresenter {
     }
 
     public void queryYearRecords() {
-        List<ScoreBean> list = scoreModel.queryYearRecords();
-        groupYearScores(list);
+        scoreModel.queryYearRecords();
     }
 
     public void query52WeekRecords() {
-        List<ScoreBean> list = scoreModel.query52WeekRecords();
+        scoreModel.query52WeekRecords();
+    }
+
+    @Override
+    public void onYearRecordsLoaded(List<ScoreBean> list, List<String> nonExistMatchList) {
+        scorePageData.setNonExistMatchList(nonExistMatchList);
+        groupYearScores(list);
+    }
+
+    @Override
+    public void on52WeekRecordsLoaded(List<ScoreBean> list, List<String> nonExistMatchList) {
+        scorePageData.setNonExistMatchList(nonExistMatchList);
         group52WeekScores(list);
     }
 
     public void groupYearScores(List<ScoreBean> list) {
-
         createPageData(list);
     }
 
     public void group52WeekScores(List<ScoreBean> list) {
-
         createPageData(list);
     }
 
     private void createPageData(List<ScoreBean> list) {
-        ScorePageData data = new ScorePageData();
-        data.setScoreList(list);
+        scorePageData.setScoreList(list);
 
         Map<String, List<ScoreBean>> levelMap = new HashMap<>();
-        data.setLevelMap(levelMap);
+        scorePageData.setLevelMap(levelMap);
 
         int countScore = 0, countYear = 0, countLastYear = 0, countHard = 0, countClay = 0
                 , countGrass = 0, countInHard = 0;
@@ -109,14 +118,14 @@ public class ScorePresenter {
             sl.add(bean);
         }
 
-        data.setCountScore(countScore);
-        data.setCountScoreClay(countClay);
-        data.setCountScoreGrass(countGrass);
-        data.setCountScoreInHard(countInHard);
-        data.setCountScoreHard(countHard);
-        data.setCountScoreYear(countYear);
-        data.setCountScoreLastYear(countLastYear);
-        scorePageView.onPageDataLoaded(data);
+        scorePageData.setCountScore(countScore);
+        scorePageData.setCountScoreClay(countClay);
+        scorePageData.setCountScoreGrass(countGrass);
+        scorePageData.setCountScoreInHard(countInHard);
+        scorePageData.setCountScoreHard(countHard);
+        scorePageData.setCountScoreYear(countYear);
+        scorePageData.setCountScoreLastYear(countLastYear);
+        scorePageView.onPageDataLoaded(scorePageData);
     }
 
     /**

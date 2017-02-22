@@ -22,7 +22,10 @@ import java.util.List;
 
 import com.king.mytennis.glory.adapter.AchieveLinearAdapter.RankViewData;
 import com.king.mytennis.multiuser.MultiUserManager;
+import com.king.mytennis.score.RankBean;
 import com.king.mytennis.view.settings.AutoFillItem;
+
+import static android.R.attr.data;
 
 public class FileIO {
 
@@ -331,6 +334,8 @@ public class FileIO {
 			}
 		}
 	}
+
+	@Deprecated
 	public void saveRankData(RankViewData data) {
 		if (data == null) {
 			return;
@@ -365,6 +370,7 @@ public class FileIO {
 		}
 	}
 
+	@Deprecated
 	public HashMap<String, Integer> readRankData() {
 		HashMap<String, Integer> data = new HashMap<String, Integer>();
 
@@ -404,6 +410,74 @@ public class FileIO {
 			}
 		}
 		return data;
+	}
+
+	public void saveRankBean(RankBean data) {
+		if (data == null) {
+			return;
+		}
+		FileOutputStream stream = null;
+		DataOutputStream dout = null;
+		try {
+			stream = new FileOutputStream(Configuration.CONF_DIR
+					+ MultiUserManager.getInstance().getTargetRankFile());
+			dout = new DataOutputStream(stream);
+			dout.writeInt(data.getRank());
+			dout.writeInt(data.getHighestRank());
+			dout.writeInt(data.getTop1Week());
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		} finally {
+			if (dout != null) {
+				try {
+					dout.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (stream != null) {
+				try {
+					stream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	public RankBean readRankBean() {
+		RankBean bean = new RankBean();
+
+		FileInputStream stream = null;
+		DataInputStream din = null;
+		try {
+			stream = new FileInputStream(Configuration.CONF_DIR
+					+ MultiUserManager.getInstance().getTargetRankFile());
+			din = new DataInputStream(stream);
+
+			bean.setRank(din.readInt());
+			bean.setHighestRank(din.readInt());
+			bean.setTop1Week(din.readInt());
+		} catch (IOException e1) {
+			e1.printStackTrace();
+			return null;
+		} finally {
+			if (din != null) {
+				try {
+					din.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+			if (stream != null) {
+				try {
+					stream.close();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return bean;
 	}
 
 	public void saveAutoFillForm(AutoFillItem item) {
