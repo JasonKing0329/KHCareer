@@ -35,4 +35,7 @@ public class Constants {
     	"ATP250",
     	"Davi\'s Cup"
 	};
+
+	public static final String MATCH_CONST_MONTECARLO = "蒙特卡洛大师赛";
+
 }

@@ -39,11 +39,57 @@
 	    android:textColor="@color/white"
 	    android:text="@string/view7_home"
 	    android:textStyle="bold" />
-	<ImageView
-        android:id="@+id/view7_actionbar_menu"
-	    android:layout_width="@dimen/view7_actionbar_height"
-	    android:layout_height="@dimen/view7_actionbar_height"
-	    android:padding="@dimen/view7_actionbar_icon_padding"
-	    android:src="@drawable/actionbar_menu"
-	    android:layout_alignParentRight="true" />
+
+	<LinearLayout
+		android:id="@+id/view7_actionbar_action_normal"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentRight="true"
+		android:layout_centerVertical="true"
+		android:gravity="center_vertical"
+		android:orientation="horizontal">
+		<LinearLayout
+			android:id="@+id/view7_actionbar_edit_group"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:visibility="gone"
+			android:orientation="horizontal">
+			<ImageView
+				android:id="@+id/view7_actionbar_add"
+				android:src="@drawable/ic_add_white_36dp"
+				style="@style/V7ActionbarActionIcon" />
+			<ImageView
+				android:id="@+id/view7_actionbar_edit"
+				style="@style/V7ActionbarActionIcon"
+				android:src="@drawable/ic_edit_white_36dp" />
+			<ImageView
+				android:id="@+id/view7_actionbar_delete"
+				style="@style/V7ActionbarActionIcon"
+				android:src="@drawable/ic_delete_white_36dp" />
+		</LinearLayout>
+		<ImageView
+			android:id="@+id/view7_actionbar_menu"
+			android:layout_width="@dimen/view7_actionbar_height"
+			android:layout_height="@dimen/view7_actionbar_height"
+			android:padding="@dimen/view7_actionbar_icon_padding"
+			android:background="?android:attr/selectableItemBackgroundBorderless"
+			android:src="@drawable/actionbar_menu" />
+	</LinearLayout>
+	<LinearLayout
+		android:id="@+id/view7_actionbar_action_confirm"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentRight="true"
+		android:layout_centerVertical="true"
+		android:visibility="gone"
+		android:orientation="horizontal">
+		<ImageView
+			android:id="@+id/view7_actionbar_done"
+			style="@style/V7ActionbarActionIcon"
+			android:src="@drawable/ic_check_white_36dp" />
+		<ImageView
+			android:id="@+id/view7_actionbar_close"
+			style="@style/V7ActionbarActionIcon"
+			android:src="@drawable/ic_close_white_36dp" />
+	</LinearLayout>
 </RelativeLayout>

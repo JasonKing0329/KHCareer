@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/view7_home_background" >
+
+	<RelativeLayout
+		android:id="@+id/score_actionbar"
+		android:layout_width="match_parent"
+		android:layout_height="@dimen/view7_actionbar_height"
+		android:background="@color/view7_actionbar_bk" >
+		<ImageView
+			android:id="@+id/score_actionbar_back"
+			android:layout_width="35dp"
+			android:layout_height="match_parent"
+			android:padding="6dp"
+			android:layout_marginLeft="5dp"
+			android:src="@drawable/actionbar_back"
+			android:scaleType="fitCenter" />
+
+		<LinearLayout
+			android:id="@+id/score_actionbar_title"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerInParent="true"
+			android:orientation="horizontal">
+			<TextView
+				android:id="@+id/score_actionbar_week"
+				android:layout_width="80dp"
+				android:layout_height="wrap_content"
+				android:gravity="center"
+				android:textSize="16dp"
+				android:textColor="@drawable/selector_action_tab_text"
+				android:text="@string/score_action_week"/>
+			<TextView
+				android:id="@+id/score_actionbar_year"
+				android:layout_width="80dp"
+				android:layout_height="wrap_content"
+				android:gravity="center"
+				android:textSize="16dp"
+				android:textColor="@drawable/selector_action_tab_text"
+				android:text="@string/score_action_year"/>
+		</LinearLayout>
+		<LinearLayout
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_centerHorizontal="true"
+			android:layout_below="@id/score_actionbar_title"
+			android:layout_marginTop="5dp"
+			android:orientation="horizontal">
+			<View
+				android:id="@+id/score_actionbar_week_divider"
+				android:layout_width="80dp"
+				android:layout_height="2dp"
+				android:background="@color/tab_actionbar_text_focus"/>
+			<View
+				android:id="@+id/score_actionbar_year_divider"
+				android:layout_width="80dp"
+				android:layout_height="2dp"
+				android:visibility="invisible"
+				android:background="@color/tab_actionbar_text_focus"/>
+		</LinearLayout>
+
+	</RelativeLayout>
+
+	<RelativeLayout
+		android:id="@+id/score_ft_container"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_below="@id/score_actionbar"/>
+
+</RelativeLayout>

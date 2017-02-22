@@ -26,9 +26,10 @@ public class ExternalRecordTool {
 	public static final String DATABASE_TIANQI = "mytennis_TianQi";
 	public static final String DATABASE_FLAMENCO = "mytennis_Flamenco";
 	public static final String DATABASE_HENRY = "mytennis_Henry";
+	public static final String DATABASE_PUBLIC = "mytennis_public";
 
 	private static final String[] targetDatabase = new String[] {
-			DATABASE, DATABASE_TIANQI, DATABASE_FLAMENCO, DATABASE_HENRY
+			DATABASE, DATABASE_TIANQI, DATABASE_FLAMENCO, DATABASE_HENRY, DATABASE_PUBLIC
 	};
 
 	/**
@@ -133,6 +134,7 @@ public class ExternalRecordTool {
 		saveDbTo(DATABASE_FLAMENCO, file);
 		saveDbTo(DATABASE_TIANQI, file);
 		saveDbTo(DATABASE_HENRY, file);
+		saveDbTo(DATABASE_PUBLIC, file);
 
 		return file.getPath();
 	}
@@ -168,10 +170,7 @@ public class ExternalRecordTool {
 			db.close();
 		}
 	}
-	/**
-	 *
-	 * @param context
-	 */
+
 	public static void saveDbAsHistory() {
 
 		SQLiteDatabase db = null;
@@ -216,10 +215,7 @@ public class ExternalRecordTool {
 			db.close();
 		}
 	}
-	/**
-	 *
-	 * @param context
-	 */
+
 	public static void saveDbPlayerAsHistory() {
 
 		SQLiteDatabase db = null;

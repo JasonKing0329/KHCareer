@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/score_topbar"
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+        <ImageView
+            android:id="@+id/score_flag_bg"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:src="@drawable/flag_usa"
+            android:scaleType="fitXY"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_alignParentRight="true"
+            android:paddingRight="15dp"
+            android:gravity="right">
+            <TextView
+                android:id="@+id/score_country"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="China"
+                android:textSize="20dp"
+                android:textColor="#e9ffe4"
+                android:layout_marginTop="50dp"/>
+            <TextView
+                android:id="@+id/score_birthday"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1991.03.29"
+                android:textSize="20dp"
+                android:textColor="#e1ffff"
+                android:layout_marginTop="10dp"/>
+            <TextView
+                android:id="@+id/score_height"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="188cm  79kg"
+                android:textSize="16dp"
+                android:textColor="#e6f7ff"
+                android:layout_marginTop="10dp"/>
+            <TextView
+                android:id="@+id/score_match_number"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Match count  17"
+                android:textSize="17dp"
+                android:textColor="#ababc3"
+                android:layout_marginTop="10dp"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/score_player"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text="Michael Henry"
+            android:textSize="27dp"
+            android:textColor="#f9f0f1"
+            android:shadowColor="#4d3279"
+            android:shadowRadius="3"
+            android:layout_marginTop="10dp"/>
+        <TextView
+            android:id="@+id/score_total"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@id/score_player"
+            android:layout_marginTop="10dp"
+            android:text="13040"
+            android:textSize="25dp"
+            android:textColor="#e2e0f6"
+            android:background="@drawable/shape_score_total_bg"
+            android:gravity="center_vertical"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp"/>
+    </RelativeLayout>
+
+    <ScrollView
+        android:id="@+id/score_group_datas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:layout_marginTop="200dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingBottom="20dp">
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin">
+                <TextView
+                    android:id="@+id/score_title_gs"
+                    style="@style/ScoreGroupTitle"
+                    android:text="Grand Slam"/>
+                <View
+                    style="@style/ScoreGroupTitleUnderline"
+                    android:layout_alignLeft="@id/score_title_gs"
+                    android:layout_alignRight="@id/score_title_gs"
+                    android:layout_below="@id/score_title_gs" />
+            </RelativeLayout>
+            <TextView
+                android:id="@+id/score_gs"
+                style="@style/ScoreGroupText" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin">
+                <TextView
+                    android:id="@+id/score_title_mc"
+                    style="@style/ScoreGroupTitle"
+                    android:text="Master Cup"/>
+                <View
+                    style="@style/ScoreGroupTitleUnderline"
+                    android:layout_alignLeft="@id/score_title_mc"
+                    android:layout_alignRight="@id/score_title_mc"
+                    android:layout_below="@id/score_title_mc" />
+            </RelativeLayout>
+            <TextView
+                android:id="@+id/score_mc"
+                style="@style/ScoreGroupText" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin">
+                <TextView
+                    android:id="@+id/score_title_1000"
+                    style="@style/ScoreGroupTitle"
+                    android:text="ATP 1000"/>
+                <View
+                    style="@style/ScoreGroupTitleUnderline"
+                    android:layout_alignLeft="@id/score_title_1000"
+                    android:layout_alignRight="@id/score_title_1000"
+                    android:layout_below="@id/score_title_1000" />
+            </RelativeLayout>
+            <TextView
+                android:id="@+id/score_1000"
+                style="@style/ScoreGroupText" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin">
+                <TextView
+                    android:id="@+id/score_title_500"
+                    style="@style/ScoreGroupTitle"
+                    android:text="ATP 500"/>
+                <View
+                    style="@style/ScoreGroupTitleUnderline"
+                    android:layout_alignLeft="@id/score_title_500"
+                    android:layout_alignRight="@id/score_title_500"
+                    android:layout_below="@id/score_title_500" />
+            </RelativeLayout>
+            <TextView
+                android:id="@+id/score_500"
+                style="@style/ScoreGroupText" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin">
+                <TextView
+                    android:id="@+id/score_title_250"
+                    style="@style/ScoreGroupTitle"
+                    android:text="ATP 250"/>
+                <View
+                    style="@style/ScoreGroupTitleUnderline"
+                    android:layout_alignLeft="@id/score_title_250"
+                    android:layout_alignRight="@id/score_title_250"
+                    android:layout_below="@id/score_title_250" />
+            </RelativeLayout>
+            <TextView
+                android:id="@+id/score_250"
+                style="@style/ScoreGroupText" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin">
+                <TextView
+                    android:id="@+id/score_title_replace"
+                    style="@style/ScoreGroupTitle"
+                    android:text="Replace"/>
+                <View
+                    style="@style/ScoreGroupTitleUnderline"
+                    android:layout_alignLeft="@id/score_title_replace"
+                    android:layout_alignRight="@id/score_title_replace"
+                    android:layout_below="@id/score_title_replace" />
+            </RelativeLayout>
+            <TextView
+                android:id="@+id/score_replace"
+                style="@style/ScoreGroupText" />
+
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/activity_horizontal_margin">
+                <TextView
+                    android:id="@+id/score_title_other"
+                    style="@style/ScoreGroupTitle"
+                    android:text="Other"/>
+                <View
+                    style="@style/ScoreGroupTitleUnderline"
+                    android:layout_alignLeft="@id/score_title_other"
+                    android:layout_alignRight="@id/score_title_other"
+                    android:layout_below="@id/score_title_other" />
+            </RelativeLayout>
+            <TextView
+                android:id="@+id/score_other"
+                style="@style/ScoreGroupText" />
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_alignTop="@id/score_group_datas"
+        android:layout_alignParentRight="true"
+        android:paddingLeft="10dp">
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/score_chart_court"
+            android:layout_width="180dp"
+            android:layout_height="180dp"
+            android:layout_marginTop="10dp"/>
+
+        <com.github.mikephil.charting.charts.PieChart
+            android:id="@+id/score_chart_year"
+            android:layout_width="180dp"
+            android:layout_height="180dp"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,1 +1,1 @@
-include ':app', ':libresmanager', ':prjcolorpicker', ':libcolorpicker', ':shapimageview', ':libtool', ':pulltozoomview'
+include ':app', ':libresmanager', ':prjcolorpicker', ':libcolorpicker', ':shapimageview', ':libtool', ':pulltozoomview', ':MPChartLib'

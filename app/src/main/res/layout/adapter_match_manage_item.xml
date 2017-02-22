@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/manage_item_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp">
+        <TextView
+            android:id="@+id/manage_item_index"
+            android:layout_width="30dp"
+            android:layout_height="wrap_content"
+            style="@style/MatchManageItem" />
+        <TextView
+            android:id="@+id/manage_item_name"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            style="@style/MatchManageItem"/>
+        <TextView
+            android:id="@+id/manage_item_sequence"
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            style="@style/MatchManageItem"/>
+        <CheckBox
+            android:id="@+id/manage_item_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="false"/>
+    </LinearLayout>
+</RelativeLayout>

@@ -251,8 +251,8 @@
     <string name="view7_folder_default">(default)</string>
     <string name="view7_main_add">Add new record</string>
     <string name="view7_more_glory">Glory</string>
-    <string name="view7_more_rank">Rank</string>
-    <string name="view7_more_h2h">H2H</string>
+    <string name="view7_more_match">Match</string>
+    <string name="view7_more_score">Score</string>
     <string name="view7_more_background">Background</string>
     <string name="view7_more_packup">Pack up</string>
     <string name="swipecard_refresh">Reload cards</string>
@@ -275,4 +275,10 @@
     <string name="download_title">Rquest failed!</string>
     <string name="server_url_empty">Please set server url first.</string>
     <string name="image_not_found">No image of %s found in server.</string>
+
+    <!-- *************************** match manage ********************************* -->
+    <string name="match_manage_title">Manage match</string>
+    <!-- *************************** score ********************************* -->
+    <string name="score_action_year">Year</string>
+    <string name="score_action_week">52 weeks</string>
 </resources>

@@ -10,9 +10,13 @@ import com.king.mytennis.interfc.DatabaseAccess;
 
 public class SQLiteDB implements DatabaseAccess {
 
-	private MySQLHelper sqlHelper;
+	protected MySQLHelper sqlHelper;
 
 	public SQLiteDB(Context context) {
+		initSqlHelper(context);
+	}
+
+	protected void initSqlHelper(Context context) {
 		sqlHelper = MySQLHelper.getInstance(context);
 	}
 

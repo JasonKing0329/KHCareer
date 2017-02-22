@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 
-ext.appVersionName = "2.3.0"
+ext.appVersionName = "2.4.0"
 ext.appReleaseDir = "E:/temp/release/KHCareer"
 
 android {
@@ -11,7 +11,7 @@ android {
         applicationId "com.king.mytennis.view"
         minSdkVersion 21
         targetSdkVersion 23
-        versionCode 15
+        versionCode 16
         versionName appVersionName
     }
 
@@ -89,7 +89,6 @@ dependencies {
     compile project(':prjcolorpicker')
     compile project(':pulltozoomview')
     compile project(':shapimageview')
-
     // apply as ViewHelper
     compile 'com.nineoldandroids:library:2.4.0'
     /*gson*/
@@ -104,4 +103,5 @@ dependencies {
     compile 'com.squareup.retrofit2:adapter-rxjava:2.0.1'
     /*logger*/
     compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
+    compile project(':MPChartLib')
 }

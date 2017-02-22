@@ -16,9 +16,11 @@ import android.widget.TextView;
 
 import com.king.lib.tool.ui.RippleFactory;
 import com.king.mytennis.glory.GloryModuleActivity;
+import com.king.mytennis.match.MatchManageActivity;
 import com.king.mytennis.model.Configuration;
 import com.king.mytennis.model.FileIO;
 import com.king.mytennis.model.ImageFactory;
+import com.king.mytennis.score.ScoreActivity;
 import com.king.mytennis.service.Application;
 import com.king.mytennis.view.ChooseBkDialog;
 import com.king.mytennis.view.CustomDialog;
@@ -27,6 +29,8 @@ import com.king.mytennis.view.R;
 import com.king.mytennis.view.RankActivity;
 import com.king.mytennis.view.settings.SettingActivity;
 import com.king.mytennis.view_v_7_0.V7MainActivity;
+
+import static android.R.attr.start;
 
 /**
  * @author JingYang
@@ -39,7 +43,7 @@ public class MoreFolderManager extends AbstractFolderManager {
 	private TextView moreTextView;
 
 	private LinearLayout gloryButton;
-	private TextView h2hButton, rankButton, bkButton;
+	private TextView scoreButton, matchButton, bkButton;
 
 	@SuppressLint("InflateParams")
 	@Override
@@ -51,8 +55,8 @@ public class MoreFolderManager extends AbstractFolderManager {
 		moreTextView = (TextView) moreCoverGroup.findViewById(R.id.folder_text_cover);
 		settingImageView = (ImageView) moreCoverGroup.findViewById(R.id.folder_more_setting);
 		gloryButton = (LinearLayout) moreDetailGroup.findViewById(R.id.view7_more_glory);
-		h2hButton = (TextView) moreDetailGroup.findViewById(R.id.view7_more_h2h);
-		rankButton = (TextView) moreDetailGroup.findViewById(R.id.view7_more_rank);
+		matchButton = (TextView) moreDetailGroup.findViewById(R.id.view7_more_match);
+		scoreButton = (TextView) moreDetailGroup.findViewById(R.id.view7_more_score);
 		bkButton = (TextView) moreDetailGroup.findViewById(R.id.view7_more_bk);
 		mFoldableLayout.setupViews(moreCoverGroup, moreDetailGroup
 				, getContext().getResources().getDimensionPixelSize(R.dimen.folder_item_height));
@@ -64,8 +68,8 @@ public class MoreFolderManager extends AbstractFolderManager {
 		moreTextView.setOnClickListener(this);
 		settingImageView.setOnClickListener(this);
 		gloryButton.setOnClickListener(this);
-		h2hButton.setOnClickListener(this);
-		rankButton.setOnClickListener(this);
+		matchButton.setOnClickListener(this);
+		scoreButton.setOnClickListener(this);
 		bkButton.setOnClickListener(this);
 
 		if (Application.isLollipop()) {
@@ -74,10 +78,10 @@ public class MoreFolderManager extends AbstractFolderManager {
 			gloryButton.setBackground(RippleFactory.getRippleBackground(
 					Color.rgb(0xf7, 0x44, 0x61),
 					mContext.getResources().getColor(R.color.ripple_material_light)));
-			rankButton.setBackground(RippleFactory.getRippleBackground(
+			matchButton.setBackground(RippleFactory.getRippleBackground(
 					Color.rgb(0x57, 0x60, 0x69),
 					mContext.getResources().getColor(R.color.ripple_material_light)));
-			h2hButton.setBackground(RippleFactory.getRippleBackground(
+			scoreButton.setBackground(RippleFactory.getRippleBackground(
 					Color.rgb(0xad, 0xc3, 0xc0),
 					mContext.getResources().getColor(R.color.ripple_material_light)));
 			bkButton.setBackground(RippleFactory.getRippleBackground(
@@ -97,14 +101,14 @@ public class MoreFolderManager extends AbstractFolderManager {
 			case R.id.view7_more_glory:
 				startGloryActivity();
 				break;
-			case R.id.view7_more_rank:
-				startRankActivity();
+			case R.id.view7_more_match:
+				startMatchManageActivity();
 				break;
 			case R.id.view7_more_bk:
 				chooseBackground();
 				break;
-			case R.id.view7_more_h2h:
-				startH2hActivity();
+			case R.id.view7_more_score:
+				startScoreActivity();
 				break;
 
 			default:
@@ -151,10 +155,13 @@ public class MoreFolderManager extends AbstractFolderManager {
 		FileIO dao = new FileIO();
 		dao.saveConfigInfor(Configuration.getInstance());
 	}
+
+	@Deprecated
 	private void startH2hActivity() {
 		((Activity) getContext()).startActivity(new Intent().setClass(getContext(), H2hMainActivity.class));
 	}
 
+	@Deprecated
 	private void startRankActivity() {
 		((Activity) getContext()).startActivity(new Intent().setClass(getContext(), RankActivity.class));
 	}
@@ -165,6 +172,14 @@ public class MoreFolderManager extends AbstractFolderManager {
 
 	private void startSettingActivity() {
 		((Activity) getContext()).startActivity(new Intent().setClass(getContext(), SettingActivity.class));
+	}
+
+	private void startMatchManageActivity() {
+		((Activity) getContext()).startActivity(new Intent().setClass(getContext(), MatchManageActivity.class));
+	}
+
+	private void startScoreActivity() {
+		((Activity) getContext()).startActivity(new Intent().setClass(getContext(), ScoreActivity.class));
 	}
 
 }

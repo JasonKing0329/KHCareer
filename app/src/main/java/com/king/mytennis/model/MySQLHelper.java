@@ -1,6 +1,7 @@
 package com.king.mytennis.model;
 
 import com.king.mytennis.multiuser.MultiUserManager;
+import com.king.mytennis.utils.DebugLog;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,7 +13,9 @@ public class MySQLHelper extends SQLiteOpenHelper{
 
 	private static final String TAG = "MySQLHelper";
 	private static MySQLHelper sqlHelper = null;
+	private static MySQLHelper publicHelper = null;
 	private static String currentDatabase = DatabaseStruct.DATABASE;
+	private static int version = 2;
 
 	private MySQLHelper(Context context, String database, CursorFactory factory,
 						int version) {
@@ -21,7 +24,7 @@ public class MySQLHelper extends SQLiteOpenHelper{
 	}
 
 	private MySQLHelper(Context context, String database) {
-		this(context, database, null, 1);//version版本这里命名为1
+		this(context, database, null, version);
 	}
 
 	/**
@@ -51,20 +54,31 @@ public class MySQLHelper extends SQLiteOpenHelper{
 		return sqlHelper;
 	}
 
+	public static MySQLHelper getPublicInstance(Context context) {
+		if (publicHelper == null) {
+			publicHelper = new MySQLHelper(context, MultiUserManager.getInstance().getPublicDatabase());
+		}
+		return publicHelper;
+	}
+
 	public static void closeHelper() {
 		if (sqlHelper != null) {
 			sqlHelper.close();
+			sqlHelper = null;
+		}
+		if (publicHelper != null) {
+			publicHelper.close();
+			publicHelper = null;
 		}
 	}
-	////只有在SQLiteDatabase对象调用getR/W...时才会调用
-	////并且前面的new MySQLHelper(this, "nameT")里面是一个全新的名字才会执行
+
 	@Override
 	public void onCreate(SQLiteDatabase db) {
-		System.out.println("helper oncreate");
+		DebugLog.e("");
 	}
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+		DebugLog.e("");
 	}
 }

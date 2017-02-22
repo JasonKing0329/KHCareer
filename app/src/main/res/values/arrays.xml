@@ -155,6 +155,36 @@
 	    <item>Henry</item>
 	    <item>Tian Qi</item>
     </string-array>
+	<string-array name="multiuser_country" translatable="false">
+		<item>China</item>
+		<item>France</item>
+		<item>America</item>
+		<item>China</item>
+	</string-array>
+	<string-array name="multiuser_birthday" translatable="false">
+		<item>1991.03.29</item>
+		<item>1997.05.04</item>
+		<item>1998.05.26</item>
+		<item>1991.03.27</item>
+	</string-array>
+	<string-array name="multiuser_height" translatable="false">
+		<item>188cm</item>
+		<item>187cm</item>
+		<item>183cm</item>
+		<item>178cm</item>
+	</string-array>
+	<string-array name="multiuser_weight" translatable="false">
+		<item>79kg</item>
+		<item>79kg</item>
+		<item>78kg</item>
+		<item>75kg</item>
+	</string-array>
+	<string-array name="multiuser_fullname" translatable="false">
+		<item>King Hao</item>
+		<item>John Flamenco</item>
+		<item>Michael Henry</item>
+		<item>Qi Tian</item>
+	</string-array>
     <string-array name="data_count_year">
 	    <item>@string/data_count_rate_total</item>
 	    <item>@string/data_count_rate_gs</item>

@@ -65,6 +65,10 @@ public class MultiUserManager {
 		return DatabaseStruct.DATABASE;
 	}
 
+	public String getPublicDatabase() {
+		return DatabaseStruct.DATABASE_PUBLIC;
+	}
+
 	public MultiUser[] getUsers() {
 		return users;
 	}
@@ -135,9 +139,26 @@ public class MultiUserManager {
 	public void loadUsers(Context context) {
 		String[] array = context.getResources().getStringArray(R.array.multiuser_list);
 		String[] array1 = context.getResources().getStringArray(R.array.multiuser_display_list);
+		String[] countries = context.getResources().getStringArray(R.array.multiuser_country);
+		String[] birthdays = context.getResources().getStringArray(R.array.multiuser_birthday);
+		String[] heights = context.getResources().getStringArray(R.array.multiuser_height);
+		String[] weights = context.getResources().getStringArray(R.array.multiuser_weight);
+		String[] fullNames = context.getResources().getStringArray(R.array.multiuser_fullname);
+		int[] resIds = new int[] {
+				R.drawable.flag_china,
+				R.drawable.flag_france,
+				R.drawable.flag_usa,
+				R.drawable.flag_china
+		};
 		users = new MultiUser[array.length];
 		for (int i = 0; i < array.length; i ++) {
 			users[i] = new MultiUser(array[i], array1[i]);
+			users[i].setBirthday(birthdays[i]);
+			users[i].setCountry(countries[i]);
+			users[i].setFullName(fullNames[i]);
+			users[i].setHeight(heights[i]);
+			users[i].setWeight(weights[i]);
+			users[i].setFlagImageResId(resIds[i]);
 		}
 	}
 

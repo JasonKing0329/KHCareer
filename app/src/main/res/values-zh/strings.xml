@@ -262,4 +262,7 @@
     <string name="download_title">下载</string>
     <string name="server_url_empty">请先配置服务器</string>
     <string name="image_not_found">没有找到“%s”的图片</string>
+
+    <!-- *************************** match manage ********************************* -->
+    <string name="match_manage_title">管理赛事</string>
 </resources>
