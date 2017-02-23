@@ -254,4 +254,40 @@
 
     </LinearLayout>
 
+    <RelativeLayout
+        android:id="@+id/score_datebar"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/view7_datebar_height"
+        android:visibility="gone"
+        android:background="@color/view7_actionbar_bk" >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
+            <ImageView
+                android:id="@+id/score_datebar_last"
+                android:layout_width="@dimen/view7_datebar_height"
+                android:layout_height="@dimen/view7_datebar_height"
+                android:padding="@dimen/view7_actionbar_action_icon_padding"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_navigate_before_yellow_a700_36dp" />
+            <TextView
+                android:id="@+id/score_datebar_year"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:textSize="16dp"
+                android:textColor="@color/tab_actionbar_text_focus"
+                android:text="2017"/>
+            <ImageView
+                android:id="@+id/score_datebar_next"
+                android:layout_width="@dimen/view7_datebar_height"
+                android:layout_height="@dimen/view7_datebar_height"
+                android:padding="@dimen/view7_actionbar_action_icon_padding"
+                android:background="?android:attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/ic_navigate_next_yellow_a700_36dp" />
+        </LinearLayout>
+    </RelativeLayout>
 </RelativeLayout>

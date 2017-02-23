@@ -3,6 +3,7 @@ package com.king.mytennis.score;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.king.mytennis.view.BaseActivity;
@@ -24,6 +25,8 @@ public class ScoreActivity extends BaseActivity implements View.OnClickListener,
     private View vDividerYear;
     private View vDividerWeeks;
 
+    private ImageView ivDate;
+
     private ScorePresenter mPresenter;
 
     private ScoreFragment ftYear;
@@ -40,9 +43,11 @@ public class ScoreActivity extends BaseActivity implements View.OnClickListener,
         tvWeeks = (TextView) findViewById(R.id.score_actionbar_week);
         vDividerYear = findViewById(R.id.score_actionbar_year_divider);
         vDividerWeeks = findViewById(R.id.score_actionbar_week_divider);
+        ivDate = (ImageView) findViewById(R.id.score_actionbar_date);
 
         tvYear.setOnClickListener(this);
         tvWeeks.setOnClickListener(this);
+        ivDate.setOnClickListener(this);
         findViewById(R.id.score_actionbar_edit).setOnClickListener(this);
         findViewById(R.id.score_actionbar_back).setOnClickListener(this);
 
@@ -65,7 +70,14 @@ public class ScoreActivity extends BaseActivity implements View.OnClickListener,
             case R.id.score_actionbar_back:
                 finish();
                 break;
+            case R.id.score_actionbar_date:
+                showDateGroup();
+                break;
         }
+    }
+
+    private void showDateGroup() {
+        ftYear.showDateGroup();
     }
 
     private void showScoreEditDialog() {
@@ -141,12 +153,14 @@ public class ScoreActivity extends BaseActivity implements View.OnClickListener,
             tvWeeks.setSelected(false);
             vDividerYear.setVisibility(View.VISIBLE);
             vDividerWeeks.setVisibility(View.INVISIBLE);
+            ivDate.setVisibility(View.VISIBLE);
         }
         else {
             tvYear.setSelected(false);
             tvWeeks.setSelected(true);
             vDividerYear.setVisibility(View.INVISIBLE);
             vDividerWeeks.setVisibility(View.VISIBLE);
+            ivDate.setVisibility(View.GONE);
         }
     }
 
@@ -154,4 +168,5 @@ public class ScoreActivity extends BaseActivity implements View.OnClickListener,
     public ScorePresenter getPresenter() {
         return mPresenter;
     }
+
 }

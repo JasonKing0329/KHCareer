@@ -30,7 +30,8 @@ public class ScorePresenter implements IScoreCallback {
     private ScorePageData scorePageData;
 
     private int thisYear;
-    
+    private int currentYear;
+
     public ScorePresenter(Context context) {
         arrCourt = context.getResources().getStringArray(R.array.spinner_court);
         arrLevel = context.getResources().getStringArray(R.array.spinner_level);
@@ -38,6 +39,7 @@ public class ScorePresenter implements IScoreCallback {
         scoreComparator = new ScoreComparator();
         matchSeqComparator = new MatchSeqComparator();
         thisYear = Calendar.getInstance().get(Calendar.YEAR);
+        currentYear = thisYear;
         scorePageData = new ScorePageData();
     }
 
@@ -46,7 +48,7 @@ public class ScorePresenter implements IScoreCallback {
     }
 
     public void queryYearRecords() {
-        scoreModel.queryYearRecords();
+        scoreModel.queryYearRecords(currentYear);
     }
 
     public void query52WeekRecords() {
@@ -196,6 +198,14 @@ public class ScorePresenter implements IScoreCallback {
 
     public int getThisYear() {
         return thisYear;
+    }
+
+    public void setCurrentYear(int year) {
+        this.currentYear = year;
+    }
+
+    public int getCurrentYear() {
+        return currentYear;
     }
 
     /**

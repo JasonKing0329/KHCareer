@@ -46,11 +46,18 @@ public class ScoreModel {
         nonExistMatchList = new ArrayList<>();
     }
 
-    public void queryYearRecords() {
+    public void queryYearRecords(int year) {
         nonExistMatchList.clear();
-        long minTime = getYearMinTime();
-        long maxTime = getMonthMaxTime();
-        // 查询出今年初一直到本月的记录
+        long minTime = getYearMinTime(year);
+        int thisYear = Calendar.getInstance().get(Calendar.YEAR);
+        long maxTime;
+        if (year == thisYear) {
+            maxTime = getMonthMaxTime();
+        }
+        else {
+            maxTime = getYearMaxTime(year);
+        }
+        // 查询出year当年的所有记录
         List<Record> list = new ArrayList<>();
         SQLiteDatabase db = sqLitePlayer.getSQLHelper().getWritableDatabase();
         Cursor cursor=db.query(
@@ -63,8 +70,8 @@ public class ScoreModel {
         }
         db.close();
 
-        // 去掉不在积分周期的记录
-        List<ScoreBean> scoreList = distinctOutsideRecord(list);
+        // 为了走公共逻辑，实际上就是计算去年52周到今年52周的积分情况
+        List<ScoreBean> scoreList = countScoreList(list, year, 52, 52);
         callback.onYearRecordsLoaded(scoreList, nonExistMatchList);
     }
 
@@ -92,11 +99,16 @@ public class ScoreModel {
         callback.on52WeekRecordsLoaded(scoreList, nonExistMatchList);
     }
 
-    private List<ScoreBean> distinctOutsideRecord(List<Record> list) {
+    /**
+     * 计算周期内的积分
+     * @param list
+     * @param year
+     * @param weekOfYear
+     * @param weekOfLastYear
+     * @return
+     */
+    private List<ScoreBean> countScoreList(List<Record> list, int year, int weekOfYear, int weekOfLastYear) {
         List<ScoreBean> scoreList = new ArrayList<>();
-        // 去年的本周到今年的上一周为一个积分周期
-        int weekOfYear = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR) - 1;
-        int weekOfLastYear = weekOfYear + 1;
 
         ScoreBean masterCupBean = null;
         Map<String, ScoreBean> recMap = new HashMap<>();
@@ -108,7 +120,7 @@ public class ScoreModel {
                 if (masterCupBean == null) {
                     masterCupBean = new ScoreBean();
                 }
-                addScoreBean(scoreList, masterCupBean, weekOfLastYear, weekOfYear, record);
+                addScoreBean(scoreList, masterCupBean, year, weekOfLastYear, weekOfYear, record);
             }
             else {
                 ScoreBean bean = recMap.get(record.getMatch());
@@ -118,11 +130,11 @@ public class ScoreModel {
                 }
                 // 出现负场，该项赛事结束
                 if (record.getWinner().equals(record.getCompetitor())) {
-                    addScoreBean(scoreList, bean, weekOfLastYear, weekOfYear, record);
+                    addScoreBean(scoreList, bean, year, weekOfLastYear, weekOfYear, record);
                 }
                 // 一直胜场，直到Final也是胜，该项赛事结束
                 else if (arrRound[0].equals(record.getRound())) {
-                    addScoreBean(scoreList, bean, weekOfLastYear, weekOfYear, record);
+                    addScoreBean(scoreList, bean, year, weekOfLastYear, weekOfYear, record);
                 }
                 //其他情况表示赛事未结束或者无积分
             }
@@ -133,7 +145,19 @@ public class ScoreModel {
         return scoreList;
     }
 
-    private void addScoreBean(List<ScoreBean> scoreList, ScoreBean bean, int weekOfLastYear, int weekOfYear, Record record) {
+    /**
+     * 52 week 积分只支持截止今年的
+     * @param list
+     * @return
+     */
+    private List<ScoreBean> distinctOutsideRecord(List<Record> list) {
+        // 去年的本周到今年的上一周为一个积分周期
+        int weekOfYear = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR) - 1;
+        int weekOfLastYear = weekOfYear + 1;
+        return countScoreList(list, Calendar.getInstance().get(Calendar.YEAR), weekOfYear, weekOfLastYear);
+    }
+
+    private void addScoreBean(List<ScoreBean> scoreList, ScoreBean bean, int year, int weekOfLastYear, int weekOfYear, Record record) {
         MatchSeqBean matchSeqBean = matchSqlModel.getMatchSeqBeanByName(record.getMatch());
         if (matchSeqBean == null) {
             nonExistMatchList.add(record.getMatch());
@@ -141,7 +165,6 @@ public class ScoreModel {
         }
         // 如果在积分周期，则记录为score bean
         int week = matchSeqBean.getSequence();
-        int year = Calendar.getInstance().get(Calendar.YEAR);
         boolean needAdd = false;
         int recordYear = Integer.parseInt(record.getStrDate().split("-")[0]);
         // 今年的赛事，周数应该小于当前
@@ -224,11 +247,11 @@ public class ScoreModel {
     }
 
     /**
-     * 今年第一毫秒之前，即去年的最后一毫秒
+     * year年第一毫秒之前，即去年的最后一毫秒
      * @return
+     * @param year
      */
-    public long getYearMinTime() {
-        int year = Calendar.getInstance().get(Calendar.YEAR);
+    public long getYearMinTime(int year) {
         String strDate = "" + year + "-01";
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
         Date date = null;
@@ -239,6 +262,16 @@ public class ScoreModel {
         }
         long time = date.getTime();
         return time - 1;
+    }
+
+    /**
+     * year年最后一毫秒，即year年明年的最开始一毫秒-1
+     * @return
+     * @param year
+     */
+    public long getYearMaxTime(int year) {
+
+        return getYearMinTime(year + 1) - 1;
     }
 
     /**

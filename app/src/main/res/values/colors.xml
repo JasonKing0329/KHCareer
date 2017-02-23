@@ -187,7 +187,7 @@
     <color name="swipecard_indexbar_bk">#aa4a5ebc</color>
     <color name="match_head_name_bk">#99000000</color>
 
-    <color name="tab_actionbar_text_focus">#FFFF00</color>
+    <color name="tab_actionbar_text_focus">#FFD600</color>
 
     <color name="white">#FFFFFF</color> <!-- 白色 -->
     <color name="ivory">#FFFFF0</color> <!-- 象牙色 -->

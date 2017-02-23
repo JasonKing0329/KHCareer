@@ -7,6 +7,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,7 +29,7 @@ import java.util.Map;
  * <p/>作者：景阳
  * <p/>创建时间: 2017/2/21 14:14
  */
-public class ScoreFragment extends Fragment implements IScorePageView {
+public class ScoreFragment extends Fragment implements IScorePageView, View.OnClickListener {
 
     public static final String KEY_MODE = "key_mode";
     public static final int FLAG_52WEEK = 0;
@@ -54,6 +56,11 @@ public class ScoreFragment extends Fragment implements IScorePageView {
     private PieChart chartCourt;
     private PieChart chartYear;
     private ChartHelper chartHelper;
+
+    private ImageView ivDateLast;
+    private ImageView ivDateNext;
+    private TextView tvYearSelect;
+    private ViewGroup groupDate;
 
     @Override
     public void onAttach(Context context) {
@@ -86,6 +93,13 @@ public class ScoreFragment extends Fragment implements IScorePageView {
         ivCountryFlag = (ImageView) view.findViewById(R.id.score_flag_bg);
         chartCourt = (PieChart) view.findViewById(R.id.score_chart_court);
         chartYear = (PieChart) view.findViewById(R.id.score_chart_year);
+
+        tvYearSelect = (TextView) view.findViewById(R.id.score_datebar_year);
+        ivDateLast = (ImageView) view.findViewById(R.id.score_datebar_last);
+        ivDateNext = (ImageView) view.findViewById(R.id.score_datebar_next);
+        groupDate = (ViewGroup) view.findViewById(R.id.score_datebar);
+        ivDateLast.setOnClickListener(this);
+        ivDateNext.setOnClickListener(this);
 
         MultiUser user = MultiUserManager.getInstance().getCurrentUser();
         ivCountryFlag.setImageResource(user.getFlagImageResId());
@@ -256,5 +270,61 @@ public class ScoreFragment extends Fragment implements IScorePageView {
 
     public void onRankChanged(int rank) {
         tvRank.setText(String.valueOf(rank));
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.score_datebar_last:
+                showLastYear();
+                break;
+            case R.id.score_datebar_next:
+                showNextYear();
+                break;
+        }
+    }
+
+    public void showDateGroup() {
+        if (groupDate.getVisibility() == View.VISIBLE) {
+            groupDate.startAnimation(getDisappearAnim());
+            groupDate.setVisibility(View.GONE);
+        }
+        else {
+            groupDate.setVisibility(View.VISIBLE);
+            groupDate.startAnimation(getAppearAnim());
+        }
+    }
+
+    private void showLastYear() {
+        int year = scoreView.getPresenter().getCurrentYear() - 1;
+        scoreView.getPresenter().setCurrentYear(year);
+        tvYearSelect.setText(String.valueOf(year));
+        scoreView.getPresenter().queryYearRecords();
+    }
+
+    private void showNextYear() {
+        int year = scoreView.getPresenter().getCurrentYear() + 1;
+        scoreView.getPresenter().setCurrentYear(year);
+        tvYearSelect.setText(String.valueOf(year));
+        scoreView.getPresenter().queryYearRecords();
+    }
+
+    public Animation getDisappearAnim() {
+        Animation anim = new TranslateAnimation(
+                Animation.RELATIVE_TO_SELF, 0
+                , Animation.RELATIVE_TO_SELF, 0
+                , Animation.RELATIVE_TO_SELF, 0
+                , Animation.RELATIVE_TO_SELF, -1);
+        anim.setDuration(500);
+        return anim;
+    }
+    public Animation getAppearAnim() {
+        Animation anim = new TranslateAnimation(
+                Animation.RELATIVE_TO_SELF, 0
+                , Animation.RELATIVE_TO_SELF, 0
+                , Animation.RELATIVE_TO_SELF, -1
+                , Animation.RELATIVE_TO_SELF, 0);
+        anim.setDuration(500);
+        return anim;
     }
 }
