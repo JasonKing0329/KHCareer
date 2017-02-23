@@ -93,7 +93,7 @@ public class ScoreModel {
             list.add(record);
         }
         db.close();
-        
+
         // 去掉不在积分周期的记录
         List<ScoreBean> scoreList = distinctOutsideRecord(list);
         callback.on52WeekRecordsLoaded(scoreList, nonExistMatchList);
@@ -186,6 +186,7 @@ public class ScoreModel {
             bean.setLevel(record.getLevel());
             bean.setCourt(record.getCourt());
             bean.setMatchBean(matchSeqBean);
+            bean.setRecord(record);
 
             // 大师杯积分不走通用情况，这里只累计积分
             if (arrLevel[1].equals(record.getLevel())) {
