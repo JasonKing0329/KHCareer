@@ -34,6 +34,9 @@ public class ScoreFragment extends Fragment implements IScorePageView, View.OnCl
     public static final String KEY_MODE = "key_mode";
     public static final int FLAG_52WEEK = 0;
     public static final int FLAG_YEAR = 1;
+
+    private int pageMode;
+
     private IScoreView scoreView;
 
     private TextView tvGs;
@@ -108,9 +111,9 @@ public class ScoreFragment extends Fragment implements IScorePageView, View.OnCl
         tvBirthday.setText(user.getBirthday());
         tvHeight.setText(user.getHeight() + "  " + user.getWeight());
 
-        int mode = getArguments().getInt(KEY_MODE);
+        pageMode = getArguments().getInt(KEY_MODE);
         scoreView.getPresenter().setScorePageView(this);
-        if (mode == FLAG_YEAR) {
+        if (pageMode == FLAG_YEAR) {
             scoreView.getPresenter().queryYearRecords();
         }
         else {
@@ -197,7 +200,14 @@ public class ScoreFragment extends Fragment implements IScorePageView, View.OnCl
         tvRank.setText(loadPlayerRank());
 
         showCourtChart(data);
-        showYearChart(data);
+
+        // 52 week记录才显示去年占比和今年占比
+        if (pageMode == FLAG_52WEEK) {
+            showYearChart(data);
+        }
+        else {
+            chartYear.setVisibility(View.GONE);
+        }
 
         // 有match没有在public数据库中，提示
         if (data.getNonExistMatchList().size() > 0) {
