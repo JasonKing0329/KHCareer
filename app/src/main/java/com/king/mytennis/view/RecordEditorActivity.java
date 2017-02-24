@@ -383,7 +383,7 @@ public class RecordEditorActivity extends BaseActivity implements OnClickListene
 				tvMatchCourt.setText(bundle.getString("court"));
 				tvMatchRegion.setText(bundle.getString("region"));
 				tvMatchCity.setText(bundle.getString("city"));
-				tvMatchMonth.setText(bundle.getString("month"));
+				tvMatchMonth.setText(String.valueOf(bundle.getInt("month")));
 			}
 		}
 		if (requestCode == REQUEST_CHANGE_PLAYER) {

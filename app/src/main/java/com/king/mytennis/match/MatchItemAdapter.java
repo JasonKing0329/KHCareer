@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import com.king.mytennis.pubdata.bean.MatchNameBean;
 import com.king.mytennis.view.R;
 
 import java.util.ArrayList;
@@ -20,12 +21,12 @@ import java.util.List;
  */
 public class MatchItemAdapter extends RecyclerView.Adapter<MatchItemAdapter.ItemHolder> implements View.OnClickListener {
 
-    private List<MatchSeqBean> list;
+    private List<MatchNameBean> list;
     private boolean selectMode;
     private SparseBooleanArray mCheckMap;
     private OnMatchItemClickListener onMatchItemClickListener;
 
-    public MatchItemAdapter(List<MatchSeqBean> list) {
+    public MatchItemAdapter(List<MatchNameBean> list) {
         this.list = list;
         mCheckMap = new SparseBooleanArray();
     }
@@ -41,7 +42,7 @@ public class MatchItemAdapter extends RecyclerView.Adapter<MatchItemAdapter.Item
         this.onMatchItemClickListener = onMatchItemClickListener;
     }
 
-    public void setList(List<MatchSeqBean> list) {
+    public void setList(List<MatchNameBean> list) {
         this.list = list;
     }
 
@@ -52,10 +53,10 @@ public class MatchItemAdapter extends RecyclerView.Adapter<MatchItemAdapter.Item
 
     @Override
     public void onBindViewHolder(ItemHolder holder, int position) {
-        MatchSeqBean bean = list.get(position);
+        MatchNameBean bean = list.get(position);
         holder.tvIndex.setText(String.valueOf(position + 1));
         holder.tvName.setText(bean.getName());
-        holder.tvSequence.setText(String.valueOf(bean.getSequence()));
+        holder.tvWeek.setText(String.valueOf(bean.getMatchBean().getWeek()));
         holder.check.setVisibility(selectMode ? View.VISIBLE:View.GONE);
         holder.check.setChecked(mCheckMap.get(position));
 
@@ -82,8 +83,8 @@ public class MatchItemAdapter extends RecyclerView.Adapter<MatchItemAdapter.Item
         }
     }
 
-    public List<MatchSeqBean> getSelectedList() {
-        List<MatchSeqBean> dlist = new ArrayList<>();
+    public List<MatchNameBean> getSelectedList() {
+        List<MatchNameBean> dlist = new ArrayList<>();
         for (int i = 0; i < list.size(); i ++) {
             if (mCheckMap.get(i)) {
                 dlist.add(list.get(i));
@@ -101,14 +102,14 @@ public class MatchItemAdapter extends RecyclerView.Adapter<MatchItemAdapter.Item
         ViewGroup group;
         TextView tvIndex;
         TextView tvName;
-        TextView tvSequence;
+        TextView tvWeek;
         CheckBox check;
         public ItemHolder(View itemView) {
             super(itemView);
             group = (ViewGroup) itemView.findViewById(R.id.manage_item_group);
             tvIndex = (TextView) itemView.findViewById(R.id.manage_item_index);
             tvName = (TextView) itemView.findViewById(R.id.manage_item_name);
-            tvSequence = (TextView) itemView.findViewById(R.id.manage_item_sequence);
+            tvWeek = (TextView) itemView.findViewById(R.id.manage_item_sequence);
             check = (CheckBox) itemView.findViewById(R.id.manage_item_check);
         }
     }

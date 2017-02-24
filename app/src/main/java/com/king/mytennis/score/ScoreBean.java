@@ -1,7 +1,7 @@
 package com.king.mytennis.score;
 
-import com.king.mytennis.match.MatchSeqBean;
 import com.king.mytennis.model.Record;
+import com.king.mytennis.pubdata.bean.MatchNameBean;
 
 /**
  * 描述:
@@ -16,7 +16,7 @@ public class ScoreBean {
     private int year;
     private int week;
 
-    private MatchSeqBean matchBean;
+    private MatchNameBean matchBean;
     private Record record;
 
     public String getLevel() {
@@ -67,11 +67,11 @@ public class ScoreBean {
         this.year = year;
     }
 
-    public MatchSeqBean getMatchBean() {
+    public MatchNameBean getMatchBean() {
         return matchBean;
     }
 
-    public void setMatchBean(MatchSeqBean matchBean) {
+    public void setMatchBean(MatchNameBean matchBean) {
         this.matchBean = matchBean;
     }
 

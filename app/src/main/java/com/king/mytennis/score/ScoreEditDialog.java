@@ -9,12 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.king.mytennis.match.MatchSeqBean;
 import com.king.mytennis.model.FileIO;
 import com.king.mytennis.view.CustomDialog;
 import com.king.mytennis.view.R;
-
-import java.util.HashMap;
 
 /**
  * 描述:

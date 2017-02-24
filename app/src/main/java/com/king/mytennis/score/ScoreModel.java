@@ -5,11 +5,11 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.king.mytennis.interfc.DatabaseAccess;
-import com.king.mytennis.match.MatchSeqBean;
-import com.king.mytennis.match.MatchSqlModel;
 import com.king.mytennis.model.DatabaseStruct;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.model.SQLiteDB;
+import com.king.mytennis.pubdata.PubDataProvider;
+import com.king.mytennis.pubdata.bean.MatchNameBean;
 import com.king.mytennis.view.R;
 
 import java.text.ParseException;
@@ -29,7 +29,7 @@ import java.util.Map;
 public class ScoreModel {
 
     private DatabaseAccess sqLitePlayer;
-    private MatchSqlModel matchSqlModel;
+    private PubDataProvider pubDataProvider;
 
     private String[] arrRound;
     private String[] arrLevel;
@@ -39,7 +39,7 @@ public class ScoreModel {
 
     public ScoreModel(Context context, IScoreCallback callback) {
         sqLitePlayer = new SQLiteDB(context);
-        matchSqlModel = new MatchSqlModel(context);
+        pubDataProvider = new PubDataProvider();
         arrRound = context.getResources().getStringArray(R.array.spinner_round);
         arrLevel = context.getResources().getStringArray(R.array.spinner_level);
         this.callback = callback;
@@ -158,13 +158,13 @@ public class ScoreModel {
     }
 
     private void addScoreBean(List<ScoreBean> scoreList, ScoreBean bean, int year, int weekOfLastYear, int weekOfYear, Record record) {
-        MatchSeqBean matchSeqBean = matchSqlModel.getMatchSeqBeanByName(record.getMatch());
-        if (matchSeqBean == null) {
+        MatchNameBean matchNameBean = pubDataProvider.getMatchByName(record.getMatch());
+        if (matchNameBean == null) {
             nonExistMatchList.add(record.getMatch());
             return;
         }
         // 如果在积分周期，则记录为score bean
-        int week = matchSeqBean.getSequence();
+        int week = matchNameBean.getMatchBean().getWeek();
         boolean needAdd = false;
         int recordYear = Integer.parseInt(record.getStrDate().split("-")[0]);
         // 今年的赛事，周数应该小于当前
@@ -185,7 +185,7 @@ public class ScoreModel {
             bean.setYear(recordYear);
             bean.setLevel(record.getLevel());
             bean.setCourt(record.getCourt());
-            bean.setMatchBean(matchSeqBean);
+            bean.setMatchBean(matchNameBean);
             bean.setRecord(record);
 
             // 大师杯积分不走通用情况，这里只累计积分

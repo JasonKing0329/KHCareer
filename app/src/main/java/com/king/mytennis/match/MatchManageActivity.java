@@ -1,5 +1,6 @@
 package com.king.mytennis.match;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.king.mytennis.pubdata.PubDataProvider;
+import com.king.mytennis.pubdata.bean.MatchNameBean;
 import com.king.mytennis.view.BaseActivity;
 import com.king.mytennis.view.CustomDialog;
 import com.king.mytennis.view.R;
@@ -25,8 +28,9 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
     , MatchItemAdapter.OnMatchItemClickListener{
 
     public static final String KEY_START_MODE = "key_start_mode";
-    public static final int START_MODE_NORMAL = 0;
     public static final int START_MODE_SELECT = 1;
+
+    private boolean isSelectMode;
 
     private ViewGroup groupNormal;
     private ViewGroup groupConfirm;
@@ -34,8 +38,7 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
     private RecyclerView rvList;
     private MatchItemAdapter matchItemAdapter;
 
-    private MatchSqlModel sqlModel;
-    private List<MatchSeqBean> matchList;
+    private List<MatchNameBean> matchList;
 
     private MatchEditDialog matchEditDialog;
 
@@ -44,13 +47,19 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
     // 删除模式
     private boolean isDeleteMode;
 
-    private MatchSeqBean mEditBean;
+    private MatchNameBean mEditBean;
+    private PubDataProvider pubDataProvider;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_match_manage);
+
+        int mode = getIntent().getIntExtra(KEY_START_MODE, 0);
+        if (mode == START_MODE_SELECT) {
+            isSelectMode = true;
+        }
 
         ImageView backView = (ImageView) findViewById(R.id.view7_actionbar_back);
         backView.setVisibility(View.VISIBLE);
@@ -78,8 +87,8 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void loadDatas() {
-        sqlModel = new MatchSqlModel(this);
-        matchList = sqlModel.queryMatchSeqList();
+        pubDataProvider = new PubDataProvider();
+        matchList = pubDataProvider.getMatchList();
         matchItemAdapter = new MatchItemAdapter(matchList);
         matchItemAdapter.setOnMatchItemClickListener(this);
 
@@ -149,9 +158,25 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void onMatchItemClick(int position) {
+        mEditBean = matchList.get(position);
         if (isEditMode) {
-            mEditBean = matchList.get(position);
             openMatchEditDialog();
+        }
+        else {
+            if (isSelectMode) {
+                Bundle bundle = new Bundle();
+                Intent intent = new Intent();
+                bundle.putString("name", mEditBean.getName());
+                bundle.putString("country", mEditBean.getMatchBean().getCountry());
+                bundle.putString("level", mEditBean.getMatchBean().getLevel());
+                bundle.putString("court", mEditBean.getMatchBean().getCourt());
+                bundle.putString("region", mEditBean.getMatchBean().getRegion());
+                bundle.putString("city", mEditBean.getMatchBean().getCity());
+                bundle.putInt("month", mEditBean.getMatchBean().getMonth());
+                intent.putExtras(bundle);
+                setResult(RESULT_OK, intent);
+                finish();
+            }
         }
     }
 
@@ -160,17 +185,20 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
             matchEditDialog = new MatchEditDialog(this, new CustomDialog.OnCustomDialogActionListener() {
                 @Override
                 public boolean onSave(Object object) {
-                    MatchSeqBean bean = (MatchSeqBean) object;
+                    MatchNameBean bean = (MatchNameBean) object;
                     if (mEditBean == null) {
-                        mEditBean = new MatchSeqBean();
-                    }
-                    mEditBean.setSequence(bean.getSequence());
-                    mEditBean.setName(bean.getName());
-                    if (mEditBean.getId() == 0) {
-                        sqlModel.insertMatchSeq(bean);
+                        mEditBean = new MatchNameBean();
                     }
                     else {
-                        sqlModel.updateMatchSeq(mEditBean);
+                        bean.getMatchBean().setId(mEditBean.getMatchId());
+                    }
+                    mEditBean.setName(bean.getName());
+                    mEditBean.setMatchBean(bean.getMatchBean());
+                    if (mEditBean.getId() == 0) {
+                        pubDataProvider.insertMatch(bean);
+                    }
+                    else {
+                        pubDataProvider.updateMatch(mEditBean);
                     }
                     refreshList();
                     return true;
@@ -192,15 +220,15 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void refreshList() {
-        matchList = sqlModel.queryMatchSeqList();
+        matchList = pubDataProvider.getMatchList();
         matchItemAdapter.setList(matchList);
         matchItemAdapter.notifyDataSetChanged();
     }
 
     private void deleteMatchItems() {
-        List<MatchSeqBean> list = matchItemAdapter.getSelectedList();
-        for (MatchSeqBean bean:list) {
-            sqlModel.deleteMatchSeq(bean);
+        List<MatchNameBean> list = matchItemAdapter.getSelectedList();
+        for (MatchNameBean bean:list) {
+            pubDataProvider.deleteMatchName(bean);
         }
         refreshList();
     }

@@ -18,10 +18,15 @@ import java.util.List;
  * <p/>创建时间: 2017/2/24 14:11
  */
 public class MatchDao {
+    /**
+     * order by week
+     * @param connection
+     * @return
+     */
     public List<MatchNameBean> queryMatchList(Connection connection) {
         List<MatchNameBean> list = new ArrayList<>();
         String sql = "SELECT m.*, mn._id as name_id, mn.name FROM " +  DatabaseStruct.TABLE_MATCH + " m, "
-            + DatabaseStruct.TABLE_MATCH_NAME + " mn WHERE m._id = mn.match_id";
+            + DatabaseStruct.TABLE_MATCH_NAME + " mn WHERE m._id = mn.match_id ORDER BY m.week ASC";
         Statement stmt = null;
         try {
             stmt = connection.createStatement();
@@ -58,10 +63,11 @@ public class MatchDao {
         nameBean.setMatchBean(bean);
         nameBean.setId(set.getInt(9));
         nameBean.setName(set.getString(10));
+        nameBean.setMatchId(bean.getId());
         return nameBean;
     }
 
-    public void inserMatchBean(MatchBean bean, Connection connection) {
+    public void insertMatchBean(MatchBean bean, Connection connection) {
         String sql = "INSERT INTO " + DatabaseStruct.TABLE_MATCH +
                 "(level,court,region,country,city,week,month) VALUES(?,?,?,?,?,?,?)";
         PreparedStatement stmt = null;
@@ -74,6 +80,30 @@ public class MatchDao {
             stmt.setString(5, bean.getCity());
             stmt.setInt(6, bean.getWeek());
             stmt.setInt(7, bean.getMonth());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public void insertMatchNameBean(MatchNameBean bean, Connection connection) {
+        String sql = "INSERT INTO " + DatabaseStruct.TABLE_MATCH_NAME +
+                "(name, match_id) VALUES(?,?)";
+        PreparedStatement stmt = null;
+        try {
+            stmt = connection.prepareStatement(sql);
+            stmt.setString(1, bean.getName());
+            stmt.setInt(2, bean.getMatchId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -119,6 +149,30 @@ public class MatchDao {
         }
     }
 
+    public void updateMatchNameBean(MatchNameBean bean, Connection connection) {
+        StringBuffer buffer = new StringBuffer("UPDATE ");
+        buffer.append(DatabaseStruct.TABLE_MATCH_NAME).append(" SET name='").append(bean.getName())
+                .append("',match_id=").append(bean.getMatchId())
+                .append(" WHERE _id=").append(bean.getId());
+        Statement stmt = null;
+        try {
+            stmt = connection.createStatement();
+            stmt.executeUpdate(buffer.toString());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     public void deleteMatch(int matchId, Connection connection) {
         String sql = "DELETE FROM " + DatabaseStruct.TABLE_MATCH + " WHERE _id=" + matchId;
         try {
@@ -129,8 +183,52 @@ public class MatchDao {
         }
     }
 
+    public void deleteMatchNameByMatchId(int matchId, Connection connection) {
+        String sql = "DELETE FROM " + DatabaseStruct.TABLE_MATCH_NAME + " WHERE match_id=" + matchId;
+        try {
+            Statement stmt = connection.createStatement();
+            stmt.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void deleteMatchName(int id, Connection connection) {
+        String sql = "DELETE FROM " + DatabaseStruct.TABLE_MATCH_NAME + " WHERE _id=" + id;
+        try {
+            Statement stmt = connection.createStatement();
+            stmt.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public int queryLastMatchBeanSequence(Connection connection) {
         String sql = "SELECT * FROM " + DatabaseStruct.TABLE_SEQUENCE + " WHERE name='" + DatabaseStruct.TABLE_MATCH + "'";
+        Statement statement = null;
+        int id = 0;
+        try {
+            statement = connection.createStatement();
+            ResultSet set = statement.executeQuery(sql);
+            if (set.next()) {
+                id = set.getInt(2);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (statement != null) {
+                    statement.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return id;
+    }
+
+    public int queryLastMatchNameBeanSequence(Connection connection) {
+        String sql = "SELECT * FROM " + DatabaseStruct.TABLE_SEQUENCE + " WHERE name='" + DatabaseStruct.TABLE_MATCH_NAME + "'";
         Statement statement = null;
         int id = 0;
         try {

@@ -236,10 +236,10 @@ public class ScorePresenter implements IScoreCallback {
             int lMatchSeq = 0;
             int rMatchSeq = 0;
             if (lhs.getMatchBean() != null) {
-                lMatchSeq = lhs.getMatchBean().getSequence();
+                lMatchSeq = lhs.getMatchBean().getMatchBean().getWeek();
             }
             if (rhs.getMatchBean() != null) {
-                rMatchSeq = rhs.getMatchBean().getSequence();
+                rMatchSeq = rhs.getMatchBean().getMatchBean().getWeek();
             }
             return lMatchSeq - rMatchSeq;
         }

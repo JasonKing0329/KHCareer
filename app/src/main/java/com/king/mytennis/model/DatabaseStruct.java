@@ -54,10 +54,6 @@ public class DatabaseStruct {
 	public static final String TABLE_CONF_PARAM="(id int primary key, def_language varchar(10))";
 	public static final int COL_LANGUAGE=1;
 
-	public static final String TABLE_MATCH_SEQ="match_seq";
-	public static final String[] TABLE_MATCH_SEQ_COL = {
-			"_id","name","sequence"};
-
 	public static final String TABLE_SEQUENCE="sqlite_sequence";
 
 	/**
