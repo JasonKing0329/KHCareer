@@ -136,9 +136,10 @@ public class ScorePresenter implements IScoreCallback {
      * @param scoreList
      * @param keepNumber
      * @param replaceList
+     * @param sortByWeek 是否按照week排序，false则按照积分高低排序
      * @return
      */
-    public String getGroupText(List<ScoreBean> scoreList, int keepNumber, List<ScoreBean> replaceList) {
+    public String getGroupText(List<ScoreBean> scoreList, int keepNumber, List<ScoreBean> replaceList, boolean sortByWeek) {
         StringBuffer buffer = new StringBuffer();
         if (scoreList != null) {
             // 先筛选出积分最高的keepNumber站
@@ -152,8 +153,10 @@ public class ScorePresenter implements IScoreCallback {
                     replaceList.add(scoreList.get(i));
                 }
             }
-            // 再按照赛事的先后顺序排列
-            Collections.sort(list, matchSeqComparator);
+            if (sortByWeek) {
+                // 再按照赛事的先后顺序排列
+                Collections.sort(list, matchSeqComparator);
+            }
             for (int i = 0; i < list.size(); i ++) {
                 addToGroup(list, i, buffer);
             }
@@ -206,6 +209,10 @@ public class ScorePresenter implements IScoreCallback {
 
     public int getCurrentYear() {
         return currentYear;
+    }
+
+    public ScoreComparator getScoreComparator() {
+        return scoreComparator;
     }
 
     /**

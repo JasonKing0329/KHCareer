@@ -35,6 +35,12 @@ public class MultiUserManager {
 			R.drawable.icon_list, R.drawable.logo_fo, R.drawable.logo_wo, R.drawable.icon_list
 	};
 	private boolean userChangedFlag;
+	/**
+	 * 首次排名进入前30的年份，用于积分系统确认是否运用罚分系统
+	 */
+	private int[] firstTop30Year = new int[] {
+			2011, 2015, 2015, 2017
+	};
 
 	private MultiUserManager() {
 		Log.i(TAG, "construct");
@@ -45,6 +51,22 @@ public class MultiUserManager {
 			multiUserManager = new MultiUserManager();
 		}
 		return multiUserManager;
+	}
+
+	public int getFirstTop30Year() {
+		if (currentUser.getId().equals(users[0].getId())) {
+			return firstTop30Year[0];
+		}
+		else if (currentUser.getId().equals(users[1].getId())) {
+			return firstTop30Year[1];
+		}
+		else if (currentUser.getId().equals(users[2].getId())) {
+			return firstTop30Year[2];
+		}
+		else if (currentUser.getId().equals(users[3].getId())) {
+			return firstTop30Year[3];
+		}
+		return 0;
 	}
 
 	public String getTargetDatabase() {

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.king.mytennis.view.BaseActivity;
 import com.king.mytennis.view.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -130,7 +132,14 @@ public class ScoreFragment extends Fragment implements IScorePageView, View.OnCl
 
         List<ScoreBean> replaceList = new ArrayList<>();
 
+        // @Deprecated
         // 统计ATP规则内的实际积分（4大满贯+年终总决赛+8站强制ATP1000+2站最好ATP500+2站最好ATP250+6站最好剩余赛事）
+
+        // TODO 统计ATP规则内的实际积分
+        // 4大满贯+年终总决赛+8站强制ATP1000+6站最好
+        // 上一年年终top30的有500赛强制罚分，必须参加4项500赛，且有一项是美网后（蒙卡算500赛），只要参加即刻，可以不计入6站最好（比如6个250夺冠，就不计算4个500赛首轮游）
+        // 非top30 按照取18站最好成绩的做法，若参加了大满贯和1000赛需要强制计入
+        // 目前的数据库系统待完善，对于top30仅按照废弃规则将6站最好剩余改为 6-已计入的500-已计入的250 站最好
 
         // gs
         List<ScoreBean> gsList = map.get(arrLevel[0]);
@@ -142,24 +151,114 @@ public class ScoreFragment extends Fragment implements IScorePageView, View.OnCl
 
         // atp 1000, 蒙特卡洛算作Replace
         List<ScoreBean> list1000 = map.get(arrLevel[2]);
-        tv1000.setText(scoreView.getPresenter().getGroupText(list1000, Constants.MATCH_CONST_MONTECARLO, replaceList));
+        String text1000 = scoreView.getPresenter().getGroupText(list1000, Constants.MATCH_CONST_MONTECARLO, replaceList);
+        tv1000.setText(text1000);
 
-        // atp 500, 只取最好的两站，其他算作replace
-        List<ScoreBean> list500 = map.get(arrLevel[3]);
-        tv500.setText(scoreView.getPresenter().getGroupText(list500, 2, replaceList));
+        // 进入积分系统的剩余赛事数量
+        int leftbest;
+        List<ScoreBean> list500Final = new ArrayList<>();
+        // 上一年非top30的情况
+        // 除了参加的gs,1000强计，剩下的均按积分高低取(18 - gsCount - 1000Count)
+        if (scoreView.getPresenter().getCurrentYear() <= MultiUserManager.getInstance().getFirstTop30Year()) {
+            int matchCount = 0;
+            if (gsList != null) {
+                matchCount += gsList.size();
+            }
+            if (list1000 != null) {
+                matchCount += list1000.size();
+                if (replaceList.size() == 1) {// 先剔除蒙卡，作为剩余的赛事统一计算
+                    matchCount --;
+                }
+            }
+            leftbest = 18 - matchCount;
+        }
+        // top30的情况，6站最好（罚分要强计）
+        // 计算500赛的罚分情况，需够4站，且一站是美网后的
+        else {
+            int force500 = 0;
+            if (replaceList.size() > 0) {// 参加了蒙卡
+                force500 ++;
+            }
+            List<ScoreBean> list500 = map.get(arrLevel[3]);
+            if (list500 != null) {
+                boolean hasAfterUsOpen = false;
+                for (ScoreBean bean:list500) {
+                    if (bean.getWeek() > 35) {// 35是美网的周数
+                        hasAfterUsOpen = true;
+                    }
+                    if (force500 == 4) {
+                        // 已够4站，不再累计
+                        continue;
+                    }
+                    force500 ++;
+                }
+                // 如果未参加美网后的一站500，要强制罚分一站
+                if (!hasAfterUsOpen) {
+                    force500 --;
+                }
+            }
+            int punish = 4 - force500;//
+            for (int i = 0; i < punish; i ++) {
+                ScoreBean scoreBean = new ScoreBean();
+                scoreBean.setName("500赛罚分");
+                scoreBean.setScore(0);
+                list500Final.add(scoreBean);
+            }
+            leftbest = 6 - punish;
+        }
 
-        // atp 250, 只取最好的两站，其他算作replace
-        List<ScoreBean> list250 = map.get(arrLevel[4]);
-        tv250.setText(scoreView.getPresenter().getGroupText(list250, 2, replaceList));
+        // 先将剩余的赛事按积分从高到低排序
+        List<ScoreBean> leftMatches = new ArrayList<>();
+        leftMatches.addAll(replaceList);// 可能包含的蒙卡
+        if (map.get(arrLevel[3]) != null) {// 500
+            leftMatches.addAll(map.get(arrLevel[3]));
+        }
+        if (map.get(arrLevel[4]) != null) {
+            leftMatches.addAll(map.get(arrLevel[4]));// 250
+        }
+        Collections.sort(leftMatches, scoreView.getPresenter().getScoreComparator());
 
+        List<ScoreBean> list250 = new ArrayList<>();
+        replaceList.clear();
+        // 将这几站重新分配到对应的level下，其他的进入replace list
+        for (int i = 0; i < leftMatches.size(); i ++) {
+            ScoreBean bean = leftMatches.get(i);
+            if (i < leftbest) {// 进入积分系统的赛事
+                if (bean.getLevel() == null) {// 罚分
+                    list500Final.add(bean);
+                }
+                else if (bean.getLevel().equals(arrLevel[2])) {// 蒙特卡洛
+                    if (!TextUtils.isEmpty(text1000)) {
+                        text1000 = text1000 + "\n";
+                    }
+                    text1000 = text1000 + bean.getName() + "  " + bean.getScore();
+                    tv1000.setText(text1000);
+                }
+                else if (bean.getLevel().equals(arrLevel[3])) {
+                    list500Final.add(bean);
+                }
+                else if (bean.getLevel().equals(arrLevel[4])) {
+                    list250.add(bean);
+                }
+            }
+            else {// 作为替补的赛事
+                replaceList.add(bean);
+            }
+        }
+
+        tv500.setText(scoreView.getPresenter().getGroupText(list500Final, 10, replaceList, true));
+
+        tv250.setText(scoreView.getPresenter().getGroupText(list250, 10, replaceList, true));
+
+        // 替补赛事按照积分进行降序排序
+        Collections.sort(replaceList, scoreView.getPresenter().getScoreComparator());
         List<ScoreBean> otherList = new ArrayList<>();
-        // 所有replace赛事中，取最好的6项赛事进入积分系统, 其他的进入other（不进入积分系统只显示）
-        String text = scoreView.getPresenter().getGroupText(replaceList, 6, otherList);
+        String text = scoreView.getPresenter().getGroupText(replaceList, 10, otherList, false);
         tvReplace.setText(text);
 
-        // 不进入积分系统的剩余赛事，计算实际积分和各项比例（将该赛事从统计数据中减去）
-        if (otherList.size() > 0) {
-            for (int i = 0; i < otherList.size(); i ++) {
+        // 不进入积分系统的替补赛事，计算实际积分和各项比例（将该赛事从统计数据中减去）
+        if (replaceList.size() > 0) {
+            for (int i = 0; i < replaceList.size(); i ++) {
                 // 减去积分
                 data.setCountScore(data.getCountScore() - replaceList.get(i).getScore());
 
