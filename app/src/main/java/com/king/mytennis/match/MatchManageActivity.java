@@ -24,6 +24,10 @@ import java.util.List;
 public class MatchManageActivity extends BaseActivity implements View.OnClickListener
     , MatchItemAdapter.OnMatchItemClickListener{
 
+    public static final String KEY_START_MODE = "key_start_mode";
+    public static final int START_MODE_NORMAL = 0;
+    public static final int START_MODE_SELECT = 1;
+
     private ViewGroup groupNormal;
     private ViewGroup groupConfirm;
 

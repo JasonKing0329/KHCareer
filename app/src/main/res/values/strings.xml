@@ -59,7 +59,7 @@
     <string name="insert_next">next</string>
     <string name="rankp1">rankp1</string>
     <string name="seedp1">seedp1</string>
-    <string name="comp_name">competitor name</string>
+    <string name="comp_name">competitor</string>
     <string name="country">country</string>
     <string name="pinyin">pinyin</string>
     <string name="add_pinyin_warning">New player! Please add sort index!</string>

@@ -16,5 +16,4 @@ public interface DatabaseAccess {
 	public void closeHelper();
 	public void clearTable(String name);
 	public long getCurRecordSize();
-	public long getNewRecordId();
 }

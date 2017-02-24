@@ -123,4 +123,11 @@
         <item name="android:textSize">13dp</item>
         <item name="android:textColor">#3c3c3c</item>
     </style>
+
+    <style name="RecordEditorFixText">
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:background">@drawable/tw_spinner_disabled_holo_light</item>
+    </style>
 </resources>

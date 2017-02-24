@@ -1,18 +1,18 @@
 package com.king.mytennis.view.update.recordlist;
 
 import java.util.Comparator;
-import java.util.HashMap;
+import java.util.Map;
 
 import android.content.Context;
 
-public class ShowByPlayerComparator implements Comparator<HashMap<String, String>> {
+public class ShowByPlayerComparator implements Comparator<Map<String, String>> {
 
-	private HashMap<String, String> namePinyinMap;
-	public ShowByPlayerComparator(Context context, HashMap<String, String> namePinyinMap) {
+	private Map<String, String> namePinyinMap;
+	public ShowByPlayerComparator(Context context, Map<String, String> namePinyinMap) {
 		this.namePinyinMap = namePinyinMap;
 	}
 	@Override
-	public int compare(HashMap<String, String> lhs, HashMap<String, String> rhs) {
+	public int compare(Map<String, String> lhs, Map<String, String> rhs) {
 		
 		String left = lhs.get("player");
 		String right = rhs.get("player");

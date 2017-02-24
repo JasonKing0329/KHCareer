@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import android.content.Context;
@@ -13,8 +14,9 @@ import com.king.mytennis.model.Constants;
 import com.king.mytennis.model.CountData;
 import com.king.mytennis.model.CountDataPlayer;
 import com.king.mytennis.model.FileIO;
-import com.king.mytennis.model.NamePinyinPool;
 import com.king.mytennis.model.Record;
+import com.king.mytennis.pubdata.PubDataProvider;
+import com.king.mytennis.pubdata.bean.PlayerBean;
 
 public class CardManager implements CardContentProvider {
 
@@ -45,7 +47,7 @@ public class CardManager implements CardContentProvider {
 	private boolean preparedPlayerIndexCardData;
 	private HashMap<String, CountDataPlayer> playerCountDataMap;
 	/*********************************************/
-	private HashMap<String, String> namePinyinMap;
+	private Map<String, String> namePinyinMap;
 
 	public CardManager(Context context) {
 		mContext = context;
@@ -513,8 +515,19 @@ public class CardManager implements CardContentProvider {
 
 	private void createNamePinyinPool() {
 		if (namePinyinMap == null) {
-			namePinyinMap = new NamePinyinPool(mContext).getNamePinyinMap();
+			namePinyinMap = getNamePinyinMap();
 		}
+	}
+
+	public Map<String, String> getNamePinyinMap() {
+		List<PlayerBean> playerList = new PubDataProvider().getPlayerList();
+		Map<String, String> map = new HashMap<>();
+		if (playerList != null) {
+			for (PlayerBean bean:playerList) {
+				map.put(bean.getNameChn(), bean.getNamePinyin());
+			}
+		}
+		return map;
 	}
 
 	@Override

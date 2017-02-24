@@ -1,9 +1,8 @@
 package com.king.mytennis.view.update.recordlist;
 
-import java.io.File;
-import java.io.FileFilter;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -20,16 +19,15 @@ import com.king.mytennis.model.FileIO;
 import com.king.mytennis.model.H2HDAOList;
 import com.king.mytennis.model.ImageFactory;
 import com.king.mytennis.model.Record;
-import com.king.mytennis.service.ExternalRecordTool;
+import com.king.mytennis.pubdata.PubDataProvider;
+import com.king.mytennis.pubdata.bean.PlayerBean;
 import com.king.mytennis.service.RecordService;
 import com.king.mytennis.view.CPTListDlg;
 import com.king.mytennis.view.ChangeThemeDialog;
 import com.king.mytennis.view.ChooseBkDialog;
 import com.king.mytennis.view.CustomDialog;
 import com.king.mytennis.view.DetailsDialog;
-import com.king.mytennis.view.LoadFromDialog;
 import com.king.mytennis.view.R;
-import com.king.mytennis.view.SaveAsDialog;
 import com.king.mytennis.view.SearchDialog;
 import com.king.mytennis.view.UpdateDialog;
 import com.king.mytennis.view.SearchDialog.OnSearchListener;
@@ -164,6 +162,18 @@ public class RecordListViewController implements RecordListViewService {
 			intent.putExtras(bundle);
 			((Activity) mContext).startActivity(intent);
 		}
+	}
+
+	@Override
+	public Map<String, String> getNamePinyinMap() {
+		List<PlayerBean> playerList = new PubDataProvider().getPlayerList();
+		Map<String, String> map = new HashMap<>();
+		if (playerList != null) {
+			for (PlayerBean bean:playerList) {
+				map.put(bean.getNameChn(), bean.getNamePinyin());
+			}
+		}
+		return map;
 	}
 
 	public void startLoadRecord() {

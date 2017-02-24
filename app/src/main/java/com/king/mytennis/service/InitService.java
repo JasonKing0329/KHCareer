@@ -31,7 +31,6 @@ public class InitService {
 
 		RecordService service = new RecordService(context);
 		service.initTableRecord(list);
-		service.initTableID(list.size());
 	}
 	
 }

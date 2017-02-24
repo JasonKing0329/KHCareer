@@ -288,7 +288,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Call
 		int choice = v.getId();
 		if (choice == R.id.login_button_ok) {
 
-			boolean isright = loginService.checkPassword(edit_pwd.getText().toString());
+			// FIXME 调试直接过
+			boolean isright = true;
+//			boolean isright = loginService.checkPassword(edit_pwd.getText().toString());
 			if (isright) {
 				checkOK();
 			}

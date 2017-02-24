@@ -143,17 +143,4 @@ public class SQLiteDB implements DatabaseAccess {
 		return result;
 	}
 
-	@Override
-	public long getNewRecordId() {
-		long result = System.currentTimeMillis();
-		SQLiteDatabase db = sqlHelper.getReadableDatabase();
-		Cursor cursor = db.query(DatabaseStruct.TABLE_ID
-				, DatabaseStruct.TABLE_ID_COL, "id = ?", new String[]{"0"}, null, null, null);
-		if (cursor.moveToNext()) {
-			result = cursor.getInt(2);
-		}
-		db.close();
-		return result;
-	}
-
 }

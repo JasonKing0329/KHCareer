@@ -3,15 +3,14 @@ package com.king.mytennis.view;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
-import com.king.mytennis.interfc.RecordDAO;
+import com.king.mytennis.match.MatchManageActivity;
 import com.king.mytennis.model.Configuration;
 import com.king.mytennis.model.MySQLHelper;
 import com.king.mytennis.model.Record;
-import com.king.mytennis.model.RecordDAOImp;
 import com.king.mytennis.multiuser.MultiUserManager;
+import com.king.mytennis.pubdata.PubDataProvider;
 import com.king.mytennis.service.RecordEditorService;
 import com.king.mytennis.service.RecordService;
-import com.king.mytennis.utils.PinyinUtil;
 import com.king.mytennis.view.settings.SettingActivity;
 
 import android.app.ProgressDialog;
@@ -26,7 +25,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,28 +37,29 @@ import android.widget.AdapterView.OnItemSelectedListener;
 public class RecordEditorActivity extends BaseActivity implements OnClickListener {
 
 	private final int REQUEST_CHANGE_MATCH = 101;
+	private final int REQUEST_CHANGE_PLAYER = 102;
 	private TextView nextPageView, previousPageView, doneView, continueView;
 	private RelativeLayout bkLayout;
 	private TextView titleView;
 	private LinearLayout playerLayout, matchLayout;
 	private ProgressDialog progressDialog;
-	private ImageView ivChangeMatch;
+	private ImageView ivChangeMatch, ivChangePlayer;
 
 	private RecordEditorService recordEditorService;
 
 	protected String[] arr_round, arr_level, arr_court, arr_region;
-	protected String[] arr_year, arr_month;
-	private String[] arr_names, arr_matches;
-	protected EditText et_rankp1, et_seedp1, et_playercountry, et_rank,
+	protected String[] arr_year;
+	protected EditText et_rankp1, et_seedp1, et_rank,
 			et_seed;
-	protected AutoCompleteTextView actv_compname, actv_matchname;
-	protected EditText et_matchcountry, et_city, et_winner, et_score;
-	protected Spinner sp_year, sp_month, sp_round, sp_level, sp_court,
-			sp_region;
-	protected int cur_year = 2, cur_month = 0, cur_round = 0, cur_level = 0,
-			cur_court = 0, cur_region = 0;// 记录当前spinner选项
+	protected TextView tvCompetitor, tvMatch, tvCompetitorCountry
+			, tvMatchCountry, tvMatchLevel, tvMatchRegion, tvMatchCity, tvMatchCourt, tvMatchMonth;
+	protected EditText et_winner, et_score;
+	protected Spinner sp_year, sp_round;
+	protected int cur_year = 2, cur_round = 0;// 记录当前spinner选项
 
 	private SpinnerListener spinnerListener;
+
+	private PubDataProvider pubDataProvider;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +68,7 @@ public class RecordEditorActivity extends BaseActivity implements OnClickListene
 
 		spinnerListener = new SpinnerListener();
 		recordEditorService = new RecordEditorService();
+		pubDataProvider = new PubDataProvider();
 
 		initDirectView();
 		progressDialog = new ProgressDialog(this);
@@ -173,6 +173,11 @@ public class RecordEditorActivity extends BaseActivity implements OnClickListene
 			continueInsert();
 		}
 		else if (v == ivChangeMatch) {
+			Intent intent = new Intent().setClass(this, MatchManageActivity.class);
+			intent.putExtra(MatchManageActivity.KEY_START_MODE, MatchManageActivity.START_MODE_SELECT);
+			startActivityForResult(intent, REQUEST_CHANGE_MATCH);
+		}
+		else if (v == ivChangePlayer) {
 			Intent intent = new Intent().setClass(this, SettingActivity.class);
 			intent.putExtra(SettingActivity.START_MODE, SettingActivity.START_AUTOFILL_SELECT);
 			startActivityForResult(intent, REQUEST_CHANGE_MATCH);
@@ -183,21 +188,21 @@ public class RecordEditorActivity extends BaseActivity implements OnClickListene
 		Configuration conf = Configuration.getInstance();
 		et_rankp1.setText("");
 		et_seedp1.setText("");
-		et_city.setText(conf.autoFillItem.getCity());
-		actv_compname.setText("");
-		et_matchcountry.setText(conf.autoFillItem.getCountry());
-		actv_matchname.setText(conf.autoFillItem.getMatch());
-		et_playercountry.setText("");
+		tvMatchCity.setText(conf.autoFillItem.getCity());
+		tvCompetitor.setText("");
+		tvMatchCountry.setText(conf.autoFillItem.getCountry());
+		tvMatch.setText(conf.autoFillItem.getMatch());
+		tvCompetitorCountry.setText("");
 		et_rank.setText("");
 		et_score.setText("");
 		et_seed.setText("");
 		et_winner.setText(MultiUserManager.getInstance().getCurrentUser().getDisplayName());
 		sp_year.setSelection(conf.index_year);
-		sp_month.setSelection(conf.index_month);
+		tvMatchMonth.setText(String.valueOf(conf.index_month + 1));
 		sp_round.setSelection(conf.autoFillItem.getRoundIndex());
-		sp_court.setSelection(conf.autoFillItem.getCourtIndex());
-		sp_level.setSelection(conf.autoFillItem.getLevelIndex());
-		sp_region.setSelection(conf.autoFillItem.getRegionIndex());
+		tvMatchCourt.setText(arr_court[conf.autoFillItem.getCourtIndex()]);
+		tvMatchLevel.setText(arr_level[conf.autoFillItem.getLevelIndex()]);
+		tvMatchRegion.setText(arr_region[conf.autoFillItem.getRegionIndex()]);
 	}
 
 	private void initData() {
@@ -210,28 +215,9 @@ public class RecordEditorActivity extends BaseActivity implements OnClickListene
 				R.array.spinner_region);
 		arr_round = getResources().getStringArray(
 				R.array.spinner_round);
-		arr_month = new String[12];
-		for (int i = 0; i < 12;) {
-			if (i < 9)
-				arr_month[i] = "0" + (++i);
-			else
-				arr_month[i] = "" + (++i);
-		}
 		arr_year = new String[20];
 		for (int n = 0; n < 20; n++) {
 			arr_year[n] = "" + (n + 2010);
-		}
-
-		RecordDAO dao = new RecordDAOImp(this);
-		arr_names = dao.getCptNames();
-		arr_matches = dao.getMatchNames();
-
-		//v5.4 after add multiuser module, this error found
-		if (arr_names == null) {
-			arr_names = new String[]{};
-		}
-		if (arr_matches == null) {
-			arr_matches = new String[]{};
 		}
 	}
 
@@ -242,33 +228,27 @@ public class RecordEditorActivity extends BaseActivity implements OnClickListene
 		et_rankp1 = (EditText) findViewById(R.id.insert_et_rank1);
 		et_seedp1 = (EditText) findViewById(R.id.insert_et_seed1);
 
-		actv_compname = (AutoCompleteTextView) findViewById(R.id.insert_et_compname);
+		tvCompetitor = (TextView) findViewById(R.id.insert_et_compname);
 
-		actv_compname.setAdapter(new ArrayAdapter<String>(this,
-				android.R.layout.simple_dropdown_item_1line, arr_names));
-
-		et_playercountry = (EditText) findViewById(R.id.insert_et_country);
+		tvCompetitorCountry = (TextView) findViewById(R.id.insert_et_country);
 		et_rank = (EditText) findViewById(R.id.insert_et_rank);
 		et_seed = (EditText) findViewById(R.id.insert_et_seed);
 
-		actv_matchname = (AutoCompleteTextView) findViewById(R.id.insert_et_matchname);
-
-		actv_matchname.setAdapter(new ArrayAdapter<String>(this,
-				android.R.layout.simple_dropdown_item_1line, arr_matches));
-
-		et_matchcountry = (EditText) findViewById(R.id.insert_et_matchcountry);
-		et_city = (EditText) findViewById(R.id.insert_et_city);
+		tvMatch = (TextView) findViewById(R.id.insert_et_matchname);
+		tvMatchCountry = (TextView) findViewById(R.id.insert_et_matchcountry);
+		tvMatchCity = (TextView) findViewById(R.id.insert_et_city);
 		et_winner = (EditText) findViewById(R.id.insert_et_winner);
 		et_score = (EditText) findViewById(R.id.insert_et_score);
 		ivChangeMatch = (ImageView) findViewById(R.id.insert_iv_change_match);
 		ivChangeMatch.setOnClickListener(this);
-
-		sp_month = (Spinner) findViewById(R.id.insert_spinner_month);
+		ivChangePlayer = (ImageView) findViewById(R.id.insert_iv_change_competitor);
+		ivChangePlayer.setOnClickListener(this);
+		tvMatchMonth = (TextView) findViewById(R.id.insert_spinner_month);
+		tvMatchCourt = (TextView) findViewById(R.id.insert_spinner_court);
+		tvMatchLevel = (TextView) findViewById(R.id.insert_spinner_level);
+		tvMatchRegion = (TextView) findViewById(R.id.insert_spinner_region);
 		sp_year = (Spinner) findViewById(R.id.insert_spinner_year);
-		sp_court = (Spinner) findViewById(R.id.insert_spinner_court);
 		sp_round = (Spinner) findViewById(R.id.insert_spinner_round);
-		sp_level = (Spinner) findViewById(R.id.insert_spinner_level);
-		sp_region = (Spinner) findViewById(R.id.insert_spinner_region);
 
 		spinnerAdapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, arr_year);
@@ -277,35 +257,11 @@ public class RecordEditorActivity extends BaseActivity implements OnClickListene
 		sp_year.setAdapter(spinnerAdapter);
 		sp_year.setOnItemSelectedListener(spinnerListener);
 		spinnerAdapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_spinner_item, arr_month);
-		spinnerAdapter
-				.setDropDownViewResource(android.R.layout.simple_spinner_item);
-		sp_month.setAdapter(spinnerAdapter);
-		sp_month.setOnItemSelectedListener(spinnerListener);
-		spinnerAdapter = new ArrayAdapter<String>(this,
 				android.R.layout.simple_spinner_item, arr_round);
 		spinnerAdapter
 				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		sp_round.setAdapter(spinnerAdapter);
 		sp_round.setOnItemSelectedListener(spinnerListener);
-		spinnerAdapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_spinner_item, arr_court);
-		spinnerAdapter
-				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		sp_court.setAdapter(spinnerAdapter);
-		sp_court.setOnItemSelectedListener(spinnerListener);
-		spinnerAdapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_spinner_item, arr_level);
-		spinnerAdapter
-				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		sp_level.setAdapter(spinnerAdapter);
-		sp_level.setOnItemSelectedListener(spinnerListener);
-		spinnerAdapter = new ArrayAdapter<String>(this,
-				android.R.layout.simple_spinner_item, arr_region);
-		spinnerAdapter
-				.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-		sp_region.setAdapter(spinnerAdapter);
-		sp_region.setOnItemSelectedListener(spinnerListener);
 	}
 
 	private void showFromServerFile() {
@@ -314,22 +270,18 @@ public class RecordEditorActivity extends BaseActivity implements OnClickListene
 		et_winner.setText(MultiUserManager.getInstance().getCurrentUser().getDisplayName());
 		cur_year = conf.index_year;
 		sp_year.setSelection(cur_year);
-		cur_month = conf.index_month;
-		sp_month.setSelection(cur_month);
+		tvMatchMonth.setText(String.valueOf(conf.index_month + 1));
 
 		//v4.7 change: load from preference
 		conf.loadFromPreference(this);
-		actv_matchname.setText(conf.autoFillItem.getMatch());
-		et_matchcountry.setText(conf.autoFillItem.getCountry());
-		et_city.setText(conf.autoFillItem.getCity());
+		tvMatch.setText(conf.autoFillItem.getMatch());
+		tvMatchCountry.setText(conf.autoFillItem.getCountry());
+		tvMatchCity.setText(conf.autoFillItem.getCity());
 		cur_round = conf.autoFillItem.getRoundIndex();
 		sp_round.setSelection(cur_round);
-		cur_court = conf.autoFillItem.getCourtIndex();
-		sp_court.setSelection(cur_court);
-		cur_level = conf.autoFillItem.getLevelIndex();
-		sp_level.setSelection(cur_level);
-		cur_region = conf.autoFillItem.getRegionIndex();
-		sp_region.setSelection(cur_region);
+		tvMatchCourt.setText(arr_court[conf.autoFillItem.getCourtIndex()]);
+		tvMatchLevel.setText(arr_level[conf.autoFillItem.getLevelIndex()]);
+		tvMatchRegion.setText(arr_region[conf.autoFillItem.getRegionIndex()]);
 	}
 	private class SpinnerListener implements OnItemSelectedListener {
 
@@ -338,14 +290,6 @@ public class RecordEditorActivity extends BaseActivity implements OnClickListene
 								   int position, long id) {
 			if (parent == sp_year) {
 				cur_year = position;
-			} else if (parent == sp_month) {
-				cur_month = position;
-			} else if (parent == sp_court) {
-				cur_court = position;
-			} else if (parent == sp_level) {
-				cur_level = position;
-			} else if (parent == sp_region) {
-				cur_region = position;
 			} else if (parent == sp_round) {
 				cur_round = position;
 			}
@@ -386,16 +330,22 @@ public class RecordEditorActivity extends BaseActivity implements OnClickListene
 			temp=0;
 		}
 		record.setCptSeed(temp);
-		record.setCity(et_city.getText().toString());
-		record.setCompetitor(actv_compname.getText().toString());
-		record.setCptCountry(et_playercountry.getText().toString());
-		record.setMatchCountry(et_matchcountry.getText().toString());
-		record.setCourt(arr_court[cur_court]);
-		record.setLevel(arr_level[cur_level]);
-		record.setMatch(actv_matchname.getText().toString());
-		record.setRegion(arr_region[cur_region]);
+		record.setCity(tvMatchCity.getText().toString());
+		record.setCompetitor(tvCompetitor.getText().toString());
+		record.setCptCountry(tvCompetitorCountry.getText().toString());
+		record.setMatchCountry(tvMatchCountry.getText().toString());
+		record.setCourt(tvMatchCourt.getText().toString());
+		record.setLevel(tvMatchLevel.getText().toString());
+		record.setMatch(tvMatch.getText().toString());
+		record.setRegion(tvMatchRegion.getText().toString());
 		record.setRound(arr_round[cur_round]);
 		record.setScore(et_score.getText().toString());
+		int cur_month = 0;
+		try {
+			cur_month = Integer.parseInt(tvMatchMonth.getText().toString()) - 1;
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		String month=(1+cur_month)<10 ? ("0"+(1+cur_month)):(""+(1+cur_month));
 		record.setStrDate(""+(2010+cur_year)+"-"+month);
 		if (et_winner.getText().toString().matches(MultiUserManager.getInstance().getCurrentUser().getDisplayName())) {
@@ -416,11 +366,8 @@ public class RecordEditorActivity extends BaseActivity implements OnClickListene
 		conf.index_month = cur_month;
 		conf.index_year = cur_year;
 
-		String name = actv_compname.getText().toString();
-		if (!recordEditorService.isPlayerExisted(this, name)) {
-			String pinyin = PinyinUtil.getPinyin(name);
-			recordEditorService.insertNamePinyin(this, name, pinyin);
-		}
+		String name = tvCompetitor.getText().toString();
+		record.setCompetitor(name);
 		RecordService service = new RecordService(this);
 		return service.insert(record);
 	}
@@ -429,15 +376,21 @@ public class RecordEditorActivity extends BaseActivity implements OnClickListene
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == REQUEST_CHANGE_MATCH) {
 			if (resultCode == RESULT_OK) {
-				Configuration conf = Configuration.getInstance();
-				conf.loadFromPreference(this);
-				et_city.setText(conf.autoFillItem.getCity());
-				et_matchcountry.setText(conf.autoFillItem.getCountry());
-				actv_matchname.setText(conf.autoFillItem.getMatch());
-				sp_round.setSelection(conf.autoFillItem.getRoundIndex());
-				sp_court.setSelection(conf.autoFillItem.getCourtIndex());
-				sp_level.setSelection(conf.autoFillItem.getLevelIndex());
-				sp_region.setSelection(conf.autoFillItem.getRegionIndex());
+				Bundle bundle = data.getExtras();
+				tvMatch.setText(bundle.getString("name"));
+				tvMatchCountry.setText(bundle.getString("country"));
+				tvMatchLevel.setText(bundle.getString("level"));
+				tvMatchCourt.setText(bundle.getString("court"));
+				tvMatchRegion.setText(bundle.getString("region"));
+				tvMatchCity.setText(bundle.getString("city"));
+				tvMatchMonth.setText(bundle.getString("month"));
+			}
+		}
+		if (requestCode == REQUEST_CHANGE_PLAYER) {
+			if (resultCode == RESULT_OK) {
+				Bundle bundle = data.getExtras();
+				tvCompetitor.setText(bundle.getString("name"));
+				tvCompetitorCountry.setText(bundle.getString("country"));
 			}
 		}
 		super.onActivityResult(requestCode, resultCode, data);

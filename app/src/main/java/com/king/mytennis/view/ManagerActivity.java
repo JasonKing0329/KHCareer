@@ -5,6 +5,7 @@ import java.io.FileFilter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.king.mytennis.glory.GloryModuleActivity;
 import com.king.mytennis.model.Configuration;
@@ -17,6 +18,8 @@ import com.king.mytennis.model.FileIO;
 import com.king.mytennis.multiuser.MultiUser;
 import com.king.mytennis.multiuser.MultiUserManager;
 import com.king.mytennis.multiuser.MultiUserSelector;
+import com.king.mytennis.pubdata.PubDataProvider;
+import com.king.mytennis.pubdata.bean.PlayerBean;
 import com.king.mytennis.service.Application;
 import com.king.mytennis.service.ExternalRecordTool;
 import com.king.mytennis.service.InitService;
@@ -690,6 +693,18 @@ public class ManagerActivity extends BaseActivity implements OnSlideChagedListen
 			intent.putExtras(bundle);
 			startActivity(intent);
 		}
+	}
+
+	@Override
+	public Map<String, String> getNamePinyinMap() {
+		List<PlayerBean> playerList = new PubDataProvider().getPlayerList();
+		Map<String, String> map = new HashMap<>();
+		if (playerList != null) {
+			for (PlayerBean bean:playerList) {
+				map.put(bean.getNameChn(), bean.getNamePinyin());
+			}
+		}
+		return map;
 	}
 
 

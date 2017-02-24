@@ -2,19 +2,20 @@ package com.king.mytennis.view.publicview;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeSet;
 
 public class IndexCreator {
 
 	private SideBar sideBar;
-	private HashMap<String, Integer> indexMap;
+	private Map<String, Integer> indexMap;
 	
 	public IndexCreator(SideBar sideBar) {
 		this.sideBar = sideBar;
 		indexMap = new HashMap<String, Integer>();
 	}
 
-	public void createFrom(List<HashMap<String, String>> list, HashMap<String, String> namePinyinMap) {
+	public void createFrom(List<HashMap<String, String>> list, Map<String, String> namePinyinMap) {
 		indexMap.clear();
 		sideBar.clear();
 		if (list != null && list.size() > 0) {

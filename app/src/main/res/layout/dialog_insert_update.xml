@@ -137,6 +137,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"
 				android:orientation="horizontal"
+				android:gravity="center_vertical"
 				>
 			    <TextView
 					android:text="@string/comp_name"
@@ -145,23 +146,30 @@
 					android:layout_marginLeft="10dp"
 					android:textStyle="bold"
 				/>
-		    	<!-- android:completionHint="下拉框注释" -->
-		    	<AutoCompleteTextView
+		    	<TextView
 					android:id="@+id/insert_et_compname"
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
+					android:layout_width="0dp"
+					android:layout_weight="1"
+					android:layout_height="@dimen/record_editor_item_height"
+					android:layout_marginRight="10dp"
 					android:layout_marginLeft="10dp"
-					android:completionThreshold="1"
-					
 		    	/>
+				<ImageView
+					android:id="@+id/insert_iv_change_competitor"
+					android:layout_width="30dp"
+					android:layout_height="30dp"
+					android:padding="5dp"
+					android:src="@drawable/ic_loop_amber_500_36dp"
+					android:background="@drawable/ripple_white"/>
 				<!-- android:hint="@string/main_hint" android:completionThreshold="1"-->
 			</LinearLayout>
 
 			<include layout="@layout/divider"/>
 			<LinearLayout 
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
+				android:layout_height="@dimen/record_editor_item_height"
 				android:orientation="horizontal"
+				android:gravity="center_vertical"
 				>
 			    <TextView
 					android:text="@string/country"
@@ -170,12 +178,11 @@
 					android:layout_marginLeft="10dp"
 					android:textStyle="bold"
 				/>
-				<EditText 
+				<TextView
 					android:id="@+id/insert_et_country"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
 					android:layout_marginLeft="10dp"
-					android:singleLine="true"
 				/>
 			</LinearLayout>
 			
@@ -250,19 +257,18 @@
 					android:layout_height="wrap_content"
 					android:layout_marginLeft="10dp"
 				/>
-		    	<AutoCompleteTextView
+				<TextView
 					android:id="@+id/insert_et_matchname"
 					android:layout_width="0dp"
 					android:layout_weight="1"
 					android:layout_marginRight="10dp"
-					android:layout_height="wrap_content"
+					android:layout_height="@dimen/record_editor_item_height"
 					android:layout_marginLeft="10dp"
-					android:completionThreshold="1"
 		    	/>
 				<ImageView
 					android:id="@+id/insert_iv_change_match"
-					android:layout_width="36dp"
-					android:layout_height="36dp"
+					android:layout_width="30dp"
+					android:layout_height="30dp"
 					android:padding="5dp"
 					android:src="@drawable/ic_loop_amber_500_36dp"
 					android:background="@drawable/ripple_white"/>
@@ -272,71 +278,67 @@
 			
 			<LinearLayout 
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
+				android:layout_height="@dimen/record_editor_item_height"
 				android:orientation="horizontal"
 				>
 				<Spinner 
 					android:id="@+id/insert_spinner_year"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_weight="0.5"
-					android:layout_marginLeft="10dp"
-					android:background="@drawable/tw_spinner_bk"
+					android:layout_width="0dp"
+					android:layout_height="match_parent"
+					android:layout_weight="1"
+					style="@style/RecordEditorFixText"
 				/>
-				<Spinner 
+				<TextView
 					android:id="@+id/insert_spinner_month"
-					android:layout_weight="0.5"
+					android:layout_weight="1"
 					android:layout_marginLeft="10dp"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:background="@drawable/tw_spinner_bk"
+					android:layout_width="0dp"
+					android:layout_height="match_parent"
+					style="@style/RecordEditorFixText"
 				/>
 			</LinearLayout>
 			<include layout="@layout/divider"/>
 			
 			<LinearLayout 
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
+				android:layout_height="@dimen/record_editor_item_height"
 				android:orientation="horizontal"
 				>
-				<Spinner 
+				<TextView
 					android:id="@+id/insert_spinner_level"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_weight="0.5"
-					android:layout_marginLeft="10dp"
-					android:background="@drawable/tw_spinner_bk"
+					android:layout_width="0dp"
+					android:layout_height="match_parent"
+					android:layout_weight="1"
+					style="@style/RecordEditorFixText"
 				/>
-				<Spinner 
+				<TextView
 					android:id="@+id/insert_spinner_region"
-					android:layout_weight="0.5"
+					android:layout_weight="1"
 					android:layout_marginLeft="10dp"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:background="@drawable/tw_spinner_bk"
+					android:layout_width="0dp"
+					android:layout_height="match_parent"
+					style="@style/RecordEditorFixText"
 				/>
 			</LinearLayout>
 			<include layout="@layout/divider"/>
 			
 			<LinearLayout 
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
+				android:layout_height="@dimen/record_editor_item_height"
 				android:orientation="horizontal"
 				>
-				<Spinner 
+				<TextView
 					android:id="@+id/insert_spinner_court"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_weight="0.5"
-					android:layout_marginLeft="10dp"
-					android:background="@drawable/tw_spinner_bk"
-				/>
+					android:layout_width="0dp"
+					android:layout_height="match_parent"
+					android:layout_weight="1"
+					style="@style/RecordEditorFixText" />
 				<Spinner 
 					android:id="@+id/insert_spinner_round"
-					android:layout_weight="0.5"
+					android:layout_weight="1"
 					android:layout_marginLeft="10dp"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
+					android:layout_width="0dp"
+					android:layout_height="match_parent"
 					android:background="@drawable/tw_spinner_bk"
 				/>
 			</LinearLayout>
@@ -344,7 +346,8 @@
 			
 			<LinearLayout 
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
+				android:layout_height="@dimen/record_editor_item_height"
+				android:gravity="center_vertical"
 				android:orientation="horizontal"
 				>
 			    <TextView
@@ -353,18 +356,18 @@
 					android:layout_height="wrap_content"
 					android:layout_marginLeft="10dp"
 				/>
-				<EditText 
+				<TextView
 					android:id="@+id/insert_et_matchcountry"
 					android:layout_marginLeft="10dp"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:singleLine="true"
 				/>
 			</LinearLayout>
 			<include layout="@layout/divider"/>
 			<LinearLayout 
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
+				android:layout_height="@dimen/record_editor_item_height"
+				android:gravity="center_vertical"
 				android:orientation="horizontal"
 				>
 			    <TextView
@@ -373,12 +376,11 @@
 					android:layout_height="wrap_content"
 					android:layout_marginLeft="10dp"
 				/>
-				<EditText 
+				<TextView
 					android:id="@+id/insert_et_city"
 					android:layout_marginLeft="10dp"
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:singleLine="true"
 				/>
 			</LinearLayout>
 			

@@ -83,4 +83,5 @@
     <dimen name="dialog_bg_selector_padding">10dp</dimen>
     <dimen name="dialog_bg_selector_item_padding">5dp</dimen>
     <dimen name="dialog_bg_selector_item_inner_padding">5dp</dimen>
+    <dimen name="record_editor_item_height">40dp</dimen>
 </resources>

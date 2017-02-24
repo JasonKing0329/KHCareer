@@ -53,19 +53,6 @@ public class RecordDAOImp implements RecordDAO {
 		sqLite.insert(DatabaseStruct.TABLE_RECORD, DatabaseStruct.TABLE_RECORD_COL, values);
 	}
 
-	private int getNewId() {
-
-		SQLiteOpenHelper helper = sqLite.getSQLHelper();
-		SQLiteDatabase db = helper.getReadableDatabase();
-		Cursor cursor = db.query(DatabaseStruct.TABLE_ID
-				, DatabaseStruct.TABLE_ID_COL
-				, "id=?", new String[]{""+0}, null, null, null);
-		if (cursor.moveToNext()) {
-			return cursor.getInt(DatabaseStruct.COL_TABLENEWID);
-		}
-		db.close();
-		return 0;
-	}
 	@Override
 	public void update(Record record) {
 
@@ -213,9 +200,9 @@ public class RecordDAOImp implements RecordDAO {
 		SQLiteDatabase db = helper.getWritableDatabase();
 
 		List<String> list = new ArrayList<String>();
-		Cursor cursor = db.query(DatabaseStruct.TABLE_NAME_PINYIN
-				, new String[]{DatabaseStruct.TABLE_NAME_PINYIN_COL[DatabaseStruct.COL_NAME_PINYIN_NAME]}
-				, null, null, null, null, DatabaseStruct.TABLE_NAME_PINYIN_COL[DatabaseStruct.COL_NAME_PINYIN_PINYIN] + " ASC");
+		Cursor cursor = db.query(DatabaseStruct.TABLE_RECORD
+				, new String[]{DatabaseStruct.TABLE_RECORD_COL[DatabaseStruct.COL_competitor]}
+				, null, null, DatabaseStruct.TABLE_RECORD_COL[DatabaseStruct.COL_competitor], null, null);
 		cursor.moveToPosition(-1);
 		while (cursor.moveToNext()) {
 			list.add(cursor.getString(0));

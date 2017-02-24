@@ -5,15 +5,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import com.king.mytennis.glory.ActionBar;
 import com.king.mytennis.glory.GloryController;
 import com.king.mytennis.glory.ActionBar.ActionBarListener;
 import com.king.mytennis.glory.GloryMatchDialog;
-import com.king.mytennis.http.RequestCallback;
-import com.king.mytennis.http.bean.ImageUrlBean;
 import com.king.mytennis.model.Constants;
-import com.king.mytennis.model.NamePinyinPool;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.model.RecordListModel;
 import com.king.mytennis.multiuser.MultiUserManager;
@@ -32,13 +30,10 @@ import com.king.mytennis.view.slidingmenu.SlidingMenuAbstract;
 import com.king.mytennis.view.slidingmenu.SlidingMenuCreator;
 import com.king.mytennis.view.slidingmenu.SlidingMenuLeft;
 import com.king.mytennis.view.slidingmenu.SlidingMenuService;
-import com.king.mytennis.view_v_7_0.interaction.controller.InteractionController;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Handler;
@@ -150,7 +145,7 @@ public class RecordListViewUpdate implements
 	private int arcButtonVisibility;
 	private boolean needReorderData;
 
-	private HashMap<String, String> namePinyinMap;
+	private Map<String, String> namePinyinMap;
 
 	private RecordListViewService recordListViewService;
 
@@ -899,7 +894,7 @@ public class RecordListViewUpdate implements
 
 	private void createNamePinyinPool() {
 		if (namePinyinMap == null) {
-			namePinyinMap = new NamePinyinPool(userActivity).getNamePinyinMap();
+			namePinyinMap = recordListViewService.getNamePinyinMap();
 		}
 	}
 
