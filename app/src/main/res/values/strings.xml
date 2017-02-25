@@ -250,10 +250,11 @@
     <string name="view7_folder_timeline">TimeLine</string>
     <string name="view7_folder_default">(default)</string>
     <string name="view7_main_add">Add new record</string>
-    <string name="view7_more_glory">Glory</string>
-    <string name="view7_more_match">Match</string>
-    <string name="view7_more_score">Score</string>
+    <string name="view7_more_glory" translatable="false">Glory</string>
+    <string name="view7_more_match" translatable="false">Match</string>
+    <string name="view7_more_score" translatable="false">Score</string>
     <string name="view7_more_background">Background</string>
+    <string name="view7_more_player" translatable="false">Player</string>
     <string name="view7_more_packup">Pack up</string>
     <string name="swipecard_refresh">Reload cards</string>
     <string name="swipecard_sortby_name">Sort by name</string>
@@ -278,6 +279,7 @@
 
     <!-- *************************** match manage ********************************* -->
     <string name="match_manage_title">Manage match</string>
+    <string name="player_manage_title">Manage player</string>
     <!-- *************************** score ********************************* -->
     <string name="score_action_year">Year</string>
     <string name="score_action_week">52 weeks</string>

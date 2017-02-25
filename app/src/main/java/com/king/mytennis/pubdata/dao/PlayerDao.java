@@ -18,9 +18,12 @@ import java.util.List;
  * <p/>创建时间: 2017/2/24 14:11
  */
 public class PlayerDao {
-    public List<PlayerBean> queryPlayerList(Connection connection) {
+    public List<PlayerBean> queryPlayerList(Connection connection, boolean orderByPinyin) {
         List<PlayerBean> list = new ArrayList<>();
-        String sql = "SELECT * FROM " + DatabaseStruct.TABLE_PLAYER ;
+        String sql = "SELECT * FROM " + DatabaseStruct.TABLE_PLAYER;
+        if (orderByPinyin) {
+            sql = sql.concat(" ORDER BY name_pinyin ASC");
+        }
         Statement stmt = null;
         try {
             stmt = connection.createStatement();
@@ -111,8 +114,8 @@ public class PlayerDao {
         }
     }
 
-    public void deletePlayer(int matchId, Connection connection) {
-        String sql = "DELETE FROM " + DatabaseStruct.TABLE_PLAYER + " WHERE _id=" + matchId;
+    public void deletePlayer(int playerId, Connection connection) {
+        String sql = "DELETE FROM " + DatabaseStruct.TABLE_PLAYER + " WHERE _id=" + playerId;
         try {
             Statement stmt = connection.createStatement();
             stmt.executeUpdate(sql);

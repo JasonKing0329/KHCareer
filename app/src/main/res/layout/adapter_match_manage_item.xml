@@ -23,7 +23,9 @@
             style="@style/MatchManageItem"/>
         <TextView
             android:id="@+id/manage_item_sequence"
-            android:layout_width="50dp"
+            android:layout_width="wrap_content"
+            android:minWidth="50dp"
+            android:gravity="right"
             android:layout_height="wrap_content"
             style="@style/MatchManageItem"/>
         <CheckBox

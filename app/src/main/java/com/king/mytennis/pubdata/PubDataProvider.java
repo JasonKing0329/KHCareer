@@ -24,7 +24,9 @@ public class PubDataProvider {
     public List<PlayerBean> getPlayerList(){
         try {
             SqlConnection.getInstance().connect(databasePath);
-            return new PlayerDao().queryPlayerList(SqlConnection.getInstance().getConnection());
+            List<PlayerBean> list = new PlayerDao().queryPlayerList(SqlConnection.getInstance().getConnection(), true);
+            addVirtualPlayer(list);
+            return list;
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -120,4 +122,77 @@ public class PubDataProvider {
         }
         return null;
     }
+
+    public void insertPlayer(PlayerBean bean) {
+        try {
+            SqlConnection.getInstance().connect(databasePath);
+            new PlayerDao().inserPlayerBean(bean, SqlConnection.getInstance().getConnection());
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            SqlConnection.getInstance().close();
+        }
+    }
+
+    public void updatePlayer(PlayerBean bean) {
+        try {
+            SqlConnection.getInstance().connect(databasePath);
+            new PlayerDao().updatePlayerBean(bean, SqlConnection.getInstance().getConnection());
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            SqlConnection.getInstance().close();
+        }
+    }
+
+    public void deletePlayer(PlayerBean bean) {
+        try {
+            SqlConnection.getInstance().connect(databasePath);
+            new PlayerDao().deletePlayer(bean.getId(), SqlConnection.getInstance().getConnection());
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            SqlConnection.getInstance().close();
+        }
+    }
+
+    private void addVirtualPlayer(List<PlayerBean> list) {
+        PlayerBean bean = new PlayerBean();
+        bean.setId(100001);
+        bean.setNameChn("King Hao");
+        bean.setNameEng("King Hao");
+        bean.setNamePinyin("king hao");
+        bean.setCountry("中国");
+        bean.setCity("上海");
+        bean.setBirthday("1991-03-29");
+        list.add(0, bean);
+        bean = new PlayerBean();
+        bean.setId(100002);
+        bean.setNameChn("John Flamenco");
+        bean.setNameEng("John Flamenco");
+        bean.setNamePinyin("john flamenco");
+        bean.setCountry("法国");
+        bean.setCity("巴黎");
+        bean.setBirthday("1997-05-04");
+        list.add(1, bean);
+        bean = new PlayerBean();
+        bean.setId(100003);
+        bean.setNameChn("Michael Henry");
+        bean.setNameEng("Michael Henry");
+        bean.setNamePinyin("Michael Henry");
+        bean.setCountry("美国");
+        bean.setCity("芝加哥");
+        bean.setBirthday("1998-05-26");
+        list.add(2, bean);
+        bean = new PlayerBean();
+        bean.setId(100004);
+        bean.setNameChn("Qi Tian");
+        bean.setNameEng("Qi Tian");
+        bean.setNamePinyin("Qi Tian");
+        bean.setCountry("中国");
+        bean.setCity("成都");
+        bean.setBirthday("1991-03-27");
+        list.add(3, bean);
+    }
+
 }

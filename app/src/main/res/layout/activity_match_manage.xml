@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:swipe="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/view7_home_background" >
@@ -8,12 +9,36 @@
         android:id="@+id/match_manage_actionbar"
         layout="@layout/view7_layout_actionbar" />
 
+	<com.king.mytennis.view.publicview.SideBar
+		android:id="@+id/manage_sidebar"
+		android:layout_width="@dimen/swipecard_indexbar_width"
+		android:layout_height="match_parent"
+		android:layout_below="@id/match_manage_actionbar"
+		android:layout_alignParentRight="true"
+		android:visibility="gone"
+		swipe:sideBackground="@drawable/shape_swipecard_sidebar_bg"
+		swipe:indexTextSize="@dimen/swipecard_indexbar_text_size"
+		swipe:indexColor="@color/white"
+		swipe:indexColorFocus="@color/swipecard_index_text_focus"/>
+
 	<android.support.v7.widget.RecyclerView
 		android:id="@+id/match_manage_list"
 		android:layout_width="match_parent"
 		android:layout_height="match_parent"
+		android:layout_toLeftOf="@id/manage_sidebar"
 		android:layout_marginTop="@dimen/activity_horizontal_margin"
 		android:layout_marginLeft="@dimen/activity_horizontal_margin"
 		android:layout_marginRight="@dimen/activity_horizontal_margin"
 		android:layout_below="@id/match_manage_actionbar"/>
+
+	<TextView
+		android:id="@+id/manage_indexview_popup"
+		android:layout_width="@dimen/swipecard_indexbar_popup_size"
+		android:layout_height="@dimen/swipecard_indexbar_popup_size"
+		android:background="@drawable/shape_swipecard_sidebar_popup_bk"
+		android:layout_centerInParent="true"
+		android:gravity="center"
+		android:textColor="@color/white"
+		android:textSize="@dimen/swipecard_indexbar_popup_text_size"
+		android:visibility="gone" />
 </RelativeLayout>

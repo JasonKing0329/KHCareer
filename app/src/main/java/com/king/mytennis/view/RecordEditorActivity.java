@@ -8,6 +8,7 @@ import com.king.mytennis.model.Configuration;
 import com.king.mytennis.model.MySQLHelper;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.multiuser.MultiUserManager;
+import com.king.mytennis.player.PlayerManageActivity;
 import com.king.mytennis.pubdata.PubDataProvider;
 import com.king.mytennis.service.RecordEditorService;
 import com.king.mytennis.service.RecordService;
@@ -178,9 +179,9 @@ public class RecordEditorActivity extends BaseActivity implements OnClickListene
 			startActivityForResult(intent, REQUEST_CHANGE_MATCH);
 		}
 		else if (v == ivChangePlayer) {
-			Intent intent = new Intent().setClass(this, SettingActivity.class);
-			intent.putExtra(SettingActivity.START_MODE, SettingActivity.START_AUTOFILL_SELECT);
-			startActivityForResult(intent, REQUEST_CHANGE_MATCH);
+			Intent intent = new Intent().setClass(this, PlayerManageActivity.class);
+			intent.putExtra(PlayerManageActivity.KEY_START_MODE, PlayerManageActivity.START_MODE_SELECT);
+			startActivityForResult(intent, REQUEST_CHANGE_PLAYER);
 		}
 	}
 

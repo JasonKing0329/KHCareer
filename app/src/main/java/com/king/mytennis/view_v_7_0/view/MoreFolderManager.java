@@ -3,7 +3,6 @@ package com.king.mytennis.view_v_7_0.view;
 import java.util.HashMap;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -20,6 +19,7 @@ import com.king.mytennis.match.MatchManageActivity;
 import com.king.mytennis.model.Configuration;
 import com.king.mytennis.model.FileIO;
 import com.king.mytennis.model.ImageFactory;
+import com.king.mytennis.player.PlayerManageActivity;
 import com.king.mytennis.score.ScoreActivity;
 import com.king.mytennis.service.Application;
 import com.king.mytennis.view.ChooseBkDialog;
@@ -29,8 +29,6 @@ import com.king.mytennis.view.R;
 import com.king.mytennis.view.RankActivity;
 import com.king.mytennis.view.settings.SettingActivity;
 import com.king.mytennis.view_v_7_0.V7MainActivity;
-
-import static android.R.attr.start;
 
 /**
  * @author JingYang
@@ -57,7 +55,7 @@ public class MoreFolderManager extends AbstractFolderManager {
 		gloryButton = (LinearLayout) moreDetailGroup.findViewById(R.id.view7_more_glory);
 		matchButton = (TextView) moreDetailGroup.findViewById(R.id.view7_more_match);
 		scoreButton = (TextView) moreDetailGroup.findViewById(R.id.view7_more_score);
-		bkButton = (TextView) moreDetailGroup.findViewById(R.id.view7_more_bk);
+		bkButton = (TextView) moreDetailGroup.findViewById(R.id.view7_more_player);
 		mFoldableLayout.setupViews(moreCoverGroup, moreDetailGroup
 				, getContext().getResources().getDimensionPixelSize(R.dimen.folder_item_height));
 
@@ -104,8 +102,9 @@ public class MoreFolderManager extends AbstractFolderManager {
 			case R.id.view7_more_match:
 				startMatchManageActivity();
 				break;
-			case R.id.view7_more_bk:
-				chooseBackground();
+			case R.id.view7_more_player:
+				startPlayerManageActivity();
+//				chooseBackground();
 				break;
 			case R.id.view7_more_score:
 				startScoreActivity();
@@ -158,28 +157,32 @@ public class MoreFolderManager extends AbstractFolderManager {
 
 	@Deprecated
 	private void startH2hActivity() {
-		((Activity) getContext()).startActivity(new Intent().setClass(getContext(), H2hMainActivity.class));
+		getContext().startActivity(new Intent().setClass(getContext(), H2hMainActivity.class));
 	}
 
 	@Deprecated
 	private void startRankActivity() {
-		((Activity) getContext()).startActivity(new Intent().setClass(getContext(), RankActivity.class));
+		getContext().startActivity(new Intent().setClass(getContext(), RankActivity.class));
 	}
 
 	private void startGloryActivity() {
-		((Activity) getContext()).startActivity(new Intent().setClass(getContext(), GloryModuleActivity.class));
+		getContext().startActivity(new Intent().setClass(getContext(), GloryModuleActivity.class));
 	}
 
 	private void startSettingActivity() {
-		((Activity) getContext()).startActivity(new Intent().setClass(getContext(), SettingActivity.class));
+		getContext().startActivity(new Intent().setClass(getContext(), SettingActivity.class));
 	}
 
 	private void startMatchManageActivity() {
-		((Activity) getContext()).startActivity(new Intent().setClass(getContext(), MatchManageActivity.class));
+		getContext().startActivity(new Intent().setClass(getContext(), MatchManageActivity.class));
+	}
+
+	private void startPlayerManageActivity() {
+		getContext().startActivity(new Intent().setClass(getContext(), PlayerManageActivity.class));
 	}
 
 	private void startScoreActivity() {
-		((Activity) getContext()).startActivity(new Intent().setClass(getContext(), ScoreActivity.class));
+		getContext().startActivity(new Intent().setClass(getContext(), ScoreActivity.class));
 	}
 
 }

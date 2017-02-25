@@ -34,11 +34,11 @@
 	    	android:orientation="horizontal" >
 		    <TextView
 		        style="@style/View7MoreDetailBtn"
-		        android:id="@+id/view7_more_bk"
+		        android:id="@+id/view7_more_player"
 			    android:layout_width="@dimen/folder_item_height"
 			    android:layout_height="@dimen/folder_item_height"
 			    android:background="#aaaaaa"
-			    android:text="@string/view7_more_background" />
+			    android:text="@string/view7_more_player" />
 		    <TextView
 		        style="@style/View7MoreDetailBtn"
 		        android:id="@+id/view7_more_packup"

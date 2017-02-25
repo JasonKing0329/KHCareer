@@ -265,4 +265,5 @@
 
     <!-- *************************** match manage ********************************* -->
     <string name="match_manage_title">管理赛事</string>
+    <string name="player_manage_title">管理球员</string>
 </resources>

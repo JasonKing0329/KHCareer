@@ -1,4 +1,4 @@
-package com.king.mytennis.match;
+package com.king.mytennis.player;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,42 +12,52 @@ import android.widget.TextView;
 
 import com.king.mytennis.pubdata.PubDataProvider;
 import com.king.mytennis.pubdata.bean.MatchNameBean;
+import com.king.mytennis.pubdata.bean.PlayerBean;
 import com.king.mytennis.view.BaseActivity;
 import com.king.mytennis.view.CustomDialog;
 import com.king.mytennis.view.R;
+import com.king.mytennis.view.publicview.SideBar;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
- * 描述: _match, _match_name 表的DAO操作
+ * 描述: _player 表的DAO操作
  * <p/>作者：景阳
  * <p/>创建时间: 2017/2/20 11:40
  */
-public class MatchManageActivity extends BaseActivity implements View.OnClickListener
-    , MatchItemAdapter.OnMatchItemClickListener{
+public class PlayerManageActivity extends BaseActivity implements View.OnClickListener
+    , PlayerItemAdapter.OnPlayerItemClickListener, SideBar.OnTouchingLetterChangedListener{
 
     public static final String KEY_START_MODE = "key_start_mode";
     public static final int START_MODE_SELECT = 1;
+
+    // top 4 players are virtual players, forbid to modify
+    public static final int FIXED_PLAYER = 4;
 
     private boolean isSelectMode;
 
     private ViewGroup groupNormal;
     private ViewGroup groupConfirm;
 
+    private SideBar indexSideBar;
+    private TextView indexPopupView;
+
     private RecyclerView rvList;
-    private MatchItemAdapter matchItemAdapter;
+    private PlayerItemAdapter playerItemAdapter;
 
-    private List<MatchNameBean> matchList;
+    private List<PlayerBean> playerList;
+    private Map<Character, Integer> playerIndexMap;
 
-    private MatchEditDialog matchEditDialog;
+    private PlayerEditDialog playerEditDialog;
 
     // 编辑模式
     private boolean isEditMode;
     // 删除模式
     private boolean isDeleteMode;
 
-    private MatchNameBean mEditBean;
+    private PlayerBean mEditBean;
     private PubDataProvider pubDataProvider;
 
     @Override
@@ -75,7 +85,13 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
         rvList.setLayoutManager(manager);
         rvList.setItemAnimator(new DefaultItemAnimator());
 
-        ((TextView) findViewById(R.id.view7_actionbar_title)).setText(getString(R.string.match_manage_title));
+        ((TextView) findViewById(R.id.view7_actionbar_title)).setText(getString(R.string.player_manage_title));
+
+        indexSideBar = (SideBar) findViewById(R.id.manage_sidebar);
+        indexPopupView = (TextView) findViewById(R.id.manage_indexview_popup);
+        indexSideBar.setVisibility(View.VISIBLE);
+        indexSideBar.setOnTouchingLetterChangedListener(this);
+        indexSideBar.setTextView(indexPopupView);
 
         findViewById(R.id.view7_actionbar_add).setOnClickListener(this);
         findViewById(R.id.view7_actionbar_edit).setOnClickListener(this);
@@ -88,11 +104,30 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
 
     private void loadDatas() {
         pubDataProvider = new PubDataProvider();
-        matchList = pubDataProvider.getMatchList();
-        matchItemAdapter = new MatchItemAdapter(matchList);
-        matchItemAdapter.setOnMatchItemClickListener(this);
+        playerList = pubDataProvider.getPlayerList();
+        playerItemAdapter = new PlayerItemAdapter(playerList);
+        playerItemAdapter.setOnPlayerItemClickListener(this);
 
-        rvList.setAdapter(matchItemAdapter);
+        rvList.setAdapter(playerItemAdapter);
+        createIndex();
+    }
+
+    private void createIndex() {
+        if (playerList == null) {
+            return;
+        }
+        indexSideBar.clear();
+        playerIndexMap = new HashMap<>();
+        // player list查询出来已经是升序的
+        for (int i = FIXED_PLAYER; i < playerList.size(); i ++) {
+            char first = playerList.get(i).getNamePinyin().charAt(0);
+            Integer index = playerIndexMap.get(first);
+            if (index == null) {
+                playerIndexMap.put(first, i);
+                indexSideBar.addIndex(String.valueOf(first));
+            }
+        }
+        indexSideBar.invalidate();
     }
 
     @Override
@@ -112,15 +147,15 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
             case R.id.view7_actionbar_delete:
                 isDeleteMode = true;
                 updateActionbarStatus(true);
-                matchItemAdapter.setSelectMode(true);
-                matchItemAdapter.notifyDataSetChanged();
+                playerItemAdapter.setSelectMode(true);
+                playerItemAdapter.notifyDataSetChanged();
                 break;
             case R.id.view7_actionbar_done:
                 if (isEditMode) {
 
                 }
                 else if (isDeleteMode) {
-                    deleteMatchItems();
+                    deletePlayerItems();
                 }
                 updateActionbarStatus(false);
                 break;
@@ -139,8 +174,8 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
             groupConfirm.setVisibility(View.GONE);
             groupNormal.setVisibility(View.VISIBLE);
             if (isDeleteMode) {
-                matchItemAdapter.setSelectMode(false);
-                matchItemAdapter.notifyDataSetChanged();
+                playerItemAdapter.setSelectMode(false);
+                playerItemAdapter.notifyDataSetChanged();
             }
             isEditMode = false;
             isDeleteMode = false;
@@ -157,22 +192,21 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
     }
 
     @Override
-    public void onMatchItemClick(int position) {
-        mEditBean = matchList.get(position);
+    public void onPlayerItemClick(int position) {
+        // top 4 player is
+        mEditBean = playerList.get(position);
         if (isEditMode) {
+            if (position < FIXED_PLAYER) {
+                return;
+            }
             openMatchEditDialog();
         }
         else {
             if (isSelectMode) {
                 Bundle bundle = new Bundle();
                 Intent intent = new Intent();
-                bundle.putString("name", mEditBean.getName());
-                bundle.putString("country", mEditBean.getMatchBean().getCountry());
-                bundle.putString("level", mEditBean.getMatchBean().getLevel());
-                bundle.putString("court", mEditBean.getMatchBean().getCourt());
-                bundle.putString("region", mEditBean.getMatchBean().getRegion());
-                bundle.putString("city", mEditBean.getMatchBean().getCity());
-                bundle.putInt("month", mEditBean.getMatchBean().getMonth());
+                bundle.putString("name", mEditBean.getNameChn());
+                bundle.putString("country", mEditBean.getCountry());
                 intent.putExtras(bundle);
                 setResult(RESULT_OK, intent);
                 finish();
@@ -181,24 +215,25 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void openMatchEditDialog() {
-        if (matchEditDialog == null) {
-            matchEditDialog = new MatchEditDialog(this, new CustomDialog.OnCustomDialogActionListener() {
+        if (playerEditDialog == null) {
+            playerEditDialog = new PlayerEditDialog(this, new CustomDialog.OnCustomDialogActionListener() {
                 @Override
                 public boolean onSave(Object object) {
-                    MatchNameBean bean = (MatchNameBean) object;
+                    PlayerBean bean = (PlayerBean) object;
                     if (mEditBean == null) {
-                        mEditBean = new MatchNameBean();
+                        mEditBean = new PlayerBean();
                     }
-                    else {
-                        bean.getMatchBean().setId(mEditBean.getMatchId());
-                    }
-                    mEditBean.setName(bean.getName());
-                    mEditBean.setMatchBean(bean.getMatchBean());
+                    mEditBean.setNameChn(bean.getNameChn());
+                    mEditBean.setNamePinyin(bean.getNamePinyin());
+                    mEditBean.setNameEng(bean.getNameEng());
+                    mEditBean.setCountry(bean.getCountry());
+                    mEditBean.setCity(bean.getCity());
+                    mEditBean.setBirthday(bean.getBirthday());
                     if (mEditBean.getId() == 0) {
-                        pubDataProvider.insertMatch(bean);
+                        pubDataProvider.insertPlayer(bean);
                     }
                     else {
-                        pubDataProvider.updateMatch(mEditBean);
+                        pubDataProvider.updatePlayer(mEditBean);
                     }
                     refreshList();
                     return true;
@@ -214,22 +249,30 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
                     data.put("bean", mEditBean);
                 }
             });
-            matchEditDialog.setTitle("Edit match");
+            playerEditDialog.setTitle("Edit match");
         }
-        matchEditDialog.show();
+        playerEditDialog.show();
     }
 
     private void refreshList() {
-        matchList = pubDataProvider.getMatchList();
-        matchItemAdapter.setList(matchList);
-        matchItemAdapter.notifyDataSetChanged();
+        playerList = pubDataProvider.getPlayerList();
+        playerItemAdapter.setList(playerList);
+        playerItemAdapter.notifyDataSetChanged();
+
+        createIndex();
     }
 
-    private void deleteMatchItems() {
-        List<MatchNameBean> list = matchItemAdapter.getSelectedList();
-        for (MatchNameBean bean:list) {
-            pubDataProvider.deleteMatchName(bean);
+    private void deletePlayerItems() {
+        List<PlayerBean> list = playerItemAdapter.getSelectedList();
+        for (PlayerBean bean:list) {
+            pubDataProvider.deletePlayer(bean);
         }
         refreshList();
+    }
+
+    @Override
+    public void onTouchingLetterChanged(String s) {
+        int selection = playerIndexMap.get(s.charAt(0));
+        rvList.smoothScrollToPosition(selection);
     }
 }
