@@ -7,7 +7,9 @@ import com.king.mytennis.pubdata.bean.PlayerBean;
 import com.king.mytennis.pubdata.dao.MatchDao;
 import com.king.mytennis.pubdata.dao.PlayerDao;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 描述:
@@ -38,13 +40,42 @@ public class PubDataProvider {
     public List<MatchNameBean> getMatchList(){
         try {
             SqlConnection.getInstance().connect(databasePath);
-            return new MatchDao().queryMatchList(SqlConnection.getInstance().getConnection());
+            return new MatchDao().queryMatchList(SqlConnection.getInstance().getConnection(), null);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             SqlConnection.getInstance().close();
         }
         return null;
+    }
+
+
+    public List<MatchNameBean> getMatchListByLevel(String level) {
+        try {
+            SqlConnection.getInstance().connect(databasePath);
+            return new MatchDao().queryMatchList(SqlConnection.getInstance().getConnection(), level);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            SqlConnection.getInstance().close();
+        }
+        return null;
+    }
+
+    public Map<String, MatchNameBean> getMatchMap() {
+        Map<String, MatchNameBean> map = new HashMap<>();
+        try {
+            SqlConnection.getInstance().connect(databasePath);
+            List<MatchNameBean> list = new MatchDao().queryMatchList(SqlConnection.getInstance().getConnection(), null);
+            for (MatchNameBean bean:list) {
+                map.put(bean.getName(), bean);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            SqlConnection.getInstance().close();
+        }
+        return map;
     }
 
     public void insertMatch(MatchNameBean bean) {
@@ -194,5 +225,4 @@ public class PubDataProvider {
         bean.setBirthday("1991-03-27");
         list.add(3, bean);
     }
-
 }

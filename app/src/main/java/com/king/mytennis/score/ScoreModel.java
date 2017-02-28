@@ -5,12 +5,12 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.king.mytennis.interfc.DatabaseAccess;
+import com.king.mytennis.model.Constants;
 import com.king.mytennis.model.DatabaseStruct;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.model.SQLiteDB;
 import com.king.mytennis.pubdata.PubDataProvider;
 import com.king.mytennis.pubdata.bean.MatchNameBean;
-import com.king.mytennis.view.R;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,13 +37,23 @@ public class ScoreModel {
     private IScoreCallback callback;
     private List<String> nonExistMatchList;
 
+    private Map<String, MatchNameBean> matchMap;
+
     public ScoreModel(Context context, IScoreCallback callback) {
         sqLitePlayer = new SQLiteDB(context);
         pubDataProvider = new PubDataProvider();
-        arrRound = context.getResources().getStringArray(R.array.spinner_round);
-        arrLevel = context.getResources().getStringArray(R.array.spinner_level);
+        arrRound = Constants.RECORD_MATCH_ROUNDS;
+        arrLevel = Constants.RECORD_MATCH_LEVELS;
         this.callback = callback;
         nonExistMatchList = new ArrayList<>();
+    }
+
+    private void loadPublicMatchMap() {
+        List<MatchNameBean> matchList = pubDataProvider.getMatchList();
+        matchMap = new HashMap<>();
+        for (MatchNameBean bean:matchList) {
+            matchMap.put(bean.getName(), bean);
+        }
     }
 
     public void queryYearRecords(int year) {
@@ -70,6 +80,8 @@ public class ScoreModel {
         }
         db.close();
 
+        loadPublicMatchMap();
+
         // 为了走公共逻辑，实际上就是计算去年52周到今年52周的积分情况
         List<ScoreBean> scoreList = countScoreList(list, year, 52, 52);
         callback.onYearRecordsLoaded(scoreList, nonExistMatchList);
@@ -93,6 +105,8 @@ public class ScoreModel {
             list.add(record);
         }
         db.close();
+
+        loadPublicMatchMap();
 
         // 去掉不在积分周期的记录
         List<ScoreBean> scoreList = distinctOutsideRecord(list);
@@ -139,7 +153,7 @@ public class ScoreModel {
                 //其他情况表示赛事未结束或者无积分
             }
         }
-        if (masterCupBean != null && masterCupBean.getName() != null) {
+        if (masterCupBean != null && masterCupBean.getMatchBean() != null) {
             scoreList.add(masterCupBean);
         }
         return scoreList;
@@ -158,11 +172,12 @@ public class ScoreModel {
     }
 
     private void addScoreBean(List<ScoreBean> scoreList, ScoreBean bean, int year, int weekOfLastYear, int weekOfYear, Record record) {
-        MatchNameBean matchNameBean = pubDataProvider.getMatchByName(record.getMatch());
+        MatchNameBean matchNameBean = matchMap.get(record.getMatch());
         if (matchNameBean == null) {
             nonExistMatchList.add(record.getMatch());
             return;
         }
+        int thisWeek = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
         // 如果在积分周期，则记录为score bean
         int week = matchNameBean.getMatchBean().getWeek();
         boolean needAdd = false;
@@ -180,13 +195,11 @@ public class ScoreModel {
             }
         }
         if (needAdd) {
-            bean.setWeek(week);
-            bean.setName(record.getMatch());
-            bean.setYear(recordYear);
-            bean.setLevel(record.getLevel());
-            bean.setCourt(record.getCourt());
             bean.setMatchBean(matchNameBean);
-            bean.setRecord(record);
+            bean.setYear(year);
+            bean.setYear(recordYear);
+            bean.setChampion(arrRound[0].equals(record.getRound()) && !record.getWinner().equals(record.getCompetitor()));
+            bean.setCompleted(matchNameBean.getMatchBean().getWeek() < thisWeek);
 
             // 大师杯积分不走通用情况，这里只累计积分
             if (arrLevel[1].equals(record.getLevel())) {
@@ -217,10 +230,10 @@ public class ScoreModel {
      */
     private int getMatchScore(Record record) {
         if (record.getWinner().equals(record.getCompetitor())) {// 负
-            return ScoreTable.getScore(record.getRound(), record.getLevel(), false, arrRound, arrLevel);
+            return ScoreTable.getScore(record.getRound(), record.getLevel(), false);
         }
         else if (arrRound[0].equals(record.getRound())) {
-            return ScoreTable.getScore(record.getRound(), record.getLevel(), true, arrRound, arrLevel);
+            return ScoreTable.getScore(record.getRound(), record.getLevel(), true);
         }
         return 0;
     }

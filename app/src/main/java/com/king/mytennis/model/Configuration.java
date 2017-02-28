@@ -161,7 +161,7 @@ public class Configuration implements Serializable {
 		ExternalRecordTool.copyDbFromAssets(context, ExternalRecordTool.DATABASE_TIANQI);
 		ExternalRecordTool.copyDbFromAssets(context, ExternalRecordTool.DATABASE_FLAMENCO);
 		ExternalRecordTool.copyDbFromAssets(context, ExternalRecordTool.DATABASE_HENRY);
-		ExternalRecordTool.copyDbFromAssets(context, ExternalRecordTool.DATABASE_PUBLIC);
+		ExternalRecordTool.copyPublicDbFromAssets(context, ExternalRecordTool.DATABASE_PUBLIC);
 		ExternalRecordTool.copyResFromAssets(context, ASSETS_RES_COLOR, EXTEND_RES_COLOR);
 		ExternalRecordTool.copyResFromAssets(context, ASSETS_RES_DIMEN, EXTEND_RES_DIMEN);
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);

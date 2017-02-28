@@ -111,7 +111,7 @@ public class RecordProvider {
 		Log.d(TAG, "calculateMatchBean " + bean.getName());
 		if (bean.getRecordList() != null) {
 			int win = 0, lose = 0;
-			String[] roundArray = mContext.getResources().getStringArray(R.array.spinner_round);
+			String[] roundArray = Constants.RECORD_MATCH_ROUNDS;
 			String best = null;
 			StringBuffer bestYears = null;
 			for (int i = 0; i < bean.getRecordList().size(); i ++) {

@@ -9,6 +9,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.king.mytennis.model.Constants;
 import com.king.mytennis.pubdata.bean.MatchBean;
 import com.king.mytennis.pubdata.bean.MatchNameBean;
 import com.king.mytennis.view.CustomDialog;
@@ -63,10 +64,8 @@ public class MatchEditDialog extends CustomDialog implements AdapterView.OnItemS
             else
                 arr_month[i] = "" + (++i);
         }
-        arr_court = getContext().getResources().getStringArray(
-                R.array.spinner_court);
-        arr_level = getContext().getResources().getStringArray(
-                R.array.spinner_level);
+        arr_court = Constants.RECORD_MATCH_COURTS;
+        arr_level = Constants.RECORD_MATCH_LEVELS;
         arr_region = getContext().getResources().getStringArray(
                 R.array.spinner_region);
 

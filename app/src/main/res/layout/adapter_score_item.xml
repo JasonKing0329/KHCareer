@@ -9,36 +9,34 @@
         android:orientation="horizontal"
         android:paddingTop="2dp"
         android:paddingBottom="2dp"
-        android:paddingLeft="15dp"
+        android:paddingLeft="5dp"
         android:gravity="center_vertical">
         <TextView
             android:id="@+id/score_item_name"
-            android:layout_width="wrap_content"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:minWidth="60dp"
-            android:text="澳网"
+            android:text="澳大利亚网球公开赛"
             android:textSize="13dp"
             android:textColor="#3c3c3c"/>
         <TextView
             android:id="@+id/score_item_score"
-            android:layout_width="wrap_content"
+            android:layout_width="30dp"
             android:layout_height="wrap_content"
-            android:minWidth="40dp"
             android:text="2000"
-            android:layout_marginLeft="20dp"
+            android:layout_marginLeft="10dp"
             android:textSize="13dp"
             android:textColor="#3c3c3c" />
         <ImageView
             android:id="@+id/score_item_winner"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:src="@drawable/ic_cup"/>
         <TextView
             android:id="@+id/score_item_complete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="√"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
             android:textSize="13dp"
             android:textColor="#3c3c3c" />
     </LinearLayout>

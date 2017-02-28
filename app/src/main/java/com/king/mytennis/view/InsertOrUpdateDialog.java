@@ -3,6 +3,7 @@ package com.king.mytennis.view;
 import java.lang.reflect.Field;
 
 import com.king.mytennis.interfc.RecordDAO;
+import com.king.mytennis.model.Constants;
 import com.king.mytennis.model.RecordDAOImp;
 
 import android.content.Context;
@@ -41,14 +42,11 @@ public abstract class InsertOrUpdateDialog {
 
 	public void initData() {
 
-		arr_court = userActivity.getResources().getStringArray(
-				R.array.spinner_court);
-		arr_level = userActivity.getResources().getStringArray(
-				R.array.spinner_level);
+		arr_court = Constants.RECORD_MATCH_COURTS;
+		arr_level = Constants.RECORD_MATCH_LEVELS;
 		arr_region = userActivity.getResources().getStringArray(
 				R.array.spinner_region);
-		arr_round = userActivity.getResources().getStringArray(
-				R.array.spinner_round);
+		arr_round = Constants.RECORD_MATCH_ROUNDS;
 		arr_month = new String[12];
 		for (int i = 0; i < 12;) {
 			if (i < 9)

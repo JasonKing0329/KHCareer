@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.util.Calendar;
 
 import com.king.mytennis.model.Configuration;
+import com.king.mytennis.model.DatabaseStruct;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
@@ -26,7 +27,7 @@ public class ExternalRecordTool {
 	public static final String DATABASE_TIANQI = "mytennis_TianQi";
 	public static final String DATABASE_FLAMENCO = "mytennis_Flamenco";
 	public static final String DATABASE_HENRY = "mytennis_Henry";
-	public static final String DATABASE_PUBLIC = "mytennis_public";
+	public static final String DATABASE_PUBLIC = "mytennis_public.db";
 
 	private static final String[] targetDatabase = new String[] {
 			DATABASE, DATABASE_TIANQI, DATABASE_FLAMENCO, DATABASE_HENRY, DATABASE_PUBLIC
@@ -69,6 +70,34 @@ public class ExternalRecordTool {
 		}
 		if (db != null) {
 			db.close();
+		}
+	}
+
+	/**
+	 * 从assets目录复制的方法
+	 * @param context
+	 */
+	public static void copyPublicDbFromAssets(Context context, String dbFile) {
+
+		//先检查是否存在，不存在才复制
+		File file = new File(Configuration.CONF_DIR + DatabaseStruct.DATABASE_PUBLIC);
+		if (file.exists()) {
+			return;
+		}
+		try {
+			InputStream assetsIn = context.getAssets().open(dbFile);
+			OutputStream fileOut = new FileOutputStream(file);
+			byte[] buffer = new byte[1024];
+			int length;
+			while ((length = assetsIn.read(buffer))>0){
+				fileOut.write(buffer, 0, length);
+			}
+
+			fileOut.flush();
+			fileOut.close();
+			assetsIn.close();
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
@@ -134,7 +163,6 @@ public class ExternalRecordTool {
 		saveDbTo(DATABASE_FLAMENCO, file);
 		saveDbTo(DATABASE_TIANQI, file);
 		saveDbTo(DATABASE_HENRY, file);
-		saveDbTo(DATABASE_PUBLIC, file);
 
 		return file.getPath();
 	}

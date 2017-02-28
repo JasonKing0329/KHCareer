@@ -3,6 +3,7 @@ package com.king.mytennis.update_v_6_0;
 import java.util.HashMap;
 import java.util.List;
 
+import com.king.mytennis.model.Constants;
 import com.king.mytennis.res.ColorRes;
 import com.king.mytennis.res.JResource;
 import com.king.mytennis.view.R;
@@ -26,7 +27,7 @@ public class MatchCardAdapter extends BaseAdapter {
 		mContext = context;
 		this.list = list;
 		resetColor();
-		roundArray = mContext.getResources().getStringArray(R.array.spinner_round);
+		roundArray = Constants.RECORD_MATCH_ROUNDS;
 	}
 	
 	@Override

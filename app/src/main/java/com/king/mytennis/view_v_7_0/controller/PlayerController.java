@@ -53,8 +53,8 @@ public class PlayerController {
 		int gsWin = 0, gsLose = 0;
 		int finalWin = 0, finalLose = 0;
 		int sfWin = 0, sfLose = 0;
-		String[] roundArray = context.getResources().getStringArray(R.array.spinner_round);
-		String[] levelArray = context.getResources().getStringArray(R.array.spinner_level);
+		String[] roundArray = Constants.RECORD_MATCH_ROUNDS;
+		String[] levelArray = Constants.RECORD_MATCH_LEVELS;
 		for (int i = 0; i < recordList.size(); i ++) {
 			Record record = recordList.get(i);
 			String year = record.getStrDate().split("-")[0];

@@ -8,6 +8,7 @@ import java.util.Random;
 
 import com.king.mytennis.glory.GloryModuleActivity;
 import com.king.mytennis.model.Configuration;
+import com.king.mytennis.model.Constants;
 import com.king.mytennis.model.ImageFactory;
 import com.king.mytennis.model.MySQLHelper;
 import com.king.mytennis.model.Record;
@@ -431,7 +432,7 @@ public class ManagerActivity extends BaseActivity implements CardListener
 	 */
 	private String getExtraFromCourt(String court) {
 		String extra = "hard";
-		String[] courts = getResources().getStringArray(R.array.spinner_court);
+		String[] courts = Constants.RECORD_MATCH_COURTS;
 		if (court.equals(courts[1])) {
 			extra = "clay";
 		}

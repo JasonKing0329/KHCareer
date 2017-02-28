@@ -12,6 +12,7 @@ import com.king.mytennis.http.Command;
 import com.king.mytennis.http.RequestCallback;
 import com.king.mytennis.http.bean.ImageUrlBean;
 import com.king.mytennis.model.Configuration;
+import com.king.mytennis.model.Constants;
 import com.king.mytennis.model.ImageFactory;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.multiuser.MultiUserManager;
@@ -78,7 +79,7 @@ public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter implements Requ
 		}
 		indexPosMap = new HashMap<>();
 
-		courtValues = mContext.getResources().getStringArray(R.array.spinner_court);
+		courtValues = Constants.RECORD_MATCH_COURTS;
 		colorHard = mContext.getResources().getColor(R.color.swipecard_text_hard);
 		colorClay = mContext.getResources().getColor(R.color.swipecard_text_clay);
 		colorGrass = mContext.getResources().getColor(R.color.swipecard_text_grass);

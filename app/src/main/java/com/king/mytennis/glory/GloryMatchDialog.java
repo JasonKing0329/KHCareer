@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.AdapterView.OnItemLongClickListener;
 
 import com.king.mytennis.glory.adapter.GloryMatchAdapter;
+import com.king.mytennis.model.Constants;
 import com.king.mytennis.model.ImageFactory;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.multiuser.MultiUserManager;
@@ -44,7 +45,7 @@ public class GloryMatchDialog extends CustomDialog implements OnItemLongClickLis
 							OnCustomDialogActionListener actionListener) {
 		super(context, actionListener);
 
-		roundArray = context.getResources().getStringArray(R.array.spinner_round);
+		roundArray = Constants.RECORD_MATCH_ROUNDS;
 		initData();
 	}
 

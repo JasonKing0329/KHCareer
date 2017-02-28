@@ -16,9 +16,11 @@ import java.util.List;
  * <p/>作者：景阳
  * <p/>创建时间: 2017/2/23 15:22
  */
-public class ScoreItemAdapter extends RecyclerView.Adapter<ScoreItemAdapter.ScoreItemHolder> {
+public class ScoreItemAdapter extends RecyclerView.Adapter<ScoreItemAdapter.ScoreItemHolder> implements View.OnClickListener {
 
     private List<ScoreBean> list;
+
+    private OnScoreItemClickListener onScoreItemClickListener;
 
     public ScoreItemAdapter(List<ScoreBean> list) {
         this.list = list;
@@ -35,14 +37,43 @@ public class ScoreItemAdapter extends RecyclerView.Adapter<ScoreItemAdapter.Scor
 
     @Override
     public void onBindViewHolder(ScoreItemHolder holder, int position) {
-        holder.name.setText(list.get(position).getName());
-        holder.score.setText(list.get(position).getScore());
-//        holder.complete.setText(list.get(position));
+        ScoreBean bean = list.get(position);
+        if (bean.getMatchBean() == null) {// 500 赛罚分
+            holder.cup.setVisibility(View.INVISIBLE);
+            holder.name.setText("500赛罚分");
+            holder.score.setText("0");
+            holder.complete.setVisibility(View.INVISIBLE);
+            holder.group.setOnClickListener(null);
+        }
+        else {
+            holder.cup.setVisibility(bean.isChampion() ? View.VISIBLE:View.INVISIBLE);
+            holder.name.setText(bean.getMatchBean().getName());
+            holder.score.setText(String.valueOf(bean.getScore()));
+            holder.complete.setVisibility(bean.isCompleted() ? View.VISIBLE:View.INVISIBLE);
+            holder.group.setTag(position);
+            holder.group.setOnClickListener(this);
+        }
     }
 
     @Override
     public int getItemCount() {
         return list.size();
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (onScoreItemClickListener != null) {
+            int positin = (int) v.getTag();
+            onScoreItemClickListener.onScoreItemClick(list.get(positin));
+        }
+    }
+
+    public void setOnScoreItemClickListener(OnScoreItemClickListener onScoreItemClickListener) {
+        this.onScoreItemClickListener = onScoreItemClickListener;
+    }
+
+    public interface OnScoreItemClickListener {
+        void onScoreItemClick(ScoreBean bean);
     }
 
     public static class ScoreItemHolder extends RecyclerView.ViewHolder {

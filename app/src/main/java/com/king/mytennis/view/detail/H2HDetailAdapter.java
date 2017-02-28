@@ -2,6 +2,7 @@ package com.king.mytennis.view.detail;
 
 import java.util.List;
 
+import com.king.mytennis.model.Constants;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.multiuser.MultiUserManager;
 import com.king.mytennis.res.ColorRes;
@@ -28,8 +29,8 @@ public class H2HDetailAdapter extends BaseAdapter {
 
 		this.context = context;
 		this.list = list;
-		roundArray = context.getResources().getStringArray(R.array.spinner_round);
-		roundReferArray = context.getResources().getStringArray(R.array.spinner_round_show_in_glorymatch);
+		roundArray = Constants.RECORD_MATCH_ROUNDS;
+		roundReferArray = Constants.RECORD_MATCH_ROUNDS_SHORT;
 		resetColor();
 	}
 	@Override

@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 
 import com.king.mytennis.match.MatchManageActivity;
 import com.king.mytennis.model.Configuration;
+import com.king.mytennis.model.Constants;
 import com.king.mytennis.model.MySQLHelper;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.multiuser.MultiUserManager;
@@ -208,14 +209,11 @@ public class RecordEditorActivity extends BaseActivity implements OnClickListene
 
 	private void initData() {
 
-		arr_court = getResources().getStringArray(
-				R.array.spinner_court);
-		arr_level = getResources().getStringArray(
-				R.array.spinner_level);
+		arr_court = Constants.RECORD_MATCH_COURTS;
+		arr_level = Constants.RECORD_MATCH_LEVELS;
 		arr_region = getResources().getStringArray(
 				R.array.spinner_region);
-		arr_round = getResources().getStringArray(
-				R.array.spinner_round);
+		arr_round = Constants.RECORD_MATCH_ROUNDS;
 		arr_year = new String[20];
 		for (int n = 0; n < 20; n++) {
 			arr_year[n] = "" + (n + 2010);

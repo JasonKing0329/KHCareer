@@ -2,21 +2,6 @@
 <resources>
 <!-- 注意，除了longtouch_menu和languageChoices，其他的array都只能用当前版本，因为程序中
 是根据这些array，直接把item的内容赋给数据记录的 -->
-    <array name="spinner_court">
-    	<item>硬地</item>
-    	<item>红土</item>
-    	<item>草地</item>
-    	<item>室内硬地</item>
-    </array>
-    <array name="spinner_level">
-    	<item>Grand Slam</item>
-    	<item>Master Cup</item>
-    	<item>ATP1000</item>
-    	<item>ATP500</item>
-    	<item>ATP250</item>
-    	<item>Davi\'s Cup</item>
-		<item>Olympic Games</item>
-    </array>
     <array name="actionbar_spinner_court">
         <item>全部</item>
     	<item>硬地</item>
@@ -39,27 +24,6 @@
     	<item>South America</item>
     	<item>Oceania</item>
     	<item>Africa</item>
-    </array>
-    <array name="spinner_round">
-    	<item>Final</item>
-    	<item>Semi Final</item>
-    	<item>1/4 Final</item>
-    	<item>Round 16</item>
-    	<item>Round 32</item>
-    	<item>Round 64</item>
-    	<item>Round 128</item>
-    	<item>Group</item>
-		<item>Bronze medal</item>
-    </array>
-    <array name="spinner_round_show_in_glorymatch">
-    	<item>F</item>
-    	<item>SF</item>
-    	<item>QF</item>
-    	<item>R16</item>
-    	<item>R32</item>
-    	<item>R64</item>
-    	<item>R128</item>
-    	<item>Group</item>
     </array>
     <array name="spinner_achive_gs">
     	<item>--</item>

@@ -73,7 +73,7 @@ public class PlayerActivity extends BaseActivity implements OnGroupCollapseListe
 		initContent(contentView);
 
 		//全局背景
-		findViewById(R.id.player_content_bk).setBackgroundResource(R.drawable.wall_bk9);
+//		findViewById(R.id.player_content_bk).setBackgroundResource(R.drawable.wall_bk9);
 	}
 
 	private void initHeader(View headView, View zoomView) {

@@ -2,6 +2,8 @@ package com.king.mytennis.model;
 
 import com.king.mytennis.view.R;
 
+import static android.R.attr.name;
+
 public class Constants {
 
 	public static final int SLIDING_MENU_DEFAULT_BK = R.drawable.wall_bk9;
@@ -33,7 +35,42 @@ public class Constants {
     	"ATP1000",
     	"ATP500",
     	"ATP250",
-    	"Davi\'s Cup"
+    	"Davi\'s Cup",
+		"Olympic Games"
+	};
+
+	public static final String[] RECORD_MATCH_COURTS = new String[] {
+
+			"硬地",
+			"红土",
+			"草地",
+			"室内硬地",
+	};
+
+	public static final String[] RECORD_MATCH_ROUNDS = new String[] {
+
+			"Final",
+			"Semi Final",
+			"1/4 Final",
+			"Round 16",
+			"Round 32",
+			"Round 64",
+			"Round 128",
+			"Group",
+			"Bronze medal"
+	};
+
+	public static final String[] RECORD_MATCH_ROUNDS_SHORT = new String[] {
+
+			"F",
+			"SF",
+			"QF",
+			"R16",
+			"R32",
+			"R64",
+			"R128",
+			"Group",
+			"Bronze"
 	};
 
 	public static final String MATCH_CONST_MONTECARLO = "蒙特卡洛大师赛";

@@ -28,6 +28,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import com.king.mytennis.glory.ActionBar;
 import com.king.mytennis.glory.ActionBar.ActionBarListener;
 import com.king.mytennis.model.Configuration;
+import com.king.mytennis.model.Constants;
 import com.king.mytennis.view.BaseActivity;
 import com.king.mytennis.view.R;
 
@@ -101,14 +102,11 @@ public class AutoFillFormEditor extends BaseActivity implements ActionBarListene
 			}
 		}
 		else {
-			arr_court = getResources().getStringArray(
-					R.array.spinner_court);
-			arr_level = getResources().getStringArray(
-					R.array.spinner_level);
+			arr_court = Constants.RECORD_MATCH_COURTS;
+			arr_level = Constants.RECORD_MATCH_LEVELS;
 			arr_region = getResources().getStringArray(
 					R.array.spinner_region);
-			arr_round = getResources().getStringArray(
-					R.array.spinner_round);
+			arr_round = Constants.RECORD_MATCH_ROUNDS;
 		}
 	}
 

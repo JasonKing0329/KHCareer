@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.king.mytennis.model.Constants;
 import com.king.mytennis.model.ImageFactory;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.multiuser.MultiUserManager;
@@ -34,8 +35,8 @@ public class GloryMatchAdapter extends BaseAdapter {
 		this.context = context;
 		this.list = list;
 		imageIndexMap = new HashMap<>();
-		roundArray = context.getResources().getStringArray(R.array.spinner_round);
-		roundReferArray = context.getResources().getStringArray(R.array.spinner_round_show_in_glorymatch);
+		roundArray = Constants.RECORD_MATCH_ROUNDS;
+		roundReferArray = Constants.RECORD_MATCH_ROUNDS_SHORT;
 	}
 	@Override
 	public int getCount() {

@@ -21,16 +21,23 @@ public class MatchDao {
     /**
      * order by week
      * @param connection
+     * @param level
      * @return
      */
-    public List<MatchNameBean> queryMatchList(Connection connection) {
+    public List<MatchNameBean> queryMatchList(Connection connection, String level) {
         List<MatchNameBean> list = new ArrayList<>();
-        String sql = "SELECT m.*, mn._id as name_id, mn.name FROM " +  DatabaseStruct.TABLE_MATCH + " m, "
-            + DatabaseStruct.TABLE_MATCH_NAME + " mn WHERE m._id = mn.match_id ORDER BY m.week ASC";
+        StringBuffer buffer = new StringBuffer("SELECT m.*, mn._id as name_id, mn.name FROM ");
+        buffer.append(DatabaseStruct.TABLE_MATCH).append(" m, ").append(DatabaseStruct.TABLE_MATCH_NAME)
+                .append(" mn WHERE m._id = mn.match_id");
+        if (level != null) {
+            buffer.append(" AND m.level='").append(level).append("'");
+        }
+        buffer.append(" ORDER BY m.week ASC");
+
         Statement stmt = null;
         try {
             stmt = connection.createStatement();
-            ResultSet set = stmt.executeQuery(sql);
+            ResultSet set = stmt.executeQuery(buffer.toString());
             while (set.next()) {
                 MatchNameBean bean = parseMatchBean(set);
                 list.add(bean);

@@ -1,5 +1,7 @@
 package com.king.mytennis.score;
 
+import com.king.mytennis.model.Constants;
+
 /**
  * 描述: 积分对照表
  * <p/>作者：景阳
@@ -8,8 +10,8 @@ package com.king.mytennis.score;
 public class ScoreTable {
 
     /**
-     * row refer spinner_level
-     * col refer spinner_round, the column 0 means winner, others' index + 1
+     * row refer Constants.RECORD_MATCH_LEVELS
+     * col refer Constants.RECORD_MATCH_ROUNDS, the column 0 means winner, others' index + 1
      */
     private static int[][] tables = new int[][] {
             {2000, 1200, 720, 360, 180, 90, 45, 10, 0, 0}, // Grand Slam
@@ -21,22 +23,22 @@ public class ScoreTable {
             {0, 0, 0, 0, 0, 0, 0, 0, 0, 0} // Olympics，无积分，仅占位
     };
 
-    public static int getScore(String round, String level, boolean isWinner, String[] arrRound, String[] arrLevel) {
+    public static int getScore(String round, String level, boolean isWinner) {
         int indexRound = 0;
-        if (arrRound[0].equals(round) && isWinner) {
+        if (Constants.RECORD_MATCH_ROUNDS[0].equals(round) && isWinner) {
             indexRound = 0;
         }
         else {
-            for (int i = 0; i < arrRound.length; i ++) {
-                if (arrRound[i].equals(round)) {
+            for (int i = 0; i < Constants.RECORD_MATCH_ROUNDS.length; i ++) {
+                if (Constants.RECORD_MATCH_ROUNDS[i].equals(round)) {
                     indexRound = i + 1;
                     break;
                 }
             }
         }
         int indexLevel = 0;
-        for (int i = 0; i < arrLevel.length; i ++) {
-            if (arrLevel[i].equals(level)) {
+        for (int i = 0; i < Constants.RECORD_MATCH_LEVELS.length; i ++) {
+            if (Constants.RECORD_MATCH_LEVELS[i].equals(level)) {
                 indexLevel = i;
                 break;
             }

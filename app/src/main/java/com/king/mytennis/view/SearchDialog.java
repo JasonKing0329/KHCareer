@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.List;
 
+import com.king.mytennis.model.Constants;
 import com.king.mytennis.model.DatabaseStruct;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.model.SearchModel;
@@ -231,10 +232,10 @@ public class SearchDialog implements Button.OnClickListener
 
 	private void loadSpinnerArray() {
 
-		arr_court=userActivity.getResources().getStringArray(R.array.spinner_court);
-		arr_level=userActivity.getResources().getStringArray(R.array.spinner_level);
+		arr_court=Constants.RECORD_MATCH_COURTS;
+		arr_level= Constants.RECORD_MATCH_LEVELS;
 		arr_region=userActivity.getResources().getStringArray(R.array.spinner_region);
-		arr_round=userActivity.getResources().getStringArray(R.array.spinner_round);
+		arr_round=Constants.RECORD_MATCH_ROUNDS;
 		arr_month=new String[12];
 		for (int i=0;i<12;){
 			if (i<9)

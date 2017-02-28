@@ -1,6 +1,5 @@
 package com.king.mytennis.score;
 
-import com.king.mytennis.model.Record;
 import com.king.mytennis.pubdata.bean.MatchNameBean;
 
 /**
@@ -9,39 +8,11 @@ import com.king.mytennis.pubdata.bean.MatchNameBean;
  * <p/>创建时间: 2017/2/20 17:42
  */
 public class ScoreBean {
-    private String level;
-    private String name;
-    private String court;
     private int score;
     private int year;
-    private int week;
-
+    private boolean isChampion;
+    private boolean isCompleted;
     private MatchNameBean matchBean;
-    private Record record;
-
-    public String getLevel() {
-        return level;
-    }
-
-    public void setLevel(String level) {
-        this.level = level;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getCourt() {
-        return court;
-    }
-
-    public void setCourt(String court) {
-        this.court = court;
-    }
 
     public int getScore() {
         return score;
@@ -49,14 +20,6 @@ public class ScoreBean {
 
     public void setScore(int score) {
         this.score = score;
-    }
-
-    public int getWeek() {
-        return week;
-    }
-
-    public void setWeek(int week) {
-        this.week = week;
     }
 
     public int getYear() {
@@ -75,11 +38,19 @@ public class ScoreBean {
         this.matchBean = matchBean;
     }
 
-    public Record getRecord() {
-        return record;
+    public boolean isChampion() {
+        return isChampion;
     }
 
-    public void setRecord(Record record) {
-        this.record = record;
+    public void setChampion(boolean champion) {
+        isChampion = champion;
+    }
+
+    public boolean isCompleted() {
+        return isCompleted;
+    }
+
+    public void setCompleted(boolean completed) {
+        isCompleted = completed;
     }
 }

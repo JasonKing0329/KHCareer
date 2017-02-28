@@ -119,9 +119,10 @@
                     android:layout_alignRight="@id/score_title_gs"
                     android:layout_below="@id/score_title_gs" />
             </RelativeLayout>
-            <TextView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/score_gs"
-                style="@style/ScoreGroupText" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -137,9 +138,10 @@
                     android:layout_alignRight="@id/score_title_mc"
                     android:layout_below="@id/score_title_mc" />
             </RelativeLayout>
-            <TextView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/score_mc"
-                style="@style/ScoreGroupText" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -155,9 +157,10 @@
                     android:layout_alignRight="@id/score_title_1000"
                     android:layout_below="@id/score_title_1000" />
             </RelativeLayout>
-            <TextView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/score_1000"
-                style="@style/ScoreGroupText" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -173,9 +176,10 @@
                     android:layout_alignRight="@id/score_title_500"
                     android:layout_below="@id/score_title_500" />
             </RelativeLayout>
-            <TextView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/score_500"
-                style="@style/ScoreGroupText" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -191,9 +195,10 @@
                     android:layout_alignRight="@id/score_title_250"
                     android:layout_below="@id/score_title_250" />
             </RelativeLayout>
-            <TextView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/score_250"
-                style="@style/ScoreGroupText" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -209,9 +214,10 @@
                     android:layout_alignRight="@id/score_title_replace"
                     android:layout_below="@id/score_title_replace" />
             </RelativeLayout>
-            <TextView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/score_replace"
-                style="@style/ScoreGroupText" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -227,9 +233,10 @@
                     android:layout_alignRight="@id/score_title_other"
                     android:layout_below="@id/score_title_other" />
             </RelativeLayout>
-            <TextView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/score_other"
-                style="@style/ScoreGroupText" />
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
         </LinearLayout>
     </ScrollView>
 
@@ -243,14 +250,14 @@
 
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/score_chart_court"
-            android:layout_width="180dp"
-            android:layout_height="180dp"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
             android:layout_marginTop="10dp"/>
 
         <com.github.mikephil.charting.charts.PieChart
             android:id="@+id/score_chart_year"
-            android:layout_width="180dp"
-            android:layout_height="180dp"/>
+            android:layout_width="170dp"
+            android:layout_height="170dp"/>
 
     </LinearLayout>
 
