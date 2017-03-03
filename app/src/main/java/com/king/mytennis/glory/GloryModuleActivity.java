@@ -75,10 +75,6 @@ public class GloryModuleActivity extends BaseActivity
 		actionBar.setTitle(gloryTitleList.get(position));
 		actionBar.clearActionIcon();
 		switch (position) {
-			case GloryIndex.FAME_RANK_INDEX:
-				actionBar.addEditIcon();
-				actionBar.addMenuIcon();
-				break;
 			case GloryIndex.FAME_TITLE_INDEX:
 				bindActionBarForTitleView();
 				break;
@@ -130,20 +126,14 @@ public class GloryModuleActivity extends BaseActivity
 
 	@Override
 	public void onOk() {
-		if (actionBar.getTitle().equals(GloryIndex.FAME_RANK)) {
-			achieveParentView.saveRank();
-		}
-		else if (actionBar.getTitle().equals(GloryIndex.FAME_GRANDSLAM)) {
+		if (actionBar.getTitle().equals(GloryIndex.FAME_GRANDSLAM)) {
 			achieveParentView.saveGS();
 		}
 	}
 
 	@Override
 	public void onCancel() {
-		if (actionBar.getTitle().equals(GloryIndex.FAME_RANK)) {
-			achieveParentView.cancelRank();
-		}
-		else if (actionBar.getTitle().equals(GloryIndex.FAME_GRANDSLAM)) {
+		if (actionBar.getTitle().equals(GloryIndex.FAME_GRANDSLAM)) {
 			achieveParentView.cancelEditGS();
 		}
 	}
@@ -187,10 +177,7 @@ public class GloryModuleActivity extends BaseActivity
 
 		}
 		else if (view.getId() == R.id.actionbar_edit) {
-			if (actionBar.getTitle().equals(GloryIndex.FAME_RANK)) {
-				achieveParentView.enableEditRank();
-			}
-			else if (actionBar.getTitle().equals(GloryIndex.FAME_GRANDSLAM)) {
+			if (actionBar.getTitle().equals(GloryIndex.FAME_GRANDSLAM)) {
 				achieveParentView.enableEditGS();
 			}
 		}

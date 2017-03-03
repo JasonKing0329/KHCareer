@@ -63,24 +63,21 @@ public class HorizontalChooserAdapter extends BaseAdapter {
 		view.setScaleType(ScaleType.FIT_CENTER);
 		int drawableId = 0;
 		switch (position) {
-		case 0:
-			drawableId = R.drawable.glory_rank;
-			break;
-		case 1:
-			drawableId = R.drawable.glory_title;
-			break;
-		case 2:
-			drawableId = R.drawable.glory_gs;
-			break;
-		case 3:
-			drawableId = R.drawable.glory_prize;
-			break;
-		case 4:
-			drawableId = R.drawable.glory_runnerup;
-			break;
-		default:
-			drawableId = R.drawable.pic_def;
-			break;
+			case GloryIndex.FAME_TITLE_INDEX:
+				drawableId = R.drawable.glory_title;
+				break;
+			case GloryIndex.FAME_GRANDSLAM_INDEX:
+				drawableId = R.drawable.glory_gs;
+				break;
+			case GloryIndex.FAME_PRIZE_INDEX:
+				drawableId = R.drawable.glory_prize;
+				break;
+			case GloryIndex.FAME_RUNNERUP_INDEX:
+				drawableId = R.drawable.glory_runnerup;
+				break;
+			default:
+				drawableId = R.drawable.pic_def;
+				break;
 		}
 		view.setBackgroundResource(drawableId);
 		view.setImageResource(R.drawable.spicture_chooser_border_normal);

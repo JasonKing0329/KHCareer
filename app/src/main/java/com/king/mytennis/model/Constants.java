@@ -9,7 +9,9 @@ public class Constants {
 	public static final int SLIDING_MENU_DEFAULT_BK = R.drawable.wall_bk9;
 
 	public static final String SCORE_RETIRE = "W/O";
-	
+
+	public static final String SCORE_RETIRE_NORMAL = "(对手退赛)";
+
 	public static final int[] MainViewMenu = new int[] {
 		R.string.menu_save,
 		R.string.menu_load,

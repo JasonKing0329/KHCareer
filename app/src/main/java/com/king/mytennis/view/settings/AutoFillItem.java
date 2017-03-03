@@ -4,64 +4,82 @@ import java.io.Serializable;
 
 public class AutoFillItem implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	
-	private int courtIndex;
-	private int levelIndex;
-	private int regionIndex;
-	private int roundIndex;
-	private String match;
-	private String country;
-	private String city;
-	private String matchPinyin;
-	public int getCourtIndex() {
-		return courtIndex;
-	}
-	public void setCourtIndex(int courtIndex) {
-		this.courtIndex = courtIndex;
-	}
-	public int getLevelIndex() {
-		return levelIndex;
-	}
-	public void setLevelIndex(int levelIndex) {
-		this.levelIndex = levelIndex;
-	}
-	public int getRegionIndex() {
-		return regionIndex;
-	}
-	public void setRegionIndex(int regionIndex) {
-		this.regionIndex = regionIndex;
-	}
-	public int getRoundIndex() {
-		return roundIndex;
-	}
-	public void setRoundIndex(int roundIndex) {
-		this.roundIndex = roundIndex;
-	}
-	public String getMatch() {
-		return match;
-	}
-	public void setMatch(String match) {
-		this.match = match;
-	}
-	public String getCountry() {
-		return country;
-	}
-	public void setCountry(String country) {
-		this.country = country;
-	}
-	public String getCity() {
-		return city;
-	}
-	public void setCity(String city) {
-		this.city = city;
-	}
+    private static final long serialVersionUID = 1L;
 
-	public String getMatchPinyin() {
-		return matchPinyin;
-	}
+    private String match;
+    private String country;
+    private String city;
+    private String court;
+    private String level;
+    private String region;
+    private String round;
+    private int month;
 
-	public void setMatchPinyin(String matchPinyin) {
-		this.matchPinyin = matchPinyin;
-	}
+    public String getMatch() {
+        return match;
+    }
+
+    public void setMatch(String match) {
+        this.match = match;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCourt() {
+        return court;
+    }
+
+    public void setCourt(String court) {
+        this.court = court;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public String getRegion() {
+        return region;
+    }
+
+    public void setRegion(String region) {
+        this.region = region;
+    }
+
+    public String getRound() {
+        return round;
+    }
+
+    public void setRound(String round) {
+        this.round = round;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
 }

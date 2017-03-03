@@ -69,11 +69,6 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name="com.king.mytennis.view.settings.AutoFillFormEditor"
-            android:theme="@style/ActionBarBlue"
-            android:screenOrientation="portrait">
-        </activity>
-        <activity
             android:name="com.king.mytennis.view.H2hMainActivity"
             android:theme="@style/ActionBarBlue"
             android:screenOrientation="portrait">

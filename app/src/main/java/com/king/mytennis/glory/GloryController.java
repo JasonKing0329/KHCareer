@@ -6,7 +6,6 @@ import java.util.List;
 
 import android.content.Context;
 
-import com.king.mytennis.glory.adapter.AchieveLinearAdapter.RankViewData;
 import com.king.mytennis.glory.model.GrandSlameItem;
 import com.king.mytennis.glory.model.GrandSlame;
 import com.king.mytennis.interfc.RecordDAO;
@@ -140,10 +139,6 @@ public class GloryController {
 
 	public void saveGloryGrandSlame() {
 		grandSlame.saveData();
-	}
-
-	public void saveRankData(RankViewData data) {
-		new FileIO().saveRankData(data);
 	}
 
 	public List<Record> loadMatchRecord(Context context, String match, String date) {

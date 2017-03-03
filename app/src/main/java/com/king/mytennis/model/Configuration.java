@@ -84,6 +84,7 @@ public class Configuration implements Serializable {
 	public static final String PREF_INSERT_LEVEL = "pref_insert_level";
 	public static final String PREF_INSERT_REGION = "pref_insert_region";
 	public static final String PREF_INSERT_ROUND = "pref_insert_round";
+	public static final String PREF_INSERT_MONTH = "pref_insert_month";
 
 	public static final String EXTEND_RES_DIR = CONF_DIR + "res/";
 	public static final String EXTEND_RES_COLOR = EXTEND_RES_DIR + "colors.xml";
@@ -184,10 +185,11 @@ public class Configuration implements Serializable {
 		editor.putString(PREF_INSERT_CITY, autoFillItem.getCity());
 		editor.putString(PREF_INSERT_COUNTRY, autoFillItem.getCountry());
 		editor.putString(PREF_INSERT_MATCH, autoFillItem.getMatch());
-		editor.putInt(PREF_INSERT_COURT, autoFillItem.getCourtIndex());
-		editor.putInt(PREF_INSERT_LEVEL, autoFillItem.getLevelIndex());
-		editor.putInt(PREF_INSERT_REGION, autoFillItem.getRegionIndex());
-		editor.putInt(PREF_INSERT_ROUND, autoFillItem.getRoundIndex());
+		editor.putString(PREF_INSERT_COURT, autoFillItem.getCourt());
+		editor.putString(PREF_INSERT_LEVEL, autoFillItem.getLevel());
+		editor.putString(PREF_INSERT_REGION, autoFillItem.getRegion());
+		editor.putString(PREF_INSERT_ROUND, autoFillItem.getRound());
+		editor.putInt(PREF_INSERT_MONTH, autoFillItem.getMonth());
 		editor.commit();
 	}
 
@@ -203,10 +205,11 @@ public class Configuration implements Serializable {
 		autoFillItem.setMatch(preferences.getString(PREF_INSERT_MATCH, ""));
 		autoFillItem.setCountry(preferences.getString(PREF_INSERT_COUNTRY, ""));
 		autoFillItem.setCity(preferences.getString(PREF_INSERT_CITY, ""));
-		autoFillItem.setCourtIndex(preferences.getInt(PREF_INSERT_COURT, 0));
-		autoFillItem.setLevelIndex(preferences.getInt(PREF_INSERT_LEVEL, 0));
-		autoFillItem.setRegionIndex(preferences.getInt(PREF_INSERT_REGION, 0));
-		autoFillItem.setRoundIndex(preferences.getInt(PREF_INSERT_ROUND, 0));
+		autoFillItem.setCourt(preferences.getString(PREF_INSERT_COURT, ""));
+		autoFillItem.setLevel(preferences.getString(PREF_INSERT_LEVEL, ""));
+		autoFillItem.setRegion(preferences.getString(PREF_INSERT_REGION, ""));
+		autoFillItem.setRound(preferences.getString(PREF_INSERT_ROUND, ""));
+		autoFillItem.setMonth(preferences.getInt(PREF_INSERT_MONTH, 1));
 	}
 
 	private static String getLocalUserAgent() {

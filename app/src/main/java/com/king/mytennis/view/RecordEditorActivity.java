@@ -2,6 +2,8 @@ package com.king.mytennis.view;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.king.mytennis.match.MatchManageActivity;
 import com.king.mytennis.model.Configuration;
@@ -10,10 +12,9 @@ import com.king.mytennis.model.MySQLHelper;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.multiuser.MultiUserManager;
 import com.king.mytennis.player.PlayerManageActivity;
-import com.king.mytennis.pubdata.PubDataProvider;
 import com.king.mytennis.service.RecordEditorService;
 import com.king.mytennis.service.RecordService;
-import com.king.mytennis.view.settings.SettingActivity;
+import com.king.mytennis.view.settings.AutoFillItem;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -55,13 +56,15 @@ public class RecordEditorActivity extends BaseActivity implements OnClickListene
 			et_seed;
 	protected TextView tvCompetitor, tvMatch, tvCompetitorCountry
 			, tvMatchCountry, tvMatchLevel, tvMatchRegion, tvMatchCity, tvMatchCourt, tvMatchMonth;
-	protected EditText et_winner, et_score;
+	protected TextView tvWinner, tvScore;
 	protected Spinner sp_year, sp_round;
 	protected int cur_year = 2, cur_round = 0;// 记录当前spinner选项
 
 	private SpinnerListener spinnerListener;
 
-	private PubDataProvider pubDataProvider;
+	private InputScoreDialog inputScoreDialog;
+	private String mStrWinner;
+	private String mStrScore;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +73,6 @@ public class RecordEditorActivity extends BaseActivity implements OnClickListene
 
 		spinnerListener = new SpinnerListener();
 		recordEditorService = new RecordEditorService();
-		pubDataProvider = new PubDataProvider();
 
 		initDirectView();
 		progressDialog = new ProgressDialog(this);
@@ -184,6 +186,33 @@ public class RecordEditorActivity extends BaseActivity implements OnClickListene
 			intent.putExtra(PlayerManageActivity.KEY_START_MODE, PlayerManageActivity.START_MODE_SELECT);
 			startActivityForResult(intent, REQUEST_CHANGE_PLAYER);
 		}
+		else if (v == tvWinner || v == tvScore) {
+			inputScoreDialog = new InputScoreDialog(this, new CustomDialog.OnCustomDialogActionListener() {
+				@Override
+				public boolean onSave(Object object) {
+					Map<String, String> map = (Map<String, String>) object;
+					mStrScore = map.get("score");
+					mStrWinner = map.get("winner");
+					tvScore.setText(mStrScore);
+					tvWinner.setText(mStrWinner);
+					return true;
+				}
+
+				@Override
+				public boolean onCancel() {
+					return false;
+				}
+
+				@Override
+				public void onLoadData(HashMap<String, Object> data) {
+					data.put("winner", mStrWinner);
+					data.put("score", mStrScore);
+					data.put("competitor", tvCompetitor.getText().toString());
+				}
+			});
+			inputScoreDialog.setTitle("Input score");
+			inputScoreDialog.show();
+		}
 	}
 
 	private void continueInsert() {
@@ -196,15 +225,15 @@ public class RecordEditorActivity extends BaseActivity implements OnClickListene
 		tvMatch.setText(conf.autoFillItem.getMatch());
 		tvCompetitorCountry.setText("");
 		et_rank.setText("");
-		et_score.setText("");
+		tvScore.setText("");
 		et_seed.setText("");
-		et_winner.setText(MultiUserManager.getInstance().getCurrentUser().getDisplayName());
+		tvWinner.setText(MultiUserManager.getInstance().getCurrentUser().getDisplayName());
 		sp_year.setSelection(conf.index_year);
 		tvMatchMonth.setText(String.valueOf(conf.index_month + 1));
-		sp_round.setSelection(conf.autoFillItem.getRoundIndex());
-		tvMatchCourt.setText(arr_court[conf.autoFillItem.getCourtIndex()]);
-		tvMatchLevel.setText(arr_level[conf.autoFillItem.getLevelIndex()]);
-		tvMatchRegion.setText(arr_region[conf.autoFillItem.getRegionIndex()]);
+		sp_round.setSelection(getRoundIndex(conf.autoFillItem.getRound()));
+		tvMatchCourt.setText(conf.autoFillItem.getCourt());
+		tvMatchLevel.setText(conf.autoFillItem.getLevel());
+		tvMatchRegion.setText(conf.autoFillItem.getRegion());
 	}
 
 	private void initData() {
@@ -236,8 +265,10 @@ public class RecordEditorActivity extends BaseActivity implements OnClickListene
 		tvMatch = (TextView) findViewById(R.id.insert_et_matchname);
 		tvMatchCountry = (TextView) findViewById(R.id.insert_et_matchcountry);
 		tvMatchCity = (TextView) findViewById(R.id.insert_et_city);
-		et_winner = (EditText) findViewById(R.id.insert_et_winner);
-		et_score = (EditText) findViewById(R.id.insert_et_score);
+		tvWinner = (TextView) findViewById(R.id.insert_et_winner);
+		tvScore = (TextView) findViewById(R.id.insert_et_score);
+		tvWinner.setOnClickListener(this);
+		tvScore.setOnClickListener(this);
 		ivChangeMatch = (ImageView) findViewById(R.id.insert_iv_change_match);
 		ivChangeMatch.setOnClickListener(this);
 		ivChangePlayer = (ImageView) findViewById(R.id.insert_iv_change_competitor);
@@ -266,22 +297,31 @@ public class RecordEditorActivity extends BaseActivity implements OnClickListene
 	private void showFromServerFile() {
 
 		Configuration conf = Configuration.getInstance();
-		et_winner.setText(MultiUserManager.getInstance().getCurrentUser().getDisplayName());
+		tvWinner.setText(MultiUserManager.getInstance().getCurrentUser().getDisplayName());
 		cur_year = conf.index_year;
 		sp_year.setSelection(cur_year);
 		tvMatchMonth.setText(String.valueOf(conf.index_month + 1));
 
-		//v4.7 change: load from preference
 		conf.loadFromPreference(this);
 		tvMatch.setText(conf.autoFillItem.getMatch());
 		tvMatchCountry.setText(conf.autoFillItem.getCountry());
 		tvMatchCity.setText(conf.autoFillItem.getCity());
-		cur_round = conf.autoFillItem.getRoundIndex();
+		cur_round = getRoundIndex(conf.autoFillItem.getRound());
 		sp_round.setSelection(cur_round);
-		tvMatchCourt.setText(arr_court[conf.autoFillItem.getCourtIndex()]);
-		tvMatchLevel.setText(arr_level[conf.autoFillItem.getLevelIndex()]);
-		tvMatchRegion.setText(arr_region[conf.autoFillItem.getRegionIndex()]);
+		tvMatchCourt.setText(conf.autoFillItem.getCourt());
+		tvMatchLevel.setText(conf.autoFillItem.getLevel());
+		tvMatchRegion.setText(conf.autoFillItem.getRegion());
 	}
+
+	private int getRoundIndex(String round) {
+		for (int i = 0; i < arr_round.length; i ++) {
+			if (arr_round[i].equals(round)) {
+				return i;
+			}
+		}
+		return 0;
+	}
+
 	private class SpinnerListener implements OnItemSelectedListener {
 
 		@Override
@@ -338,7 +378,7 @@ public class RecordEditorActivity extends BaseActivity implements OnClickListene
 		record.setMatch(tvMatch.getText().toString());
 		record.setRegion(tvMatchRegion.getText().toString());
 		record.setRound(arr_round[cur_round]);
-		record.setScore(et_score.getText().toString());
+		record.setScore(tvScore.getText().toString());
 		int cur_month = 0;
 		try {
 			cur_month = Integer.parseInt(tvMatchMonth.getText().toString()) - 1;
@@ -347,7 +387,7 @@ public class RecordEditorActivity extends BaseActivity implements OnClickListene
 		}
 		String month=(1+cur_month)<10 ? ("0"+(1+cur_month)):(""+(1+cur_month));
 		record.setStrDate(""+(2010+cur_year)+"-"+month);
-		if (et_winner.getText().toString().matches(MultiUserManager.getInstance().getCurrentUser().getDisplayName())) {
+		if (tvWinner.getText().toString().matches(MultiUserManager.getInstance().getCurrentUser().getDisplayName())) {
 			record.setWinner(MultiUserManager.USER_DB_FLAG);
 		}
 		else record.setWinner(record.getCompetitor());
@@ -376,13 +416,24 @@ public class RecordEditorActivity extends BaseActivity implements OnClickListene
 		if (requestCode == REQUEST_CHANGE_MATCH) {
 			if (resultCode == RESULT_OK) {
 				Bundle bundle = data.getExtras();
-				tvMatch.setText(bundle.getString("name"));
-				tvMatchCountry.setText(bundle.getString("country"));
-				tvMatchLevel.setText(bundle.getString("level"));
-				tvMatchCourt.setText(bundle.getString("court"));
-				tvMatchRegion.setText(bundle.getString("region"));
-				tvMatchCity.setText(bundle.getString("city"));
-				tvMatchMonth.setText(String.valueOf(bundle.getInt("month")));
+				// 保存为默认填写
+				AutoFillItem item = new AutoFillItem();
+				item.setMatch(bundle.getString("name"));
+				item.setCountry(bundle.getString("country"));
+				item.setCity(bundle.getString("city"));
+				item.setLevel(bundle.getString("level"));
+				item.setCourt(bundle.getString("court"));
+				item.setRegion(bundle.getString("region"));
+				item.setMonth(bundle.getInt("month"));
+				Configuration.getInstance().createPreference(this, item);
+
+				tvMatch.setText(item.getMatch());
+				tvMatchCountry.setText(item.getCountry());
+				tvMatchLevel.setText(item.getLevel());
+				tvMatchCourt.setText(item.getCourt());
+				tvMatchRegion.setText(item.getRegion());
+				tvMatchCity.setText(item.getCity());
+				tvMatchMonth.setText(String.valueOf(item.getMonth()));
 			}
 		}
 		if (requestCode == REQUEST_CHANGE_PLAYER) {

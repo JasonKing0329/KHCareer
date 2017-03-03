@@ -6,8 +6,6 @@ import java.util.List;
 
 import com.king.mytennis.glory.adapter.AchieveDateContentAdapter;
 import com.king.mytennis.glory.adapter.GrandSlameAdapter;
-import com.king.mytennis.glory.adapter.AchieveLinearAdapter;
-import com.king.mytennis.glory.model.GrandSlameItem;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.view.CustomDialog;
 import com.king.mytennis.view.R;
@@ -38,7 +36,6 @@ public class AchieveParentView implements IXListViewListener {
 	//private static int refreshCnt = 0;
 	private AchieveDateContentAdapter listAdapter;
 	private GrandSlameAdapter tableListAdapter;
-	private AchieveLinearAdapter linearAdapter;
 
 	private FrameLayout achiveListParentLayout, achieveRankLayout;
 	private TextView achieveTitle;
@@ -82,11 +79,6 @@ public class AchieveParentView implements IXListViewListener {
 
 	public void setView(int flag) {
 		switch (flag) {
-			case GloryIndex.FAME_RANK_INDEX:
-				achieveTitleLinear.setText(GloryIndex.FAME_RANK);
-				achieveTitleIconLinear.setImageResource(R.drawable.glory_rank);
-				initRankView();
-				break;
 			case GloryIndex.FAME_TITLE_INDEX:
 				achieveTitle.setText(GloryIndex.FAME_TITLE);
 				achieveTitleIcon.setImageResource(R.drawable.glory_title);
@@ -113,13 +105,6 @@ public class AchieveParentView implements IXListViewListener {
 				achiveListParentLayout.setVisibility(View.GONE);
 				break;
 		}
-	}
-
-	private void initRankView() {
-		achiveListParentLayout.setVisibility(View.GONE);
-		achieveRankLayout.setVisibility(View.VISIBLE);
-		linearAdapter = new AchieveLinearAdapter(controller);
-		linearAdapter.registView(context);
 	}
 
 	private void initDateTableContentView() {
@@ -213,18 +198,6 @@ public class AchieveParentView implements IXListViewListener {
 
 		listAdapter.setAchieveList(list);
 		listAdapter.notifyDataSetChanged();
-	}
-
-	public void enableEditRank() {
-		linearAdapter.enableEdit();
-	}
-
-	public void saveRank() {
-		linearAdapter.saveRank();
-		linearAdapter.disableEdit(true);
-	}
-	public void cancelRank() {
-		linearAdapter.disableEdit(false);
 	}
 
 	public void enableEditGS() {

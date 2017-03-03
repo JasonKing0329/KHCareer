@@ -23,12 +23,7 @@
         android:key="setting_application"
         android:title="@string/setting_application" >
     </PreferenceCategory>
-    
-    <CheckBoxPreference
-        android:defaultValue="true"
-        android:key="setting_feature_mult_form"
-        android:title="@string/setting_feature_mult_form" />
-    
+
     <ListPreference
         android:defaultValue="Chinese"
         android:dialogTitle="@string/setting_default_language"
@@ -66,15 +61,7 @@
     <Preference 
         android:key="setting_cache"
         android:title="@string/setting_cache"/>
-    
-    <PreferenceCategory
-        android:key="setting_auto_fill_form_insert"
-        android:title="@string/setting_auto_fill_form_insert" >
-    </PreferenceCategory>
-    
-    <Preference 
-        android:key="setting_auto_fill_form_default"/>
-    
+
     <PreferenceCategory
         android:key="setting_safeset_title"
         android:title="@string/menu_safeset" >

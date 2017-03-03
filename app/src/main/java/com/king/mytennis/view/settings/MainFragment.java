@@ -2,7 +2,6 @@ package com.king.mytennis.view.settings;
 
 import java.util.Locale;
 
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.EditTextPreference;
@@ -27,10 +26,9 @@ public class MainFragment extends PreferenceFragment implements OnPreferenceChan
 		, OnPreferenceClickListener{
 
 	private CheckBoxPreference loginPref;
-	private CheckBoxPreference supportMultFormPref;
 	private ListPreference lanPref, httpPref, uiPref;
 	private EditTextPreference dirConfigPref, dirTempPref, dirDBPref, httpServerPref;
-	private Preference autoFillPref, safePref, uploadPref, cachePref, checkUpdatePref;
+	private Preference safePref, uploadPref, cachePref, checkUpdatePref;
 	private String currentLanguage;
 	
 	private static Toast fpNotSupportToast;
@@ -44,7 +42,6 @@ public class MainFragment extends PreferenceFragment implements OnPreferenceChan
 		addPreferencesFromResource(R.xml.setting_main);
 		
 		loginPref = (CheckBoxPreference) findPreference("setting_login_fingerprint");
-		supportMultFormPref = (CheckBoxPreference) findPreference("setting_feature_mult_form");
 		lanPref = (ListPreference) findPreference("setting_default_language");
 		httpPref = (ListPreference) findPreference("setting_default_http_method");
 		uiPref = (ListPreference) findPreference("setting_default_ui");
@@ -52,13 +49,11 @@ public class MainFragment extends PreferenceFragment implements OnPreferenceChan
 		dirTempPref = (EditTextPreference) findPreference("setting_default_dir_temp");
 		dirDBPref = (EditTextPreference) findPreference("setting_default_dir_db");
 		httpServerPref = (EditTextPreference) findPreference("pref_http_server");
-		autoFillPref = findPreference("setting_auto_fill_form_default");
 		safePref = findPreference("setting_safeset");
 		uploadPref = findPreference("setting_upload");
 		cachePref = findPreference("setting_cache");
 		checkUpdatePref = findPreference("pref_http_update");
 		loginPref.setOnPreferenceChangeListener(this);
-		supportMultFormPref.setOnPreferenceChangeListener(this);
 		lanPref.setOnPreferenceChangeListener(this);
 		uiPref.setOnPreferenceChangeListener(this);
 		httpPref.setOnPreferenceChangeListener(this);
@@ -100,23 +95,11 @@ public class MainFragment extends PreferenceFragment implements OnPreferenceChan
 		httpServerPref.setOnPreferenceChangeListener(this);
 		
 		loginPref.setOnPreferenceClickListener(this);
-		autoFillPref.setOnPreferenceClickListener(this);
 		safePref.setOnPreferenceClickListener(this);
 		uploadPref.setOnPreferenceClickListener(this);
 		cachePref.setOnPreferenceClickListener(this);
 		checkUpdatePref.setOnPreferenceClickListener(this);
 
-		Configuration.getInstance().loadFromPreference(getActivity());
-		AutoFillItem item = Configuration.getInstance().autoFillItem;
-		if (item.getMatch().length() == 0) {
-			str = getActivity().getResources().getString(R.string.setting_auto_fill_null);
-		}
-		else {
-			str = item.getMatch();
-			autoFillPref.setSummary(item.getCountry() + "/" + item.getCity());
-		}
-		autoFillPref.setTitle(str);
-		
 		cacheController = new CacheController();
 		cachePref.setSummary(cacheController.getCacheSize());
 		
@@ -147,14 +130,6 @@ public class MainFragment extends PreferenceFragment implements OnPreferenceChan
 		else if (preference == dirDBPref) {
 			dirDBPref.setSummary(newValue.toString());
 		}
-		else if (preference == supportMultFormPref) {
-			if (newValue.equals(true)) {
-				Configuration.supportMultiAutoFill = true;
-			}
-			else {
-				Configuration.supportMultiAutoFill = false;
-			}
-		}
 		else if (preference == httpPref) {
 			httpPref.setSummary(newValue.toString());
 		}
@@ -171,10 +146,7 @@ public class MainFragment extends PreferenceFragment implements OnPreferenceChan
 	@Override
 	public boolean onPreferenceClick(Preference preference) {
 
-		if (preference == autoFillPref) {
-			((SettingActivity) getActivity()).changeToAutoFillFragment();
-		}
-		else if (preference == safePref) {
+		if (preference == safePref) {
 			if (loginPref.isChecked()) {
 				new FingerPrintController(getActivity()).showIdentifyDialog(false, new FingerPrintController.SimpleIdentifyListener() {
 					
@@ -224,13 +196,4 @@ public class MainFragment extends PreferenceFragment implements OnPreferenceChan
 	private void showPasswordEditor(boolean needOldPWD) {
 		new SafeSetDialog(getActivity(), needOldPWD);
 	}
-
-	public void updateAutoFillPref(AutoFillItem autoFillItem) {
-		autoFillPref.setTitle(autoFillItem.getMatch());
-		autoFillPref.setSummary(autoFillItem.getCountry() + "/" + autoFillItem.getCity());
-		SharedPreferences.Editor editor = autoFillPref.getSharedPreferences().edit();
-		editor.putString("setting_auto_fill_form_default", autoFillItem.getMatch());
-		editor.commit();
-	}
-
 }

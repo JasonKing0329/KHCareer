@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 
-ext.appVersionName = "3.0.3"
+ext.appVersionName = "3.1"
 ext.appReleaseDir = "E:/temp/release/KHCareer"
 
 android {
@@ -11,7 +11,7 @@ android {
         applicationId "com.king.mytennis.view"
         minSdkVersion 21
         targetSdkVersion 23
-        versionCode 25
+        versionCode 26
         versionName appVersionName
     }
 
