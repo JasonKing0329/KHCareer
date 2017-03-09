@@ -122,6 +122,13 @@
     <string name="menu_ranking">世界排名</string>
     <string name="menu_show_by_date">按时间显示</string>
     <string name="menu_show_by_player">按对手显示</string>
+    <string name="menu_sort_name">按名称</string>
+    <string name="menu_sort_week">按赛事周数</string>
+    <string name="menu_sort_level">按赛事级别</string>
+    <string name="menu_sort_name_eng">按英文姓名</string>
+    <string name="menu_sort_country">按国籍</string>
+    <string name="menu_sort_age">按年龄</string>
+    <string name="menu_sort_constellation">按星座</string>
     <!-- **************************************************************** -->
     <string name="record_listview_allrecords">全部记录</string>
     <string name="dlg_loading_msg">加载中...</string>

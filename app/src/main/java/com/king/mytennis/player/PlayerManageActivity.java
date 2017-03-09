@@ -1,22 +1,25 @@
 package com.king.mytennis.player;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.king.mytennis.pubdata.PubDataProvider;
 import com.king.mytennis.pubdata.bean.MatchNameBean;
 import com.king.mytennis.pubdata.bean.PlayerBean;
 import com.king.mytennis.view.BaseActivity;
 import com.king.mytennis.view.CustomDialog;
 import com.king.mytennis.view.R;
 import com.king.mytennis.view.publicview.SideBar;
+import com.king.mytennis.view.settings.SettingProperty;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +30,7 @@ import java.util.Map;
  * <p/>作者：景阳
  * <p/>创建时间: 2017/2/20 11:40
  */
-public class PlayerManageActivity extends BaseActivity implements View.OnClickListener
+public class PlayerManageActivity extends BaseActivity implements View.OnClickListener, IPlayerView
     , PlayerItemAdapter.OnPlayerItemClickListener, SideBar.OnTouchingLetterChangedListener{
 
     public static final String KEY_START_MODE = "key_start_mode";
@@ -44,6 +47,9 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
     private SideBar indexSideBar;
     private TextView indexPopupView;
 
+    private ImageView ivSort;
+    private PopupMenu popSort;
+
     private RecyclerView rvList;
     private PlayerItemAdapter playerItemAdapter;
 
@@ -58,7 +64,7 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
     private boolean isDeleteMode;
 
     private PlayerBean mEditBean;
-    private PubDataProvider pubDataProvider;
+    private PlayerPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,11 +77,14 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
             isSelectMode = true;
         }
 
+        mPresenter = new PlayerPresenter(this);
+
         ImageView backView = (ImageView) findViewById(R.id.view7_actionbar_back);
         backView.setVisibility(View.VISIBLE);
         backView.setOnClickListener(this);
         groupConfirm = (ViewGroup) findViewById(R.id.view7_actionbar_action_confirm);
         groupNormal = (ViewGroup) findViewById(R.id.view7_actionbar_action_normal);
+        ivSort = (ImageView) findViewById(R.id.view7_actionbar_sort);
         groupNormal.setVisibility(View.VISIBLE);
         findViewById(R.id.view7_actionbar_edit_group).setVisibility(View.VISIBLE);
 
@@ -98,18 +107,31 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
         findViewById(R.id.view7_actionbar_delete).setOnClickListener(this);
         findViewById(R.id.view7_actionbar_done).setOnClickListener(this);
         findViewById(R.id.view7_actionbar_close).setOnClickListener(this);
+        ivSort.setOnClickListener(this);
 
         loadDatas();
     }
 
     private void loadDatas() {
-        pubDataProvider = new PubDataProvider();
-        playerList = pubDataProvider.getPlayerList();
-        playerItemAdapter = new PlayerItemAdapter(playerList);
-        playerItemAdapter.setOnPlayerItemClickListener(this);
+        showProgress(null);
+        mPresenter.loadPlayerList(this);
+    }
 
-        rvList.setAdapter(playerItemAdapter);
+    @Override
+    public void onLoadPlayerList(List<PlayerBean> list) {
+        playerList = list;
+        if (playerItemAdapter == null) {
+            playerItemAdapter = new PlayerItemAdapter(playerList);
+            playerItemAdapter.setOnPlayerItemClickListener(this);
+
+            rvList.setAdapter(playerItemAdapter);
+        }
+        else {
+            playerItemAdapter.setList(playerList);
+            playerItemAdapter.notifyDataSetChanged();
+        }
         createIndex();
+        dismissProgress();
     }
 
     private void createIndex() {
@@ -135,6 +157,9 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
         switch (v.getId()) {
             case R.id.view7_actionbar_back:
                 finish();
+                break;
+            case R.id.view7_actionbar_sort:
+                showSortPopup();
                 break;
             case R.id.view7_actionbar_add:
                 mEditBean = null;
@@ -163,6 +188,44 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
                 updateActionbarStatus(false);
                 break;
         }
+    }
+
+    private void showSortPopup() {
+        if (popSort == null) {
+            popSort = new PopupMenu(this, ivSort);
+            popSort.getMenuInflater().inflate(R.menu.sort_player, popSort.getMenu());
+            popSort.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    showProgress(null);
+                    switch (item.getItemId()) {
+                        case R.id.menu_sort_name:
+                            mPresenter.sortPlayer(PlayerManageActivity.this, SettingProperty.VALUE_SORT_PLAYER_NAME);
+                            break;
+                        case R.id.menu_sort_name_eng:
+                            mPresenter.sortPlayer(PlayerManageActivity.this, SettingProperty.VALUE_SORT_PLAYER_NAME_ENG);
+                            break;
+                        case R.id.menu_sort_country:
+                            mPresenter.sortPlayer(PlayerManageActivity.this, SettingProperty.VALUE_SORT_PLAYER_COUNTRY);
+                            break;
+                        case R.id.menu_sort_age:
+                            mPresenter.sortPlayer(PlayerManageActivity.this, SettingProperty.VALUE_SORT_PLAYER_AGE);
+                            break;
+                        case R.id.menu_sort_constellation:
+                            mPresenter.sortPlayer(PlayerManageActivity.this, SettingProperty.VALUE_SORT_PLAYER_CONSTELLATION);
+                            break;
+                    }
+                    return false;
+                }
+            });
+        }
+        popSort.show();
+    }
+
+    @Override
+    public void onSortFinished() {
+        playerItemAdapter.notifyDataSetChanged();
+        dismissProgress();
     }
 
     public void updateActionbarStatus(boolean editMode) {
@@ -230,10 +293,10 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
                     mEditBean.setCity(bean.getCity());
                     mEditBean.setBirthday(bean.getBirthday());
                     if (mEditBean.getId() == 0) {
-                        pubDataProvider.insertPlayer(bean);
+                        mPresenter.insertPlayer(bean);
                     }
                     else {
-                        pubDataProvider.updatePlayer(mEditBean);
+                        mPresenter.updatePlayer(mEditBean);
                     }
                     refreshList();
                     return true;
@@ -255,17 +318,13 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void refreshList() {
-        playerList = pubDataProvider.getPlayerList();
-        playerItemAdapter.setList(playerList);
-        playerItemAdapter.notifyDataSetChanged();
-
-        createIndex();
+        mPresenter.loadPlayerList(this);
     }
 
     private void deletePlayerItems() {
         List<PlayerBean> list = playerItemAdapter.getSelectedList();
         for (PlayerBean bean:list) {
-            pubDataProvider.deletePlayer(bean);
+            mPresenter.deletePlayer(bean);
         }
         refreshList();
     }
@@ -275,4 +334,5 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
         int selection = playerIndexMap.get(s.charAt(0));
         rvList.smoothScrollToPosition(selection);
     }
+
 }

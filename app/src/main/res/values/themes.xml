@@ -1,32 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
-    <style name="ActionBarBlue" parent="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+
+    <style name="BaseTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+    </style>
+
+    <style name="ActionBarBlue" parent="BaseTheme">
         <item name="actionbar_bk_color">@color/actionbar_bk_blue</item>
         <item name="actionbar_icon_bk">@drawable/actionbar_item_bk_blue</item>
     </style>
     
-    <style name="ActionBarGreen" parent="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+    <style name="ActionBarGreen" parent="BaseTheme">
         <item name="actionbar_bk_color">@color/actionbar_bk_green</item>
         <item name="actionbar_icon_bk">@drawable/actionbar_item_bk_green</item>
     </style>
     
-    <style name="ActionBarLightGreen" parent="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+    <style name="ActionBarLightGreen" parent="BaseTheme">
         <item name="actionbar_bk_color">@color/actionbar_bk_lightgreen</item>
         <item name="actionbar_icon_bk">@drawable/actionbar_item_bk_lightgreen</item>
     </style>
     
-    <style name="ActionBarOrange" parent="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+    <style name="ActionBarOrange" parent="BaseTheme">
         <item name="actionbar_bk_color">@color/actionbar_bk_orange</item>
         <item name="actionbar_icon_bk">@drawable/actionbar_item_bk_orange</item>
     </style>
     
-    <style name="ActionBarDeepBlue" parent="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+    <style name="ActionBarDeepBlue" parent="BaseTheme">
         <item name="actionbar_bk_color">@color/actionbar_bk_deepblue</item>
         <item name="actionbar_icon_bk">@drawable/actionbar_item_bk_deepblue</item>
     </style>
     
-    <style name="ActionBarPurple" parent="@android:style/Theme.DeviceDefault.Light.NoActionBar">
+    <style name="ActionBarPurple" parent="BaseTheme">
         <item name="actionbar_bk_color">@color/actionbar_bk_purple</item>
         <item name="actionbar_icon_bk">@drawable/actionbar_item_bk_purp</item>
     </style>

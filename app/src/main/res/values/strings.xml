@@ -127,6 +127,13 @@
     <string name="menu_ranking">world ranking</string>
     <string name="menu_show_by_date">show by date</string>
     <string name="menu_show_by_player">show by player</string>
+    <string name="menu_sort_name">By name</string>
+    <string name="menu_sort_week">By week</string>
+    <string name="menu_sort_level">By level</string>
+    <string name="menu_sort_name_eng">By English name</string>
+    <string name="menu_sort_country">By country</string>
+    <string name="menu_sort_age">By age</string>
+    <string name="menu_sort_constellation">By constellation</string>
     <!-- **************************************************************** -->
     <string name="record_listview_allrecords">All records</string>
     <string name="dlg_loading_msg">loading...</string>

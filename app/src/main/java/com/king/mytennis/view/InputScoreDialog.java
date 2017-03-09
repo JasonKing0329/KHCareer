@@ -207,7 +207,8 @@ public class InputScoreDialog extends CustomDialog {
         } else if (view instanceof CheckBox) {// 各种退赛情况只能有一种，或者都没有
             boolean targetCheck = false;
             CheckBox cb = (CheckBox) view;
-            if (!cb.isChecked()) {
+            // onClickListener中check状态是已经完成check的状态
+            if (cb.isChecked()) {
                 targetCheck = true;
             }
             if (targetCheck) {

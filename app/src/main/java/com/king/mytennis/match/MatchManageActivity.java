@@ -4,17 +4,19 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.king.mytennis.pubdata.PubDataProvider;
 import com.king.mytennis.pubdata.bean.MatchNameBean;
 import com.king.mytennis.view.BaseActivity;
 import com.king.mytennis.view.CustomDialog;
 import com.king.mytennis.view.R;
+import com.king.mytennis.view.settings.SettingProperty;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +26,7 @@ import java.util.List;
  * <p/>作者：景阳
  * <p/>创建时间: 2017/2/20 11:40
  */
-public class MatchManageActivity extends BaseActivity implements View.OnClickListener
+public class MatchManageActivity extends BaseActivity implements View.OnClickListener, IMatchView
     , MatchItemAdapter.OnMatchItemClickListener{
 
     public static final String KEY_START_MODE = "key_start_mode";
@@ -34,6 +36,9 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
 
     private ViewGroup groupNormal;
     private ViewGroup groupConfirm;
+
+    private ImageView ivSort;
+    private PopupMenu popSort;
 
     private RecyclerView rvList;
     private MatchItemAdapter matchItemAdapter;
@@ -48,7 +53,8 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
     private boolean isDeleteMode;
 
     private MatchNameBean mEditBean;
-    private PubDataProvider pubDataProvider;
+
+    private MatchPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +67,14 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
             isSelectMode = true;
         }
 
+        mPresenter = new MatchPresenter(this);
+
         ImageView backView = (ImageView) findViewById(R.id.view7_actionbar_back);
         backView.setVisibility(View.VISIBLE);
         backView.setOnClickListener(this);
         groupConfirm = (ViewGroup) findViewById(R.id.view7_actionbar_action_confirm);
         groupNormal = (ViewGroup) findViewById(R.id.view7_actionbar_action_normal);
+        ivSort = (ImageView) findViewById(R.id.view7_actionbar_sort);
         groupNormal.setVisibility(View.VISIBLE);
         findViewById(R.id.view7_actionbar_edit_group).setVisibility(View.VISIBLE);
 
@@ -82,17 +91,30 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
         findViewById(R.id.view7_actionbar_delete).setOnClickListener(this);
         findViewById(R.id.view7_actionbar_done).setOnClickListener(this);
         findViewById(R.id.view7_actionbar_close).setOnClickListener(this);
+        ivSort.setOnClickListener(this);
 
         loadDatas();
     }
 
     private void loadDatas() {
-        pubDataProvider = new PubDataProvider();
-        matchList = pubDataProvider.getMatchList();
-        matchItemAdapter = new MatchItemAdapter(matchList);
-        matchItemAdapter.setOnMatchItemClickListener(this);
+        showProgress(null);
+        mPresenter.loadMatchList(this);
+    }
 
-        rvList.setAdapter(matchItemAdapter);
+    @Override
+    public void onLoadMatchList(List<MatchNameBean> list) {
+        matchList = list;
+        if (matchItemAdapter == null) {
+            matchItemAdapter = new MatchItemAdapter(matchList);
+            matchItemAdapter.setOnMatchItemClickListener(this);
+
+            rvList.setAdapter(matchItemAdapter);
+        }
+        else {
+            matchItemAdapter.setList(matchList);
+            matchItemAdapter.notifyDataSetChanged();
+        }
+        dismissProgress();
     }
 
     @Override
@@ -100,6 +122,9 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
         switch (v.getId()) {
             case R.id.view7_actionbar_back:
                 finish();
+                break;
+            case R.id.view7_actionbar_sort:
+                showSortPopup();
                 break;
             case R.id.view7_actionbar_add:
                 mEditBean = null;
@@ -128,6 +153,43 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
                 updateActionbarStatus(false);
                 break;
         }
+    }
+
+    /**
+     * 这里有个非常奇怪的问题，运用方法和V7MainActivity里的几乎一模一样，activity对应的theme也完全一致
+     * 但是这里总是会抛出“Failed to resolve attribute at index 6”异常导致崩溃
+     * 后来把基本theme从Theme.DeviceDefault.Light.NoActionBar换成Theme.AppCompat.Light.NoActionBar才没问题
+     */
+    private void showSortPopup() {
+        if (popSort == null) {
+            popSort = new PopupMenu(this, ivSort);
+            popSort.getMenuInflater().inflate(R.menu.sort_match, popSort.getMenu());
+            popSort.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem item) {
+                    showProgress(null);
+                    switch (item.getItemId()) {
+                        case R.id.menu_sort_name:
+                            mPresenter.sortMatch(MatchManageActivity.this, SettingProperty.VALUE_SORT_MATCH_NAME);
+                            break;
+                        case R.id.menu_sort_week:
+                            mPresenter.sortMatch(MatchManageActivity.this, SettingProperty.VALUE_SORT_MATCH_WEEK);
+                            break;
+                        case R.id.menu_sort_level:
+                            mPresenter.sortMatch(MatchManageActivity.this, SettingProperty.VALUE_SORT_MATCH_LEVEL);
+                            break;
+                    }
+                    return true;
+                }
+            });
+        }
+        popSort.show();
+    }
+
+    @Override
+    public void onSortFinished() {
+        matchItemAdapter.notifyDataSetChanged();
+        dismissProgress();
     }
 
     public void updateActionbarStatus(boolean editMode) {
@@ -195,10 +257,10 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
                     mEditBean.setName(bean.getName());
                     mEditBean.setMatchBean(bean.getMatchBean());
                     if (mEditBean.getId() == 0) {
-                        pubDataProvider.insertMatch(bean);
+                        mPresenter.insertMatch(bean);
                     }
                     else {
-                        pubDataProvider.updateMatch(mEditBean);
+                        mPresenter.updateMatch(mEditBean);
                     }
                     refreshList();
                     return true;
@@ -220,16 +282,15 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void refreshList() {
-        matchList = pubDataProvider.getMatchList();
-        matchItemAdapter.setList(matchList);
-        matchItemAdapter.notifyDataSetChanged();
+        mPresenter.loadMatchList(this);
     }
 
     private void deleteMatchItems() {
         List<MatchNameBean> list = matchItemAdapter.getSelectedList();
         for (MatchNameBean bean:list) {
-            pubDataProvider.deleteMatchName(bean);
+            mPresenter.deleteMatchName(bean);
         }
         refreshList();
     }
+
 }

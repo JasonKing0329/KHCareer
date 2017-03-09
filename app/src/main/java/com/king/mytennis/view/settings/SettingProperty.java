@@ -27,7 +27,19 @@ public class SettingProperty {
 	public static final int SLIDINGMENU_LEFT = 0;
 	public static final int SLIDINGMENU_RIGHT = 1;
 	public static final int SLIDINGMENU_TWOWAY = 2;
-	
+
+	public static final String KEY_SORT_MATCH = "key_sort_match";
+	public static final int VALUE_SORT_MATCH_WEEK = 0;
+	public static final int VALUE_SORT_MATCH_NAME = 1;
+	public static final int VALUE_SORT_MATCH_LEVEL = 2;
+
+	public static final String KEY_SORT_PLAYER = "key_sort_player";
+	public static final int VALUE_SORT_PLAYER_NAME = 0;
+	public static final int VALUE_SORT_PLAYER_NAME_ENG = 1;
+	public static final int VALUE_SORT_PLAYER_COUNTRY = 2;
+	public static final int VALUE_SORT_PLAYER_AGE = 3;
+	public static final int VALUE_SORT_PLAYER_CONSTELLATION = 4;
+
 	public static int getHttpMethod(Context context) {
 		
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -140,6 +152,50 @@ public class SettingProperty {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		String url = preferences.getString(PREF_HTTP_SERVER, "");
 		return url;
+	}
+
+	/**
+	 * match 默认排序模式
+	 * @param context
+	 * @param mode
+     */
+	public static void setMatchSortMode(Context context, int mode) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putInt(KEY_SORT_MATCH, mode);
+		editor.commit();
+	}
+
+	/**
+	 * match 默认排序模式
+	 * @param context
+	 */
+	public static int getMatchSortMode(Context context) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		int mode = preferences.getInt(KEY_SORT_MATCH, VALUE_SORT_MATCH_WEEK);
+		return mode;
+	}
+
+	/**
+	 * player 默认排序模式
+	 * @param context
+	 * @param mode
+	 */
+	public static void setPlayerSortMode(Context context, int mode) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putInt(KEY_SORT_PLAYER, mode);
+		editor.commit();
+	}
+
+	/**
+	 * player 默认排序模式
+	 * @param context
+	 */
+	public static int getPlayerSortMode(Context context) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		int mode = preferences.getInt(KEY_SORT_PLAYER, VALUE_SORT_PLAYER_NAME);
+		return mode;
 	}
 
 }

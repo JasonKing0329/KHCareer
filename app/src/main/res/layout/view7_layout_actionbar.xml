@@ -55,6 +55,10 @@
 			android:visibility="gone"
 			android:orientation="horizontal">
 			<ImageView
+				android:id="@+id/view7_actionbar_sort"
+				android:src="@drawable/ic_sort_white_36dp"
+				style="@style/V7ActionbarActionIcon" />
+			<ImageView
 				android:id="@+id/view7_actionbar_add"
 				android:src="@drawable/ic_add_white_36dp"
 				style="@style/V7ActionbarActionIcon" />

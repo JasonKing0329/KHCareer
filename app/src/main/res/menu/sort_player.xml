@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:id="@+id/menu_sort_name"
+        android:title="@string/menu_sort_name"/>
+
+    <item
+        android:id="@+id/menu_sort_name_eng"
+        android:title="@string/menu_sort_name_eng"/>
+
+    <item
+        android:id="@+id/menu_sort_country"
+        android:title="@string/menu_sort_country"/>
+
+    <item
+        android:id="@+id/menu_sort_age"
+        android:title="@string/menu_sort_age"/>
+
+    <item
+        android:id="@+id/menu_sort_constellation"
+        android:title="@string/menu_sort_constellation"/>
+</menu>
