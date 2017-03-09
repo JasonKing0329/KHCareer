@@ -1,6 +1,5 @@
 package com.king.mytennis.player;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -13,7 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.king.mytennis.pubdata.bean.MatchNameBean;
+import com.king.mytennis.pubdata.PubDataProvider;
 import com.king.mytennis.pubdata.bean.PlayerBean;
 import com.king.mytennis.view.BaseActivity;
 import com.king.mytennis.view.CustomDialog;
@@ -25,6 +24,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static com.king.mytennis.pubdata.PubDataProvider.VIRTUAL_PLAYER;
+
 /**
  * 描述: _player 表的DAO操作
  * <p/>作者：景阳
@@ -35,9 +36,6 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
 
     public static final String KEY_START_MODE = "key_start_mode";
     public static final int START_MODE_SELECT = 1;
-
-    // top 4 players are virtual players, forbid to modify
-    public static final int FIXED_PLAYER = 4;
 
     private boolean isSelectMode;
 
@@ -65,6 +63,8 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
 
     private PlayerBean mEditBean;
     private PlayerPresenter mPresenter;
+
+    private boolean isIndexCreated;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +130,13 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
             playerItemAdapter.setList(playerList);
             playerItemAdapter.notifyDataSetChanged();
         }
-        createIndex();
+
+        if (SettingProperty.getPlayerSortMode(this) == SettingProperty.VALUE_SORT_PLAYER_NAME) {
+            createIndex();
+        }
+        else {
+            indexSideBar.setVisibility(View.GONE);
+        }
         dismissProgress();
     }
 
@@ -141,7 +147,7 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
         indexSideBar.clear();
         playerIndexMap = new HashMap<>();
         // player list查询出来已经是升序的
-        for (int i = FIXED_PLAYER; i < playerList.size(); i ++) {
+        for (int i = PubDataProvider.VIRTUAL_PLAYER; i < playerList.size(); i ++) {
             char first = playerList.get(i).getNamePinyin().charAt(0);
             Integer index = playerIndexMap.get(first);
             if (index == null) {
@@ -150,6 +156,7 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
             }
         }
         indexSideBar.invalidate();
+        isIndexCreated = true;
     }
 
     @Override
@@ -197,22 +204,28 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
             popSort.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
                 @Override
                 public boolean onMenuItemClick(MenuItem item) {
+                    // 目前只有默认的汉语名称下支持index导航，其他排序模式下隐藏导航
                     showProgress(null);
                     switch (item.getItemId()) {
                         case R.id.menu_sort_name:
                             mPresenter.sortPlayer(PlayerManageActivity.this, SettingProperty.VALUE_SORT_PLAYER_NAME);
+                            indexSideBar.setVisibility(View.VISIBLE);
                             break;
                         case R.id.menu_sort_name_eng:
                             mPresenter.sortPlayer(PlayerManageActivity.this, SettingProperty.VALUE_SORT_PLAYER_NAME_ENG);
+                            indexSideBar.setVisibility(View.GONE);
                             break;
                         case R.id.menu_sort_country:
                             mPresenter.sortPlayer(PlayerManageActivity.this, SettingProperty.VALUE_SORT_PLAYER_COUNTRY);
+                            indexSideBar.setVisibility(View.GONE);
                             break;
                         case R.id.menu_sort_age:
                             mPresenter.sortPlayer(PlayerManageActivity.this, SettingProperty.VALUE_SORT_PLAYER_AGE);
+                            indexSideBar.setVisibility(View.GONE);
                             break;
                         case R.id.menu_sort_constellation:
                             mPresenter.sortPlayer(PlayerManageActivity.this, SettingProperty.VALUE_SORT_PLAYER_CONSTELLATION);
+                            indexSideBar.setVisibility(View.GONE);
                             break;
                     }
                     return false;
@@ -225,6 +238,9 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onSortFinished() {
         playerItemAdapter.notifyDataSetChanged();
+        if (SettingProperty.getPlayerSortMode(this) == SettingProperty.VALUE_SORT_PLAYER_NAME && !isIndexCreated) {
+            createIndex();
+        }
         dismissProgress();
     }
 
@@ -259,7 +275,7 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
         // top 4 player is
         mEditBean = playerList.get(position);
         if (isEditMode) {
-            if (position < FIXED_PLAYER) {
+            if (position < VIRTUAL_PLAYER) {
                 return;
             }
             openMatchEditDialog();

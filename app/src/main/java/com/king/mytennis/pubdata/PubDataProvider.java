@@ -7,6 +7,7 @@ import com.king.mytennis.pubdata.bean.PlayerBean;
 import com.king.mytennis.pubdata.dao.MatchDao;
 import com.king.mytennis.pubdata.dao.PlayerDao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,17 +18,44 @@ import java.util.Map;
  * <p/>创建时间: 2017/2/24 14:09
  */
 public class PubDataProvider {
+
+    /**
+     * 对应getVirtualPlayer数量
+     */
+    public static final int VIRTUAL_PLAYER = 4;
+
     private String databasePath;
 
     public PubDataProvider() {
         databasePath = Configuration.CONF_DIR + DatabaseStruct.DATABASE_PUBLIC;
     }
 
+    /**
+     * 获取player列表，包括virtual player
+     * @return
+     */
     public List<PlayerBean> getPlayerList(){
         try {
             SqlConnection.getInstance().connect(databasePath);
             List<PlayerBean> list = new PlayerDao().queryPlayerList(SqlConnection.getInstance().getConnection(), true);
-            addVirtualPlayer(list);
+            list.addAll(0, getVirtualPlayer());
+            return list;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            SqlConnection.getInstance().close();
+        }
+        return null;
+    }
+
+    /**
+     * 获取player列表，不包括virtual player
+     * @return
+     */
+    public List<PlayerBean> getRealPlayerList(){
+        try {
+            SqlConnection.getInstance().connect(databasePath);
+            List<PlayerBean> list = new PlayerDao().queryPlayerList(SqlConnection.getInstance().getConnection(), true);
             return list;
         } catch (Exception e) {
             e.printStackTrace();
@@ -187,7 +215,8 @@ public class PubDataProvider {
         }
     }
 
-    private void addVirtualPlayer(List<PlayerBean> list) {
+    public List<PlayerBean> getVirtualPlayer() {
+        List<PlayerBean> list = new ArrayList<>();
         PlayerBean bean = new PlayerBean();
         bean.setId(100001);
         bean.setNameChn("King Hao");
@@ -196,7 +225,7 @@ public class PubDataProvider {
         bean.setCountry("中国");
         bean.setCity("上海");
         bean.setBirthday("1991-03-29");
-        list.add(0, bean);
+        list.add(bean);
         bean = new PlayerBean();
         bean.setId(100002);
         bean.setNameChn("John Flamenco");
@@ -205,24 +234,25 @@ public class PubDataProvider {
         bean.setCountry("法国");
         bean.setCity("巴黎");
         bean.setBirthday("1997-05-04");
-        list.add(1, bean);
+        list.add(bean);
         bean = new PlayerBean();
         bean.setId(100003);
         bean.setNameChn("Michael Henry");
         bean.setNameEng("Michael Henry");
-        bean.setNamePinyin("Michael Henry");
+        bean.setNamePinyin("michael henry");
         bean.setCountry("美国");
         bean.setCity("芝加哥");
         bean.setBirthday("1998-05-26");
-        list.add(2, bean);
+        list.add(bean);
         bean = new PlayerBean();
         bean.setId(100004);
         bean.setNameChn("Qi Tian");
         bean.setNameEng("Qi Tian");
-        bean.setNamePinyin("Qi Tian");
+        bean.setNamePinyin("qi tian");
         bean.setCountry("中国");
         bean.setCity("成都");
         bean.setBirthday("1991-03-27");
-        list.add(3, bean);
+        list.add(bean);
+        return list;
     }
 }

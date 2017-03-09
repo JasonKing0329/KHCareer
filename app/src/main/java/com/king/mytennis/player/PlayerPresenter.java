@@ -6,10 +6,12 @@ import android.text.TextUtils;
 
 import com.king.mytennis.pubdata.PubDataProvider;
 import com.king.mytennis.pubdata.bean.PlayerBean;
+import com.king.mytennis.utils.ConstellationUtil;
 import com.king.mytennis.utils.PinyinUtil;
 import com.king.mytennis.view.settings.SettingProperty;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -23,6 +25,14 @@ import java.util.Map;
  */
 public class PlayerPresenter {
     private PubDataProvider pubDataProvider;
+    /**
+     * virtual player 不参与排序，也不可编辑，始终保持在list的最顶上
+     */
+    private List<PlayerBean> virtualPlayerList;
+    private List<PlayerBean> realPlayerList;
+    /**
+     * 最后显示的player list
+     */
     private List<PlayerBean> playerList;
     private IPlayerView playerView;
 
@@ -138,30 +148,21 @@ public class PlayerPresenter {
 
         private int compareByConstellation(PlayerBean lhs, PlayerBean rhs) {
             // 未知的放在最后
-            // 未知的放在最后
-            long dateL;
+            int indexL;
             try {
-                dateL = sdf.parse(lhs.getBirthday().substring(lhs.getBirthday().indexOf('-') + 1)).getTime();
-            } catch (Exception e) {
+                indexL = ConstellationUtil.getConstellationIndex(lhs.getBirthday());
+            } catch (ConstellationUtil.ConstellationParseException e) {
                 e.printStackTrace();
-                dateL = Long.MAX_VALUE;
+                indexL = 999;
             }
-            long dateR;
+            int indexR;
             try {
-                dateR = sdf.parse(rhs.getBirthday().substring(rhs.getBirthday().indexOf('-') + 1)).getTime();
-            } catch (Exception e) {
+                indexR = ConstellationUtil.getConstellationIndex(rhs.getBirthday());
+            } catch (ConstellationUtil.ConstellationParseException e) {
                 e.printStackTrace();
-                dateR = Long.MAX_VALUE;
+                indexR = 999;
             }
-            if (dateL - dateR < 0) {
-                return -1;
-            }
-            else if (dateL - dateR > 0) {
-                return 1;
-            }
-            else {
-                return 0;
-            }
+            return indexL - indexR;
         }
 
         private int compareByNameEng(PlayerBean lhs, PlayerBean rhs) {
@@ -184,11 +185,15 @@ public class PlayerPresenter {
         @Override
         protected Void doInBackground(Integer... params) {
             int sortMode = params[0];
-            playerList = pubDataProvider.getPlayerList();
+            playerList = new ArrayList<>();
+            realPlayerList = pubDataProvider.getRealPlayerList();
+            virtualPlayerList = pubDataProvider.getVirtualPlayer();
             // 从数据库里查询就是按照name排序的
             if (sortMode != SettingProperty.VALUE_SORT_PLAYER_NAME) {
-                Collections.sort(playerList, new PlayerComparator(sortMode));
+                Collections.sort(realPlayerList, new PlayerComparator(sortMode));
             }
+            playerList.addAll(virtualPlayerList);
+            playerList.addAll(realPlayerList);
             return null;
         }
 
@@ -199,12 +204,18 @@ public class PlayerPresenter {
         }
     }
 
+    /**
+     * 只排序real player
+     */
     private class SortTask extends AsyncTask<Integer, Void, Void> {
 
         @Override
         protected Void doInBackground(Integer... params) {
             int sortMode = params[0];
-            Collections.sort(playerList, new PlayerComparator(sortMode));
+            Collections.sort(realPlayerList, new PlayerComparator(sortMode));
+            playerList.clear();
+            playerList.addAll(virtualPlayerList);
+            playerList.addAll(realPlayerList);
             return null;
         }
 

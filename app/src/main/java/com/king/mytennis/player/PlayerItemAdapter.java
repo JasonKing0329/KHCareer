@@ -19,10 +19,13 @@ import com.king.mytennis.http.RequestCallback;
 import com.king.mytennis.http.bean.ImageUrlBean;
 import com.king.mytennis.model.Configuration;
 import com.king.mytennis.model.ImageFactory;
+import com.king.mytennis.pubdata.PubDataProvider;
 import com.king.mytennis.pubdata.bean.PlayerBean;
 import com.king.mytennis.service.ImageUtil;
+import com.king.mytennis.utils.ConstellationUtil;
 import com.king.mytennis.view.CustomDialog;
 import com.king.mytennis.view.R;
+import com.king.mytennis.view.settings.SettingProperty;
 import com.king.mytennis.view_v_7_0.interaction.controller.InteractionController;
 import com.king.mytennis.view_v_7_0.view.CircleImageView;
 
@@ -95,10 +98,24 @@ public class PlayerItemAdapter extends RecyclerView.Adapter<PlayerItemAdapter.It
         holder.tvIndex.setText(String.valueOf(position + 1));
         holder.tvName.setText(bean.getNameChn());
         holder.tvNameEng.setText(bean.getNameEng());
-        holder.tvBirthday.setText(bean.getBirthday());
+        // 当前排序是按星座排序，显示星座名称
+        if (SettingProperty.getPlayerSortMode(holder.tvBirthday.getContext()) == SettingProperty.VALUE_SORT_PLAYER_CONSTELLATION) {
+            String constellation;
+            try {
+                constellation = ConstellationUtil.getConstellationEng(bean.getBirthday());
+                constellation = constellation.concat("(").concat(bean.getBirthday()).concat(")");
+            } catch (ConstellationUtil.ConstellationParseException e) {
+                e.printStackTrace();
+                constellation = bean.getBirthday();
+            }
+            holder.tvBirthday.setText(constellation);
+        }
+        else {
+            holder.tvBirthday.setText(bean.getBirthday());
+        }
         holder.tvCountry.setText(bean.getCountry());
         if (selectMode) {
-            if (position < PlayerManageActivity.FIXED_PLAYER) {// 不允许删除
+            if (position < PubDataProvider.VIRTUAL_PLAYER) {// 不允许删除
                 holder.check.setVisibility(View.INVISIBLE);
             }
             else {
@@ -112,6 +129,13 @@ public class PlayerItemAdapter extends RecyclerView.Adapter<PlayerItemAdapter.It
 
         holder.group.setTag(position);
         holder.group.setOnClickListener(this);
+
+        if (position < PubDataProvider.VIRTUAL_PLAYER) {// 显示为浅灰背景
+            holder.container.setBackgroundColor(holder.container.getContext().getResources().getColor(R.color.lightgrey));
+        }
+        else {
+            holder.container.setBackgroundColor(holder.container.getContext().getResources().getColor(R.color.transparent));
+        }
 
         String filePath;
         if (playerImageIndexMap.get(list.get(position).getNameChn()) == null) {
@@ -301,6 +325,7 @@ public class PlayerItemAdapter extends RecyclerView.Adapter<PlayerItemAdapter.It
 
     public static class ItemHolder extends RecyclerView.ViewHolder {
 
+        ViewGroup container;
         ViewGroup group;
         TextView tvIndex;
         TextView tvName;
@@ -311,6 +336,7 @@ public class PlayerItemAdapter extends RecyclerView.Adapter<PlayerItemAdapter.It
         CircleImageView image;
         public ItemHolder(View itemView) {
             super(itemView);
+            container = (ViewGroup) itemView.findViewById(R.id.manage_item_container);
             group = (ViewGroup) itemView.findViewById(R.id.manage_item_group);
             tvIndex = (TextView) itemView.findViewById(R.id.manage_item_index);
             tvName = (TextView) itemView.findViewById(R.id.manage_item_name);
