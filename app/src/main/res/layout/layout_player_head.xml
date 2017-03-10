@@ -22,6 +22,22 @@
 		    android:textColor="@color/yellow"
 	    	android:textStyle="bold"
 		    android:textSize="20sp" />
+		<TextView
+			android:id="@+id/player_head_name_eng"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textColor="@color/white"
+			android:layout_marginTop="5dp"
+			android:visibility="gone"
+			android:textSize="16sp" />
+		<TextView
+			android:id="@+id/player_head_birthday"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textColor="@color/white"
+			android:layout_marginTop="5dp"
+			android:visibility="gone"
+			android:textSize="16sp" />
 	    <TextView
 	        android:id="@+id/player_head_place"
 		    android:layout_width="wrap_content"

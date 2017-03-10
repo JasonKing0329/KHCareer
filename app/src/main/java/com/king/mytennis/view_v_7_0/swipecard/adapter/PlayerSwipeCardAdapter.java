@@ -16,6 +16,7 @@ import com.king.mytennis.model.Constants;
 import com.king.mytennis.model.ImageFactory;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.multiuser.MultiUserManager;
+import com.king.mytennis.pubdata.PubDataProvider;
 import com.king.mytennis.service.ImageUtil;
 import com.king.mytennis.view.CustomDialog;
 import com.king.mytennis.view.R;
@@ -27,6 +28,7 @@ import com.king.mytennis.view_v_7_0.view.PlayerActivity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,6 +67,8 @@ public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter implements Requ
 	 */
 	private Map<String, Integer> imageIndexMap;
 
+	private PubDataProvider pubDataProvider;
+
 	public PlayerSwipeCardAdapter(Context context, List<PlayerBean> list) {
 		super(context);
 		mContext = context;
@@ -78,6 +82,7 @@ public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter implements Requ
 			mList.addAll(mOriginList);
 		}
 		indexPosMap = new HashMap<>();
+		pubDataProvider = new PubDataProvider();
 
 		courtValues = Constants.RECORD_MATCH_COURTS;
 		colorHard = mContext.getResources().getColor(R.color.swipecard_text_hard);
@@ -157,8 +162,19 @@ public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter implements Requ
 			filePath = ImageFactory.getDetailPlayerPath(bean.getName(), imageIndexMap.get(bean.getName()));
 		}
 		ImageUtil.load("file://" + filePath, holder.image, R.drawable.swipecard_default_img);
-		holder.name.setText(bean.getName());
-		holder.country.setText(bean.getCountry());
+		com.king.mytennis.pubdata.bean.PlayerBean pb = pubDataProvider.getPlayerByChnName(bean.getName());
+		String name = bean.getName();
+		String country = bean.getCountry();
+		if (pb != null) {
+			if (!TextUtils.isEmpty(pb.getNameEng()) && !bean.getName().equals(pb.getNameEng())) {
+				name = name.concat("（").concat(pb.getNameEng()).concat("）");
+			}
+			if (!TextUtils.isEmpty(pb.getBirthday())) {
+				country = country.concat("  ").concat(pb.getBirthday());
+			}
+		}
+		holder.name.setText(name);
+		holder.country.setText(country);
 		holder.h2h.setText("交手记录  " + bean.getWin() + " - " + bean.getLose());
 
 		Record record = bean.getLastRecord();

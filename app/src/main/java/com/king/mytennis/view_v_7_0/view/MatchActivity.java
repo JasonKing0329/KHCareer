@@ -86,7 +86,7 @@ public class MatchActivity extends BaseActivity implements OnGroupCollapseListen
 	}
 
 	private void initContent(View contentView) {
-		mController.loadRecords(this, mMatchBean.getName());
+		mController.loadRecords(this, mMatchBean.getPubId());
 		mAdapter = new MatchExpanAdapter(this, mController.getExpandList());
 		expandableListView = (ExpandableListView) contentView.findViewById(R.id.match_expanlist);
 		expandableListView.setAdapter(mAdapter);

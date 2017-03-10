@@ -9,6 +9,8 @@ import java.util.Map;
 import android.content.Context;
 
 import com.king.mytennis.model.Record;
+import com.king.mytennis.pubdata.PubDataProvider;
+import com.king.mytennis.pubdata.bean.MatchNameBean;
 import com.king.mytennis.service.RecordService;
 
 /**
@@ -28,9 +30,29 @@ public class MatchController {
 	public List<List<Record>> getExpandList() {
 		return expandList;
 	}
-	
-	public void loadRecords(Context context, String matchId) {
-		recordList = new RecordService(context).queryByWhere("match=?", new String[]{matchId});
+
+	/**
+	 * 数据库系统更新后（v3.0），需要按照matchId来查询
+	 * 解决不同赛事名称但是是一站赛事的问题
+	 * @param context
+	 * @param matchId
+     */
+	public void loadRecords(Context context, int matchId) {
+		List<MatchNameBean> matches = new PubDataProvider().getMatchNameList(matchId);
+		String where = "match=?";
+		String[] args;
+		if (matches.size() > 1) {
+			args = new String[matches.size()];
+			args[0] = matches.get(0).getName();
+			for (int i = 1; i < matches.size(); i ++) {
+				where = where.concat(" OR match=?");
+				args[i] = matches.get(i).getName();
+			}
+		}
+		else {
+			args = new String[]{matches.get(0).getName()};
+		}
+		recordList = new RecordService(context).queryByWhere(where, args);
 		
 		expandList = new ArrayList<List<Record>>();
 		Map<String, List<Record>> map = new HashMap<String, List<Record>>();

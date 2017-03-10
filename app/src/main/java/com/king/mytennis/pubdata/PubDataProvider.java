@@ -7,7 +7,6 @@ import com.king.mytennis.pubdata.bean.PlayerBean;
 import com.king.mytennis.pubdata.dao.MatchDao;
 import com.king.mytennis.pubdata.dao.PlayerDao;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,7 +37,7 @@ public class PubDataProvider {
         try {
             SqlConnection.getInstance().connect(databasePath);
             List<PlayerBean> list = new PlayerDao().queryPlayerList(SqlConnection.getInstance().getConnection(), true);
-            list.addAll(0, getVirtualPlayer());
+            list.addAll(0, VirtualManager.getVirtualPlayer());
             return list;
         } catch (Exception e) {
             e.printStackTrace();
@@ -65,6 +64,30 @@ public class PubDataProvider {
         return null;
     }
 
+    /**
+     * 从real和virtual中都要查询
+     * @param name
+     * @return
+     */
+    public PlayerBean getPlayerByChnName(String name) {
+        // 先从virtual中查
+        PlayerBean bean = VirtualManager.getVirtualPlayer(name);
+        if (bean != null) {
+            return  bean;
+        }
+
+        // 再从real中查
+        try {
+            SqlConnection.getInstance().connect(databasePath);
+            return new PlayerDao().queryPlayerByChnName(name, SqlConnection.getInstance().getConnection());
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            SqlConnection.getInstance().close();
+        }
+        return null;
+    }
+
     public List<MatchNameBean> getMatchList(){
         try {
             SqlConnection.getInstance().connect(databasePath);
@@ -77,6 +100,17 @@ public class PubDataProvider {
         return null;
     }
 
+    public List<MatchNameBean> getMatchNameList(int matchId){
+        try {
+            SqlConnection.getInstance().connect(databasePath);
+            return new MatchDao().queryMatchNameList(matchId, SqlConnection.getInstance().getConnection());
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            SqlConnection.getInstance().close();
+        }
+        return null;
+    }
 
     public List<MatchNameBean> getMatchListByLevel(String level) {
         try {
@@ -215,44 +249,4 @@ public class PubDataProvider {
         }
     }
 
-    public List<PlayerBean> getVirtualPlayer() {
-        List<PlayerBean> list = new ArrayList<>();
-        PlayerBean bean = new PlayerBean();
-        bean.setId(100001);
-        bean.setNameChn("King Hao");
-        bean.setNameEng("King Hao");
-        bean.setNamePinyin("king hao");
-        bean.setCountry("中国");
-        bean.setCity("上海");
-        bean.setBirthday("1991-03-29");
-        list.add(bean);
-        bean = new PlayerBean();
-        bean.setId(100002);
-        bean.setNameChn("John Flamenco");
-        bean.setNameEng("John Flamenco");
-        bean.setNamePinyin("john flamenco");
-        bean.setCountry("法国");
-        bean.setCity("巴黎");
-        bean.setBirthday("1997-05-04");
-        list.add(bean);
-        bean = new PlayerBean();
-        bean.setId(100003);
-        bean.setNameChn("Michael Henry");
-        bean.setNameEng("Michael Henry");
-        bean.setNamePinyin("michael henry");
-        bean.setCountry("美国");
-        bean.setCity("芝加哥");
-        bean.setBirthday("1998-05-26");
-        list.add(bean);
-        bean = new PlayerBean();
-        bean.setId(100004);
-        bean.setNameChn("Qi Tian");
-        bean.setNameEng("Qi Tian");
-        bean.setNamePinyin("qi tian");
-        bean.setCountry("中国");
-        bean.setCity("成都");
-        bean.setBirthday("1991-03-27");
-        list.add(bean);
-        return list;
-    }
 }

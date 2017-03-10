@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <com.github.mikephil.charting.charts.HorizontalBarChart
+        android:id="@+id/chart_constellation"
+        android:layout_width="match_parent"
+        android:layout_height="480dp"
+        android:layout_marginBottom="20dp"/>
+
+</RelativeLayout>

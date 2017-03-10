@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.text.TextUtils;
 
 import com.king.mytennis.pubdata.PubDataProvider;
+import com.king.mytennis.pubdata.VirtualManager;
 import com.king.mytennis.pubdata.bean.PlayerBean;
 import com.king.mytennis.utils.ConstellationUtil;
 import com.king.mytennis.utils.PinyinUtil;
@@ -187,7 +188,7 @@ public class PlayerPresenter {
             int sortMode = params[0];
             playerList = new ArrayList<>();
             realPlayerList = pubDataProvider.getRealPlayerList();
-            virtualPlayerList = pubDataProvider.getVirtualPlayer();
+            virtualPlayerList = VirtualManager.getVirtualPlayer();
             // 从数据库里查询就是按照name排序的
             if (sortMode != SettingProperty.VALUE_SORT_PLAYER_NAME) {
                 Collections.sort(realPlayerList, new PlayerComparator(sortMode));

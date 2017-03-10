@@ -12,6 +12,8 @@ import com.king.mytennis.interfc.H2HDAO;
 import com.king.mytennis.model.ImageFactory;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.multiuser.MultiUserManager;
+import com.king.mytennis.pubdata.PubDataProvider;
+import com.king.mytennis.pubdata.bean.PlayerBean;
 import com.king.mytennis.res.ColorRes;
 import com.king.mytennis.res.JResource;
 import com.king.mytennis.service.Application;
@@ -21,6 +23,7 @@ import com.king.mytennis.view.R;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,10 +56,15 @@ public class ViewFactory implements OnItemClickListener {
 	private int rightColor, right1Color, right2Color;
 	private int h2hColor;
 
+	private PubDataProvider pubDataProvider;
+
 	public ViewFactory(Context context, Record record, H2HDAO h2hdao) {
 		this.context = context;
 		this.record = record;
 		this.h2hdao = h2hdao;
+
+		pubDataProvider = new PubDataProvider();
+
 		rippleColor = context.getResources().getColor(R.color.ripple_material_light);
 
 		h2hList = h2hdao.getH2HList();
@@ -108,6 +116,8 @@ public class ViewFactory implements OnItemClickListener {
 			mH2hHolder.player2RS = (TextView) view.findViewById(R.id.detail_h2h_player2rs);
 			mH2hHolder.detail = (ListView) view.findViewById(R.id.detail_h2h_detail);
 			mH2hHolder.image = (ImageView) view.findViewById(R.id.detail_h2h_player_image);
+			mH2hHolder.playerNameEng = (TextView) view.findViewById(R.id.detail_h2h_player_name_eng);
+			mH2hHolder.playerBirthday = (TextView) view.findViewById(R.id.detail_h2h_player_birthday);
 			view.setTag(mH2hHolder);
 		}
 //		else {
@@ -120,6 +130,15 @@ public class ViewFactory implements OnItemClickListener {
 		mH2hHolder.player1RS.setText("rank(" + record.getRank() + ")  seed(" + record.getSeed() +")");
 		mH2hHolder.player2RS.setText("rank(" + record.getCptRank() + ")  seed(" + record.getCptSeed() +")");
 		mH2hHolder.playerH2H.setText(h2hdao.getWin() + " - " + h2hdao.getLose());
+		PlayerBean bean = pubDataProvider.getPlayerByChnName(record.getCompetitor());
+		if (bean != null) {
+			if (!TextUtils.isEmpty(bean.getNameEng())) {
+				mH2hHolder.playerNameEng.setText(bean.getNameEng());
+			}
+			if (!TextUtils.isEmpty(bean.getBirthday())) {
+				mH2hHolder.playerBirthday.setText(bean.getBirthday());
+			}
+		}
 
 		mH2hHolder.detail.setAdapter(h2hDetailAdapter);
 		mH2hHolder.detail.setOnItemClickListener(this);
@@ -205,6 +224,8 @@ public class ViewFactory implements OnItemClickListener {
 		public TextView player1Name, player1RS;
 		public TextView player2Name, player2RS;
 		public TextView playerH2H;
+		public TextView playerNameEng;
+		public TextView playerBirthday;
 		public ListView detail;
 		public Button rightButton;
 	}

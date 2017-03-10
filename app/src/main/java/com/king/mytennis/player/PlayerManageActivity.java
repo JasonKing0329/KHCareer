@@ -48,6 +48,8 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
     private ImageView ivSort;
     private PopupMenu popSort;
 
+    private ImageView ivChart;
+
     private RecyclerView rvList;
     private PlayerItemAdapter playerItemAdapter;
 
@@ -66,6 +68,8 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
 
     private boolean isIndexCreated;
 
+    private PlayerChartDialog chartDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,12 +83,14 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
 
         mPresenter = new PlayerPresenter(this);
 
+        findViewById(R.id.view7_actionbar_menu).setVisibility(View.GONE);
         ImageView backView = (ImageView) findViewById(R.id.view7_actionbar_back);
         backView.setVisibility(View.VISIBLE);
         backView.setOnClickListener(this);
         groupConfirm = (ViewGroup) findViewById(R.id.view7_actionbar_action_confirm);
         groupNormal = (ViewGroup) findViewById(R.id.view7_actionbar_action_normal);
         ivSort = (ImageView) findViewById(R.id.view7_actionbar_sort);
+        ivChart = (ImageView) findViewById(R.id.view7_actionbar_chart);
         groupNormal.setVisibility(View.VISIBLE);
         findViewById(R.id.view7_actionbar_edit_group).setVisibility(View.VISIBLE);
 
@@ -108,6 +114,7 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
         findViewById(R.id.view7_actionbar_done).setOnClickListener(this);
         findViewById(R.id.view7_actionbar_close).setOnClickListener(this);
         ivSort.setOnClickListener(this);
+        ivChart.setOnClickListener(this);
 
         loadDatas();
     }
@@ -137,7 +144,19 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
         else {
             indexSideBar.setVisibility(View.GONE);
         }
+
+        showChartIcon();
+
         dismissProgress();
+    }
+
+    private void showChartIcon() {
+        if (SettingProperty.getPlayerSortMode(this) == SettingProperty.VALUE_SORT_PLAYER_CONSTELLATION) {
+            ivChart.setVisibility(View.VISIBLE);
+        }
+        else {
+            ivChart.setVisibility(View.GONE);
+        }
     }
 
     private void createIndex() {
@@ -168,6 +187,9 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
             case R.id.view7_actionbar_sort:
                 showSortPopup();
                 break;
+            case R.id.view7_actionbar_chart:
+                showChartDialog();
+                break;
             case R.id.view7_actionbar_add:
                 mEditBean = null;
                 openMatchEditDialog();
@@ -195,6 +217,27 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
                 updateActionbarStatus(false);
                 break;
         }
+    }
+
+    private void showChartDialog() {
+        chartDialog = new PlayerChartDialog(this, new CustomDialog.OnCustomDialogActionListener() {
+            @Override
+            public boolean onSave(Object object) {
+                return false;
+            }
+
+            @Override
+            public boolean onCancel() {
+                return false;
+            }
+
+            @Override
+            public void onLoadData(HashMap<String, Object> data) {
+                data.put("data", playerList);
+            }
+        });
+        chartDialog.setTitle("Constellation");
+        chartDialog.show();
     }
 
     private void showSortPopup() {
@@ -241,6 +284,9 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
         if (SettingProperty.getPlayerSortMode(this) == SettingProperty.VALUE_SORT_PLAYER_NAME && !isIndexCreated) {
             createIndex();
         }
+
+        showChartIcon();
+
         dismissProgress();
     }
 

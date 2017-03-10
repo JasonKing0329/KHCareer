@@ -5,6 +5,7 @@ import java.util.List;
 
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,8 +21,10 @@ import com.king.mytennis.glory.GloryController;
 import com.king.mytennis.glory.GloryMatchDialog;
 import com.king.mytennis.model.ImageFactory;
 import com.king.mytennis.model.Record;
+import com.king.mytennis.pubdata.PubDataProvider;
 import com.king.mytennis.service.ImageUtil;
 import com.king.mytennis.service.ScreenUtils;
+import com.king.mytennis.utils.ConstellationUtil;
 import com.king.mytennis.utils.DebugLog;
 import com.king.mytennis.view.BaseActivity;
 import com.king.mytennis.view.CustomDialog;
@@ -49,6 +52,8 @@ public class PlayerActivity extends BaseActivity implements OnGroupCollapseListe
 
 	private TextView h2hView, countInforView;
 
+	private PubDataProvider pubDataProvider;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -66,6 +71,7 @@ public class PlayerActivity extends BaseActivity implements OnGroupCollapseListe
 		pullView.setZoomView(zoomView);
 		pullView.setScrollContentView(contentView);
 
+		pubDataProvider = new PubDataProvider();
 		mPlayerBean = ObjectCache.gePlayerBean();
 
 		initHeader(headView, zoomView);
@@ -87,6 +93,29 @@ public class PlayerActivity extends BaseActivity implements OnGroupCollapseListe
 		((TextView) headView.findViewById(R.id.player_head_name)).setText(mPlayerBean.getName());
 		((TextView) headView.findViewById(R.id.player_head_place)).setText(
 				mPlayerBean.getCountry());
+		com.king.mytennis.pubdata.bean.PlayerBean pb = pubDataProvider.getPlayerByChnName(mPlayerBean.getName());
+		if (pb != null) {
+			if (!TextUtils.isEmpty(pb.getNameEng()) && !mPlayerBean.getName().equals(pb.getNameEng())) {
+				TextView tvNameEng = (TextView) headView.findViewById(R.id.player_head_name_eng);
+				tvNameEng.setVisibility(View.VISIBLE);
+				tvNameEng.setText(pb.getNameEng());
+			}
+			if (!TextUtils.isEmpty(pb.getBirthday())) {
+				TextView tvBirthday = (TextView) headView.findViewById(R.id.player_head_birthday);
+				tvBirthday.setVisibility(View.VISIBLE);
+				String constel = null;
+				try {
+					constel = ConstellationUtil.getConstellationChn(pb.getBirthday());
+				} catch (ConstellationUtil.ConstellationParseException e) {
+					e.printStackTrace();
+				}
+				String birthday = pb.getBirthday();
+				if (!TextUtils.isEmpty(constel)) {
+					birthday = birthday.concat("（").concat(constel).concat("）");
+				}
+				tvBirthday.setText(birthday);
+			}
+		}
 
 		//设置Header所占比例
 		int screenWidth = ScreenUtils.getScreenWidth(this);

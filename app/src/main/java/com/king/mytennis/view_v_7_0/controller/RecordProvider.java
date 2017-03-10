@@ -14,6 +14,8 @@ import android.util.Log;
 import com.king.mytennis.model.Constants;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.multiuser.MultiUserManager;
+import com.king.mytennis.pubdata.PubDataProvider;
+import com.king.mytennis.pubdata.bean.MatchNameBean;
 import com.king.mytennis.service.CharacterParser;
 import com.king.mytennis.view.R;
 //import com.king.mytennis.view_v_7_0.model.H2HBean;
@@ -73,26 +75,45 @@ public class RecordProvider {
 			return null;
 		}
 
-		matchList = new ArrayList<MatchBean>();
+		matchList = new ArrayList<>();
 
-		Map<String, MatchBean> map = new HashMap<String, MatchBean>();
+		// 数据库系统更新后（v3.0），可以合并改名的赛事，不同名称但是matchId相同
+		Map<String, Integer> idMap = new HashMap<>();
+		PubDataProvider pubDataProvider = new PubDataProvider();
+		Map<Integer, MatchBean> map = new HashMap<>();
 		CharacterParser parser = CharacterParser.getInstance();
 		for (int i = 0; i < list.size(); i ++) {
 			Record record = list.get(i);
-			MatchBean bean = map.get(record.getMatch());
-			if (bean == null) {
-				bean = new MatchBean();
-				bean.setCity(record.getCity());
-				bean.setCountry(record.getMatchCountry());
-				bean.setRegion(record.getRegion());
-				bean.setName(record.getMatch());
-				bean.setNamePinYin(parser.getSelling(record.getMatch()).toLowerCase(Locale.CHINA));
-				bean.setLevel(record.getLevel());
-				bean.setCourt(record.getCourt());
-				bean.setRecordList(new ArrayList<Record>());
+			Integer matchId = idMap.get(record.getMatch());
+			MatchBean bean;
+			if (matchId == null) {
+				MatchNameBean mnb = pubDataProvider.getMatchByName(record.getMatch());
+				bean = map.get(mnb.getMatchId());
+				if (bean == null) {
+					bean = new MatchBean();
+					bean.setPubId(mnb.getMatchId());
+					bean.setCity(record.getCity());
+					bean.setCountry(record.getMatchCountry());
+					bean.setRegion(record.getRegion());
+					bean.setName(record.getMatch());
+					bean.setNamePinYin(parser.getSelling(record.getMatch()).toLowerCase(Locale.CHINA));
+					bean.setLevel(record.getLevel());
+					bean.setCourt(record.getCourt());
+					bean.setRecordList(new ArrayList<Record>());
 
-				map.put(bean.getName(), bean);
-				matchList.add(bean);
+					map.put(mnb.getMatchId(), bean);
+					idMap.put(record.getMatch(), mnb.getMatchId());
+					matchList.add(bean);
+				}
+				else {
+					idMap.put(record.getMatch(), mnb.getMatchId());
+					// 出现改名的赛事，名称用最新的
+					// 由于对record的查询已经是按日期降序排列了，所以第一次出现的名称就是最新的名称
+//					bean.setName(record.getMatch());
+				}
+			}
+			else {
+				bean = map.get(matchId);
 			}
 			bean.getRecordList().add(record);
 		}

@@ -70,6 +70,12 @@
 				android:id="@+id/view7_actionbar_delete"
 				style="@style/V7ActionbarActionIcon"
 				android:src="@drawable/ic_delete_white_36dp" />
+			<ImageView
+				android:id="@+id/view7_actionbar_chart"
+				android:src="@drawable/ic_pie_chart_white_36dp"
+				android:visibility="gone"
+				style="@style/V7ActionbarActionIcon"
+				android:layout_marginRight="10dp"/>
 		</LinearLayout>
 		<ImageView
 			android:id="@+id/view7_actionbar_menu"

@@ -282,4 +282,37 @@ public class MatchDao {
         }
         return bean;
     }
+
+    public List<MatchNameBean> queryMatchNameList(int matchId, Connection connection) {
+        List<MatchNameBean> list = new ArrayList<>();
+        String sql = "SELECT * FROM " +  DatabaseStruct.TABLE_MATCH_NAME + " WHERE match_id = " + matchId;
+        Statement stmt = null;
+        try {
+            stmt = connection.createStatement();
+            ResultSet set = stmt.executeQuery(sql);
+            while (set.next()) {
+                list.add(parseMatchNameBean(set));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return list;
+    }
+
+    private MatchNameBean parseMatchNameBean(ResultSet set) throws SQLException {
+        MatchNameBean nameBean = new MatchNameBean();
+        nameBean.setId(set.getInt(1));
+        nameBean.setName(set.getString(2));
+        nameBean.setMatchId(set.getInt(3));
+        return nameBean;
+    }
+
 }

@@ -7,7 +7,7 @@ package com.king.mytennis.utils;
  */
 public class ConstellationUtil {
 
-    private static String[] starArr = {"魔羯座", "水瓶座", "双鱼座", "白羊座",
+    public static String[] starArr = {"魔羯座", "水瓶座", "双鱼座", "白羊座",
             "金牛座", "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座"};
     private static String[] starArrEng = {"Capricornus", "Aquarius", "Pisces", "Aries",
             "Taurus", "Gemini", "Cancer", "Leo", "Virgo", "Libra", "Scorpio", "Sagittarius"};
@@ -24,6 +24,21 @@ public class ConstellationUtil {
         try {
             String[] arrays = date.split("-");
             return getAstroIndex(Integer.parseInt(arrays[1]), Integer.parseInt(arrays[2]));
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ConstellationParseException();
+        }
+    }
+
+    /**
+     * 获取星座的中文名
+     * @param date 符合“yyyy-MM-dd”
+     * @return
+     */
+    public static String getConstellationChn(String date) throws ConstellationParseException {
+        try {
+            String[] arrays = date.split("-");
+            return getAstro(Integer.parseInt(arrays[1]), Integer.parseInt(arrays[2]));
         } catch (Exception e) {
             e.printStackTrace();
             throw new ConstellationParseException();
@@ -51,6 +66,10 @@ public class ConstellationUtil {
         if (day < DayArr[month - 1]) {
             index = index - 1;
         }
+        // 12月摩羯座
+        if (index >= starArrEng.length) {
+            index = 0;
+        }
         // 返回索引指向的星座string
         return starArrEng[index];
     }
@@ -60,6 +79,10 @@ public class ConstellationUtil {
         // 所查询日期在分割日之前，索引-1，否则不变
         if (day < DayArr[month - 1]) {
             index = index - 1;
+        }
+        // 12月摩羯座
+        if (index >= starArrEng.length) {
+            index = 0;
         }
         // 返回索引指向的星座string
         return starArr[index];
@@ -71,8 +94,26 @@ public class ConstellationUtil {
         if (day < DayArr[month - 1]) {
             index = index - 1;
         }
+        // 12月摩羯座
+        if (index >= starArrEng.length) {
+            index = 0;
+        }
         // 返回索引指向的星座string
         return starIndex[index];
+    }
+
+    /**
+     * 获取星座序号对应的中文名称
+     * @param astroIndex
+     * @return
+     */
+    public static String getConstellationChnByIndex(int astroIndex) {
+        for (int i = 0; i < starIndex.length; i ++) {
+            if (astroIndex == starIndex[i]) {
+                return starArr[i];
+            }
+        }
+        return "Error";
     }
 
     public static class ConstellationParseException extends Exception {
