@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/editor_layout_match"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:background="@drawable/app_list_corner_round"
+        android:orientation="vertical"
+        android:padding="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="@string/match" />
+
+            <ImageView
+                android:id="@+id/editor_match_change"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/ripple_white"
+                android:padding="5dp"
+                android:src="@drawable/ic_flight_takeoff_yellow_700_36dp" />
+
+            <TextView
+                android:id="@+id/editor_match_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:maxLines="1" />
+        </LinearLayout>
+
+        <RelativeLayout
+            android:id="@+id/editor_match_group"
+            android:layout_width="match_parent"
+            android:layout_height="170dp"
+            android:visibility="gone"
+            android:layout_marginTop="5dp">
+
+            <ImageView
+                android:id="@+id/editor_match_image"
+                android:layout_width="match_parent"
+                android:layout_height="190dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:scaleType="fitXY" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:background="#99000000"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:padding="5dp">
+
+                <TextView
+                    android:id="@+id/editor_match_country"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="美国"
+                    android:textColor="@color/tab_actionbar_text_focus" />
+
+                <TextView
+                    android:id="@+id/editor_match_city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@id/editor_match_country"
+                    android:text="印第安维尔斯"
+                    android:textColor="@color/tab_actionbar_text_focus" />
+
+                <TextView
+                    android:id="@+id/editor_match_level"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/editor_match_country"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginTop="5dp"
+                    android:text="ATP1000"
+                    android:textColor="@color/tab_actionbar_text_focus" />
+
+                <TextView
+                    android:id="@+id/editor_match_court"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/editor_match_country"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_toRightOf="@id/editor_match_level"
+                    android:text="硬地"
+                    android:textColor="@color/tab_actionbar_text_focus" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/record_editor_item_height"
+            android:layout_marginTop="10dp"
+            android:orientation="horizontal">
+
+            <Spinner
+                android:id="@+id/editor_match_year"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:background="@drawable/tw_spinner_bk" />
+
+            <Spinner
+                android:id="@+id/editor_match_round"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/tw_spinner_bk" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/editor_score_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:background="?android:attr/selectableItemBackground"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/record_editor_item_height"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/score" />
+
+                <TextView
+                    android:id="@+id/editor_match_score"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/editor_group_winner"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/record_editor_item_height"
+                android:gravity="center_vertical"
+                android:visibility="invisible"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/winner" />
+
+                <TextView
+                    android:id="@+id/editor_match_winner"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>

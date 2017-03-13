@@ -53,11 +53,9 @@
     <string name="match_infor">赛事信息</string>
     <string name="insert_title">确定添加</string>
     <string name="insert_next">确定并继续添加</string>
-    <string name="rankp1">世界排名(k)</string>
-    <string name="seedp1">种子(k)</string>
     <string name="comp_name">对手</string>
     <string name="country">国家</string>
-    <string name="rank">世界排名</string>
+    <string name="rank">排名</string>
     <string name="seed">种子</string>
     <string name="pinyin">拼音</string>
     <string name="add_pinyin_warning">新选手！请添加排序音序！</string>
@@ -71,6 +69,8 @@
     <string name="insert_done">完成</string>
     <string name="insert_continue">继续添加</string>
     <string name="insert_warning">警告：一些搜索或删除操作已执行，list与数据库的记录已经存在不一致。请在载入全部记录的情况下执行此操作。</string>
+    <string name="editor_null_match">请完善赛事信息</string>
+    <string name="editor_null_player">请完善对手信息</string>
     <!-- ********************************************************************** -->
     <string name="result_count">全部:0 胜:0 负:0 胜率:0</string>
     <string name="show_actionbar">显示标题栏</string>

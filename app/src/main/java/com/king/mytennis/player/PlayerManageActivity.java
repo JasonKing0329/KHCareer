@@ -331,7 +331,9 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
                 Bundle bundle = new Bundle();
                 Intent intent = new Intent();
                 bundle.putString("name", mEditBean.getNameChn());
+                bundle.putString("name_eng", mEditBean.getNameEng());
                 bundle.putString("country", mEditBean.getCountry());
+                bundle.putString("birthday", mEditBean.getBirthday());
                 intent.putExtras(bundle);
                 setResult(RESULT_OK, intent);
                 finish();

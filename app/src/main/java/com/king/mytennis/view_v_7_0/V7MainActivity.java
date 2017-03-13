@@ -29,7 +29,7 @@ import com.king.mytennis.view.BaseActivity;
 import com.king.mytennis.view.ChooseBkDialog;
 import com.king.mytennis.view.CustomDialog;
 import com.king.mytennis.view.R;
-import com.king.mytennis.view.RecordEditorActivity;
+import com.king.mytennis.view.editor.RecordEditorActivity;
 import com.king.mytennis.view_v_7_0.controller.BasicOperation;
 import com.king.mytennis.view_v_7_0.controller.FolderManagerAction;
 import com.king.mytennis.view_v_7_0.view.CircleImageView;

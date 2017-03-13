@@ -95,7 +95,7 @@
 				android:orientation="horizontal"
 				>
 			    <TextView
-					android:text="@string/rankp1"
+					android:text="@string/rank"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginLeft="10dp"
@@ -117,7 +117,7 @@
 				android:orientation="horizontal"
 				>
 			    <TextView
-					android:text="@string/seedp1"
+					android:text="@string/seed"
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:layout_marginLeft="10dp"

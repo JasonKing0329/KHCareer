@@ -226,16 +226,8 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
         }
         else {
             if (isSelectMode) {
-                Bundle bundle = new Bundle();
+                MatchCache.putMatchNameBean(mEditBean);
                 Intent intent = new Intent();
-                bundle.putString("name", mEditBean.getName());
-                bundle.putString("country", mEditBean.getMatchBean().getCountry());
-                bundle.putString("level", mEditBean.getMatchBean().getLevel());
-                bundle.putString("court", mEditBean.getMatchBean().getCourt());
-                bundle.putString("region", mEditBean.getMatchBean().getRegion());
-                bundle.putString("city", mEditBean.getMatchBean().getCity());
-                bundle.putInt("month", mEditBean.getMatchBean().getMonth());
-                intent.putExtras(bundle);
                 setResult(RESULT_OK, intent);
                 finish();
             }

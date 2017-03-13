@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_editor"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp">
+
+        <TextView
+            android:id="@+id/next_indicator"
+            style="@style/RecordEditorBtn"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:text="@string/next_page" />
+
+        <TextView
+            android:id="@+id/done_indicator"
+            style="@style/RecordEditorBtn"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
+            android:text="@string/insert_done"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/continue_indicator"
+            style="@style/RecordEditorBtn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginRight="10dp"
+            android:text="@string/insert_continue"
+            android:visibility="gone" />
+
+        <TextView
+            android:id="@+id/previous_indicator"
+            style="@style/RecordEditorBtn"
+            android:layout_marginLeft="10dp"
+            android:text="@string/previous_page"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/editor_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#99000000"
+        android:gravity="left"
+        android:padding="5dp"
+        android:text="@string/player_infor"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/editor_title"
+        android:layout_marginTop="30dp">
+
+        <include layout="@layout/page_editor_player" />
+
+        <include layout="@layout/page_editor_match" />
+    </RelativeLayout>
+</RelativeLayout>

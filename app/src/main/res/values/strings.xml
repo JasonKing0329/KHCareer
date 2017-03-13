@@ -57,8 +57,6 @@
     <string name="match_infor">match infor</string>
     <string name="insert_title">insert</string>
     <string name="insert_next">next</string>
-    <string name="rankp1">rankp1</string>
-    <string name="seedp1">seedp1</string>
     <string name="comp_name">competitor</string>
     <string name="country">country</string>
     <string name="pinyin">pinyin</string>
@@ -75,6 +73,8 @@
     <string name="insert_done">Done</string>
     <string name="insert_continue">Continue insert</string>
     <string name="insert_warning">Notice: Some search or delete operations have been done! Please take the insert action in the situation that all records have loaded in.</string>
+    <string name="editor_null_match">Please complete match information</string>
+    <string name="editor_null_player">Please complete competitor information</string>
     <!-- ********************************************************************** -->
     <string name="result_count">total:0 win:0 lose:0 winrate:0</string>
     <string name="show_actionbar">actionbar</string>

@@ -27,6 +27,7 @@ import com.king.mytennis.service.LanguageService;
 import com.king.mytennis.service.RecordService;
 import com.king.mytennis.view.SearchDialog.OnSearchListener;
 import com.king.mytennis.view.detail.DetailGallery;
+import com.king.mytennis.view.editor.RecordEditorActivity;
 import com.king.mytennis.view.settings.SettingActivity;
 import com.king.mytennis.view.settings.SettingProperty;
 import com.king.mytennis.view.slidingmenu.SlidingMenuAbstract;
