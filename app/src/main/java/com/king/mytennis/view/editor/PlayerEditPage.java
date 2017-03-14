@@ -114,7 +114,7 @@ public class PlayerEditPage implements View.OnClickListener {
         tvCompetitor.setText(bean.getNameChn().concat("(").concat(bean.getCountry()).concat(")"));
         tvBirthday.setText(bean.getBirthday());
         tvNameEng.setText(bean.getNameEng());
-        ImageUtil.load("file://" + ImageFactory.getPlayerHeadPath(bean.getNameChn()), ivPlayer, R.drawable.view7_folder_cover_player);
+        ImageUtil.load("file://" + ImageFactory.getDetailPlayerPath(bean.getNameChn()), ivPlayer, R.drawable.view7_folder_cover_player);
 
         h2HDAO = new H2HDAODB(editorHolder.getActivity(), bean.getNameChn());
         tvH2h.setText("H2H  " + h2HDAO.getWin() + "-" + h2HDAO.getLose());

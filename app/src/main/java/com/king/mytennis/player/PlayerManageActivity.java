@@ -151,7 +151,7 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
             ivChart.setVisibility(View.VISIBLE);
         }
         else {
-            ivChart.setVisibility(View.GONE);
+            ivChart.setVisibility(View.VISIBLE);
         }
     }
 
