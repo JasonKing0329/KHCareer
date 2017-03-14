@@ -6,6 +6,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -138,12 +139,7 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
             playerItemAdapter.notifyDataSetChanged();
         }
 
-        if (SettingProperty.getPlayerSortMode(this) == SettingProperty.VALUE_SORT_PLAYER_NAME) {
-            createIndex();
-        }
-        else {
-            indexSideBar.setVisibility(View.GONE);
-        }
+        createIndex();
 
         showChartIcon();
 
@@ -160,22 +156,40 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void createIndex() {
-        if (playerList == null) {
-            return;
-        }
-        indexSideBar.clear();
-        playerIndexMap = new HashMap<>();
-        // player list查询出来已经是升序的
-        for (int i = PubDataProvider.VIRTUAL_PLAYER; i < playerList.size(); i ++) {
-            char first = playerList.get(i).getNamePinyin().charAt(0);
-            Integer index = playerIndexMap.get(first);
-            if (index == null) {
-                playerIndexMap.put(first, i);
-                indexSideBar.addIndex(String.valueOf(first));
+        int sortMode = SettingProperty.getPlayerSortMode(this);
+        if (sortMode == SettingProperty.VALUE_SORT_PLAYER_NAME || sortMode == SettingProperty.VALUE_SORT_PLAYER_NAME_ENG) {
+            if (playerList == null) {
+                return;
             }
+            indexSideBar.clear();
+            playerIndexMap = new HashMap<>();
+            // player list查询出来已经是升序的
+            for (int i = PubDataProvider.VIRTUAL_PLAYER; i < playerList.size(); i ++) {
+                String targetText;
+                if (sortMode == SettingProperty.VALUE_SORT_PLAYER_NAME) {
+                    targetText = playerList.get(i).getNamePinyin();
+                }
+                else {
+                    targetText = playerList.get(i).getNameEng();
+                    // 没有录入英文名的排在最后
+                    if (TextUtils.isEmpty(targetText)) {
+                        targetText = "ZZZZZZZZ";
+                    }
+                }
+                char first = targetText.charAt(0);
+                Integer index = playerIndexMap.get(first);
+                if (index == null) {
+                    playerIndexMap.put(first, i);
+                    indexSideBar.addIndex(String.valueOf(first));
+                }
+            }
+            indexSideBar.setVisibility(View.VISIBLE);
+            indexSideBar.invalidate();
+            isIndexCreated = true;
         }
-        indexSideBar.invalidate();
-        isIndexCreated = true;
+        else {
+            indexSideBar.setVisibility(View.GONE);
+        }
     }
 
     @Override
@@ -252,23 +266,18 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
                     switch (item.getItemId()) {
                         case R.id.menu_sort_name:
                             mPresenter.sortPlayer(PlayerManageActivity.this, SettingProperty.VALUE_SORT_PLAYER_NAME);
-                            indexSideBar.setVisibility(View.VISIBLE);
                             break;
                         case R.id.menu_sort_name_eng:
                             mPresenter.sortPlayer(PlayerManageActivity.this, SettingProperty.VALUE_SORT_PLAYER_NAME_ENG);
-                            indexSideBar.setVisibility(View.GONE);
                             break;
                         case R.id.menu_sort_country:
                             mPresenter.sortPlayer(PlayerManageActivity.this, SettingProperty.VALUE_SORT_PLAYER_COUNTRY);
-                            indexSideBar.setVisibility(View.GONE);
                             break;
                         case R.id.menu_sort_age:
                             mPresenter.sortPlayer(PlayerManageActivity.this, SettingProperty.VALUE_SORT_PLAYER_AGE);
-                            indexSideBar.setVisibility(View.GONE);
                             break;
                         case R.id.menu_sort_constellation:
                             mPresenter.sortPlayer(PlayerManageActivity.this, SettingProperty.VALUE_SORT_PLAYER_CONSTELLATION);
-                            indexSideBar.setVisibility(View.GONE);
                             break;
                     }
                     return false;
@@ -281,9 +290,7 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onSortFinished() {
         playerItemAdapter.notifyDataSetChanged();
-        if (SettingProperty.getPlayerSortMode(this) == SettingProperty.VALUE_SORT_PLAYER_NAME && !isIndexCreated) {
-            createIndex();
-        }
+        createIndex();
 
         showChartIcon();
 

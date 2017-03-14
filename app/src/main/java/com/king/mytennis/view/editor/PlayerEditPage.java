@@ -1,17 +1,22 @@
 package com.king.mytennis.view.editor;
 
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.king.mytennis.interfc.H2HDAO;
+import com.king.mytennis.model.H2HDAODB;
 import com.king.mytennis.model.ImageFactory;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.multiuser.MultiUserManager;
 import com.king.mytennis.pubdata.bean.PlayerBean;
 import com.king.mytennis.service.ImageUtil;
 import com.king.mytennis.view.R;
+import com.king.mytennis.view_v_7_0.controller.ObjectCache;
+import com.king.mytennis.view_v_7_0.view.PlayerActivity;
 
 /**
  * 描述:
@@ -28,9 +33,12 @@ public class PlayerEditPage implements View.OnClickListener {
     protected EditText et_rankp1, et_seedp1, et_rank, et_seed;
     private TextView tvUser;
     private TextView tvCompetitor;
+    private TextView tvH2h;
     private TextView tvNameEng, tvBirthday;
 
     private PlayerBean playerBean;
+
+    private H2HDAO h2HDAO;
 
     public PlayerEditPage(IEditorHolder holder) {
         editorHolder = holder;
@@ -42,6 +50,8 @@ public class PlayerEditPage implements View.OnClickListener {
         et_rankp1 = (EditText) editorHolder.getActivity().findViewById(R.id.editor_player_rank1);
         et_seedp1 = (EditText) editorHolder.getActivity().findViewById(R.id.editor_player_seed1);
         tvUser = (TextView) editorHolder.getActivity().findViewById(R.id.editor_player_user_name);
+        tvH2h = (TextView) editorHolder.getActivity().findViewById(R.id.editor_player_h2h);
+        tvH2h.setOnClickListener(this);
         tvCompetitor = (TextView) editorHolder.getActivity().findViewById(R.id.editor_player_name);
         tvNameEng = (TextView) editorHolder.getActivity().findViewById(R.id.editor_player_name_eng);
         tvBirthday = (TextView) editorHolder.getActivity().findViewById(R.id.editor_player_birthday);
@@ -62,7 +72,9 @@ public class PlayerEditPage implements View.OnClickListener {
         tvCompetitor.setText("");
         tvBirthday.setText("");
         tvNameEng.setText("");
+        tvH2h.setText("H2H");
         groupPlayer.setVisibility(View.GONE);
+        playerBean = null;
     }
 
     @Override
@@ -70,6 +82,21 @@ public class PlayerEditPage implements View.OnClickListener {
         if (v == ivChangePlayer) {
             // 回调在onPlayerSelected
             editorHolder.selectPlayer();
+        }
+        else if (v == tvH2h) {
+            showH2hDetails();
+        }
+    }
+
+    private void showH2hDetails() {
+        if (playerBean != null) {
+            com.king.mytennis.view_v_7_0.model.PlayerBean bean = new com.king.mytennis.view_v_7_0.model.PlayerBean();
+            bean.setCountry(playerBean.getCountry());
+            bean.setName(playerBean.getNameChn());
+            bean.setWin(h2HDAO.getWin());
+            bean.setLose(h2HDAO.getLose());
+            ObjectCache.putPlayerBean(bean);
+            editorHolder.getActivity().startActivity(new Intent(editorHolder.getActivity(), PlayerActivity.class));
         }
     }
 
@@ -88,6 +115,9 @@ public class PlayerEditPage implements View.OnClickListener {
         tvBirthday.setText(bean.getBirthday());
         tvNameEng.setText(bean.getNameEng());
         ImageUtil.load("file://" + ImageFactory.getPlayerHeadPath(bean.getNameChn()), ivPlayer, R.drawable.view7_folder_cover_player);
+
+        h2HDAO = new H2HDAODB(editorHolder.getActivity(), bean.getNameChn());
+        tvH2h.setText("H2H  " + h2HDAO.getWin() + "-" + h2HDAO.getLose());
     }
 
     public String fillRecord(Record record) {

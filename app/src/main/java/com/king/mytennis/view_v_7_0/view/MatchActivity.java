@@ -68,6 +68,12 @@ public class MatchActivity extends BaseActivity implements OnGroupCollapseListen
 		findViewById(R.id.match_content_bk).setBackgroundResource(R.drawable.wall_bk9);
 	}
 
+	@Override
+	protected void onDestroy() {
+		ObjectCache.clear();
+		super.onDestroy();
+	}
+
 	private void initHeader(View headView, View zoomView) {
 		ImageUtil.load("file://" + ImageFactory.getMatchHeadPath(mMatchBean.getName(), mMatchBean.getCourt())
 				, (ImageView) zoomView, R.drawable.swipecard_default_img);

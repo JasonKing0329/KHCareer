@@ -25,7 +25,6 @@ import com.king.mytennis.pubdata.PubDataProvider;
 import com.king.mytennis.service.ImageUtil;
 import com.king.mytennis.service.ScreenUtils;
 import com.king.mytennis.utils.ConstellationUtil;
-import com.king.mytennis.utils.DebugLog;
 import com.king.mytennis.view.BaseActivity;
 import com.king.mytennis.view.CustomDialog;
 import com.king.mytennis.view.R;
@@ -80,6 +79,12 @@ public class PlayerActivity extends BaseActivity implements OnGroupCollapseListe
 
 		//全局背景
 //		findViewById(R.id.player_content_bk).setBackgroundResource(R.drawable.wall_bk9);
+	}
+
+	@Override
+	protected void onDestroy() {
+		ObjectCache.clear();
+		super.onDestroy();
 	}
 
 	private void initHeader(View headView, View zoomView) {

@@ -1,5 +1,7 @@
 package com.king.mytennis.view.publicview;
 
+import android.text.TextUtils;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +30,17 @@ public class IndexCreator {
 				if (index == null) {
 					index = name;
 				}
-				index = "" + index.toUpperCase().charAt(0);
+				// 没有名称的作为特殊字符处理
+				if (TextUtils.isEmpty(index)) {
+					index = "#";
+				}
+				else {
+					char chIndex = index.toUpperCase().charAt(0);
+					if (chIndex > 'Z' || chIndex < 'A') {
+						chIndex = '#';
+					}
+					index = String.valueOf(chIndex);
+				}
 				if (set.add(index)) {
 					indexMap.put(index, i);
 					sideBar.addIndex(index);

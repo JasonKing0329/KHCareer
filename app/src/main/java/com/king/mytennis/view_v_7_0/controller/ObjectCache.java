@@ -26,4 +26,8 @@ public class ObjectCache {
 	public static PlayerBean gePlayerBean() {
 		return (PlayerBean) object;
 	}
+
+	public static void clear() {
+		object = null;
+	}
 }

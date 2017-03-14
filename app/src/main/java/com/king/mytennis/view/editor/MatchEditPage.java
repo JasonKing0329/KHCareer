@@ -14,6 +14,7 @@ import com.king.mytennis.model.Constants;
 import com.king.mytennis.model.ImageFactory;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.multiuser.MultiUserManager;
+import com.king.mytennis.pubdata.PubDataProvider;
 import com.king.mytennis.pubdata.bean.MatchNameBean;
 import com.king.mytennis.service.ImageUtil;
 import com.king.mytennis.view.CustomDialog;
@@ -113,6 +114,8 @@ public class MatchEditPage implements View.OnClickListener {
         }
         else {
             groupMatch.setVisibility(View.VISIBLE);
+            // initialize match bean, otherwise it will warning null match when save
+            matchBean = new PubDataProvider().getMatchByName(match);
         }
         cur_year = conf.index_year;
         sp_year.setSelection(cur_year);
