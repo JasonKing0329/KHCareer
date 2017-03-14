@@ -1,5 +1,6 @@
 package com.king.mytennis.model;
 
+import com.king.mytennis.multiuser.MultiUser;
 import com.king.mytennis.multiuser.MultiUserManager;
 import com.king.mytennis.utils.DebugLog;
 
@@ -52,6 +53,10 @@ public class MySQLHelper extends SQLiteOpenHelper{
 			currentDatabase = targetDb;
 		}
 		return sqlHelper;
+	}
+
+	public static MySQLHelper getInstance(Context context, MultiUser user) {
+		return new MySQLHelper(context, MultiUserManager.getInstance().getDatabase(user));
 	}
 
 	public static MySQLHelper getPublicInstance(Context context) {

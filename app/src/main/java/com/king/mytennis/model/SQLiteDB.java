@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 import com.king.mytennis.interfc.DatabaseAccess;
+import com.king.mytennis.multiuser.MultiUser;
 
 public class SQLiteDB implements DatabaseAccess {
 
@@ -16,8 +17,16 @@ public class SQLiteDB implements DatabaseAccess {
 		initSqlHelper(context);
 	}
 
+	public SQLiteDB(Context context, MultiUser user) {
+		initSqlHelper(context, user);
+	}
+
 	protected void initSqlHelper(Context context) {
 		sqlHelper = MySQLHelper.getInstance(context);
+	}
+
+	protected void initSqlHelper(Context context, MultiUser user) {
+		sqlHelper = MySQLHelper.getInstance(context, user);
 	}
 
 	@Deprecated //本程序里暂时考虑全局只能使用mytennis一个数据库，因此这句以后看看再做打算

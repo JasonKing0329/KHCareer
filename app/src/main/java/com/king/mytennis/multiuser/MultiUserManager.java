@@ -87,12 +87,55 @@ public class MultiUserManager {
 		return DatabaseStruct.DATABASE;
 	}
 
+	public String getDatabase(MultiUser user) {
+		if (user != null) {
+			if (user.getId().equals(users[0].getId())) {
+				return DatabaseStruct.DATABASE;
+			}
+			else if (user.getId().equals(users[1].getId())) {
+				return DatabaseStruct.DATABASE_FLAMENCO;
+			}
+			else if (user.getId().equals(users[2].getId())) {
+				return DatabaseStruct.DATABASE_HENRY;
+			}
+			else if (user.getId().equals(users[3].getId())) {
+				return DatabaseStruct.DATABASE_TIANQI;
+			}
+		}
+		return DatabaseStruct.DATABASE;
+	}
+
 	public String getPublicDatabase() {
 		return DatabaseStruct.DATABASE_PUBLIC;
 	}
 
 	public MultiUser[] getUsers() {
 		return users;
+	}
+
+	public MultiUser getUserKing() {
+		return users[0];
+	}
+
+	public MultiUser getUserFlamenco() {
+		return users[1];
+	}
+
+	public MultiUser getUserHenry() {
+		return users[2];
+	}
+
+	public MultiUser getUserQi() {
+		return users[3];
+	}
+
+	public MultiUser getUser(String userId) {
+		for (MultiUser user:users) {
+			if (user.getId().equals(userId)) {
+				return user;
+			}
+		}
+		return null;
 	}
 
 	public void setCurrentUser(MultiUser user) {

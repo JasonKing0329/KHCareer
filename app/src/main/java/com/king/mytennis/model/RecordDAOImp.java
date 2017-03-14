@@ -12,6 +12,7 @@ import android.util.Log;
 
 import com.king.mytennis.interfc.DatabaseAccess;
 import com.king.mytennis.interfc.RecordDAO;
+import com.king.mytennis.multiuser.MultiUser;
 
 public class RecordDAOImp implements RecordDAO {
 
@@ -21,6 +22,12 @@ public class RecordDAOImp implements RecordDAO {
 	public RecordDAOImp(Context context) {
 		//sqlHelper = new MySQLHelper(context, DATABASE);
 		sqLite = new SQLiteDB(context);
+	}
+
+	//private MySQLHelper sqlHelper;
+	public RecordDAOImp(Context context, MultiUser user) {
+		//sqlHelper = new MySQLHelper(context, DATABASE);
+		sqLite = new SQLiteDB(context, user);
 	}
 
 	@Override

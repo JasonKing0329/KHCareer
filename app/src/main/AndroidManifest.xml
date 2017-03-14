@@ -109,6 +109,10 @@
             android:name="com.king.mytennis.player.PlayerManageActivity"
             android:theme="@style/ActionBarBlue"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.king.mytennis.player.PlayerCommonActivity"
+            android:theme="@style/ActionBarBlue"
+            android:screenOrientation="portrait"/>
 
     </application>
 

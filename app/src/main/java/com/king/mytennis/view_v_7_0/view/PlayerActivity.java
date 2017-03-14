@@ -21,6 +21,8 @@ import com.king.mytennis.glory.GloryController;
 import com.king.mytennis.glory.GloryMatchDialog;
 import com.king.mytennis.model.ImageFactory;
 import com.king.mytennis.model.Record;
+import com.king.mytennis.multiuser.MultiUser;
+import com.king.mytennis.multiuser.MultiUserManager;
 import com.king.mytennis.pubdata.PubDataProvider;
 import com.king.mytennis.service.ImageUtil;
 import com.king.mytennis.service.ScreenUtils;
@@ -40,6 +42,8 @@ import com.king.mytennis.view_v_7_0.model.PlayerBean;
 public class PlayerActivity extends BaseActivity implements OnGroupCollapseListener
 		, OnChildClickListener, View.OnClickListener{
 
+	public static final String KEY_USER_ID = "key_user_id";
+
 	private final String TAG = "PlayerActivity";
 	private PullToZoomScrollViewEx pullView;
 	private ExpandableListView expandableListView;
@@ -52,6 +56,11 @@ public class PlayerActivity extends BaseActivity implements OnGroupCollapseListe
 	private TextView h2hView, countInforView;
 
 	private PubDataProvider pubDataProvider;
+
+	/**
+	 * v3.2.5 增加支持对任意user的页面查询
+	 */
+	private MultiUser pageUser;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -131,8 +140,15 @@ public class PlayerActivity extends BaseActivity implements OnGroupCollapseListe
 	}
 
 	private void initContent(View contentView) {
-		mController.loadRecords(this, mPlayerBean.getName());
-		mAdapter = new PlayerExpanAdapter(this, mController.getExpandList());
+		String userId = getIntent().getStringExtra(KEY_USER_ID);
+		if (userId == null) {
+			pageUser = MultiUserManager.getInstance().getCurrentUser();
+		}
+		else {
+			pageUser = MultiUserManager.getInstance().getUser(userId);
+		}
+		mController.loadRecords(this, mPlayerBean.getName(), pageUser);
+		mAdapter = new PlayerExpanAdapter(this, mController.getExpandList(), pageUser);
 
 		countInforView.setText(mController.getCountInfor());
 		expandableListView = (ExpandableListView) contentView.findViewById(R.id.match_expanlist);

@@ -345,6 +345,11 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
                 setResult(RESULT_OK, intent);
                 finish();
             }
+            else {
+                Intent intent = new Intent().setClass(this, PlayerCommonActivity.class);
+                intent.putExtra(PlayerCommonActivity.KEY_PLAYER, mEditBean.getNameChn());
+                startActivity(intent);
+            }
         }
     }
 

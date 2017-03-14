@@ -8,11 +8,10 @@ import java.util.Map;
 
 import android.content.Context;
 
-import com.king.mytennis.model.Configuration;
 import com.king.mytennis.model.Constants;
 import com.king.mytennis.model.Record;
+import com.king.mytennis.multiuser.MultiUser;
 import com.king.mytennis.service.RecordService;
-import com.king.mytennis.view.R;
 
 /**
  * @author JingYang
@@ -38,8 +37,18 @@ public class PlayerController {
 		return countInfor;
 	}
 
-	public void loadRecords(Context context, String playerId) {
-		recordList = new RecordService(context).queryByWhere("competitor=?", new String[]{playerId});
+	public void loadRecords(Context context, String playerId, MultiUser user) {
+		RecordService service;
+		if (user == null) {// 查询current user的数据
+			service = new RecordService(context);
+		}
+		else {
+			service = new RecordService(context, user);
+		}
+		recordList = service.queryByWhere("competitor=?", new String[]{playerId});
+		if (recordList == null) {
+			return;
+		}
 		
 		expandList = new ArrayList<List<Record>>();
 		Map<String, List<Record>> map = new HashMap<String, List<Record>>();

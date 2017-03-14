@@ -8,6 +8,7 @@ import java.util.Map;
 import com.king.mytennis.model.Constants;
 import com.king.mytennis.model.ImageFactory;
 import com.king.mytennis.model.Record;
+import com.king.mytennis.multiuser.MultiUser;
 import com.king.mytennis.multiuser.MultiUserManager;
 import com.king.mytennis.service.ImageUtil;
 import com.king.mytennis.view.R;
@@ -32,14 +33,16 @@ public class PlayerExpanAdapter extends BaseExpandableListAdapter {
 	private List<List<Record>> childList;
 	private Context mContext;
 	private int titleColor;
+	private MultiUser pageUser;
 
 	/**
 	 * 保存首次从文件夹加载的图片序号
 	 */
 	private Map<String, Integer> imageIndexMap;
 
-	public PlayerExpanAdapter(Context context, List<List<Record>> list) {
+	public PlayerExpanAdapter(Context context, List<List<Record>> list, MultiUser pageUser) {
 		mContext = context;
+		this.pageUser = pageUser;
 		childList = list;
 		titleColor = mContext.getResources().getColor(R.color.actionbar_bk_orange);
 		imageIndexMap = new HashMap<>();
@@ -149,7 +152,7 @@ public class PlayerExpanAdapter extends BaseExpandableListAdapter {
 				+ "  " + record.getRound());
 		String winner = record.getWinner();
 		if (winner.equals(MultiUserManager.USER_DB_FLAG)) {
-			winner = MultiUserManager.getInstance().getCurrentUser().getDisplayName();
+			winner = pageUser.getDisplayName();
 		}
 		holder.score.setText(winner + "  " + record.getScore());
 

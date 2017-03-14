@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.king.mytennis.interfc.H2HDAO;
 import com.king.mytennis.interfc.RecordDAO;
+import com.king.mytennis.multiuser.MultiUser;
 import com.king.mytennis.multiuser.MultiUserManager;
 
 public class H2HDAODB implements H2HDAO {
@@ -18,10 +19,17 @@ public class H2HDAODB implements H2HDAO {
 	private int lose = 0;
 	private String details;
 	private boolean isHandled;
+	private MultiUser h2hUser;
 
 	public H2HDAODB(Context context, String competitor) {
 		this.context = context;
 		this.competitor = competitor;
+	}
+
+	public H2HDAODB(Context context, String competitor, MultiUser user) {
+		this.context = context;
+		this.competitor = competitor;
+		this.h2hUser = user;
 	}
 
 	@Override
@@ -53,7 +61,13 @@ public class H2HDAODB implements H2HDAO {
 
 	private void handleList() {
 
-		MySQLHelper helper = MySQLHelper.getInstance(context);
+		MySQLHelper helper;
+		if (h2hUser == null) {
+			helper = MySQLHelper.getInstance(context);
+		}
+		else {
+			helper = MySQLHelper.getInstance(context, h2hUser);
+		}
 		SQLiteDatabase db = helper.getReadableDatabase();
 		String columns[] = DatabaseStruct.TABLE_RECORD_COL;
 		Cursor cursor = db.query(DatabaseStruct.TABLE_RECORD, columns

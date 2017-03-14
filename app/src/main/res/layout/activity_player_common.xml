@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/pullview_content_bk">
+
+    <ImageView
+        android:id="@+id/common_image"
+        android:layout_width="match_parent"
+        android:layout_height="190dp"
+        android:scaleType="fitXY"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_player_common_head_bg"
+        android:orientation="vertical"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_centerHorizontal="true"
+        android:gravity="center" >
+        <TextView
+            android:id="@+id/common_head_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/yellow"
+            android:textStyle="bold"
+            android:textSize="20sp" />
+        <TextView
+            android:id="@+id/common_head_name_eng"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_marginTop="5dp"
+            android:textSize="16sp" />
+        <TextView
+            android:id="@+id/common_head_birthday"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_marginTop="5dp"
+            android:textSize="16sp" />
+        <TextView
+            android:id="@+id/common_head_place"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:layout_marginTop="5dp"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/common_image"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/common_group_king"
+                style="@style/CommonPlayerGroup">
+                <TextView
+                    android:id="@+id/common_king_name"
+                    android:text="King"
+                    style="@style/CommonPlayerName" />
+                <TextView
+                    android:id="@+id/common_king_h2h"
+                    android:text="9-7"
+                    style="@style/CommonPlayerH2h" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/common_group_flamenco"
+                style="@style/CommonPlayerGroup">
+                <TextView
+                    android:id="@+id/common_flamenco_name"
+                    android:text="Flamenco"
+                    style="@style/CommonPlayerName" />
+                <TextView
+                    android:id="@+id/common_flamenco_h2h"
+                    android:text="9-7"
+                    style="@style/CommonPlayerH2h" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:id="@+id/common_group_henry"
+                style="@style/CommonPlayerGroup">
+                <TextView
+                    android:id="@+id/common_henry_name"
+                    android:text="Henry"
+                    style="@style/CommonPlayerName" />
+                <TextView
+                    android:id="@+id/common_henry_h2h"
+                    android:text="9-7"
+                    style="@style/CommonPlayerH2h" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/common_group_qi"
+                style="@style/CommonPlayerGroup">
+                <TextView
+                    android:id="@+id/common_qi_name"
+                    android:text="Qi"
+                    style="@style/CommonPlayerName" />
+                <TextView
+                    android:id="@+id/common_qi_h2h"
+                    android:text="9-7"
+                    style="@style/CommonPlayerH2h" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+</RelativeLayout>

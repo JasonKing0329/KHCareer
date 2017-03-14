@@ -1,6 +1,6 @@
 apply plugin: 'com.android.application'
 
-ext.appVersionName = "3.2.4"
+ext.appVersionName = "3.2.5"
 ext.appReleaseDir = "E:/temp/release/KHCareer"
 
 android {
@@ -11,7 +11,7 @@ android {
         applicationId "com.king.mytennis.view"
         minSdkVersion 21
         targetSdkVersion 23
-        versionCode 32
+        versionCode 33
         versionName appVersionName
     }
 
@@ -104,4 +104,8 @@ dependencies {
     /*logger*/
     compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
     compile project(':MPChartLib')
+
+    /*butterknife*/
+    compile 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
 }

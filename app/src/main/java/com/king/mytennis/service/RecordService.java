@@ -12,6 +12,7 @@ import com.king.mytennis.model.DatabaseStruct;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.model.RecordDAOImp;
 import com.king.mytennis.model.FileIO;
+import com.king.mytennis.multiuser.MultiUser;
 
 public class RecordService {
 
@@ -20,6 +21,11 @@ public class RecordService {
 	public RecordService(Context context) {
 
 		recordDao = new RecordDAOImp(context);
+	}
+
+	public RecordService(Context context, MultiUser user) {
+
+		recordDao = new RecordDAOImp(context, user);
 	}
 
 	public DatabaseAccess getSqlite() {
