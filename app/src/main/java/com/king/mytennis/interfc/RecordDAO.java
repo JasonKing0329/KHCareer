@@ -1,6 +1,7 @@
 package com.king.mytennis.interfc;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.king.mytennis.model.Configuration;
 import com.king.mytennis.model.Record;
@@ -20,5 +21,6 @@ public interface RecordDAO {
 	public String saveConfigInfor(Configuration conf);
 	public String[] getCptNames();
 	public String[] getMatchNames();
+	public List<Record> queryByMatch(String match);
 	
 }

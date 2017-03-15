@@ -1,5 +1,6 @@
 package com.king.mytennis.view_v_7_0.controller;
 
+import com.king.mytennis.match.UserMatchBean;
 import com.king.mytennis.view_v_7_0.model.MatchBean;
 import com.king.mytennis.view_v_7_0.model.PlayerBean;
 
@@ -11,10 +12,20 @@ public class ObjectCache {
 
 	private static Object object;
 	
-	public static void putMatchBean(MatchBean bean) {
+	public static void putUserMatchBean(UserMatchBean bean) {
 		object = bean;
 	}
 	
+	public static UserMatchBean getUserMatchBean() {
+		return (UserMatchBean) object;
+	}
+
+	@Deprecated
+	public static void putMatchBean(MatchBean bean) {
+		object = bean;
+	}
+
+	@Deprecated
 	public static MatchBean getMatchBean() {
 		return (MatchBean) object;
 	}

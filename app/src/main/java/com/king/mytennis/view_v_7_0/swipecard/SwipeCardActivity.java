@@ -32,6 +32,7 @@ import com.king.mytennis.view_v_7_0.swipecard.view.SwipeFlingAdapterView.onFling
  * @author JingYang
  * @version create time：2016-3-11 上午10:58:52
  *
+ * match部分Deprecated {@link com.king.mytennis.match.UserMatchActivity}
  */
 public class SwipeCardActivity extends BaseActivity implements onFlingListener
 		, OnItemClickListener, OnClickListener, OnTouchingLetterChangedListener {

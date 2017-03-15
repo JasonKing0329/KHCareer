@@ -189,6 +189,9 @@
 
     <color name="tab_actionbar_text_focus">#FFD600</color>
 
+    <color name="user_match_country">#84ceca</color>
+    <color name="user_match_download_ripple">#51b2ac</color>
+
     <color name="white">#FFFFFF</color> <!-- 白色 -->
     <color name="ivory">#FFFFF0</color> <!-- 象牙色 -->
     <color name="lightyellow">#FFFFE0</color> <!-- 亮黄色 -->

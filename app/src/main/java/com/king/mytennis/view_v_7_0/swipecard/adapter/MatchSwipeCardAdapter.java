@@ -40,6 +40,7 @@ import android.widget.Toast;
  * @version create time：2016-3-11 上午11:32:25
  *
  */
+@Deprecated
 public class MatchSwipeCardAdapter extends AbstractSwipeAdapter implements RequestCallback {
 
 	private List<MatchBean>  mList;

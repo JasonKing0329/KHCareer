@@ -277,4 +277,34 @@ public class RecordDAOImp implements RecordDAO {
 		return list;
 	}
 
+	@Override
+	public List<Record> queryByMatch(String match) {
+
+		if (match == null) {
+			return null;
+		}
+		List<Record> list = new ArrayList<>();
+		SQLiteOpenHelper helper = sqLite.getSQLHelper();
+		SQLiteDatabase db = helper.getReadableDatabase();
+		try {
+			Cursor cursor=db.query(
+					DatabaseStruct.TABLE_RECORD, DatabaseStruct.TABLE_RECORD_COL
+					, "match=?", new String[]{match}, null, null, null);
+			Record record;
+			while (cursor.moveToNext()){
+				if (list == null) {
+					list = new ArrayList<>();
+				}
+				record = new Record();
+				adaptRecord(cursor, record);
+				list.add(record);
+			}
+		} catch (Exception e) {
+			Log.i("mytennis", "queryByWhere抛出异常：" + e.getMessage());
+			list = null;
+		}
+		db.close();
+		return list;
+	}
+
 }

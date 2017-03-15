@@ -1,17 +1,17 @@
 apply plugin: 'com.android.application'
 
-ext.appVersionName = "3.2.6"
+ext.appVersionName = "3.3"
 ext.appReleaseDir = "E:/temp/release/KHCareer"
 
 android {
-    compileSdkVersion 23
+    compileSdkVersion 25
     buildToolsVersion "23.0.3"
 
     defaultConfig {
         applicationId "com.king.mytennis.view"
         minSdkVersion 21
-        targetSdkVersion 23
-        versionCode 34
+        targetSdkVersion 25
+        versionCode 35
         versionName appVersionName
     }
 
@@ -82,8 +82,9 @@ def getDate() {
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
-    compile 'com.android.support:recyclerview-v7:23.4.0'
-    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:recyclerview-v7:25.1.0'
+    compile 'com.android.support:appcompat-v7:25.1.0'
+    compile 'com.android.support:design:25.1.0'
     compile project(':libresmanager')
     compile project(':libtool')
     compile project(':prjcolorpicker')

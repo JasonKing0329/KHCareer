@@ -7,6 +7,7 @@ import com.king.mytennis.model.Record;
 /**
  * @author JingYang
  */
+@Deprecated
 public class MatchBean {
 
     /**

@@ -1,6 +1,7 @@
 package com.king.mytennis.view_v_7_0.view;
 
 import com.king.lib.tool.ui.RippleFactory;
+import com.king.mytennis.match.UserMatchActivity;
 import com.king.mytennis.service.Application;
 import com.king.mytennis.update_v_6_0.ManagerActivity;
 import com.king.mytennis.view.R;
@@ -136,8 +137,7 @@ public class MatchFolderManager extends AbstractFolderManager implements OnLongC
 	}
 
 	private void startSwipeCardActivity() {
-		Intent intent = new Intent().setClass(getContext(), SwipeCardActivity.class);
-		intent.putExtra(SwipeCardActivity.KEY_INIT_MODE, SwipeCardActivity.INIT_MATCH);
+		Intent intent = new Intent().setClass(getContext(), UserMatchActivity.class);
 		((Activity) getContext()).startActivity(intent);
 	}
 

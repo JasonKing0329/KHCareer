@@ -14,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ecloud.pulltozoomview.PullToZoomScrollViewEx;
+import com.king.mytennis.match.UserMatchBean;
 import com.king.mytennis.model.ImageFactory;
 import com.king.mytennis.service.ImageUtil;
 import com.king.mytennis.service.ScreenUtils;
@@ -22,12 +23,10 @@ import com.king.mytennis.view.R;
 import com.king.mytennis.view.detail.DetailGallery;
 import com.king.mytennis.view_v_7_0.controller.MatchController;
 import com.king.mytennis.view_v_7_0.controller.ObjectCache;
-import com.king.mytennis.view_v_7_0.model.MatchBean;
 
 /**
  * @author JingYang
  * @version create time：2016-3-14 下午3:21:54
- *
  */
 public class MatchActivity extends BaseActivity implements OnGroupCollapseListener
 		, OnChildClickListener{
@@ -39,7 +38,7 @@ public class MatchActivity extends BaseActivity implements OnGroupCollapseListen
 	private MatchExpanAdapter mAdapter;
 	private MatchController mController;
 
-	private MatchBean mMatchBean;
+	private UserMatchBean mMatchBean;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,7 +57,7 @@ public class MatchActivity extends BaseActivity implements OnGroupCollapseListen
 		pullView.setZoomView(zoomView);
 		pullView.setScrollContentView(contentView);
 
-		mMatchBean = ObjectCache.getMatchBean();
+		mMatchBean = ObjectCache.getUserMatchBean();
 
 		initHeader(headView, zoomView);
 
@@ -75,13 +74,13 @@ public class MatchActivity extends BaseActivity implements OnGroupCollapseListen
 	}
 
 	private void initHeader(View headView, View zoomView) {
-		ImageUtil.load("file://" + ImageFactory.getMatchHeadPath(mMatchBean.getName(), mMatchBean.getCourt())
+		ImageUtil.load("file://" + ImageFactory.getMatchHeadPath(mMatchBean.getNameBean().getName(), mMatchBean.getNameBean().getMatchBean().getCourt())
 				, (ImageView) zoomView, R.drawable.swipecard_default_img);
-		((TextView) headView.findViewById(R.id.match_head_court)).setText(mMatchBean.getCourt());
-		((TextView) headView.findViewById(R.id.match_head_level)).setText(mMatchBean.getLevel());
-		((TextView) headView.findViewById(R.id.match_head_name)).setText(mMatchBean.getName());
+		((TextView) headView.findViewById(R.id.match_head_court)).setText(mMatchBean.getNameBean().getMatchBean().getCourt());
+		((TextView) headView.findViewById(R.id.match_head_level)).setText(mMatchBean.getNameBean().getMatchBean().getLevel());
+		((TextView) headView.findViewById(R.id.match_head_name)).setText(mMatchBean.getNameBean().getName());
 		((TextView) headView.findViewById(R.id.match_head_place)).setText(
-				mMatchBean.getCountry() + "/" + mMatchBean.getCity());
+				mMatchBean.getNameBean().getMatchBean().getCountry() + "/" + mMatchBean.getNameBean().getMatchBean().getCity());
 
 		//设置Header所占比例
 		int screenWidth = ScreenUtils.getScreenWidth(this);
@@ -92,7 +91,7 @@ public class MatchActivity extends BaseActivity implements OnGroupCollapseListen
 	}
 
 	private void initContent(View contentView) {
-		mController.loadRecords(this, mMatchBean.getPubId());
+		mController.loadRecords(this, mMatchBean.getNameBean().getMatchId());
 		mAdapter = new MatchExpanAdapter(this, mController.getExpandList());
 		expandableListView = (ExpandableListView) contentView.findViewById(R.id.match_expanlist);
 		expandableListView.setAdapter(mAdapter);
