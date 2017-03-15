@@ -218,8 +218,11 @@ public class UserMatchPresenter {
                 minSpace = space;
                 position = i;
             }
+            else if (space == minSpace) {
+                // 等于的情况以前者优先
+                continue;
+            }
             // 由于已经是按周数的升序排列了，所以当出现大于等于最小间隔的情况时，可以终止遍历
-            // 等于的情况以前者优先
             else {
                 break;
             }

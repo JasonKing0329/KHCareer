@@ -1,10 +1,10 @@
 package com.king.mytennis.match;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 
+import com.king.mytennis.model.Constants;
 import com.king.mytennis.view.BaseActivity;
 import com.king.mytennis.view.R;
 import com.yarolegovich.discretescrollview.DiscreteScrollView;
@@ -29,6 +29,10 @@ public class UserMatchActivity extends BaseActivity implements DiscreteScrollVie
     TextView tvPlace;
     @BindView(R.id.match_gallery)
     DiscreteScrollView dsvMatch;
+    @BindView(R.id.match_month)
+    TextView tvMonth;
+    @BindView(R.id.match_week)
+    TextView tvWeek;
 
     private UserMatchPresenter mPresenter;
     private UserMatchAdapter userMatchAdapter;
@@ -80,6 +84,13 @@ public class UserMatchActivity extends BaseActivity implements DiscreteScrollVie
         tvMatch.setText(bean.getNameBean().getName());
         tvPlace.setText(bean.getNameBean().getMatchBean().getCountry()
             + "/" + bean.getNameBean().getMatchBean().getCity());
+        tvMonth.setText(Constants.MONTH_ENG[bean.getNameBean().getMatchBean().getMonth() - 1]);
+        tvWeek.setText(bean.getNameBean().getMatchBean().getWeek() + "\nweek");
+    }
+
+    @OnClick({R.id.match_back})
+    public void onBack() {
+        finish();
     }
 
     @OnClick({R.id.match_refresh})

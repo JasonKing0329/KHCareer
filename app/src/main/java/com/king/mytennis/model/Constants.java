@@ -77,4 +77,20 @@ public class Constants {
 
 	public static final String MATCH_CONST_MONTECARLO = "蒙特卡洛大师赛";
 
+	public static final String[] MONTH_ENG = new String[] {
+
+			"January",
+			"February",
+			"March",
+			"April",
+			"May",
+			"June",
+			"July",
+			"August",
+			"September",
+			"October",
+			"November",
+			"December"
+	};
+
 }

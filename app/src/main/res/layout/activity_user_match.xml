@@ -10,15 +10,29 @@
         android:background="@android:color/white"
         android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/home"
-            style="@style/ClickableImageView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="start"
-            android:layout_margin="8dp"
-            android:padding="8dp"
-            android:src="@drawable/ic_arrow_back_black_24dp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="8dp">
+            <ImageView
+                android:id="@+id/match_back"
+                style="@style/ClickableImageView"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="start"
+                android:padding="8dp"
+                android:src="@drawable/ic_arrow_back_black_24dp" />
+            <TextView
+                android:id="@+id/match_month"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="sans-serif-light"
+                android:textColor="@color/actionbar_bk_orange"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:text="January" />
+        </RelativeLayout>
 
         <Space
             android:layout_width="wrap_content"
@@ -98,10 +112,25 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/ic_delete_black_24dp"
-                style="@style/ClickableImageView" />
+                style="@style/ClickableImageView"
+                android:padding="8dp"/>
 
         </LinearLayout>
 
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/match_week"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"
+        android:textColor="@color/white"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:background="@drawable/shape_round_pink"
+        android:text="12" />
 
 </RelativeLayout>
