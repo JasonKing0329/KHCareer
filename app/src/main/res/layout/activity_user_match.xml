@@ -3,49 +3,38 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/white">
+    <com.king.mytennis.match.GradientBkView
+        android:id="@+id/match_bk"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
         android:orientation="vertical">
 
-        <RelativeLayout
-            android:layout_width="match_parent"
+        <ImageView
+            android:id="@+id/match_back"
+            style="@style/ClickableImageView"
+            android:layout_width="40dp"
             android:layout_height="40dp"
-            android:layout_margin="8dp">
-            <ImageView
-                android:id="@+id/match_back"
-                style="@style/ClickableImageView"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_gravity="start"
-                android:padding="8dp"
-                android:src="@drawable/ic_arrow_back_black_24dp" />
-            <TextView
-                android:id="@+id/match_month"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:fontFamily="sans-serif-light"
-                android:textColor="@color/actionbar_bk_orange"
-                android:textSize="20dp"
-                android:textStyle="bold"
-                android:text="January" />
-        </RelativeLayout>
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="15dp"
+            android:padding="8dp"
+            android:src="@drawable/ic_arrow_back_black_24dp"/>
 
         <Space
             android:layout_width="wrap_content"
-            android:layout_height="20dp" />
+            android:layout_height="30dp" />
 
         <TextView
             android:id="@+id/match_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:fontFamily="sans-serif-light"
-            android:textColor="@android:color/black"
-            android:textSize="20dp"
+            android:textColor="@color/white"
+            android:textSize="22dp"
             android:textStyle="bold"
             tools:text="Stoneware + Porcelain Plate" />
 
@@ -58,9 +47,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:textColor="@color/user_match_country"
+            android:textColor="@color/white"
             android:textStyle="bold"
-            tools:text="$24.00 USD" />
+            android:textSize="14dp"/>
 
         <Space
             android:layout_width="wrap_content"
@@ -73,7 +62,7 @@
 
         <Space
             android:layout_width="wrap_content"
-            android:layout_height="16dp" />
+            android:layout_height="10dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -119,18 +108,31 @@
 
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/match_week"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
-        android:layout_alignParentRight="true"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
-        android:textColor="@color/white"
-        android:textSize="18dp"
-        android:textStyle="bold"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:gravity="center"
-        android:background="@drawable/shape_round_pink"
-        android:text="12" />
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
+        android:layout_marginTop="30dp">
+        <TextView
+            android:id="@+id/match_month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            android:textStyle="italic|bold"
+            android:text="January" />
+        <TextView
+            android:id="@+id/match_week"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/white"
+            android:textSize="12dp"
+            android:textStyle="italic"
+            android:gravity="center"
+            android:text="week 12" />
+    </LinearLayout>
 
 </RelativeLayout>

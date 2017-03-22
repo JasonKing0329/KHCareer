@@ -198,6 +198,17 @@ public class ScoreFragment extends Fragment implements IScorePageView, View.OnCl
 
     @Override
     public void onPageDataLoaded(ScorePageData data) {
+
+        // 获取排名
+        RankBean bean = scoreView.getPresenter().loadRank();
+        if (bean == null) {
+            tvRank.setText("--");
+        }
+        else {
+            tvRank.setText(String.valueOf(bean.getRank()));
+        }
+
+        // 积分、图表
         // gs
         if (adapterGs == null) {
             adapterGs = new ScoreItemAdapter(data.getGsList());

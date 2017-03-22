@@ -1,7 +1,9 @@
 package com.king.mytennis.match;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
+import android.view.View;
 import android.widget.TextView;
 
 import com.king.mytennis.model.Constants;
@@ -17,12 +19,14 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * 描述:
+ * 描述: 按week排列的横向gallery赛事总览，进入时定位到离当前周数最近的赛事
  * <p/>作者：景阳
  * <p/>创建时间: 2017/3/15 9:42
  */
 public class UserMatchActivity extends BaseActivity implements DiscreteScrollView.CurrentItemChangeListener {
 
+    @BindView(R.id.match_bk)
+    GradientBkView vMatchBk;
     @BindView(R.id.match_name)
     TextView tvMatch;
     @BindView(R.id.match_place)
@@ -33,12 +37,15 @@ public class UserMatchActivity extends BaseActivity implements DiscreteScrollVie
     TextView tvMonth;
     @BindView(R.id.match_week)
     TextView tvWeek;
+    @BindView(R.id.match_download)
+    FloatingActionButton fabDownload;
 
     private UserMatchPresenter mPresenter;
     private UserMatchAdapter userMatchAdapter;
     private List<UserMatchBean> matchList;
 
     private int nMatchIndex;
+    private ScrollManager scrollManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +54,10 @@ public class UserMatchActivity extends BaseActivity implements DiscreteScrollVie
         setContentView(R.layout.activity_user_match);
 
         ButterKnife.bind(this);
-
         mPresenter = new UserMatchPresenter(this);
+        scrollManager = new ScrollManager(this);
+        // 绑定滑动过程中联动变化的view
+        scrollManager.bindBehaviorView(vMatchBk, fabDownload);
 
         initMatchGallery();
 
@@ -60,11 +69,16 @@ public class UserMatchActivity extends BaseActivity implements DiscreteScrollVie
         dsvMatch.setItemTransformer(new ScaleTransformer.Builder()
                 .setMinScale(0.8f)
                 .build());
+        dsvMatch.setScrollStateChangeListener(scrollManager);
         matchList = mPresenter.getMatchList();
+
+        // 绑定滑动依据数据
+        scrollManager.bindData(matchList);
 
         userMatchAdapter = new UserMatchAdapter(this, matchList);
         dsvMatch.setAdapter(userMatchAdapter);
 
+        // 定位到最近的赛事
         focusToLatestWeek();
     }
 
@@ -76,6 +90,7 @@ public class UserMatchActivity extends BaseActivity implements DiscreteScrollVie
                 dsvMatch.smoothScrollToPosition(position);
             }
         });
+        scrollManager.initPosition(position);
     }
 
     private void onItemChanged(int position) {
@@ -83,9 +98,9 @@ public class UserMatchActivity extends BaseActivity implements DiscreteScrollVie
         UserMatchBean bean = matchList.get(position);
         tvMatch.setText(bean.getNameBean().getName());
         tvPlace.setText(bean.getNameBean().getMatchBean().getCountry()
-            + "/" + bean.getNameBean().getMatchBean().getCity());
+                + "/" + bean.getNameBean().getMatchBean().getCity());
         tvMonth.setText(Constants.MONTH_ENG[bean.getNameBean().getMatchBean().getMonth() - 1]);
-        tvWeek.setText(bean.getNameBean().getMatchBean().getWeek() + "\nweek");
+        tvWeek.setText("week " + bean.getNameBean().getMatchBean().getWeek());
     }
 
     @OnClick({R.id.match_back})

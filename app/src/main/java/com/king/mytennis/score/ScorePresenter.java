@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 
 import com.king.mytennis.model.Constants;
+import com.king.mytennis.model.FileIO;
 import com.king.mytennis.multiuser.MultiUserManager;
 import com.king.mytennis.pubdata.PubDataProvider;
 import com.king.mytennis.pubdata.bean.MatchNameBean;
@@ -57,6 +58,10 @@ public class ScorePresenter implements IScoreCallback {
 
     public void setScorePageView(IScorePageView scorePageView) {
         this.scorePageView = scorePageView;
+    }
+
+    public RankBean loadRank() {
+        return new FileIO().readRankBean();
     }
 
     public void queryYearRecords() {

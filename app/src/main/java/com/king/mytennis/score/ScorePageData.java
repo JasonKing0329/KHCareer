@@ -26,6 +26,8 @@ public class ScorePageData {
     private List<ScoreBean> replaceList;
     private List<ScoreBean> otherList;
 
+    private int rank;
+
     public List<ScoreBean> getScoreList() {
         return scoreList;
     }
@@ -152,5 +154,13 @@ public class ScorePageData {
 
     public void setReplaceList(List<ScoreBean> replaceList) {
         this.replaceList = replaceList;
+    }
+
+    public int getRank() {
+        return rank;
+    }
+
+    public void setRank(int rank) {
+        this.rank = rank;
     }
 }
