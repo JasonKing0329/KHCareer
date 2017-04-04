@@ -39,6 +39,9 @@ public class UserMatchPresenter {
         strRunnerup = context.getString(R.string.runnerup);
     }
 
+    public List<UserMatchBean> getMatchList() {
+        return getMatchList(null);
+    }
     /**
      * 确立对应关系：
      * 1. matchId-UserMatchBean
@@ -49,15 +52,17 @@ public class UserMatchPresenter {
      *    对于Record，唯一的关联key是name
      * @return
      */
-    public List<UserMatchBean> getMatchList() {
+    public List<UserMatchBean> getMatchList(List<Record> recordList) {
         List<UserMatchBean> list = new ArrayList<>();
 
         Map<Integer, UserMatchBean> idBeanMap = new HashMap<>();
         Map<Integer, List<String>> idNamesMap = new HashMap<>();
         Map<String, MatchNameBean> nameBeanMap = new HashMap<>();
 
+        if (recordList == null) {
+            recordList = recordDao.queryAll();
+        }
         // 查询出所有记录，按照matchId进行分类
-        List<Record> recordList = recordDao.queryAll();
         for (int i = 0; i < recordList.size(); i ++) {
             // Record中的唯一外键
             String name = recordList.get(i).getMatch();

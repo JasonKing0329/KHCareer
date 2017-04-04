@@ -2,6 +2,7 @@ package com.king.mytennis.match;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Shader;
@@ -25,16 +26,23 @@ public class GradientBkView extends View {
 
     {
         gradientPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        initGradient();
         setWillNotDraw(false);
     }
 
     private void initGradient() {
-        float centerX = getWidth() * 0.5f;
-        Shader gradient = new LinearGradient(
-                centerX, 0, centerX, getHeight(),
-                currentGradient, null,
-                Shader.TileMode.MIRROR);
-        gradientPaint.setShader(gradient);
+        if (currentGradient == null) {
+            gradientPaint.setColor(Color.WHITE);
+            gradientPaint.setShader(null);
+        }
+        else {
+            float centerX = getWidth() * 0.5f;
+            Shader gradient = new LinearGradient(
+                    centerX, 0, centerX, getHeight(),
+                    currentGradient, null,
+                    Shader.TileMode.MIRROR);
+            gradientPaint.setShader(gradient);
+        }
     }
 
     @Override

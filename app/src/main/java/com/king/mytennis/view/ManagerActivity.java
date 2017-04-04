@@ -187,7 +187,7 @@ public class ManagerActivity extends BaseActivity implements OnSlideChagedListen
 		}
 
 		//这个Activity下不用在setContentView前就行，真怪！
-		initLanguage(getIntent().getExtras().getString("def_language"));
+		initLanguage();
 
 		//初始化工作，加载配置文件，初始化配置信息与背景文件。初始化SqliteOpenHelper实例
 		loadingDlg=new ProgressDialog(this);
@@ -265,7 +265,7 @@ public class ManagerActivity extends BaseActivity implements OnSlideChagedListen
 		}
 	}
 
-	private void initLanguage(String def_language) {
+	private void initLanguage() {
 
 		LanguageService.init(this);
 	}

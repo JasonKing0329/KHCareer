@@ -45,7 +45,7 @@ public class UserMatchActivity extends BaseActivity implements DiscreteScrollVie
     private List<UserMatchBean> matchList;
 
     private int nMatchIndex;
-    private ScrollManager scrollManager;
+    private MatchScrollManager scrollManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,7 @@ public class UserMatchActivity extends BaseActivity implements DiscreteScrollVie
 
         ButterKnife.bind(this);
         mPresenter = new UserMatchPresenter(this);
-        scrollManager = new ScrollManager(this);
+        scrollManager = new MatchScrollManager(this);
         // 绑定滑动过程中联动变化的view
         scrollManager.bindBehaviorView(vMatchBk, fabDownload);
 

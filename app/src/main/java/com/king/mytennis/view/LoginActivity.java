@@ -1,5 +1,6 @@
 package com.king.mytennis.view;
 
+import com.king.khcareer.HomeActivity;
 import com.king.mytennis.glory.ActionBar;
 import com.king.mytennis.glory.ActionBar.ActionBarListener;
 import com.king.mytennis.http.BaseUrl;
@@ -202,23 +203,32 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Call
 
 		ImageUtil.initImageLoader(this);
 
-		String uiMode = SettingProperty.getDefaultUiMode(this);
-		String[] array = getResources().getStringArray(R.array.uiChoices);
-		if (array[0].equals(uiMode)) {
-			new UiSelectorManager();
-		}
-		else if (array[1].equals(uiMode)) {
-			initUi(0);
-		}
-		else if (array[2].equals(uiMode)) {
-			initUi(1);
-		}
-		else if (array[3].equals(uiMode)) {
-			initUi(2);
-		}
+		initUi();
+		// deprecated
+//		String uiMode = SettingProperty.getDefaultUiMode(this);
+//		String[] array = getResources().getStringArray(R.array.uiChoices);
+//		if (array[0].equals(uiMode)) {
+//			new UiSelectorManager();
+//		}
+//		else if (array[1].equals(uiMode)) {
+//			initUi(0);
+//		}
+//		else if (array[2].equals(uiMode)) {
+//			initUi(1);
+//		}
+//		else if (array[3].equals(uiMode)) {
+//			initUi(2);
+//		}
 
 	}
 
+	private void initUi() {
+		Intent intent = new Intent().setClass(this, HomeActivity.class);
+		startActivity(intent);
+		finish();
+	}
+
+	@Deprecated
 	private void initUi(int flag) {
 		MySQLHelper.closeHelper();
 		Intent intent = new Intent();

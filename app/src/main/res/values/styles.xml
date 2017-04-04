@@ -41,6 +41,7 @@
         <item name="android:clickable">true</item>
         <item name="android:focusable">true</item>
     </style>
+
     <style name="DrawsCustomDialog" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:windowFrame">@null</item><!--边框-->
         <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上-->
@@ -215,6 +216,32 @@
     <style name="ClickableImageView">
         <item name="android:clickable">true</item>
         <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
+    </style>
+
+    <style name="HomeTheme.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="HomeTheme" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">#eeeeee</item>
+        <item name="android:textColorPrimary">#3F51B5</item>
+        <item name="android:textColorSecondary">#00ff00</item>
+        <item name="android:actionMenuTextColor">#3F51B5</item>
+    </style>
+
+    <style name="HomeTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">#eeeeee</item>
+        <item name="android:textColorPrimary">#3F51B5</item>
+        <item name="android:textColorSecondary">#00ff00</item>
+        <item name="android:actionMenuTextColor">#3F51B5</item>
+    </style>
+
+    <style name="HomeTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light">
     </style>
 
 </resources>

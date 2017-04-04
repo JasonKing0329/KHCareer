@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_home_save"
+        android:title="@string/menu_save"/>
+
+    <item
+        android:id="@+id/menu_home_saveas"
+        android:title="@string/menu_saveas"/>
+
+    <item
+        android:id="@+id/menu_home_exit"
+        android:title="@string/exit"/>
+</menu>

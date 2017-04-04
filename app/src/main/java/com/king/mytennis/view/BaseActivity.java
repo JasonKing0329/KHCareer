@@ -6,18 +6,18 @@ import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.WindowManager;
 
-public class BaseActivity extends FragmentActivity {
+public class BaseActivity extends AppCompatActivity {
 
 	private ProgressDialog progressDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		
-    	setTheme(new ThemeManager(this).getDefaultTheme());
+//    	setTheme(new ThemeManager(this).getDefaultTheme());
 
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		

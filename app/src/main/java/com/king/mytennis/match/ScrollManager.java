@@ -2,8 +2,6 @@ package com.king.mytennis.match;
 
 import android.animation.ArgbEvaluator;
 import android.content.Context;
-import android.content.res.ColorStateList;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
 
 import com.king.mytennis.model.Constants;
@@ -14,13 +12,13 @@ import java.util.List;
 
 /**
  * 描述: 处理match item滑动引起的变化事件
+ * 通过bindData绑定matchList作为数据源
+ * 如果isEnable为true(默认为true，通过setEnable控制)，通过updateBehaviors下发状态更新
  * <p/>作者：景阳
  * <p/>创建时间: 2017/3/21 9:05
  */
-public class ScrollManager implements DiscreteScrollView.ScrollStateChangeListener {
+public abstract class ScrollManager implements DiscreteScrollView.ScrollStateChangeListener {
 
-    private GradientBkView vMatchBk;
-    private FloatingActionButton fab;
     private List<UserMatchBean> matchList;
     private int[] colorHard;
     private int[] colorClay;
@@ -31,7 +29,11 @@ public class ScrollManager implements DiscreteScrollView.ScrollStateChangeListen
     private ArgbEvaluator evaluator;
     private int startPosition;
 
+    private boolean isEnable;
+
     public ScrollManager(Context context) {
+        // 默认自动开启
+        isEnable = true;
         colorHard = context.getResources().getIntArray(R.array.gradientCourtHard);
         colorClay = context.getResources().getIntArray(R.array.gradientCourtClay);
         colorGrass = context.getResources().getIntArray(R.array.gradientCourtGrass);
@@ -40,14 +42,11 @@ public class ScrollManager implements DiscreteScrollView.ScrollStateChangeListen
     }
 
     /**
-     * 绑定待变化的view
-     *
-     * @param vMatchBk
-     * @param fab
+     * 设置是否启用scroll改变behavior状态
+     * @param enable
      */
-    public void bindBehaviorView(GradientBkView vMatchBk, FloatingActionButton fab) {
-        this.vMatchBk = vMatchBk;
-        this.fab = fab;
+    public void setEnable(boolean enable) {
+        isEnable = enable;
     }
 
     /**
@@ -59,7 +58,12 @@ public class ScrollManager implements DiscreteScrollView.ScrollStateChangeListen
         this.matchList = matchList;
     }
 
-    private int[] getColor(int position) {
+    /**
+     * 根据matchList中position位置的item获取目标颜色
+     * @param position
+     * @return
+     */
+    public int[] getColor(int position) {
         int[] color;
         String court = matchList.get(position).getNameBean().getMatchBean().getCourt();
         if (court.equals(Constants.RECORD_MATCH_COURTS[1])) {
@@ -105,15 +109,7 @@ public class ScrollManager implements DiscreteScrollView.ScrollStateChangeListen
      *
      * @param color
      */
-    private void updateBehaviors(int[] color) {
-
-        // 渐变背景
-        vMatchBk.updateGradientValues(color);
-
-        fab.setRippleColor(color[2]);
-        // 背景色需要调用这个方法，setBackgroundColor不管用
-        fab.setBackgroundTintList(ColorStateList.valueOf(color[0]));
-    }
+    protected abstract void updateBehaviors(int[] color);
 
     @Override
     public void onScrollStart(RecyclerView.ViewHolder currentItemHolder, int adapterPosition) {
@@ -133,13 +129,15 @@ public class ScrollManager implements DiscreteScrollView.ScrollStateChangeListen
      */
     @Override
     public void onScroll(float scrollPosition) {
-        int nextPosition = startPosition + (scrollPosition > 0 ? -1 : 1);
-        if (nextPosition >= 0 && nextPosition < matchList.size()) {
-            targetColor = getColor(nextPosition);
-            // 根据滑动因子计算当前的变化因素
-            int[] color = mix(Math.abs(scrollPosition), startColor, targetColor);
-            // 更新绑定的view的状态
-            updateBehaviors(color);
+        if (isEnable) {
+            int nextPosition = startPosition + (scrollPosition > 0 ? -1 : 1);
+            if (nextPosition >= 0 && nextPosition < matchList.size()) {
+                targetColor = getColor(nextPosition);
+                // 根据滑动因子计算当前的变化因素
+                int[] color = mix(Math.abs(scrollPosition), startColor, targetColor);
+                // 更新绑定的view的状态
+                updateBehaviors(color);
+            }
         }
     }
 }

@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,26 +18,16 @@ import android.widget.TextView;
 import com.github.mikephil.charting.charts.PieChart;
 import com.king.mytennis.glory.GloryController;
 import com.king.mytennis.glory.GloryMatchDialog;
-import com.king.mytennis.model.Constants;
-import com.king.mytennis.model.FileIO;
 import com.king.mytennis.model.Record;
 import com.king.mytennis.multiuser.MultiUser;
 import com.king.mytennis.multiuser.MultiUserManager;
-import com.king.mytennis.pubdata.bean.MatchNameBean;
 import com.king.mytennis.view.BaseActivity;
 import com.king.mytennis.view.CustomDialog;
 import com.king.mytennis.view.R;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import static android.R.attr.endYear;
-import static android.R.attr.startYear;
-import static android.R.id.list;
 
 /**
  * 描述:
@@ -103,14 +92,14 @@ public class ScoreFragment extends Fragment implements IScorePageView, View.OnCl
 
         View view = inflater.inflate(R.layout.fragment_score, container, false);
 
-        tvPlayer = (TextView) view.findViewById(R.id.score_player);
-        tvScoreTotal = (TextView) view.findViewById(R.id.score_total);
-        tvBirthday = (TextView) view.findViewById(R.id.score_birthday);
-        tvCountry = (TextView) view.findViewById(R.id.score_country);
-        tvHeight = (TextView) view.findViewById(R.id.score_height);
-        tvRank = (TextView) view.findViewById(R.id.score_rank);
-        tvMatchCount = (TextView) view.findViewById(R.id.score_match_number);
-        ivCountryFlag = (ImageView) view.findViewById(R.id.score_flag_bg);
+        tvPlayer = (TextView) view.findViewById(R.id.tv_player);
+        tvScoreTotal = (TextView) view.findViewById(R.id.tv_total);
+        tvBirthday = (TextView) view.findViewById(R.id.tv_birthday);
+        tvCountry = (TextView) view.findViewById(R.id.tv_country);
+        tvHeight = (TextView) view.findViewById(R.id.tv_height);
+        tvRank = (TextView) view.findViewById(R.id.tv_rank);
+        tvMatchCount = (TextView) view.findViewById(R.id.tv_match_number);
+        ivCountryFlag = (ImageView) view.findViewById(R.id.iv_flag_bg);
         chartCourt = (PieChart) view.findViewById(R.id.score_chart_court);
         chartYear = (PieChart) view.findViewById(R.id.score_chart_year);
 

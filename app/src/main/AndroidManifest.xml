@@ -51,11 +51,11 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name="com.king.mytennis.view.detail.DetailGallery"
-            android:theme="@android:style/Theme.Holo.NoActionBar"
+            android:theme="@style/ActionBarBlue"
             android:screenOrientation="portrait"/>
         <activity
             android:name="com.king.mytennis.view.editor.RecordEditorActivity"
-            android:theme="@android:style/Theme.Holo.Light.NoActionBar"
+            android:theme="@style/ActionBarBlue"
             android:screenOrientation="portrait">
         </activity>
         <activity
@@ -117,7 +117,10 @@
             android:name="com.king.mytennis.match.UserMatchActivity"
             android:theme="@style/ActionBarBlue"
             android:screenOrientation="portrait"/>
-
+        <activity
+            android:name="com.king.khcareer.HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HomeTheme"/>
     </application>
 
 </manifest>

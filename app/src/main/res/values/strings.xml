@@ -35,13 +35,13 @@
     <string name="preparing_app">Initting application, please waiting...</string>
     <string name="login_finger_not_support">Fingerprint is not supported on current device!</string>
     <string name="login_finger_not_register">Fingerprint has never been registered in device, please register first!</string>
-    
+
     <!-- ***************************record long click********************************* -->
     <string name="record_longclick_update">update</string>
     <string name="record_longclick_delete">delete</string>
     <string name="record_longclick_detailofthis">details of this</string>
     <string name="record_longclick_detailofall">details of all</string>
-    
+
     <!-- ***************************safeset********************************* -->
     <string name="alterpwd">alter password</string>
     <string name="oldpwd">old password:</string>
@@ -150,26 +150,26 @@
     <string name="source_not_found">source not found</string>
     <string name="update_success">update success!</string>
     <string name="update_title">update</string>
-    
+
     <string name="transmitting">transmitting...</string>
     <string name="dbtofile">Database file has turned to external file.</string>
     <string name="filetodb">External file has turned to database file.</string>
-    
+
     <string name="longtouch_title">function</string>
     <string name="details_title">details</string>
-    
+
     <string name="head_load_ok">All images has been loaded!</string>
     <string name="loadmore">Load more</string>
-    
+
     <string name="load_from_warning_msg">Selected database will cover default database, sure to continue?</string>
-    
+
     <string name="save_db_success">Data has been saved in path: %s</string>
     <string name="save_folder_already_exist">Target folder is already exist!</string>
     <!-- *********************SQLite操作部分******************************* -->
     <string name="notables">There\'re no tables.</string>
     <string name="dlg_choosebk">Choose background</string>
-    
-    
+
+
     <string name="xlistview_header_hint_normal">pull to refresh</string>
     <string name="xlistview_header_hint_ready">loosen to refresh data</string>
     <string name="xlistview_header_hint_loading">loading。。。</string>
@@ -180,7 +180,7 @@
     <string name="str_time">13-07-15</string>
     <string name="str_vertical">竖线</string>
     <string name="str_content_icon">内容标志</string>
-    
+
     <!-- ***************************glory********************************* -->
     <string name="match_name_not_null">Match name coudn\'t be null!</string>
     <string name="date_not_null">Date coudn\'t be null!</string>
@@ -218,7 +218,7 @@
     <string name="setting_http">Http</string>
     <string name="setting_http_server">Config server</string>
     <string name="setting_http_update">Check update</string>
-    
+
     <!-- ***************************h2h http********************************* -->
     <string name="h2h_title">Head to head</string>
     <string name="menu_h2h_atpwta_save">Save database</string>
@@ -290,4 +290,10 @@
     <!-- *************************** score ********************************* -->
     <string name="score_action_year">Year</string>
     <string name="score_action_week">52 weeks</string>
+    <string name="title_activity_home">HomeActivity</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
 </resources>
