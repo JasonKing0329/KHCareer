@@ -91,5 +91,6 @@
     <dimen name="home_bar_height">48dp</dimen>
     <dimen name="home_match_card_height">160dp</dimen>
     <dimen name="player_basic_head_height">200dp</dimen>
-    <dimen name="home_scrim_visible_height">100dp</dimen><!--actionbarHeight + 52dp-->
+    <dimen name="home_scrim_visible_height">100dp</dimen>
+    <dimen name="rank_chart_height">300dp</dimen><!--actionbarHeight + 52dp-->
 </resources>

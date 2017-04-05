@@ -4,62 +4,114 @@
     android:layout_height="match_parent"
     android:orientation="vertical" 
     android:paddingBottom="20dp">
-    <LinearLayout 
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="horizontal"
-	    android:gravity="center_vertical"
-	    android:layout_marginTop="10dp">
-        <TextView
-            android:gravity="center"
-		    android:layout_width="100dp"
-		    android:layout_height="wrap_content"
-		    android:text="rank"/>
-        <EditText 
-            style="DrawsBlue_Toolbar"
-            android:gravity="left"
-            android:id="@+id/score_manage_rank"
-		    android:layout_width="100dp"
-		    android:layout_height="wrap_content"
-			android:inputType="number"/>
-	</LinearLayout>
 	<LinearLayout
+		android:id="@+id/group_rank_count"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:orientation="horizontal"
-		android:gravity="center_vertical"
-		android:layout_marginTop="10dp">
-		<TextView
-			android:gravity="center"
-			android:layout_width="100dp"
+		android:orientation="vertical">
+		<LinearLayout
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="Highest rank"/>
-		<EditText
-			style="DrawsBlue_Toolbar"
-			android:gravity="left"
-			android:id="@+id/score_manage_rank_highest"
-			android:layout_width="100dp"
+			android:orientation="horizontal"
+			android:gravity="center_vertical"
+			android:layout_marginTop="10dp">
+			<TextView
+				android:gravity="center"
+				android:layout_width="100dp"
+				android:layout_height="wrap_content"
+				android:text="rank"/>
+			<EditText
+				style="DrawsBlue_Toolbar"
+				android:gravity="left"
+				android:id="@+id/score_manage_rank"
+				android:layout_width="100dp"
+				android:layout_height="wrap_content"
+				android:inputType="number"/>
+		</LinearLayout>
+		<LinearLayout
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:inputType="number"/>
+			android:orientation="horizontal"
+			android:gravity="center_vertical"
+			android:layout_marginTop="10dp">
+			<TextView
+				android:gravity="center"
+				android:layout_width="100dp"
+				android:layout_height="wrap_content"
+				android:text="Highest rank"/>
+			<EditText
+				style="DrawsBlue_Toolbar"
+				android:gravity="left"
+				android:id="@+id/score_manage_rank_highest"
+				android:layout_width="100dp"
+				android:layout_height="wrap_content"
+				android:inputType="number"/>
+		</LinearLayout>
+		<LinearLayout
+			android:id="@+id/score_manage_group_top1_week"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:gravity="center_vertical"
+			android:layout_marginTop="10dp">
+			<TextView
+				android:gravity="center"
+				android:layout_width="100dp"
+				android:layout_height="wrap_content"
+				android:text="top1 week"/>
+			<EditText
+				style="DrawsBlue_Toolbar"
+				android:gravity="left"
+				android:id="@+id/score_manage_top1_week"
+				android:layout_width="100dp"
+				android:layout_height="wrap_content"
+				android:inputType="number"/>
+		</LinearLayout>
 	</LinearLayout>
+
 	<LinearLayout
-		android:id="@+id/score_manage_group_top1_week"
+		android:id="@+id/group_rank_year"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:orientation="horizontal"
-		android:gravity="center_vertical"
-		android:layout_marginTop="10dp">
-		<TextView
-			android:gravity="center"
-			android:layout_width="100dp"
+		android:visibility="gone"
+		android:orientation="vertical">
+		<LinearLayout
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:text="top1 week"/>
-		<EditText
-			style="DrawsBlue_Toolbar"
-			android:gravity="left"
-			android:id="@+id/score_manage_top1_week"
-			android:layout_width="100dp"
+			android:orientation="horizontal"
+			android:gravity="center_vertical"
+			android:layout_marginTop="10dp">
+			<TextView
+				android:gravity="center"
+				android:layout_width="100dp"
+				android:layout_height="wrap_content"
+				android:text="year"/>
+			<EditText
+				style="DrawsBlue_Toolbar"
+				android:gravity="left"
+				android:id="@+id/et_year"
+				android:layout_width="100dp"
+				android:layout_height="wrap_content"
+				android:inputType="number"/>
+		</LinearLayout>
+		<LinearLayout
+			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:inputType="number"/>
+			android:orientation="horizontal"
+			android:gravity="center_vertical"
+			android:layout_marginTop="10dp">
+			<TextView
+				android:gravity="center"
+				android:layout_width="100dp"
+				android:layout_height="wrap_content"
+				android:text="rank"/>
+			<EditText
+				style="DrawsBlue_Toolbar"
+				android:gravity="left"
+				android:id="@+id/et_rank"
+				android:layout_width="100dp"
+				android:layout_height="wrap_content"
+				android:inputType="number"/>
+		</LinearLayout>
 	</LinearLayout>
 </LinearLayout>

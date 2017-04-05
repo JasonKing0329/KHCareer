@@ -121,6 +121,10 @@
             android:name="com.king.khcareer.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HomeTheme"/>
+        <activity
+            android:name="com.king.mytennis.score.rank.RankManageActivity"
+            android:theme="@style/ActionBarBlue"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

@@ -29,6 +29,7 @@ import java.util.TimerTask;
 public class HomeVerScrollManager implements NestedScrollView.OnScrollChangeListener {
     
     private int posStart = 343;
+    private int posEnd = 1411;
     private int timesCount;
     private ArgbEvaluator evaluator;
 
@@ -63,14 +64,31 @@ public class HomeVerScrollManager implements NestedScrollView.OnScrollChangeList
     @Override
     public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
         if (scrollY > oldScrollY) {//  上拉
-            // 上拉到一定位置时，开始启用背景的过度变化
-            if (scrollY > posStart && !isStatusChange) {
-                startChangeBk();
+            // 上拉到posEnd时，开始还原背景
+            if (scrollY > posEnd) {
+                if (isStatusChange) {
+                    startRestoreBk();
+                }
+            }
+            // 上拉到posStart时，开始启用背景的过度变化
+            else if (scrollY > posStart) {
+                if (!isStatusChange) {
+                    startChangeBk();
+                }
             }
         }
         else {// 下拉
-            if (scrollY < posStart && isStatusChange) {
-                startRestoreBk();
+            // 下拉到posStart时，开始还原背景
+            if (scrollY < posStart) {
+                if (isStatusChange) {
+                    startRestoreBk();
+                }
+            }
+            // 下拉到posEnd时，开始启用背景的过度变化
+            else if (scrollY < posEnd) {
+                if (!isStatusChange) {
+                    startChangeBk();
+                }
             }
         }
     }

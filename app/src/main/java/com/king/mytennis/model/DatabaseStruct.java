@@ -56,6 +56,9 @@ public class DatabaseStruct {
 
 	public static final String TABLE_SEQUENCE="sqlite_sequence";
 
+	public static final String TABLE_RANK_FINAL="rank_final";
+	public static final String[] TTABLE_RANK_FINAL_COL={"_id", "_year", "_rank"};
+
 	/**
 	 * public database
 	 */

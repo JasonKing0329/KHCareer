@@ -16,7 +16,7 @@ public class MySQLHelper extends SQLiteOpenHelper{
 	private static MySQLHelper sqlHelper = null;
 	private static MySQLHelper publicHelper = null;
 	private static String currentDatabase = DatabaseStruct.DATABASE;
-	private static int version = 2;
+	private static int version = 3;
 
 	private MySQLHelper(Context context, String database, CursorFactory factory,
 						int version) {
@@ -84,6 +84,9 @@ public class MySQLHelper extends SQLiteOpenHelper{
 
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-		DebugLog.e("");
+		DebugLog.e("oldVersion=" + oldVersion + ", newVersion=" + newVersion);
+		if (oldVersion <= 2 && newVersion == 3) {
+			db.execSQL("CREATE TABLE IF NOT EXISTS rank_final(_id INTEGER PRIMARY KEY AUTOINCREMENT, _year INTEGER, _rank INTEGER)");
+		}
 	}
 }

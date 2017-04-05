@@ -16,8 +16,10 @@ public class BaseActivity extends AppCompatActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		
-//    	setTheme(new ThemeManager(this).getDefaultTheme());
+
+		if (applyCommonTheme()) {
+			setTheme(new ThemeManager(this).getDefaultTheme());
+		}
 
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		
@@ -28,6 +30,11 @@ public class BaseActivity extends AppCompatActivity {
 		progressDialog = new ProgressDialog(this);
 
 		super.onCreate(savedInstanceState);
+	}
+
+	protected boolean applyCommonTheme() {
+		// 除了4.0开始的HomeActivity之外，其他的默认为true
+		return true;
 	}
 
 	public void showConfirmMessage(String msg, DialogInterface.OnClickListener listener) {

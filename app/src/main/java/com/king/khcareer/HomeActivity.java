@@ -1,13 +1,12 @@
 package com.king.khcareer;
 
-import android.animation.ArgbEvaluator;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.NestedScrollView;
@@ -28,18 +27,17 @@ import com.github.siyamed.shapeimageview.RoundedImageView;
 import com.king.mytennis.glory.GloryModuleActivity;
 import com.king.mytennis.match.GradientBkView;
 import com.king.mytennis.match.MatchManageActivity;
-import com.king.mytennis.match.ScrollManager;
 import com.king.mytennis.match.UserMatchActivity;
 import com.king.mytennis.match.UserMatchBean;
-import com.king.mytennis.model.Constants;
 import com.king.mytennis.model.ImageFactory;
 import com.king.mytennis.multiuser.MultiUser;
 import com.king.mytennis.multiuser.MultiUserManager;
 import com.king.mytennis.player.PlayerManageActivity;
 import com.king.mytennis.score.ScoreActivity;
+import com.king.mytennis.score.rank.RankChartFragment;
+import com.king.mytennis.score.rank.RankManageActivity;
 import com.king.mytennis.service.ImageUtil;
 import com.king.mytennis.service.MenuService;
-import com.king.mytennis.utils.DebugLog;
 import com.king.mytennis.utils.DensityUtil;
 import com.king.mytennis.view.BaseActivity;
 import com.king.mytennis.view.ManagerActivity;
@@ -55,14 +53,14 @@ import com.yarolegovich.discretescrollview.DiscreteScrollView;
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer;
 
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class HomeActivity extends BaseActivity implements IHomeView {
+
+    private final int REQUEST_RANK = 101;
 
     @BindView(R.id.iv_flag_bg)
     ImageView ivFlagBg;
@@ -138,6 +136,8 @@ public class HomeActivity extends BaseActivity implements IHomeView {
     NestedScrollView scrollHome;
     @BindView(R.id.bkView)
     GradientBkView bkView;
+    @BindView(R.id.drawer_layout)
+    DrawerLayout drawerLayout;
 
     private MenuService menuService;
 
@@ -150,6 +150,8 @@ public class HomeActivity extends BaseActivity implements IHomeView {
     private HomeVerScrollManager verScrollManager;
 
     private List<UserMatchBean> matchList;
+
+    private RankChartFragment ftChart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,6 +176,15 @@ public class HomeActivity extends BaseActivity implements IHomeView {
         initNavView();
         initContent();
         initData();
+    }
+
+    /**
+     * 不用老theme
+     * @return
+     */
+    @Override
+    protected boolean applyCommonTheme() {
+        return false;
     }
 
     private void initAppBar() {
@@ -228,6 +239,21 @@ public class HomeActivity extends BaseActivity implements IHomeView {
             }
         });
         scrollHome.setOnScrollChangeListener(verScrollManager);
+
+        initRankChart();
+    }
+
+    private void initRankChart() {
+        ftChart = new RankChartFragment();
+        ftChart.setOnChartGroupClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startRankManageActivity();
+            }
+        });
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+        ft.add(R.id.group_chart, ftChart, "RankChartFragment");
+        ft.commit();
     }
 
     private void showUserSelector() {
@@ -241,6 +267,7 @@ public class HomeActivity extends BaseActivity implements IHomeView {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
                 onUserChanged(users[i]);
+                drawerLayout.closeDrawer(GravityCompat.START);
             }
         }).show();
     }
@@ -323,13 +350,14 @@ public class HomeActivity extends BaseActivity implements IHomeView {
         ctlToolbar.setTitle(user.getFullName());
 
         initData();
+        ftChart.onUserChanged();
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+            drawerLayout.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
@@ -432,6 +460,11 @@ public class HomeActivity extends BaseActivity implements IHomeView {
         }
     }
 
+    private void startRankManageActivity() {
+        Intent intent = new Intent().setClass(this, RankManageActivity.class);
+        startActivityForResult(intent, REQUEST_RANK);
+    }
+
     private void startRecordEditorActivity() {
         Intent intent = new Intent().setClass(this, RecordEditorActivity.class);
         startActivity(intent);
@@ -502,4 +535,14 @@ public class HomeActivity extends BaseActivity implements IHomeView {
         finish();
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_RANK) {
+            // 更新rank chart
+            if (resultCode == RESULT_OK) {
+                ftChart.refreshRanks(null);
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }
