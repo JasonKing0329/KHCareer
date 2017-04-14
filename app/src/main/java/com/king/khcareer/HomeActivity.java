@@ -289,14 +289,18 @@ public class HomeActivity extends BaseActivity implements IHomeView {
 
     @Override
     public void onHomeDataLoaded(HomeData data) {
-        ImageUtil.load("file://" + ImageFactory.getMatchHeadPath(data.getRecordMatch(), data.getRecordCourt()), ivRecordBk);
+        ImageUtil.load("file://" + ImageFactory.getMatchHeadPath(data.getRecordMatch(), data.getRecordCourt()), ivRecordBk
+                , R.drawable.swipecard_default_img);
         tvMatchName.setText(data.getRecordMatch() + "(" +  data.getRecordCountry() + ")");
         tvMatchRound.setText(data.getRecordRound());
-        ImageUtil.load("file://" + ImageFactory.getPlayerHeadPath(data.getPlayerName1()), ivPlayer1);
+        ImageUtil.load("file://" + ImageFactory.getPlayerHeadPath(data.getPlayerName1()), ivPlayer1
+                , R.drawable.glory_rank);
         tvPlayerName1.setText((data.isWinner1() ? "":"(lose)") + data.getPlayerName1());
-        ImageUtil.load("file://" + ImageFactory.getPlayerHeadPath(data.getPlayerName2()), ivPlayer2);
+        ImageUtil.load("file://" + ImageFactory.getPlayerHeadPath(data.getPlayerName2()), ivPlayer2
+                , R.drawable.glory_rank);
         tvPlayerName2.setText((data.isWinner2() ? "":"(lose)") + data.getPlayerName2());
-        ImageUtil.load("file://" + ImageFactory.getPlayerHeadPath(data.getPlayerName3()), ivPlayer3);
+        ImageUtil.load("file://" + ImageFactory.getPlayerHeadPath(data.getPlayerName3()), ivPlayer3
+                , R.drawable.glory_rank);
         tvPlayerName3.setText((data.isWinner3() ? "":"(lose)") + data.getPlayerName3());
 
         matchList = data.getMatchList();
