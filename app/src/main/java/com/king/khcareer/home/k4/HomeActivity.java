@@ -335,8 +335,7 @@ public class HomeActivity extends BaseActivity implements IHomeView {
 
         // clay season, 蒙卡前一站到法网结束
         if (week >= 15 && week < 24) {
-//            ivNavImage.setImageResource(R.drawable.nav_header_mon);
-            ivNavImage.setImageResource(R.drawable.nav_header_win);
+            ivNavImage.setImageResource(R.drawable.nav_header_mon);
         }
         // grass season, 斯图加特到温网结束
         else if (week >= 24 && week < 29) {
