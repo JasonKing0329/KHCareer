@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white">
-    <com.king.mytennis.match.GradientBkView
+    <com.king.khcareer.match.gallery.GradientBkView
         android:id="@+id/match_bk"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

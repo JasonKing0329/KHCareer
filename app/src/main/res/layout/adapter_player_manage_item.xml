@@ -12,7 +12,7 @@
         style="@style/MatchManageItem"
         android:layout_centerVertical="true" />
 
-    <com.king.mytennis.view_v_7_0.view.CircleImageView
+    <com.king.khcareer.pubview.CircleImageView
         android:id="@+id/manage_item_image"
         android:layout_width="40dp"
         android:layout_height="40dp"

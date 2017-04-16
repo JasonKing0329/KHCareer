@@ -15,7 +15,7 @@ import org.htmlparser.util.ParserException;
 
 import com.king.mytennis.model.AtpRank;
 import com.king.mytennis.net.html.Parser.OnParseListener;
-import com.king.mytennis.view.settings.CacheController;
+import com.king.khcareer.settings.CacheController;
 
 import android.content.Context;
 import android.os.Handler.Callback;

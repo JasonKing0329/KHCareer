@@ -16,6 +16,7 @@
     <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY"/>
 
     <application
+        android:name="com.king.khcareer.base.KApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -27,7 +28,7 @@
         <meta-data android:name="com.sec.android.multiwindow.STYLE" android:value="fixedRatio"/>
         <meta-data android:name="com.sec.android.support.multiwindow" android:value="true"/>
 
-        <activity android:name=".LoginActivity"
+        <activity android:name="com.king.khcareer.login.LoginActivity"
             android:label="@string/app_name"
             android:theme="@style/ActionBarBlue">
             <intent-filter>
@@ -37,24 +38,24 @@
                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name="com.king.mytennis.view.ManagerActivity"
+        <activity android:name="com.king.khcareer.home.classic.ManagerActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/ActionBarBlue"/>
-        <activity android:name="com.king.mytennis.update_v_6_0.ManagerActivity"
+        <activity android:name="com.king.khcareer.home.v6.ManagerActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/ActionBarBlue"/>
         <activity
-            android:name="com.king.mytennis.view_v_7_0.V7MainActivity"
+            android:name="com.king.khcareer.home.v7.V7MainActivity"
             android:theme="@style/ActionBarBlue"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.king.mytennis.view.detail.DetailGallery"
+            android:name="com.king.khcareer.record.detail.DetailGallery"
             android:theme="@style/ActionBarBlue"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.king.mytennis.view.editor.RecordEditorActivity"
+            android:name="com.king.khcareer.record.editor.RecordEditorActivity"
             android:theme="@style/ActionBarBlue"
             android:screenOrientation="portrait">
         </activity>
@@ -64,7 +65,7 @@
             android:screenOrientation="portrait">
         </activity>
         <activity
-            android:name="com.king.mytennis.view.settings.SettingActivity"
+            android:name="com.king.khcareer.settings.SettingActivity"
             android:theme="@style/ActionBarBlue"
             android:screenOrientation="portrait">
         </activity>
@@ -82,47 +83,47 @@
             android:theme="@style/ActionBarBlue"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.king.mytennis.view_v_7_0.ClassicActivity"
+            android:name="com.king.khcareer.home.classic.ClassicActivity"
             android:theme="@style/ActionBarBlue"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.king.mytennis.view_v_7_0.swipecard.SwipeCardActivity"
+            android:name="com.king.khcareer.player.swipecard.SwipeCardActivity"
             android:theme="@style/ActionBarBlue"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.king.mytennis.view_v_7_0.view.MatchActivity"
+            android:name="com.king.khcareer.match.timeline.MatchActivity"
             android:theme="@style/ActionBarBlue"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.king.mytennis.view_v_7_0.view.PlayerActivity"
+            android:name="com.king.khcareer.player.timeline.PlayerActivity"
             android:theme="@style/ActionBarBlue"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.king.mytennis.match.MatchManageActivity"
+            android:name="com.king.khcareer.match.manage.MatchManageActivity"
             android:theme="@style/ActionBarBlue"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.king.mytennis.score.ScoreActivity"
+            android:name="com.king.khcareer.score.ScoreActivity"
             android:theme="@style/ActionBarBlue"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.king.mytennis.player.PlayerManageActivity"
+            android:name="com.king.khcareer.player.manage.PlayerManageActivity"
             android:theme="@style/ActionBarBlue"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.king.mytennis.player.PlayerCommonActivity"
+            android:name="com.king.khcareer.player.manage.PlayerCommonActivity"
             android:theme="@style/ActionBarBlue"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.king.mytennis.match.UserMatchActivity"
+            android:name="com.king.khcareer.match.gallery.UserMatchActivity"
             android:theme="@style/ActionBarBlue"
             android:screenOrientation="portrait"/>
         <activity
-            android:name="com.king.khcareer.HomeActivity"
+            android:name="com.king.khcareer.home.k4.HomeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/HomeTheme"/>
         <activity
-            android:name="com.king.mytennis.score.rank.RankManageActivity"
+            android:name="com.king.khcareer.rank.RankManageActivity"
             android:theme="@style/ActionBarBlue"
             android:screenOrientation="portrait"/>
     </application>

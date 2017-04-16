@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.king.mytennis.view.slidingmenu.SlidingMenuLeft xmlns:android="http://schemas.android.com/apk/res/android"
+<com.king.khcareer.pubview.slidingmenu.SlidingMenuLeft xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:mytennis="http://schemas.android.com/apk/res-auto"
     android:id="@+id/home_slidingmenu"
     android:layout_width="match_parent"
@@ -19,4 +19,4 @@
 	        android:orientation="vertical"/>
     </LinearLayout>
 
-</com.king.mytennis.view.slidingmenu.SlidingMenuLeft>
+</com.king.khcareer.pubview.slidingmenu.SlidingMenuLeft>

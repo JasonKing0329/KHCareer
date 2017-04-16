@@ -4,16 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import android.content.Context;
-
 import com.king.mytennis.glory.model.GrandSlameItem;
 import com.king.mytennis.glory.model.GrandSlame;
-import com.king.mytennis.interfc.RecordDAO;
-import com.king.mytennis.model.FileIO;
-import com.king.mytennis.model.Record;
-import com.king.mytennis.model.RecordDAOImp;
-import com.king.mytennis.multiuser.MultiUser;
-import com.king.mytennis.multiuser.MultiUserManager;
+import com.king.khcareer.model.sql.player.interfc.RecordDAO;
+import com.king.khcareer.model.FileIO;
+import com.king.khcareer.model.sql.player.bean.Record;
+import com.king.khcareer.model.sql.player.RecordDAOImp;
+import com.king.khcareer.common.multiuser.MultiUser;
+import com.king.khcareer.common.multiuser.MultiUserManager;
 
 public class GloryController {
 
@@ -24,8 +22,8 @@ public class GloryController {
 	public GloryController() {
 		grandSlame = new GrandSlame();
 	}
-	public List<HashMap<String, String>> loadTitles(Context context) {
-		recordDAO = new RecordDAOImp(context);
+	public List<HashMap<String, String>> loadTitles() {
+		recordDAO = new RecordDAOImp();
 		List<Record> records = recordDAO.queryByWhere(
 				"round = ? and iswinner = ?", new String[]{"Final", MultiUserManager.USER_DB_FLAG});
 		if (records != null && records.size() > 0) {
@@ -81,8 +79,8 @@ public class GloryController {
 			map.put("achieve_index", "" + (list.size() - i));
 		}
 	}
-	public List<HashMap<String, String>> loadRunnerUps(Context context) {
-		recordDAO = new RecordDAOImp(context);
+	public List<HashMap<String, String>> loadRunnerUps() {
+		recordDAO = new RecordDAOImp();
 		List<Record> records = recordDAO.queryByWhere(
 				"round = ? and iswinner != ?", new String[]{"Final", MultiUserManager.USER_DB_FLAG});
 		if (records != null && records.size() > 0) {
@@ -141,8 +139,8 @@ public class GloryController {
 		grandSlame.saveData();
 	}
 
-	public List<Record> loadMatchRecord(Context context, String match, String date) {
-		recordDAO = new RecordDAOImp(context);
+	public List<Record> loadMatchRecord(String match, String date) {
+		recordDAO = new RecordDAOImp();
 		List<Record> records = recordDAO.queryByWhere(
 				"date_str = ? and match = ?", new String[]{date, match});
 		return records;

@@ -13,7 +13,7 @@
 	    android:layout_marginLeft="5dp"
 	    android:scaleType="fitCenter"
 	    android:src="@drawable/ic_expand_more_white_36dp"/>
-	<com.king.mytennis.view_v_7_0.view.CircleImageView
+	<com.king.khcareer.pubview.CircleImageView
 		android:id="@+id/recordlist_title_image_player"
 		android:layout_width="40dp"
 		android:layout_height="40dp"

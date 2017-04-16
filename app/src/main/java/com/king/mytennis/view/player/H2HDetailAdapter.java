@@ -2,7 +2,7 @@ package com.king.mytennis.view.player;
 
 import java.util.List;
 
-import com.king.mytennis.model.Record;
+import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.mytennis.view.R;
 
 import android.content.Context;

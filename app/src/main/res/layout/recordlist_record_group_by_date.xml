@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal" 
     android:paddingLeft="10dp">
-	<com.king.mytennis.view_v_7_0.view.CircleImageView
+	<com.king.khcareer.pubview.CircleImageView
 		android:id="@+id/recordlist_record_head"
 		android:layout_width="37dp"
 		android:layout_height="37dp"

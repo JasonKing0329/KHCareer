@@ -17,9 +17,9 @@ import org.htmlparser.tags.ImageTag;
 import org.htmlparser.util.NodeList;
 import org.htmlparser.util.ParserException;
 
-import com.king.mytennis.model.Record;
+import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.mytennis.view.player.WorldPlayer;
-import com.king.mytennis.view.settings.CacheController;
+import com.king.khcareer.settings.CacheController;
 
 import android.content.Context;
 import android.os.Handler.Callback;

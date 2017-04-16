@@ -11,7 +11,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.king.mytennis.match.GradientBkView
+        <com.king.khcareer.match.gallery.GradientBkView
             android:id="@+id/bkView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
@@ -28,11 +28,12 @@
         android:layout_gravity="start"
         android:background="#F6F5FA">
         <ImageView
+            android:id="@+id/iv_nav_image"
             android:layout_width="match_parent"
             android:layout_height="280dp"
             android:src="@drawable/nav_header_mon"
             android:scaleType="centerCrop"/>
-        <com.king.mytennis.view_v_7_0.view.CircleImageView
+        <com.king.khcareer.pubview.CircleImageView
             android:id="@+id/iv_user_head"
             android:layout_width="50dp"
             android:layout_height="50dp"

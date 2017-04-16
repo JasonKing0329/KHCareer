@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.king.mytennis.glory.ActionBar.ActionBarListener;
-import com.king.mytennis.model.MySQLHelper;
-import com.king.mytennis.service.Application;
-import com.king.mytennis.service.LanguageService;
-import com.king.mytennis.view.BaseActivity;
+import com.king.khcareer.model.sql.player.MySQLHelper;
+import com.king.khcareer.base.KApplication;
+import com.king.khcareer.settings.LanguageService;
+import com.king.khcareer.base.BaseActivity;
 import com.king.mytennis.view.R;
 import com.king.lib.colorpicker.ColorPicker;
 import com.king.lib.colorpicker.ColorPickerSelectionData;
@@ -33,7 +33,7 @@ public class GloryModuleActivity extends BaseActivity
 		super.onCreate(savedInstanceState);
 
 		LanguageService.init(this);
-		if (Application.isLollipop()) {
+		if (KApplication.isLollipop()) {
 			setContentView(R.layout.glory_activity_l);
 		}
 		else {

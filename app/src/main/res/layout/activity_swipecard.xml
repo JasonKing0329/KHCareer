@@ -19,7 +19,7 @@
         android:gravity="center"
         android:layout_centerInParent="true" />
     
-    <com.king.mytennis.view_v_7_0.swipecard.view.SwipeFlingAdapterView
+    <com.king.khcareer.player.swipecard.view.SwipeFlingAdapterView
         android:id="@+id/swipe_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -112,7 +112,7 @@
     
 	</RelativeLayout>
 	
-	<com.king.mytennis.view.publicview.SideBar 
+	<com.king.khcareer.pubview.SideBar
         android:id="@+id/swipe_sidebar"
 	    android:layout_width="@dimen/swipecard_indexbar_width"
 	    android:layout_height="match_parent"

@@ -5,8 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/scroll_home"
-    app:layout_behavior="com.king.khcareer.HomeBehavior"
-    tools:context="com.king.khcareer.HomeActivity">
+    app:layout_behavior="com.king.khcareer.home.k4.HomeBehavior"
+    tools:context="com.king.khcareer.home.k4.HomeActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -19,7 +19,6 @@
                 android:id="@+id/iv_record_bk"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:src="@drawable/view7_folder_detail_match"
                 app:siRadius="10dp"
                 android:scaleType="fitXY"
                 android:layout_marginLeft="20dp"
@@ -63,14 +62,12 @@
                 android:id="@+id/iv_player1"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/view7_folder_detail_match"
                 app:siRadius="10dp"
                 android:scaleType="centerCrop"/>
             <com.github.siyamed.shapeimageview.RoundedImageView
                 android:id="@+id/iv_player2"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/view7_folder_cover_match"
                 app:siRadius="10dp"
                 android:layout_marginLeft="10dp"
                 android:scaleType="centerCrop"/>
@@ -78,7 +75,6 @@
                 android:id="@+id/iv_player3"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/view7_folder_cover_more"
                 app:siRadius="10dp"
                 android:layout_marginLeft="10dp"
                 android:scaleType="centerCrop"/>

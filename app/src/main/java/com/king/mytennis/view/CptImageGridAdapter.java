@@ -9,14 +9,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.king.mytennis.download.DownloadItem;
-import com.king.mytennis.http.Command;
-import com.king.mytennis.http.RequestCallback;
-import com.king.mytennis.http.bean.ImageUrlBean;
-import com.king.mytennis.model.Configuration;
-import com.king.mytennis.model.ImageFactory;
-import com.king.mytennis.service.ImageUtil;
-import com.king.mytennis.view_v_7_0.interaction.controller.InteractionController;
+import com.king.khcareer.base.CustomDialog;
+import com.king.khcareer.download.DownloadItem;
+import com.king.khcareer.model.http.Command;
+import com.king.khcareer.model.http.RequestCallback;
+import com.king.khcareer.model.http.bean.ImageUrlBean;
+import com.king.khcareer.common.config.Configuration;
+import com.king.khcareer.common.image.ImageFactory;
+import com.king.khcareer.common.image.ImageUtil;
+import com.king.khcareer.common.image.interaction.controller.InteractionController;
 
 import java.io.File;
 import java.util.ArrayList;

@@ -4,13 +4,16 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.HashMap;
 
-import com.king.mytennis.model.Configuration;
-import com.king.mytennis.service.Application;
-import com.king.mytennis.service.ExternalRecordTool;
+import com.king.khcareer.base.BaseActivity;
+import com.king.khcareer.base.CustomDialog;
+import com.king.khcareer.common.viewsys.LoadFromDialog;
+import com.king.khcareer.common.config.Configuration;
+import com.king.khcareer.base.KApplication;
+import com.king.khcareer.utils.ExternalRecordTool;
 import com.king.mytennis.view.player.Controller;
 import com.king.mytennis.view.player.H2HSearcher;
 import com.king.mytennis.view.player.PlayerUpdateView;
-import com.king.mytennis.view.settings.SettingActivity;
+import com.king.khcareer.settings.SettingActivity;
 
 import android.os.Bundle;
 import android.content.Intent;
@@ -32,7 +35,7 @@ public class H2hMainActivity extends BaseActivity implements OnClickListener, On
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		if (Application.isLollipop()) {
+		if (KApplication.isLollipop()) {
 			setContentView(R.layout.activity_atpwta_h2h_l);
 		}
 		else {

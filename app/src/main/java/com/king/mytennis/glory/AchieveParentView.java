@@ -4,10 +4,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+import com.king.khcareer.match.GloryMatchDialog;
 import com.king.mytennis.glory.adapter.AchieveDateContentAdapter;
 import com.king.mytennis.glory.adapter.GrandSlameAdapter;
-import com.king.mytennis.model.Record;
-import com.king.mytennis.view.CustomDialog;
+import com.king.khcareer.model.sql.player.bean.Record;
+import com.king.khcareer.base.CustomDialog;
 import com.king.mytennis.view.R;
 
 import cn.samson.timershaftdemo.view.XListView;
@@ -138,12 +139,12 @@ public class AchieveParentView implements IXListViewListener {
 
 	private List<HashMap<String, String>> getGloryRunnerups() {
 
-		return controller.loadRunnerUps(context);
+		return controller.loadRunnerUps();
 	}
 
 	private List<HashMap<String, String>> getGloryTitles() {
 
-		return controller.loadTitles(context);
+		return controller.loadTitles();
 	}
 
 	private void onLoad() {
@@ -245,8 +246,7 @@ public class AchieveParentView implements IXListViewListener {
 
 				@Override
 				public void onLoadData(HashMap<String, Object> data) {
-					List<Record> list = controller.loadMatchRecord(context,
-							map.get("achieve_glory"), map.get("achieve_date"));
+					List<Record> list = controller.loadMatchRecord(map.get("achieve_glory"), map.get("achieve_date"));
 					data.put(CustomDialog.OnCustomDialogActionListener.DATA_TYPE, list);
 				}
 

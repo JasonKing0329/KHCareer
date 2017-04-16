@@ -13,7 +13,7 @@
         android:paddingBottom="10dp"
         android:textSize="30sp"
         android:text="Gallery is Circular"/>
-    <com.king.mytennis.view.detail.FlingGallery
+    <com.king.khcareer.record.detail.FlingGallery
         android:id="@+id/detail_flinggallery"
         android:layout_above="@id/detail_bottom"
         android:layout_width="match_parent"

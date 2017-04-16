@@ -3,7 +3,7 @@ package com.king.mytennis.net.html;
 import java.io.Serializable;
 import java.util.List;
 
-import com.king.mytennis.model.Record;
+import com.king.khcareer.model.sql.player.bean.Record;
 
 public class H2HEntity implements Serializable {
 

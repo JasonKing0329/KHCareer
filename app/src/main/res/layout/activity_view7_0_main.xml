@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.king.mytennis.view_v_7_0.view.DragLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.king.khcareer.pubview.DragLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/view7_main_draglayout"
     android:layout_width="match_parent"
@@ -17,7 +17,7 @@
 			android:orientation="horizontal"
 		    android:layout_marginTop="100dp"
 		    android:layout_marginLeft="50dp" >
-	        <com.king.mytennis.view_v_7_0.view.CircleImageView
+	        <com.king.khcareer.pubview.CircleImageView
 				android:id="@+id/view7_main_side_user_head"
 			    android:layout_width="50dp"
 			    android:layout_height="50dp"
@@ -111,7 +111,7 @@
 		</LinearLayout>
     </RelativeLayout>
     
-	<com.king.mytennis.view_v_7_0.view.DragCustomRelativeLayout 
+	<com.king.khcareer.pubview.DragCustomRelativeLayout
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"
 	    android:background="@color/view7_home_background" >
@@ -131,7 +131,7 @@
 				    android:layout_width="match_parent"
 				    android:layout_height="wrap_content"
 					android:layout_marginTop="20dp" >
-				    <com.king.mytennis.view_v_7_0.view.FoldableLayout
+				    <com.king.khcareer.pubview.FoldableLayout
 				        android:id="@+id/foldercard_time"
 					    android:layout_width="match_parent"
 					    android:layout_height="wrap_content" />
@@ -143,7 +143,7 @@
 				    android:layout_height="wrap_content"
 				    android:layout_below="@id/foldercard_time_layout"
 					android:layout_marginTop="15dp" >
-				    <com.king.mytennis.view_v_7_0.view.FoldableLayout
+				    <com.king.khcareer.pubview.FoldableLayout
 				        android:id="@+id/foldercard_player"
 					    android:layout_width="match_parent"
 					    android:layout_height="wrap_content" />
@@ -155,7 +155,7 @@
 				    android:layout_height="wrap_content"
 				    android:layout_below="@id/foldercard_player_layout"
 					android:layout_marginTop="15dp" >
-				    <com.king.mytennis.view_v_7_0.view.FoldableLayout
+				    <com.king.khcareer.pubview.FoldableLayout
 				        android:id="@+id/foldercard_match"
 					    android:layout_width="match_parent"
 					    android:layout_height="wrap_content" />
@@ -167,7 +167,7 @@
 				    android:layout_height="wrap_content"
 				    android:layout_below="@id/foldercard_match_layout"
 					android:layout_marginTop="15dp" >
-				    <com.king.mytennis.view_v_7_0.view.FoldableLayout
+				    <com.king.khcareer.pubview.FoldableLayout
 				        android:id="@+id/foldercard_more"
 					    android:layout_width="match_parent"
 					    android:layout_height="wrap_content" />
@@ -220,6 +220,6 @@
 			    android:text="@string/app_init"
 			    android:layout_marginLeft="15dp" />
 		</LinearLayout>
-	</com.king.mytennis.view_v_7_0.view.DragCustomRelativeLayout>
+	</com.king.khcareer.pubview.DragCustomRelativeLayout>
     
-</com.king.mytennis.view_v_7_0.view.DragLayout>
+</com.king.khcareer.pubview.DragLayout>

@@ -65,7 +65,7 @@
 		    android:text="@string/no_content"
 			android:background="@color/trans_black"/>
 		
-		<com.king.mytennis.view.publicview.SideBar 
+		<com.king.khcareer.pubview.SideBar
 	        android:id="@+id/indexview_sidebar"
 		    android:layout_width="@dimen/recordlist_index_width"
 		    android:layout_height="match_parent"

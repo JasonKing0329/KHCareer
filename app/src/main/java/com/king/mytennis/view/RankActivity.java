@@ -8,14 +8,15 @@ import java.util.HashMap;
 import java.util.List;
 
 import com.king.app.browser.interaction.MyBrowserConstants;
+import com.king.khcareer.base.BaseActivity;
 import com.king.mytennis.glory.GloryController;
 import com.king.mytennis.model.AtpSinaRank;
 import com.king.mytennis.net.html.ATPRankParser;
 import com.king.mytennis.net.html.SinaParser;
 import com.king.mytennis.net.html.Parser.OnParseListener;
-import com.king.mytennis.service.Application;
-import com.king.mytennis.service.CalendarService;
-import com.king.mytennis.view.settings.CacheController;
+import com.king.khcareer.base.KApplication;
+import com.king.khcareer.utils.CalendarService;
+import com.king.khcareer.settings.CacheController;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -55,7 +56,7 @@ public class RankActivity extends BaseActivity implements OnParseListener, OnCli
 
 		super.onCreate(savedInstanceState);
 
-		if (Application.isLollipop()) {
+		if (KApplication.isLollipop()) {
 			setContentView(R.layout.rank_main_l);
 		}
 		else {

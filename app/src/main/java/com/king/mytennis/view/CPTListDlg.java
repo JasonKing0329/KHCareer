@@ -2,8 +2,7 @@ package com.king.mytennis.view;
 
 import java.util.List;
 
-import com.king.mytennis.model.SearchModel;
-import com.king.mytennis.service.RecordService;
+import com.king.khcareer.record.RecordService;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -46,7 +45,7 @@ public class CPTListDlg implements OnItemClickListener, OnItemLongClickListener,
 			progressDialog.show();
 			new Thread() {
 				public void run() {
-					nameArray = new RecordService(userActivity).getCptNames();
+					nameArray = new RecordService().getCptNames();
 					handler.sendMessage(new Message());
 				}
 			}.start();

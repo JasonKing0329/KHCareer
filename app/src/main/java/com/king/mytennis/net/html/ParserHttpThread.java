@@ -19,9 +19,9 @@ import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.util.EntityUtils;
 
-import com.king.mytennis.model.Configuration;
-import com.king.mytennis.view.settings.CacheController;
-import com.king.mytennis.view.settings.SettingProperty;
+import com.king.khcareer.common.config.Configuration;
+import com.king.khcareer.settings.CacheController;
+import com.king.khcareer.settings.SettingProperty;
 
 import android.content.Context;
 import android.graphics.Bitmap;

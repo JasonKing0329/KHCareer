@@ -10,9 +10,9 @@ import com.king.mytennis.net.html.H2HEntity;
 import com.king.mytennis.net.html.Parser;
 import com.king.mytennis.net.html.ParserHttpThread;
 import com.king.mytennis.net.html.WTAParser;
-import com.king.mytennis.view.BaseActivity;
+import com.king.khcareer.base.BaseActivity;
 import com.king.mytennis.view.R;
-import com.king.mytennis.view.settings.CacheController;
+import com.king.khcareer.settings.CacheController;
 
 import android.app.ProgressDialog;
 import android.content.Context;

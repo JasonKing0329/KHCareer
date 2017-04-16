@@ -9,7 +9,7 @@
         android:id="@+id/match_manage_actionbar"
         layout="@layout/view7_layout_actionbar" />
 
-	<com.king.mytennis.view.publicview.SideBar
+	<com.king.khcareer.pubview.SideBar
 		android:id="@+id/manage_sidebar"
 		android:layout_width="@dimen/swipecard_indexbar_width"
 		android:layout_height="match_parent"

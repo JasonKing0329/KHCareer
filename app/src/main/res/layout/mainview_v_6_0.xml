@@ -2,11 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
-    <com.king.mytennis.update_v_6_0.CardPage 
+    <com.king.khcareer.home.v6.CardPage
         android:id="@+id/cardpage"
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"/>
-	<com.king.mytennis.view.publicview.PageTagView 
+	<com.king.khcareer.pubview.PageTagView
         android:id="@+id/cardpage_side"
 	    android:layout_width="wrap_content"
 	    android:layout_height="match_parent"
@@ -16,7 +16,7 @@
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"
 	    android:visibility="gone"/>
-	<com.king.mytennis.view.publicview.DragSideBar 
+	<com.king.khcareer.pubview.DragSideBar
         android:id="@+id/cardpage_dragside"
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"

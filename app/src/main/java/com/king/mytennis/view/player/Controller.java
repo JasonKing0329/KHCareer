@@ -6,9 +6,9 @@ import java.util.List;
 
 import android.content.Context;
 
-import com.king.mytennis.model.Configuration;
+import com.king.khcareer.common.config.Configuration;
 import com.king.mytennis.net.html.SqlOperator;
-import com.king.mytennis.service.ExternalRecordTool;
+import com.king.khcareer.utils.ExternalRecordTool;
 
 public class Controller {
 

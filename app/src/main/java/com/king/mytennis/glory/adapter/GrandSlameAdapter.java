@@ -1,11 +1,10 @@
 package com.king.mytennis.glory.adapter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import com.king.mytennis.glory.model.GrandSlameItem;
-import com.king.mytennis.view.CustomDialog;
+import com.king.khcareer.base.CustomDialog;
 import com.king.mytennis.view.R;
 
 import android.content.Context;

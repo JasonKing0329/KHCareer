@@ -19,7 +19,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:orientation="horizontal">
-        <com.king.mytennis.download.NumberProgressBar
+        <com.king.khcareer.download.NumberProgressBar
             style="@style/NumberProgressBar_Passing_Green"
             android:id="@+id/download_item_progressbar"
             android:layout_width="0dp"

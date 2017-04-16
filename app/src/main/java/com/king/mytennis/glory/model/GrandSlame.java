@@ -11,9 +11,9 @@ import java.util.List;
 
 import android.util.Log;
 
-import com.king.mytennis.model.Configuration;
-import com.king.mytennis.multiuser.MultiUser;
-import com.king.mytennis.multiuser.MultiUserManager;
+import com.king.khcareer.common.config.Configuration;
+import com.king.khcareer.common.multiuser.MultiUser;
+import com.king.khcareer.common.multiuser.MultiUserManager;
 
 public class GrandSlame {
 
