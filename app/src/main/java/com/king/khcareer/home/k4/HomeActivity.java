@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
@@ -24,7 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.github.siyamed.shapeimageview.RoundedImageView;
-import com.king.khcareer.model.sql.pubdata.bean.MatchNameBean;
+import com.king.khcareer.common.config.Constants;
 import com.king.mytennis.glory.GloryModuleActivity;
 import com.king.khcareer.match.gallery.GradientBkView;
 import com.king.khcareer.match.manage.MatchManageActivity;
@@ -63,6 +64,8 @@ import butterknife.OnClick;
 public class HomeActivity extends BaseActivity implements IHomeView {
 
     private final int REQUEST_RANK = 101;
+    private final int REQUEST_EDITOR = 102;
+    private final int REQUEST_RECORD_LIST = 103;
 
     @BindView(R.id.iv_flag_bg)
     ImageView ivFlagBg;
@@ -285,6 +288,10 @@ public class HomeActivity extends BaseActivity implements IHomeView {
         tvBirthday.setText(user.getBirthday());
         tvHeight.setText(user.getHeight() + "  " + user.getWeight());
 
+        refreshHomeData();
+    }
+
+    private void refreshHomeData() {
         presenter.loadHomeDatas();
     }
 
@@ -497,7 +504,7 @@ public class HomeActivity extends BaseActivity implements IHomeView {
 
     private void startRecordEditorActivity() {
         Intent intent = new Intent().setClass(this, RecordEditorActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_EDITOR);
     }
 
     private void startScoreActivity() {
@@ -523,7 +530,7 @@ public class HomeActivity extends BaseActivity implements IHomeView {
 
     private void startRecordLineActivity() {
         Intent intent = new Intent().setClass(this, ClassicActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_RECORD_LIST);
     }
 
     private void startPlayerH2hActivity() {
@@ -571,6 +578,18 @@ public class HomeActivity extends BaseActivity implements IHomeView {
             // 更新rank chart
             if (resultCode == RESULT_OK) {
                 ftChart.refreshRanks(null);
+            }
+        }
+        else if (requestCode == REQUEST_EDITOR) {
+            // 增加了记录，刷新home数据
+            if (resultCode == Constants.FLAG_RECORD_UPDATE) {
+                refreshHomeData();
+            }
+        }
+        else if (requestCode == REQUEST_RECORD_LIST) {
+            // 删除了记录，刷新home数据
+            if (resultCode == Constants.FLAG_RECORD_UPDATE) {
+                refreshHomeData();
             }
         }
         super.onActivityResult(requestCode, resultCode, data);

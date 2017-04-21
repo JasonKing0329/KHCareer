@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.king.khcareer.common.config.Constants;
 import com.king.khcareer.common.helper.BackgroundProvider;
 import com.king.khcareer.match.manage.MatchCache;
 import com.king.khcareer.match.manage.MatchManageActivity;
@@ -120,6 +121,8 @@ public class RecordEditorActivity extends BaseActivity implements IEditorHolder,
         else if (v == doneView) {
             if (continueView.getVisibility() == View.GONE) {
                 if (insert()) {
+                    // 记录record有修改
+                    setResult(Constants.FLAG_RECORD_UPDATE);
                     Toast.makeText(this, R.string.insert_done, Toast.LENGTH_LONG).show();
                     continueView.setVisibility(View.VISIBLE);
                 }

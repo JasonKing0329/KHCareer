@@ -93,4 +93,9 @@ public class Constants {
 			"December"
 	};
 
+	/**
+	 * record记录有改动（增删改）标志
+	 */
+	public static final int FLAG_RECORD_UPDATE = 1030;
+
 }

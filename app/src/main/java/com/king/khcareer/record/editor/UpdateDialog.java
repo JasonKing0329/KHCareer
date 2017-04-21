@@ -4,12 +4,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+import com.king.khcareer.common.config.Constants;
 import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.record.RecordService;
 import com.king.khcareer.home.classic.ManagerActivity;
 import com.king.mytennis.view.R;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -58,6 +60,8 @@ public class UpdateDialog extends InsertOrUpdateDialog implements DialogInterfac
 		if (which == AlertDialog.BUTTON_POSITIVE) {
 			updateList();
 			destoryDialog(dialog);
+			// 记录record有修改
+			((Activity) userActivity).setResult(Constants.FLAG_RECORD_UPDATE);
 			if (userActivity instanceof ManagerActivity) {
 				ManagerActivity activity = (ManagerActivity) userActivity;
 				activity.notifyListViewChanged();

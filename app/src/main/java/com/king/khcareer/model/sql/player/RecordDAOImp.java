@@ -135,16 +135,13 @@ public class RecordDAOImp implements RecordDAO {
 	@Override
 	public ArrayList<Record> queryAll() {
 
-		ArrayList<Record> list = null;
+		ArrayList<Record> list = new ArrayList<>();
 		SQLiteDatabase db = sqLite.getSQLHelper().getWritableDatabase();
 		Cursor cursor=db.query(
 				DatabaseStruct.TABLE_RECORD, DatabaseStruct.TABLE_RECORD_COL
 				, null, null, null, null, null);
 		Record record = null;
 		while (cursor.moveToNext()){
-			if (list == null) {
-				list = new ArrayList<Record>();
-			}
 			record = new Record();
 			adaptRecord(cursor, record);
 			list.add(record);

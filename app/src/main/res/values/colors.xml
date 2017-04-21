@@ -192,6 +192,9 @@
     <color name="user_match_country">#84ceca</color>
     <color name="user_match_download_ripple">#51b2ac</color>
 
+    <color name="record_item_text_normal">#333333</color>
+    <color name="record_item_text_gray">#999999</color>
+
     <color name="gradientPeriodicClouds_c1">#3453d1</color>
     <color name="gradientPeriodicClouds_c2">#6d69ff</color>
     <color name="gradientPeriodicClouds_c3">#cd47c6</color>

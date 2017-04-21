@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:gravity="center_vertical">
+        <TextView
+            android:id="@+id/tv_match_first"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:text="蒙"
+            android:textColor="@color/white"
+            android:textSize="25dp"
+            android:textStyle="bold"
+            android:background="@drawable/shape_oval_hard"
+            android:gravity="center"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="15dp">
+            <TextView
+                android:id="@+id/tv_match_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="蒙特卡洛大师赛"
+                android:textSize="16dp"
+                android:textColor="@color/record_item_text_normal" />
+            <TextView
+                android:id="@+id/tv_match_level"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="ATP 1000"
+                android:textSize="14dp"
+                android:textColor="@color/record_item_text_gray" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="10dp"
+            android:gravity="center_horizontal">
+            <TextView
+                android:id="@+id/tv_match_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2017-04"
+                android:textSize="16dp"
+                android:textColor="@color/record_item_text_normal" />
+            <TextView
+                android:id="@+id/tv_match_round"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:text="Semi Final"
+                android:textSize="16dp"
+                android:textColor="@color/record_item_text_normal" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>
