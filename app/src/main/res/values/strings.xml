@@ -41,7 +41,9 @@
     <string name="record_longclick_delete">delete</string>
     <string name="record_longclick_detailofthis">details of this</string>
     <string name="record_longclick_detailofall">details of all</string>
-
+    <string name="record_longclick_detail">details</string>
+    <string name="record_longclick_detail_sub_this">current list</string>
+    <string name="record_longclick_detail_sub_all">all records</string>
     <!-- ***************************safeset********************************* -->
     <string name="alterpwd">alter password</string>
     <string name="oldpwd">old password:</string>

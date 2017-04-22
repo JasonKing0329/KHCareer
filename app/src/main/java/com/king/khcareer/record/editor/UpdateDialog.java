@@ -25,13 +25,13 @@ import android.content.DialogInterface;
  */
 public class UpdateDialog extends InsertOrUpdateDialog implements DialogInterface.OnClickListener {
 
-	private int update_position;
-	private List<Record> list;
+	private Record record;
 
-	public UpdateDialog(Context userActivity, List<Record> list, int position) {
+	private OnUpdateListener onUpdateListener;
+
+	public UpdateDialog(Context userActivity, Record record) {
 		super(userActivity);
-		this.list = list;
-		update_position = position;
+		this.record = record;
 	}
 
 	public void show() {
@@ -46,9 +46,9 @@ public class UpdateDialog extends InsertOrUpdateDialog implements DialogInterfac
 		dlg.show();
 	}
 
-	public void reshow(int position) {
+	public void reshow(Record record) {
 
-		update_position = position;
+		this.record = record;
 		super.initView();
 		setCurPosInfor();
 		show();
@@ -59,13 +59,12 @@ public class UpdateDialog extends InsertOrUpdateDialog implements DialogInterfac
 
 		if (which == AlertDialog.BUTTON_POSITIVE) {
 			updateList();
+			if (onUpdateListener != null) {
+				onUpdateListener.OnRecordUpdated(record);
+			}
 			destoryDialog(dialog);
 			// 记录record有修改
 			((Activity) userActivity).setResult(Constants.FLAG_RECORD_UPDATE);
-			if (userActivity instanceof ManagerActivity) {
-				ManagerActivity activity = (ManagerActivity) userActivity;
-				activity.notifyListViewChanged();
-			}
 		}
 		else if (which == AlertDialog.BUTTON_NEGATIVE) {
 			destoryDialog(dialog);
@@ -77,7 +76,6 @@ public class UpdateDialog extends InsertOrUpdateDialog implements DialogInterfac
 		 * 修改选中条目，lookresult类调用，内部代码基本和insertToList一样
 		 * 在dlg中调用
 		 */
-		Record record = list.get(update_position);
 		int temp;
 		try {
 			temp = Integer.parseInt(et_rankp1.getText().toString());
@@ -141,7 +139,6 @@ public class UpdateDialog extends InsertOrUpdateDialog implements DialogInterfac
 	}
 
 	private void setCurPosInfor(){
-		Record record=list.get(update_position);
 		et_city.setText(record.getCity());
 		actv_compname.setText(record.getCompetitor());
 		et_matchcountry.setText(record.getMatchCountry());
@@ -187,5 +184,13 @@ public class UpdateDialog extends InsertOrUpdateDialog implements DialogInterfac
 			if (arr_month[i].matches(month))
 				sp_month.setSelection(i);
 		}
+	}
+
+	public void setOnUpdateListener(OnUpdateListener onUpdateListener) {
+		this.onUpdateListener = onUpdateListener;
+	}
+
+	public interface OnUpdateListener {
+		void OnRecordUpdated(Record record);
 	}
 }

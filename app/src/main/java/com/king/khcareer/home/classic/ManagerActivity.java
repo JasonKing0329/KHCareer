@@ -632,12 +632,18 @@ public class ManagerActivity extends BaseActivity implements OnSlideChagedListen
 	@Override
 	public void startUpdateDialog(int position) {
 		if (updateDialog == null) {
-			updateDialog = new UpdateDialog(this, recordList, position);
+			updateDialog = new UpdateDialog(this, recordList.get(position));
 			new InitInsertOrUpdateDialogThread(DLG_UPDATE).start();
 		}
 		else {
-			updateDialog.reshow(position);
+			updateDialog.reshow(recordList.get(position));
 		}
+		updateDialog.setOnUpdateListener(new UpdateDialog.OnUpdateListener() {
+			@Override
+			public void OnRecordUpdated(Record record) {
+				notifyListViewChanged();
+			}
+		});
 	}
 
 	/**

@@ -38,6 +38,9 @@
     <string name="record_longclick_delete">删除</string>
     <string name="record_longclick_detailofthis">详细信息（当前列表）</string>
     <string name="record_longclick_detailofall">详细信息（全部记录）</string>
+    <string name="record_longclick_detail">详细信息</string>
+    <string name="record_longclick_detail_sub_this">当前列表</string>
+    <string name="record_longclick_detail_sub_all">全部记录</string>
     <!-- ***************************safeset********************************* -->
     <string name="alterpwd">修改密码</string>
     <string name="oldpwd">旧密码：</string>

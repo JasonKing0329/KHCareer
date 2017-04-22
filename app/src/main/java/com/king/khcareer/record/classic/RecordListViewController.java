@@ -135,11 +135,11 @@ public class RecordListViewController implements RecordListViewService {
 	@Override
 	public void startUpdateDialog(int position) {
 		if (updateDialog == null) {
-			updateDialog = new UpdateDialog(mContext, recordList, position);
+			updateDialog = new UpdateDialog(mContext, recordList.get(position));
 			new InitInsertOrUpdateDialogThread(DLG_UPDATE).start();
 		}
 		else {
-			updateDialog.reshow(position);
+			updateDialog.reshow(recordList.get(position));
 		}
 	}
 

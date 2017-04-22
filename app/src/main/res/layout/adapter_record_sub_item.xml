@@ -3,19 +3,26 @@
 	xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal" 
-    android:paddingLeft="10dp">
+    android:orientation="horizontal"
+	android:id="@+id/group_record"
+	android:background="?android:attr/selectableItemBackground"
+	android:gravity="center_vertical"
+	android:paddingTop="3dp"
+	android:paddingBottom="3dp"
+    android:paddingLeft="20dp"
+	android:paddingRight="20dp">
 	<com.king.khcareer.pubview.CircleImageView
 		android:id="@+id/iv_player"
-		android:layout_width="37dp"
-		android:layout_height="37dp"
+		android:layout_width="45dp"
+		android:layout_height="45dp"
 		android:layout_margin="1dp"
 		android:src="@drawable/icon_list"
 		android:layout_gravity="center_vertical"
 		app:civ_border_width="0dp"
 		app:civ_border_color="@color/white" />
 	<LinearLayout
-	    android:layout_width="match_parent"
+	    android:layout_width="0dp"
+		android:layout_weight="1"
 	    android:layout_height="wrap_content"
 	    android:layout_marginLeft="10dp"
 	    android:layout_gravity="center_vertical"
@@ -36,20 +43,30 @@
 			    android:layout_width="wrap_content"
 			    android:layout_height="wrap_content"
 		    	android:textSize="14sp"
-		    	android:textColor="@color/record_item_text_normal"/>
+		    	android:textColor="@color/record_item_text_gray"/>
 			<TextView
 				android:id="@+id/tv_round"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
+				android:layout_marginLeft="20dp"
 				android:textSize="14sp"
-				android:textColor="@color/record_item_text_normal"/>
+				android:textColor="@color/record_item_text_gray"/>
 		</LinearLayout>
 		<TextView
         	android:id="@+id/tv_score"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
 	    	android:textSize="14sp"
-	    	android:textColor="@color/record_item_text_normal"/>
+	    	android:textColor="@color/record_item_text_gray"/>
 	</LinearLayout>
+
+	<com.nightonke.boommenu.BoomMenuButton
+		android:id="@+id/bmb_menu"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		app:bmb_buttonEnum="ham"
+		app:bmb_piecePlaceEnum="piecePlace_ham_4"
+		app:bmb_buttonPlaceEnum="buttonPlace_ham_4"
+		app:bmb_inList="true"/>
 
 </LinearLayout>

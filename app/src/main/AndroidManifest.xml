@@ -81,7 +81,7 @@
         <activity
             android:name="com.king.mytennis.view.RankActivity"
             android:theme="@style/ActionBarBlue"
-            android:screenOrientation="portrait"/>
+        android:screenOrientation="portrait"/>
         <activity
             android:name="com.king.khcareer.home.classic.ClassicActivity"
             android:theme="@style/ActionBarBlue"
@@ -125,6 +125,10 @@
         <activity
             android:name="com.king.khcareer.rank.RankManageActivity"
             android:theme="@style/ActionBarBlue"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.king.khcareer.record.k4.RecordActivity"
+            android:theme="@style/RecordTheme"
             android:screenOrientation="portrait"/>
     </application>
 

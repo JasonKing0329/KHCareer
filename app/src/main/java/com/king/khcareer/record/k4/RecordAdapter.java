@@ -14,11 +14,15 @@ import java.util.List;
  */
 public class RecordAdapter extends BaseExpandableAdapter {
 
-    private final int ITEM_TYPE_HEAD = 1;
-    private final int ITEM_TYPE_RECORD = 2;
+    private final int ITEM_TYPE_YEAR = 1;
+    private final int ITEM_TYPE_HEAD = 2;
+    private final int ITEM_TYPE_RECORD = 3;
 
-    protected RecordAdapter(List<HeaderItem> data) {
+    private OnItemMenuListener onItemMenuListener;
+
+    protected RecordAdapter(List<YearItem> data, OnItemMenuListener onItemMenuListener) {
         super(data);
+        this.onItemMenuListener = onItemMenuListener;
     }
 
     @NonNull
@@ -26,21 +30,26 @@ public class RecordAdapter extends BaseExpandableAdapter {
     public AbstractAdapterItem<Object> getItemView(Object type) {
         int itemType = (int) type;
         switch (itemType) {
+            case ITEM_TYPE_YEAR:
+                return new YearAdapter();
             case ITEM_TYPE_HEAD:
                 return new HeaderAdapter();
             case ITEM_TYPE_RECORD:
-                return new RecordItemAdapter();
+                return new RecordItemAdapter(onItemMenuListener);
         }
         return null;
     }
 
     @Override
     public Object getItemViewType(Object t) {
-        if (t instanceof HeaderItem) {
+        if (t instanceof YearItem) {
+            return ITEM_TYPE_YEAR;
+        }
+        else if (t instanceof HeaderItem) {
             return ITEM_TYPE_HEAD;
         }
         else if (t instanceof RecordItem) {
-            return ITEM_TYPE_HEAD;
+            return ITEM_TYPE_RECORD;
         }
         return -1;
     }

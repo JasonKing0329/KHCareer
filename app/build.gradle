@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
-ext.appVersionName = "4.2.0.1"
-ext.appVersionCode = 42
+ext.appVersionName = "4.3"
+ext.appVersionCode = 43
 ext.appReleaseDir = "E:/temp/release/KHCareer"
 
 android {
@@ -111,7 +111,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:+'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
-
-    // expandable recycler view
-    compile 'com.zaihuishou:expandablerecycleradapter:1.0.3'
+    // boom menu
+    compile 'com.nightonke:boommenu:2.0.9'
+    compile project(':expandablerecycleradapter')
 }

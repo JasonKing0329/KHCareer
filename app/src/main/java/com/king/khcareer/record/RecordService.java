@@ -67,8 +67,16 @@ public class RecordService {
 	 * @param index
 	 */
 	public void delete(int index, List<Record> list) {
-		recordDao.delete(list.get(index));
+		delete(list.get(index));
 		list.remove(index);
+	}
+
+	/**
+	 * 从数据库删除
+	 * @param record
+	 */
+	public void delete(Record record) {
+		recordDao.delete(record);
 	}
 
 	/**

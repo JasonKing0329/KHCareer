@@ -16,6 +16,8 @@ public class HeaderItem implements ExpandableListItem {
     private List<RecordItem> list;
     public boolean mExpanded = false;
 
+    private int yearPosition;
+
     public Record getRecord() {
         return record;
     }
@@ -43,4 +45,11 @@ public class HeaderItem implements ExpandableListItem {
         mExpanded = isExpanded;
     }
 
+    public int getYearPosition() {
+        return yearPosition;
+    }
+
+    public void setYearPosition(int yearPosition) {
+        this.yearPosition = yearPosition;
+    }
 }

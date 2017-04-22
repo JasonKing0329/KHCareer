@@ -1,10 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.king.khcareer.home.k4.HomeActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="0dp"
+        app:elevation="0dp"
+        android:theme="@style/RecordTheme.AppBarOverlay">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/ctl_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:contentScrim="?attr/colorPrimary"
+            app:scrimVisibleHeightTrigger="@dimen/home_scrim_visible_height"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/player_basic_head_height">
+
+                <ImageView
+                    android:id="@+id/iv_record_head"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/player_basic_head_height"
+                    android:src="@drawable/nav_header_mon"
+                    android:scaleType="fitXY"/>
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#99000000">
+                    <TextView
+                        android:id="@+id/tv_career_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Career"
+                        android:textColor="@color/white"
+                        android:textSize="20dp"
+                        android:layout_marginLeft="55dp"
+                        android:layout_marginTop="15dp"/>
+                    <TextView
+                        android:id="@+id/tv_career_winlose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_career_title"
+                        android:layout_alignLeft="@id/tv_career_title"
+                        android:textColor="#eeeeee"
+                        android:textSize="16dp"
+                        android:layout_marginTop="5dp"/>
+                    <TextView
+                        android:id="@+id/tv_career_rate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/tab_actionbar_text_focus"
+                        android:textSize="36dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignTop="@id/tv_career_title"
+                        android:layout_marginRight="30dp"/>
+
+                    <TextView
+                        android:id="@+id/tv_year_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2017"
+                        android:textColor="@color/white"
+                        android:textSize="20dp"
+                        android:layout_below="@id/tv_career_winlose"
+                        android:layout_marginLeft="55dp"
+                        android:layout_marginTop="10dp"/>
+                    <TextView
+                        android:id="@+id/tv_year_winlose"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/tv_year_title"
+                        android:layout_alignLeft="@id/tv_year_title"
+                        android:textColor="#eeeeee"
+                        android:textSize="16dp"
+                        android:layout_marginTop="5dp"/>
+                    <TextView
+                        android:id="@+id/tv_year_rate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/tab_actionbar_text_focus"
+                        android:textSize="36dp"
+                        android:layout_alignParentRight="true"
+                        android:layout_alignTop="@id/tv_year_title"
+                        android:layout_marginRight="30dp"/>
+                </RelativeLayout>
+            </RelativeLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:layout_collapseMode="pin"
+                app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+                app:popupTheme="@style/RecordTheme.PopupOverlay" />
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+    </android.support.design.widget.AppBarLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_record"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"/>
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
-</RelativeLayout>
+    <com.nightonke.boommenu.BoomMenuButton
+        android:id="@+id/bmb_menu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        app:bmb_normalColor="@color/colorPrimary"/>
+
+</android.support.design.widget.CoordinatorLayout>

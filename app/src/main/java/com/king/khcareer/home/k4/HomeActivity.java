@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
@@ -26,6 +25,7 @@ import android.widget.Toast;
 
 import com.github.siyamed.shapeimageview.RoundedImageView;
 import com.king.khcareer.common.config.Constants;
+import com.king.khcareer.record.k4.RecordActivity;
 import com.king.mytennis.glory.GloryModuleActivity;
 import com.king.khcareer.match.gallery.GradientBkView;
 import com.king.khcareer.match.manage.MatchManageActivity;
@@ -529,7 +529,7 @@ public class HomeActivity extends BaseActivity implements IHomeView {
     }
 
     private void startRecordLineActivity() {
-        Intent intent = new Intent().setClass(this, ClassicActivity.class);
+        Intent intent = new Intent().setClass(this, RecordActivity.class);
         startActivityForResult(intent, REQUEST_RECORD_LIST);
     }
 
