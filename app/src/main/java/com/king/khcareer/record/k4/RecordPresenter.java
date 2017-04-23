@@ -132,6 +132,10 @@ public class RecordPresenter {
                 nCareer ++;
                 if (MultiUserManager.USER_DB_FLAG.equals(record.getWinner())) {
                     nCareerWin ++;
+                    yearItem.setWin(yearItem.getWin() + 1);
+                }
+                else {
+                    yearItem.setLose(yearItem.getLose() + 1);
                 }
 
                 if (year == Integer.parseInt(record.getStrDate().split("-")[0])) {

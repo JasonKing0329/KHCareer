@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="wrap_content">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:gravity="center_vertical"
+    android:paddingTop="15dp"
+    android:paddingBottom="15dp">
 
     <TextView
         android:id="@+id/tv_year"
@@ -8,8 +12,15 @@
         android:layout_height="wrap_content"
         android:textSize="26dp"
         android:textColor="@color/colorPrimary"
-        android:paddingTop="15dp"
-        android:paddingBottom="15dp"
         android:layout_marginLeft="15dp"/>
 
-</RelativeLayout>
+    <TextView
+        android:id="@+id/tv_year_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/tv_year"
+        android:textSize="16dp"
+        android:textColor="@color/record_item_text_gray"
+        android:layout_marginLeft="20dp"/>
+
+</LinearLayout>

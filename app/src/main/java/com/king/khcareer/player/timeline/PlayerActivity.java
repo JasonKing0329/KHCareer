@@ -17,6 +17,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ecloud.pulltozoomview.PullToZoomScrollViewEx;
+import com.king.khcareer.model.sql.player.H2HDAODB;
+import com.king.khcareer.model.sql.player.interfc.H2HDAO;
 import com.king.mytennis.glory.GloryController;
 import com.king.khcareer.match.GloryMatchDialog;
 import com.king.khcareer.common.image.ImageFactory;
@@ -41,6 +43,7 @@ public class PlayerActivity extends BaseActivity implements OnGroupCollapseListe
 		, OnChildClickListener, View.OnClickListener{
 
 	public static final String KEY_USER_ID = "key_user_id";
+	public static final String KEY_COMPETITOR_NAME = "key_competitor_name";
 
 	private final String TAG = "PlayerActivity";
 	private PullToZoomScrollViewEx pullView;
@@ -78,7 +81,26 @@ public class PlayerActivity extends BaseActivity implements OnGroupCollapseListe
 		pullView.setScrollContentView(contentView);
 
 		pubDataProvider = new PubDataProvider();
+
+		// 正常的应该是在当前界面根据competitor加载基本信息，不过暂时兼容老接口的做法
 		mPlayerBean = ObjectCache.gePlayerBean();
+		if (mPlayerBean == null) {
+			String name = getIntent().getStringExtra(KEY_COMPETITOR_NAME);
+			if (!TextUtils.isEmpty(name)) {
+				mPlayerBean = new PlayerBean();
+				mPlayerBean.setName(name);
+
+				com.king.khcareer.model.sql.pubdata.bean.PlayerBean bean = pubDataProvider.getPlayerByChnName(name);
+				if (bean != null) {
+					mPlayerBean.setCountry(bean.getCountry());
+					mPlayerBean.setNamePinYin(bean.getNamePinyin());
+				}
+
+				H2HDAO dao = new H2HDAODB(name);
+				mPlayerBean.setWin(dao.getWin());
+				mPlayerBean.setLose(dao.getLose());
+			}
+		}
 
 		initHeader(headView, zoomView);
 

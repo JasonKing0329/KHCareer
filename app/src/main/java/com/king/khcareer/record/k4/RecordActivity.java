@@ -19,6 +19,7 @@ import com.king.khcareer.common.image.ImageUtil;
 import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.model.sql.player.H2HDAOList;
 import com.king.khcareer.model.sql.player.bean.Record;
+import com.king.khcareer.player.timeline.PlayerActivity;
 import com.king.khcareer.record.DetailsDialog;
 import com.king.khcareer.record.RecordService;
 import com.king.khcareer.record.SearchDialog;
@@ -199,6 +200,14 @@ public class RecordActivity extends BaseActivity implements IRecordView, OnItemM
     public void onListDetail(RecordItem record) {
         DetailsDialog dlg = new DetailsDialog(this, record.getRecord(), new H2HDAOList(recordPageData.getRecordList(), record.getRecord().getCompetitor()));
         dlg.show();
+    }
+
+    @Override
+    public void onItemClicked(RecordItem recordItem) {
+        Intent intent = new Intent();
+        intent.setClass(this, PlayerActivity.class);
+        intent.putExtra(PlayerActivity.KEY_COMPETITOR_NAME, recordItem.getRecord().getCompetitor());
+        startActivity(intent);
     }
 
     @Override

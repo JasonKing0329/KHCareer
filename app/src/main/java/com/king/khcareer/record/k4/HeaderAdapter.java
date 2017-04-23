@@ -1,9 +1,11 @@
 package com.king.khcareer.record.k4;
 
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.king.khcareer.common.config.Constants;
+import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.khcareer.utils.DebugLog;
 import com.king.mytennis.view.R;
@@ -22,6 +24,7 @@ public class HeaderAdapter extends AbstractExpandableAdapterItem {
     private TextView tvMatchLevel;
     private TextView tvMatchDate;
     private TextView tvMatchRound;
+    private ImageView ivWinnerCup;
 
     @Override
     public int getLayoutResId() {
@@ -41,6 +44,7 @@ public class HeaderAdapter extends AbstractExpandableAdapterItem {
         tvMatchLevel = (TextView) root.findViewById(R.id.tv_match_level);
         tvMatchDate = (TextView) root.findViewById(R.id.tv_match_date);
         tvMatchRound = (TextView) root.findViewById(R.id.tv_match_round);
+        ivWinnerCup = (ImageView) root.findViewById(R.id.iv_winner_cup);
     }
 
     @Override
@@ -56,7 +60,17 @@ public class HeaderAdapter extends AbstractExpandableAdapterItem {
         Record record = item.getRecord();
         tvMatchFirst.setText(String.valueOf(record.getMatch().charAt(0)));
         tvMatchName.setText(record.getMatch());
-        tvMatchRound.setText(record.getRound());
+        // champion
+        if (Constants.RECORD_MATCH_ROUNDS[0].equals(record.getRound())
+                && MultiUserManager.USER_DB_FLAG.equals(record.getWinner())) {
+            ivWinnerCup.setVisibility(View.VISIBLE);
+            tvMatchRound.setVisibility(View.GONE);
+        }
+        else {
+            ivWinnerCup.setVisibility(View.GONE);
+            tvMatchRound.setVisibility(View.VISIBLE);
+            tvMatchRound.setText(record.getRound());
+        }
         tvMatchDate.setText(record.getStrDate());
         tvMatchLevel.setText(record.getLevel());
         String court = record.getCourt();

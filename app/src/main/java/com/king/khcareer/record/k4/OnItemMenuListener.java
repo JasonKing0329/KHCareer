@@ -9,4 +9,6 @@ public interface OnItemMenuListener {
     void onDeleteRecord(RecordItem record);
     void onAllDetail(RecordItem record);
     void onListDetail(RecordItem record);
+
+    void onItemClicked(RecordItem curRecordItem);
 }

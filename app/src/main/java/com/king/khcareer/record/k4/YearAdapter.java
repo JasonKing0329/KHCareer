@@ -15,6 +15,7 @@ import com.zaihuishou.expandablerecycleradapter.viewholder.AbstractExpandableAda
 public class YearAdapter extends AbstractExpandableAdapterItem {
 
     private TextView tvYear;
+    private TextView tvYearCount;
 
     @Override
     public int getLayoutResId() {
@@ -30,6 +31,7 @@ public class YearAdapter extends AbstractExpandableAdapterItem {
             }
         });
         tvYear = (TextView) root.findViewById(R.id.tv_year);
+        tvYearCount = (TextView) root.findViewById(R.id.tv_year_count);
     }
 
     @Override
@@ -44,6 +46,7 @@ public class YearAdapter extends AbstractExpandableAdapterItem {
 
         String year = item.getYear();
         tvYear.setText(year);
+        tvYearCount.setText("Win " + item.getWin() + " Lose " + item.getLose());
     }
 
     @Override

@@ -12,6 +12,8 @@ import java.util.List;
 public class YearItem implements ExpandableListItem {
 
     private String year;
+    private int win;
+    private int lose;
     private List<HeaderItem> list;
     public boolean mExpanded = false;
 
@@ -21,6 +23,22 @@ public class YearItem implements ExpandableListItem {
 
     public void setYear(String year) {
         this.year = year;
+    }
+
+    public int getWin() {
+        return win;
+    }
+
+    public void setWin(int win) {
+        this.win = win;
+    }
+
+    public int getLose() {
+        return lose;
+    }
+
+    public void setLose(int lose) {
+        this.lose = lose;
     }
 
     @Override
