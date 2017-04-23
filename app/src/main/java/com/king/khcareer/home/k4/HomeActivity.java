@@ -139,8 +139,9 @@ public class HomeActivity extends BaseActivity implements IHomeView {
     TextView tvNavV7;
     @BindView(R.id.scroll_home)
     NestedScrollView scrollHome;
-    @BindView(R.id.bkView)
-    GradientBkView bkView;
+    // v4.3.2弃用
+//    @BindView(R.id.bkView)
+//    GradientBkView bkView;
     @BindView(R.id.drawer_layout)
     DrawerLayout drawerLayout;
     @BindView(R.id.iv_nav_image)
@@ -223,26 +224,26 @@ public class HomeActivity extends BaseActivity implements IHomeView {
         dsvMatch.setItemTransformer(new ScaleTransformer.Builder()
                 .setMinScale(0.9f)
                 .build());
-        dsvMatch.setScrollStateChangeListener(scrollManager);
-        scrollManager.bindBehaviorView(bkView);
-
-        verScrollManager = new HomeVerScrollManager(this, new HomeVerScrollManager.VerScrollCallback() {
-            @Override
-            public void enableHorScrollChange(boolean enable) {
-                scrollManager.setEnable(enable);
-            }
-
-            @Override
-            public int getCurrentMatchPosition() {
-                return dsvMatch.getCurrentItem();
-            }
-
-            @Override
-            public void onColorChanging(int[] color) {
-                bkView.updateGradientValues(color);
-            }
-        });
-        scrollHome.setOnScrollChangeListener(verScrollManager);
+        // v4.3.2 效果不是太好，从这一版开始弃用
+//        dsvMatch.setScrollStateChangeListener(scrollManager);
+//        scrollManager.bindBehaviorView(bkView);
+//        verScrollManager = new HomeVerScrollManager(this, new HomeVerScrollManager.VerScrollCallback() {
+//            @Override
+//            public void enableHorScrollChange(boolean enable) {
+//                scrollManager.setEnable(enable);
+//            }
+//
+//            @Override
+//            public int getCurrentMatchPosition() {
+//                return dsvMatch.getCurrentItem();
+//            }
+//
+//            @Override
+//            public void onColorChanging(int[] color) {
+//                bkView.updateGradientValues(color);
+//            }
+//        });
+//        scrollHome.setOnScrollChangeListener(verScrollManager);
 
         initRankChart();
     }

@@ -22,6 +22,7 @@
     <string name="details_h2h">Head To Head</string>
     <string name="no_content">没有记录</string>
     <string name="default_directory">目录： </string>
+    <string name="delete_confirm">确认删除？</string>
     <!-- ***************************upload********************************* -->
     <string name="uploading">上传中...</string>
     <string name="upload_ok">上传成功！</string>

@@ -24,6 +24,7 @@
     <string name="details_h2h">h2h</string>
     <string name="no_content">No content</string>
     <string name="default_directory">Directory: </string>
+    <string name="delete_confirm">Sure to delete?</string>
     <!-- ***************************upload********************************* -->
     <string name="uploading">uploading...</string>
     <string name="upload_ok">upload successed!</string>

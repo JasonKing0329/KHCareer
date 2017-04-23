@@ -1,5 +1,6 @@
 package com.king.khcareer.record.k4;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import com.king.khcareer.common.config.Constants;
 import com.king.khcareer.common.image.ImageFactory;
 import com.king.khcareer.common.image.ImageUtil;
 import com.king.khcareer.common.multiuser.MultiUserManager;
+import com.king.khcareer.common.viewsys.DefaultDialogManager;
 import com.king.khcareer.model.sql.player.H2HDAOList;
 import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.khcareer.player.timeline.PlayerActivity;
@@ -175,7 +177,24 @@ public class RecordActivity extends BaseActivity implements IRecordView, OnItemM
     }
 
     @Override
-    public void onDeleteRecord(RecordItem record) {
+    public void onDeleteRecord(final RecordItem record) {
+        new DefaultDialogManager().showWarningActionDialog(this, getString(R.string.delete_confirm)
+                , getString(R.string.ok), null, getString(R.string.cancel)
+                , new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        switch (i) {
+                            case DialogInterface.BUTTON_POSITIVE:
+                                doDelete(record);
+                                break;
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                break;
+                        }
+                    }
+                });
+    }
+
+    private void doDelete(RecordItem record) {
         RecordService service = new RecordService();
         // delete from database
         service.delete(record.getRecord());

@@ -11,10 +11,10 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <com.king.khcareer.match.gallery.GradientBkView
-            android:id="@+id/bkView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+        <!--v4.3.2弃用<com.king.khcareer.match.gallery.GradientBkView-->
+            <!--android:id="@+id/bkView"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"/>-->
         <include
             layout="@layout/layout_app_bar_home"
             android:layout_width="match_parent"
