@@ -2,11 +2,18 @@ package com.nightonke.boommenu.BoomButtons;
 
 import android.content.Context;
 import android.graphics.PointF;
+import android.text.TextUtils;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.nightonke.boommenu.ButtonEnum;
 import com.nightonke.boommenu.R;
+import com.nightonke.boommenu.Util;
 
 import java.util.ArrayList;
 
@@ -33,8 +40,11 @@ public class TextInsideCircleButton extends BoomButton {
         if (isRound) initShadow(buttonRadius + shadowRadius);
         else initShadow(shadowCornerRadius);
         initCircleButton();
-        initText(button);
         initImage();
+
+        // @author:Jing 不调用父类的initText(button)
+//        initText(button);
+        initText();
 
         centerPoint = new PointF(
                 buttonRadius + shadowRadius + shadowOffsetX,
@@ -43,6 +53,59 @@ public class TextInsideCircleButton extends BoomButton {
 
     private void initAttrs(Builder builder) {
         super.initAttrs(builder);
+    }
+
+    /**
+     * 覆盖父类的方法
+     * @author:Jing Yang: make sure the image is center of the button, and it's size is half of button size
+     * move image a little upper cause there is text below
+     */
+    @Override
+    protected void initImage() {
+        image = new ImageView(context);
+        updateImageRect();
+        updateImagePadding();
+
+        LayoutParams params = new LayoutParams(buttonRadius, buttonRadius);
+        params.leftMargin = buttonRadius / 2;
+        params.topMargin = buttonRadius / 2;
+
+        button.addView(image, params);
+        lastStateIsNormal = false;
+        toNormal();
+    }
+
+    /**
+     * @author:Jing 不调用父类的initText，保持文字在image下面
+     */
+    protected void initText() {
+        text = new TextView(context);
+//        updateTextRect();
+//        updateTextPadding();
+        text.setGravity(Gravity.CENTER);
+        if (typeface != null) text.setTypeface(typeface);
+        text.setMaxLines(maxLines);
+        text.setTextSize(TypedValue.COMPLEX_UNIT_SP, textSize);
+        text.setGravity(textGravity);
+        text.setEllipsize(ellipsize);
+        if (ellipsize == TextUtils.TruncateAt.MARQUEE) {
+            text.setSingleLine(true);
+            text.setMarqueeRepeatLimit(-1);
+            text.setHorizontallyScrolling(true);
+            text.setFocusable(true);
+            text.setFocusableInTouchMode(true);
+            text.setFreezesText(true);
+            post(new Runnable() {
+                @Override
+                public void run() {
+                    text.setSelected(true);
+                }
+            });
+        }
+        LayoutParams params = new LayoutParams(buttonRadius * 2, ViewGroup.LayoutParams.WRAP_CONTENT);
+        // imageSize + imageTop + textTop
+        params.topMargin = buttonRadius + (buttonRadius / 2 - Util.dp2px(10)) + Util.dp2px(5);
+        button.addView(text);
     }
 
     @Override

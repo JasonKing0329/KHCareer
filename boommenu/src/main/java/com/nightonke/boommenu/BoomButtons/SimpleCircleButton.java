@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.PointF;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 
 import com.nightonke.boommenu.ButtonEnum;
 import com.nightonke.boommenu.R;
@@ -40,6 +41,25 @@ public class SimpleCircleButton extends BoomButton {
 
     private void initAttrs(Builder builder) {
         super.initAttrs(builder);
+    }
+
+    /**
+     * 覆盖父类的方法
+     * @author:Jing Yang: make sure the image is center of the button, and it's size is half of button size
+     */
+    @Override
+    protected void initImage() {
+        image = new ImageView(context);
+        updateImageRect();
+        updateImagePadding();
+
+        LayoutParams params = new LayoutParams(buttonRadius, buttonRadius);
+        params.leftMargin = buttonRadius / 2;
+        params.topMargin = buttonRadius / 2;
+
+        button.addView(image, params);
+        lastStateIsNormal = false;
+        toNormal();
     }
 
     @Override

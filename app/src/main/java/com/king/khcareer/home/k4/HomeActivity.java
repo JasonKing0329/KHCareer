@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -25,9 +24,9 @@ import android.widget.Toast;
 
 import com.github.siyamed.shapeimageview.RoundedImageView;
 import com.king.khcareer.common.config.Constants;
+import com.king.khcareer.record.k4.BoomMenuHome;
 import com.king.khcareer.record.k4.RecordActivity;
 import com.king.mytennis.glory.GloryModuleActivity;
-import com.king.khcareer.match.gallery.GradientBkView;
 import com.king.khcareer.match.manage.MatchManageActivity;
 import com.king.khcareer.match.gallery.UserMatchActivity;
 import com.king.khcareer.match.gallery.UserMatchBean;
@@ -51,6 +50,8 @@ import com.king.khcareer.home.v7.V7MainActivity;
 import com.king.khcareer.common.helper.BasicOperation;
 import com.king.khcareer.player.swipecard.SwipeCardActivity;
 import com.king.khcareer.pubview.CircleImageView;
+import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
+import com.nightonke.boommenu.BoomMenuButton;
 import com.yarolegovich.discretescrollview.DiscreteScrollView;
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer;
 
@@ -61,7 +62,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class HomeActivity extends BaseActivity implements IHomeView {
+public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickListener {
 
     private final int REQUEST_RANK = 101;
     private final int REQUEST_EDITOR = 102;
@@ -119,8 +120,6 @@ public class HomeActivity extends BaseActivity implements IHomeView {
     LinearLayout groupGlory;
     @BindView(R.id.group_h2h)
     LinearLayout groupH2h;
-    @BindView(R.id.fab_go_top)
-    FloatingActionButton fabGoTop;
     @BindView(R.id.iv_user_head)
     CircleImageView ivUserHead;
     @BindView(R.id.group_nav_player)
@@ -146,6 +145,8 @@ public class HomeActivity extends BaseActivity implements IHomeView {
     DrawerLayout drawerLayout;
     @BindView(R.id.iv_nav_image)
     ImageView ivNavImage;
+    @BindView(R.id.bmb_menu)
+    BoomMenuButton bmbMenu;
 
     private MenuService menuService;
 
@@ -153,13 +154,15 @@ public class HomeActivity extends BaseActivity implements IHomeView {
 
     private HomeMatchAdapter matchAdapter;
 
-    private HomeMatchScrollManager scrollManager;
-
-    private HomeVerScrollManager verScrollManager;
+    // v4.3.2 弃用
+//    private HomeMatchScrollManager scrollManager;
+//    private HomeVerScrollManager verScrollManager;
 
     private List<UserMatchBean> matchList;
 
     private RankChartFragment ftChart;
+
+    private BoomMenuHome boomMenuHome;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,9 +174,11 @@ public class HomeActivity extends BaseActivity implements IHomeView {
         ImageUtil.initImageLoader(this);
         menuService = new MenuService();
         presenter = new HomePresenter(this);
-        scrollManager = new HomeMatchScrollManager(this);
-        // 先禁用横向滑动事件，等到上拉到一定位置再启用
-        scrollManager.setEnable(false);
+        boomMenuHome = new BoomMenuHome(bmbMenu);
+        // v4.3.2 弃用
+//        scrollManager = new HomeMatchScrollManager(this);
+//        // 先禁用横向滑动事件，等到上拉到一定位置再启用
+//        scrollManager.setEnable(false);
 
         initAppBar();
         initPlayerBasic();
@@ -220,6 +225,8 @@ public class HomeActivity extends BaseActivity implements IHomeView {
     }
 
     private void initContent() {
+
+        // init match gallery
         dsvMatch.setItemTransitionTimeMillis(200);
         dsvMatch.setItemTransformer(new ScaleTransformer.Builder()
                 .setMinScale(0.9f)
@@ -313,8 +320,9 @@ public class HomeActivity extends BaseActivity implements IHomeView {
         tvPlayerName3.setText((data.isWinner3() ? "" : "(lose)") + data.getPlayerName3());
 
         matchList = data.getMatchList();
-        scrollManager.bindData(matchList);
-        verScrollManager.bindData(matchList);
+        // v4.3.2 弃用
+//        scrollManager.bindData(matchList);
+//        verScrollManager.bindData(matchList);
         if (matchAdapter == null) {
             matchAdapter = new HomeMatchAdapter(data.getMatchList());
             dsvMatch.setAdapter(matchAdapter);
@@ -334,27 +342,33 @@ public class HomeActivity extends BaseActivity implements IHomeView {
 
         // 定位到与当前周最近赛事
         focusToLatestWeek(data.getMatchList());
-        updateNavImage();
+
+        // 按照当前月份的赛季属性更改相应的视图
+        updateSeasonStyle();
     }
 
-    private void updateNavImage() {
+    private void updateSeasonStyle() {
         Calendar calendar = Calendar.getInstance();
         int week = calendar.get(Calendar.WEEK_OF_YEAR);
 
         // clay season, 蒙卡前一站到法网结束
         if (week >= 15 && week < 24) {
+            boomMenuHome.init(BoomMenuHome.CLAY, this);
             ivNavImage.setImageResource(R.drawable.nav_header_mon);
         }
         // grass season, 斯图加特到温网结束
         else if (week >= 24 && week < 29) {
+            boomMenuHome.init(BoomMenuHome.GRASS, this);
             ivNavImage.setImageResource(R.drawable.nav_header_win);
         }
         // inner hard season, 上海以后
         else if (week > 41) {
+            boomMenuHome.init(BoomMenuHome.INHARD, this);
             ivNavImage.setImageResource(R.drawable.nav_header_sydney);
         }
         // hard season
         else {
+            boomMenuHome.init(BoomMenuHome.HARD, this);
             ivNavImage.setImageResource(R.drawable.nav_header_iw);
         }
     }
@@ -413,23 +427,53 @@ public class HomeActivity extends BaseActivity implements IHomeView {
         int id = item.getItemId();
         switch (id) {
             case R.id.menu_home_save:
-                String folder = menuService.saveDatabases();
-                String message = getString(R.string.save_db_success);
-                message = message.replace("%s", folder);
-                Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+                executeSave();
                 break;
             case R.id.menu_home_saveas:
-                BasicOperation.showSaveAsDialog(this, null);
+                executeSaveAs();
                 break;
             case R.id.menu_home_exit:
-                finish();
+                executeExit();
                 break;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
-    @OnClick({R.id.group_nav, R.id.group_player_basic, R.id.group_record, R.id.group_player, R.id.group_add, R.id.group_glory, R.id.group_h2h, R.id.fab_go_top})
+    @Override
+    public void onBoomButtonClick(int index) {
+        switch (index) {
+            case 0:
+                executeSave();
+                break;
+            case 1:
+                executeSaveAs();
+                break;
+            case 2:
+                executeExit();
+                break;
+            case 3:
+                scrollHome.scrollTo(0, 0);
+                break;
+        }
+    }
+
+    private void executeExit() {
+        finish();
+    }
+
+    private void executeSaveAs() {
+        BasicOperation.showSaveAsDialog(this, null);
+    }
+
+    private void executeSave() {
+        String folder = menuService.saveDatabases();
+        String message = getString(R.string.save_db_success);
+        message = message.replace("%s", folder);
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
+    @OnClick({R.id.group_nav, R.id.group_player_basic, R.id.group_record, R.id.group_player, R.id.group_add, R.id.group_glory, R.id.group_h2h})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.group_nav:
@@ -452,9 +496,6 @@ public class HomeActivity extends BaseActivity implements IHomeView {
                 break;
             case R.id.group_h2h:
                 startPlayerH2hActivity();
-                break;
-            case R.id.fab_go_top:
-                scrollHome.scrollTo(0, 0);
                 break;
         }
     }

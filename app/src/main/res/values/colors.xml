@@ -103,7 +103,7 @@
     <color name="dragsidebar_sec5_red">#f6b297</color>
     <color name="dragsidebar_sec6_red">#fcd9c4</color>
     <color name="dragsidebar_sec7_red">#b6292b</color>
-    
+
     <color name="dragsidebar_sec0_brown">#945305</color>
     <color name="dragsidebar_sec1_brown">#d0770b</color>
     <color name="dragsidebar_sec2_brown">#ec870e</color>
@@ -112,7 +112,7 @@
     <color name="dragsidebar_sec5_brown">#face9c</color>
     <color name="dragsidebar_sec6_brown">#fde2ca</color>
     <color name="dragsidebar_sec7_brown">#bd6b09</color>
-    
+
     <color name="dragsidebar_sec0_green">#367517</color>
     <color name="dragsidebar_sec1_green">#50a625</color>
     <color name="dragsidebar_sec2_green">#5bbd2b</color>
@@ -176,7 +176,24 @@
     <color name="view7_quick_enter_bk">#99777777</color>
     <color name="view7_folder_detail_btn_ripple">#40000000</color>
     <color name="view7_actionbar_bk">#4a5ebc</color>
-    
+
+    <color name="theme_hard1">#00676b</color>
+    <color name="theme_hard2">#009298</color>
+    <color name="theme_hard3">#00a6ad</color>
+    <color name="theme_hard4">#00b2bf</color>
+    <color name="theme_clay1">#945305</color>
+    <color name="theme_clay2">#d07709</color>
+    <color name="theme_clay3">#ec870e</color>
+    <color name="theme_clay4">#f09c42</color>
+    <color name="theme_grass1">#367517</color>
+    <color name="theme_grass2">#50a625</color>
+    <color name="theme_grass3">#5bbd2b</color>
+    <color name="theme_grass4">#83c75d</color>
+    <color name="theme_inhard1">#64004b</color>
+    <color name="theme_inhard2">#8f006d</color>
+    <color name="theme_inhard3">#a2007c</color>
+    <color name="theme_inhard4">#af4a92</color>
+
     <color name="swipecard_text_normal">#666666</color>
     <color name="swipecard_text_hard">#00a5c4</color>
     <color name="swipecard_text_clay">#ef9801</color>

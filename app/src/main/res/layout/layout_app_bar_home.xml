@@ -36,12 +36,12 @@
 
     <include layout="@layout/layout_content_home" />
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_go_top"
+    <com.nightonke.boommenu.BoomMenuButton
+        android:id="@+id/bmb_menu"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@drawable/ic_arrow_upward_white_24dp" />
+        android:layout_marginRight="10dp"
+        app:bmb_normalColor="@color/colorAccent"/>
 
 </android.support.design.widget.CoordinatorLayout>
