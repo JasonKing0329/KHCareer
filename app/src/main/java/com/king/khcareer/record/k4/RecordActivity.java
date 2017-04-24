@@ -102,21 +102,20 @@ public class RecordActivity extends BaseActivity implements IRecordView, OnItemM
     }
 
     private void initBoomButton() {
-        int padding = bmbMenu.getContext().getResources().getDimensionPixelSize(R.dimen.boom_menu_icon_padding);
+        // 修改了源码，image自适应为button的一半中间，不需要再设置imagePadding了
+//        int padding = bmbMenu.getContext().getResources().getDimensionPixelSize(R.dimen.boom_menu_icon_padding);
         bmbMenu.setButtonEnum(ButtonEnum.SimpleCircle);
         bmbMenu.setPiecePlaceEnum(PiecePlaceEnum.DOT_3_1);
         bmbMenu.setButtonPlaceEnum(ButtonPlaceEnum.SC_3_3);
         bmbMenu.addBuilder(new SimpleCircleButton.Builder()
                 .normalImageRes(R.drawable.ic_search_white_24dp)
-                .imagePadding(new Rect(padding, padding, padding, padding))
+//                .imagePadding(new Rect(padding, padding, padding, padding))
                 .listener(this));
         bmbMenu.addBuilder(new SimpleCircleButton.Builder()
                 .normalImageRes(R.drawable.ic_refresh_white_24dp)
-                .imagePadding(new Rect(padding, padding, padding, padding))
                 .listener(this));
         bmbMenu.addBuilder(new SimpleCircleButton.Builder()
                 .normalImageRes(R.drawable.ic_arrow_upward_white_24dp)
-                .imagePadding(new Rect(padding, padding, padding, padding))
                 .listener(this));
     }
 

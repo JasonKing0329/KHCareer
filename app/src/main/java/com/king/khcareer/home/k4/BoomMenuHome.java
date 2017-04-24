@@ -1,6 +1,4 @@
-package com.king.khcareer.record.k4;
-
-import android.graphics.Rect;
+package com.king.khcareer.home.k4;
 
 import com.king.mytennis.view.R;
 import com.nightonke.boommenu.BoomButtons.ButtonPlaceAlignmentEnum;
@@ -10,8 +8,6 @@ import com.nightonke.boommenu.BoomButtons.TextInsideCircleButton;
 import com.nightonke.boommenu.BoomMenuButton;
 import com.nightonke.boommenu.ButtonEnum;
 import com.nightonke.boommenu.Piece.PiecePlaceEnum;
-
-import static android.R.attr.padding;
 
 /**
  * 描述:

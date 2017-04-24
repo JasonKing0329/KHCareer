@@ -41,7 +41,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        android:layout_marginRight="10dp"
-        app:bmb_normalColor="@color/colorAccent"/>
+        android:layout_marginRight="2dp"
+        app:bmb_normalColor="@color/colorAccent"
+        app:bmb_buttonRadius="@dimen/boom_menu_btn_radius"/>
 
 </android.support.design.widget.CoordinatorLayout>

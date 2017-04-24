@@ -24,7 +24,6 @@ import android.widget.Toast;
 
 import com.github.siyamed.shapeimageview.RoundedImageView;
 import com.king.khcareer.common.config.Constants;
-import com.king.khcareer.record.k4.BoomMenuHome;
 import com.king.khcareer.record.k4.RecordActivity;
 import com.king.mytennis.glory.GloryModuleActivity;
 import com.king.khcareer.match.manage.MatchManageActivity;

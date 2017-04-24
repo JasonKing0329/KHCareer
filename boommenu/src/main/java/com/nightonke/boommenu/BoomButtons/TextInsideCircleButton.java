@@ -40,11 +40,13 @@ public class TextInsideCircleButton extends BoomButton {
         if (isRound) initShadow(buttonRadius + shadowRadius);
         else initShadow(shadowCornerRadius);
         initCircleButton();
-        initImage();
 
         // @author:Jing 不调用父类的initText(button)
+        // 很奇怪必须先initText再initImage，否则一开始text会被image遮住，image按压一次抬起才会显示text
 //        initText(button);
         initText();
+
+        initImage();
 
         centerPoint = new PointF(
                 buttonRadius + shadowRadius + shadowOffsetX,
@@ -58,7 +60,7 @@ public class TextInsideCircleButton extends BoomButton {
     /**
      * 覆盖父类的方法
      * @author:Jing Yang: make sure the image is center of the button, and it's size is half of button size
-     * move image a little upper cause there is text below
+     * move image a little upper cause there are texts below
      */
     @Override
     protected void initImage() {
@@ -68,7 +70,7 @@ public class TextInsideCircleButton extends BoomButton {
 
         LayoutParams params = new LayoutParams(buttonRadius, buttonRadius);
         params.leftMargin = buttonRadius / 2;
-        params.topMargin = buttonRadius / 2;
+        params.topMargin = buttonRadius / 2 - Util.dp2px(5);
 
         button.addView(image, params);
         lastStateIsNormal = false;
@@ -104,8 +106,8 @@ public class TextInsideCircleButton extends BoomButton {
         }
         LayoutParams params = new LayoutParams(buttonRadius * 2, ViewGroup.LayoutParams.WRAP_CONTENT);
         // imageSize + imageTop + textTop
-        params.topMargin = buttonRadius + (buttonRadius / 2 - Util.dp2px(10)) + Util.dp2px(5);
-        button.addView(text);
+        params.topMargin = buttonRadius + (buttonRadius / 2 - Util.dp2px(5));
+        button.addView(text, params);
     }
 
     @Override
