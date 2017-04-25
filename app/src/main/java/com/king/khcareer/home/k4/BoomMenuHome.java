@@ -28,11 +28,24 @@ public class BoomMenuHome {
     }
 
     public void init(int seasonType, OnBMClickListener listener) {
-        int colors[] = getSeasonTypeColor(seasonType);
+//        int colors[] = getSeasonTypeColor(seasonType);
 //        bmbMenu.setNormalColor(colors[0]);
         // init boom menu
+        switch (seasonType) {
+            case HARD:
+                bmbMenu.setNormalColor(bmbMenu.getContext().getResources().getColor(R.color.swipecard_text_hard));
+                break;
+            case CLAY:
+                bmbMenu.setNormalColor(bmbMenu.getContext().getResources().getColor(R.color.swipecard_text_clay));
+                break;
+            case GRASS:
+                bmbMenu.setNormalColor(bmbMenu.getContext().getResources().getColor(R.color.swipecard_text_grass));
+                break;
+            case INHARD:
+                bmbMenu.setNormalColor(bmbMenu.getContext().getResources().getColor(R.color.swipecard_text_innerhard));
+                break;
+        }
         int radius = bmbMenu.getContext().getResources().getDimensionPixelSize(R.dimen.boom_menu_btn_radius);
-        int imageSize = bmbMenu.getContext().getResources().getDimensionPixelSize(R.dimen.boom_menu_image_size);
         bmbMenu.setButtonEnum(ButtonEnum.TextInsideCircle);
         bmbMenu.setButtonPlaceAlignmentEnum(ButtonPlaceAlignmentEnum.BR);
         bmbMenu.setButtonRightMargin(bmbMenu.getContext().getResources().getDimensionPixelSize(R.dimen.home_pop_menu_right));

@@ -28,6 +28,7 @@ import com.king.khcareer.record.SearchDialog;
 import com.king.khcareer.record.detail.DetailGallery;
 import com.king.khcareer.record.editor.UpdateDialog;
 import com.king.mytennis.view.R;
+import com.nightonke.boommenu.BoomButtons.ButtonPlaceAlignmentEnum;
 import com.nightonke.boommenu.BoomButtons.ButtonPlaceEnum;
 import com.nightonke.boommenu.BoomButtons.OnBMClickListener;
 import com.nightonke.boommenu.BoomButtons.SimpleCircleButton;
@@ -104,18 +105,27 @@ public class RecordActivity extends BaseActivity implements IRecordView, OnItemM
     private void initBoomButton() {
         // 修改了源码，image自适应为button的一半中间，不需要再设置imagePadding了
 //        int padding = bmbMenu.getContext().getResources().getDimensionPixelSize(R.dimen.boom_menu_icon_padding);
+        int radius = bmbMenu.getContext().getResources().getDimensionPixelSize(R.dimen.boom_menu_btn_radius);
         bmbMenu.setButtonEnum(ButtonEnum.SimpleCircle);
+        bmbMenu.setButtonRadius(radius);
         bmbMenu.setPiecePlaceEnum(PiecePlaceEnum.DOT_3_1);
-        bmbMenu.setButtonPlaceEnum(ButtonPlaceEnum.SC_3_3);
+        bmbMenu.setButtonPlaceEnum(ButtonPlaceEnum.Vertical);
+        bmbMenu.setButtonPlaceAlignmentEnum(ButtonPlaceAlignmentEnum.BR);
+        bmbMenu.setButtonRightMargin(bmbMenu.getContext().getResources().getDimensionPixelSize(R.dimen.home_pop_menu_right));
+        bmbMenu.setButtonBottomMargin(bmbMenu.getContext().getResources().getDimensionPixelSize(R.dimen.home_pop_menu_bottom));
+        bmbMenu.setButtonVerticalMargin(bmbMenu.getContext().getResources().getDimensionPixelSize(R.dimen.boom_menu_btn_margin_ver));
         bmbMenu.addBuilder(new SimpleCircleButton.Builder()
                 .normalImageRes(R.drawable.ic_search_white_24dp)
+                .buttonRadius(radius)
 //                .imagePadding(new Rect(padding, padding, padding, padding))
                 .listener(this));
         bmbMenu.addBuilder(new SimpleCircleButton.Builder()
                 .normalImageRes(R.drawable.ic_refresh_white_24dp)
+                .buttonRadius(radius)
                 .listener(this));
         bmbMenu.addBuilder(new SimpleCircleButton.Builder()
                 .normalImageRes(R.drawable.ic_arrow_upward_white_24dp)
+                .buttonRadius(radius)
                 .listener(this));
     }
 

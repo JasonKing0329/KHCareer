@@ -43,6 +43,9 @@
         android:layout_gravity="bottom|end"
         android:layout_marginRight="2dp"
         app:bmb_normalColor="@color/colorAccent"
-        app:bmb_buttonRadius="@dimen/boom_menu_btn_radius"/>
+        app:bmb_buttonRadius="@dimen/boom_menu_btn_radius"
+        app:bmb_piecePlaceEnum="piecePlace_dot_4_1"
+        app:bmb_buttonPlaceEnum="buttonPlace_vertical"
+        app:bmb_buttonEnum="textInsideCircle"/>
 
 </android.support.design.widget.CoordinatorLayout>

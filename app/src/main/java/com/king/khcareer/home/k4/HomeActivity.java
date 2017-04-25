@@ -25,6 +25,8 @@ import android.widget.Toast;
 import com.github.siyamed.shapeimageview.RoundedImageView;
 import com.king.khcareer.common.config.Constants;
 import com.king.khcareer.record.k4.RecordActivity;
+import com.king.khcareer.utils.DebugLog;
+import com.king.khcareer.utils.SeasonManager;
 import com.king.mytennis.glory.GloryModuleActivity;
 import com.king.khcareer.match.manage.MatchManageActivity;
 import com.king.khcareer.match.gallery.UserMatchActivity;
@@ -180,6 +182,7 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
 //        scrollManager.setEnable(false);
 
         initAppBar();
+        initBoomMenu();
         initPlayerBasic();
         initNavView();
         initContent();
@@ -205,6 +208,22 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+    }
+
+    private void initBoomMenu() {
+        SeasonManager.SeasonEnum type = SeasonManager.getSeasonType();
+        if (type == SeasonManager.SeasonEnum.CLAY) {
+            boomMenuHome.init(BoomMenuHome.CLAY, this);
+        }
+        else if (type == SeasonManager.SeasonEnum.GRASS) {
+            boomMenuHome.init(BoomMenuHome.GRASS, this);
+        }
+        else if (type == SeasonManager.SeasonEnum.INHARD) {
+            boomMenuHome.init(BoomMenuHome.INHARD, this);
+        }
+        else {
+            boomMenuHome.init(BoomMenuHome.HARD, this);
+        }
     }
 
     private void initPlayerBasic() {
@@ -347,27 +366,17 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
     }
 
     private void updateSeasonStyle() {
-        Calendar calendar = Calendar.getInstance();
-        int week = calendar.get(Calendar.WEEK_OF_YEAR);
-
-        // clay season, 蒙卡前一站到法网结束
-        if (week >= 15 && week < 24) {
-            boomMenuHome.init(BoomMenuHome.CLAY, this);
+        SeasonManager.SeasonEnum type = SeasonManager.getSeasonType();
+        if (type == SeasonManager.SeasonEnum.CLAY) {
             ivNavImage.setImageResource(R.drawable.nav_header_mon);
         }
-        // grass season, 斯图加特到温网结束
-        else if (week >= 24 && week < 29) {
-            boomMenuHome.init(BoomMenuHome.GRASS, this);
+        else if (type == SeasonManager.SeasonEnum.GRASS) {
             ivNavImage.setImageResource(R.drawable.nav_header_win);
         }
-        // inner hard season, 上海以后
-        else if (week > 41) {
-            boomMenuHome.init(BoomMenuHome.INHARD, this);
+        else if (type == SeasonManager.SeasonEnum.INHARD) {
             ivNavImage.setImageResource(R.drawable.nav_header_sydney);
         }
-        // hard season
         else {
-            boomMenuHome.init(BoomMenuHome.HARD, this);
             ivNavImage.setImageResource(R.drawable.nav_header_iw);
         }
     }
@@ -377,7 +386,7 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
         dsvMatch.post(new Runnable() {
             @Override
             public void run() {
-                dsvMatch.smoothScrollToPosition(position);
+                dsvMatch.scrollToPosition(position);
             }
         });
     }
@@ -452,6 +461,7 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
                 executeExit();
                 break;
             case 3:
+                DebugLog.e("3");
                 scrollHome.scrollTo(0, 0);
                 break;
         }

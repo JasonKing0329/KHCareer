@@ -41,7 +41,7 @@
                         android:layout_height="wrap_content"
                         android:text="Career"
                         android:textColor="@color/white"
-                        android:textSize="20dp"
+                        android:textSize="16dp"
                         android:layout_marginLeft="55dp"
                         android:layout_marginTop="15dp"/>
                     <TextView
@@ -51,14 +51,13 @@
                         android:layout_below="@id/tv_career_title"
                         android:layout_alignLeft="@id/tv_career_title"
                         android:textColor="#eeeeee"
-                        android:textSize="16dp"
-                        android:layout_marginTop="5dp"/>
+                        android:textSize="14dp"/>
                     <TextView
                         android:id="@+id/tv_career_rate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/tab_actionbar_text_focus"
-                        android:textSize="36dp"
+                        android:textSize="26dp"
                         android:layout_alignParentRight="true"
                         android:layout_alignTop="@id/tv_career_title"
                         android:layout_marginRight="30dp"/>
@@ -69,7 +68,7 @@
                         android:layout_height="wrap_content"
                         android:text="2017"
                         android:textColor="@color/white"
-                        android:textSize="20dp"
+                        android:textSize="16dp"
                         android:layout_below="@id/tv_career_winlose"
                         android:layout_marginLeft="55dp"
                         android:layout_marginTop="10dp"/>
@@ -80,14 +79,13 @@
                         android:layout_below="@id/tv_year_title"
                         android:layout_alignLeft="@id/tv_year_title"
                         android:textColor="#eeeeee"
-                        android:textSize="16dp"
-                        android:layout_marginTop="5dp"/>
+                        android:textSize="14dp"/>
                     <TextView
                         android:id="@+id/tv_year_rate"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="@color/tab_actionbar_text_focus"
-                        android:textSize="36dp"
+                        android:textSize="26dp"
                         android:layout_alignParentRight="true"
                         android:layout_alignTop="@id/tv_year_title"
                         android:layout_marginRight="30dp"/>
@@ -116,6 +114,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
-        app:bmb_normalColor="@color/colorPrimary"/>
+        android:layout_marginRight="2dp"
+        app:bmb_normalColor="@color/colorPrimary"
+        app:bmb_piecePlaceEnum="piecePlace_dot_3_1"
+        app:bmb_buttonPlaceEnum="buttonPlace_vertical"
+        app:bmb_buttonEnum="simpleCircle"/>
 
 </android.support.design.widget.CoordinatorLayout>

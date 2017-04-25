@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
-ext.appVersionName = "4.3.3"
-ext.appVersionCode = 48
+ext.appVersionName = "4.3.4"
+ext.appVersionCode = 49
 ext.appReleaseDir = "E:/temp/release/KHCareer"
 
 android {
