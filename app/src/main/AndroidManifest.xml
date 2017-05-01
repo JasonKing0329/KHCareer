@@ -130,6 +130,10 @@
             android:name="com.king.khcareer.record.k4.RecordActivity"
             android:theme="@style/RecordTheme"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.king.khcareer.player.h2hlist.H2hListActivity"
+            android:theme="@style/RecordTheme"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>

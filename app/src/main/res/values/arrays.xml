@@ -165,5 +165,23 @@
 	    <item>@string/data_count_rate_player_top50100</item>
 	    <item>@string/data_count_rate_player_outof100</item>
     </string-array>
-    
+
+	<array name="h2hlist_filter_type">
+		<item>Competitor country</item>
+		<item>Competitor rank</item>
+	</array>
+
+	<array name="h2hlist_sort_type">
+		<item>Competitor</item>
+		<item>总交手次数</item>
+		<item>胜场数</item>
+		<item>负场数</item>
+		<item>净胜场数</item>
+		<item>净负场数</item>
+	</array>
+
+	<array name="sort_order">
+		<item>ASC</item>
+		<item>DESC</item>
+	</array>
 </resources>

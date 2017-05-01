@@ -30,6 +30,8 @@ import com.king.khcareer.common.helper.ObjectCache;
 public class MatchActivity extends BaseActivity implements OnGroupCollapseListener
 		, OnChildClickListener{
 
+	public static final String KEY_MATCH_NAME = "key_match_name";
+
 	private final String TAG = "MatchActivity";
 	private PullToZoomScrollViewEx pullView;
 	private ExpandableListView expandableListView;
@@ -56,7 +58,12 @@ public class MatchActivity extends BaseActivity implements OnGroupCollapseListen
 		pullView.setZoomView(zoomView);
 		pullView.setScrollContentView(contentView);
 
+		// 从swipeCard/gallery中进入，已加载过UserMatchBean
 		mMatchBean = ObjectCache.getUserMatchBean();
+		// 从其他入口进入，只提供了name
+		if (mMatchBean == null) {
+			mMatchBean = mController.getUserMatchBean(getIntent().getStringExtra(KEY_MATCH_NAME));
+		}
 
 		initHeader(headView, zoomView);
 

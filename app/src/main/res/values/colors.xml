@@ -212,6 +212,10 @@
     <color name="record_item_text_normal">#333333</color>
     <color name="record_item_text_gray">#999999</color>
 
+    <color name="h2hlist_color_win">#c43336</color>
+    <color name="h2hlist_color_lose">#434343</color>
+    <color name="h2hlist_color_tie">#FFD600</color>
+
     <color name="gradientPeriodicClouds_c1">#3453d1</color>
     <color name="gradientPeriodicClouds_c2">#6d69ff</color>
     <color name="gradientPeriodicClouds_c3">#cd47c6</color>
@@ -396,7 +400,8 @@
     <color name="darkblue">#00008B</color> <!-- 暗蓝色 -->
     <color name="navy">#000080</color> <!-- 海军色 -->
     <color name="black">#000000</color> <!-- 黑色 -->
-    <color name="clay">#cc6600</color> <!-- 红土色 -->
+    <color name="clay">#cc6600</color>
+    <color name="theme_h2hlist">#12161F</color> <!-- 红土色 -->
 
 </resources>
 <!--

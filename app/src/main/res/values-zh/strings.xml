@@ -279,4 +279,8 @@
     <string name="player_manage_title">管理球员</string>
     <!-- *************************** home ********************************* -->
     <string name="home_go_top">回到顶部</string>
+    <!-- *************************** h2h list ********************************* -->
+    <string name="sort_type">排序类型</string>
+    <string name="sort_dir">排序顺序</string>
+    <string name="sort_title">排序</string>
 </resources>

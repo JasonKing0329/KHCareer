@@ -6,6 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.king.khcareer.common.config.Constants;
+import com.king.khcareer.common.multiuser.MultiUserManager;
+import com.king.khcareer.match.gallery.UserMatchBean;
 import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.khcareer.model.sql.pubdata.PubDataProvider;
 import com.king.khcareer.model.sql.pubdata.bean.MatchNameBean;
@@ -21,6 +24,42 @@ public class MatchController {
 
 	private List<List<Record>> expandList;
 
+	private PubDataProvider pubDataProvider;
+
+	public MatchController() {
+		pubDataProvider = new PubDataProvider();
+	}
+
+	public UserMatchBean getUserMatchBean(String matchName) {
+		MatchNameBean nameBean = pubDataProvider.getMatchByName(matchName);
+		UserMatchBean bean = new UserMatchBean();
+		if (nameBean != null) {
+			bean.setNameBean(nameBean);
+			loadRecords(nameBean.getMatchId());
+			bean.setRecordList(recordList);
+			countMatch(bean);
+		}
+		return bean;
+	}
+
+	/**
+	 * MatchActivity目前只需要统计胜负场
+	 * @param bean
+	 */
+	private void countMatch(UserMatchBean bean) {
+		for (int i = 0; i < recordList.size(); i ++) {
+			// W/0不算作胜场
+			if (!Constants.SCORE_RETIRE.equals(recordList.get(i).getScore())) {
+				if (MultiUserManager.USER_DB_FLAG.equals(recordList.get(i).getWinner())) {
+					bean.setWin(bean.getWin() + 1);
+				}
+				else {
+					bean.setLose(bean.getLose() + 1);
+				}
+			}
+		}
+	}
+
 	public List<Record> getRecordList() {
 		return recordList;
 	}
@@ -35,7 +74,7 @@ public class MatchController {
 	 * @param matchId
      */
 	public void loadRecords(int matchId) {
-		List<MatchNameBean> matches = new PubDataProvider().getMatchNameList(matchId);
+		List<MatchNameBean> matches = pubDataProvider.getMatchNameList(matchId);
 		String where = "match=?";
 		String[] args;
 		if (matches.size() > 1) {

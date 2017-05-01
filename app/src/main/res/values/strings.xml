@@ -301,4 +301,8 @@
     <string name="action_settings">Settings</string>
     <!-- *************************** home ********************************* -->
     <string name="home_go_top">Go top</string>
+    <!-- *************************** h2h list ********************************* -->
+    <string name="sort_type">Sort type</string>
+    <string name="sort_dir">Sort order</string>
+    <string name="sort_title">Sort</string>
 </resources>

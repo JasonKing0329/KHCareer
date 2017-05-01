@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.github.siyamed.shapeimageview.RoundedImageView;
 import com.king.khcareer.common.config.Constants;
+import com.king.khcareer.player.h2hlist.H2hListActivity;
 import com.king.khcareer.record.k4.RecordActivity;
 import com.king.khcareer.utils.DebugLog;
 import com.king.khcareer.utils.SeasonManager;
@@ -585,8 +586,7 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
     }
 
     private void startPlayerH2hActivity() {
-        Intent intent = new Intent().setClass(this, ClassicActivity.class);
-        intent.putExtra(ClassicActivity.KEY_INIT_MODE, ClassicActivity.INIT_PLAYER);
+        Intent intent = new Intent().setClass(this, H2hListActivity.class);
         startActivity(intent);
     }
 
