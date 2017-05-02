@@ -23,6 +23,7 @@ import com.nightonke.boommenu.ButtonEnum;
 import com.nightonke.boommenu.Piece.PiecePlaceEnum;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -52,6 +53,7 @@ public class H2hListActivity extends BaseActivity implements IH2hListView, OnIte
     private H2hListAdapter h2hAdapter;
 
     private SortDialog sortDialog;
+    private FilterDialog filterDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +131,12 @@ public class H2hListActivity extends BaseActivity implements IH2hListView, OnIte
     }
 
     @Override
+    public void onFiltFinished(List<HeaderItem> list) {
+        h2hAdapter.updateData(list);
+        h2hAdapter.notifyDataSetChanged();
+    }
+
+    @Override
     public void onItemClicked(RecordItem item) {
 
         Intent intent = new Intent().setClass(this, MatchActivity.class);
@@ -174,11 +182,52 @@ public class H2hListActivity extends BaseActivity implements IH2hListView, OnIte
 
                 }
             });
+            sortDialog.setTitle(getString(R.string.sort_title));
         }
-        sortDialog.setTitle(getString(R.string.sort_title));
         sortDialog.show();
     }
 
     private void showFilterDialog() {
+        if (filterDialog == null) {
+            filterDialog = new FilterDialog(this, null);
+            filterDialog.setFilterCallback(new FilterDialog.FilterCallback() {
+                @Override
+                public void onFilterNothing() {
+                    h2hPresenter.filterNothing();
+                }
+
+                @Override
+                public void onFilterCountry(String country) {
+                    h2hPresenter.filterCountry(country);
+                }
+
+                @Override
+                public void onFilterRank(int min, int max) {
+                    h2hPresenter.filterRank(min, max);
+                }
+
+                @Override
+                public void onFilterCount(int min, int max) {
+                    h2hPresenter.filterCount(min, max);
+                }
+
+                @Override
+                public void onFilterWin(int min, int max) {
+                    h2hPresenter.filterWin(min, max);
+                }
+
+                @Override
+                public void onFilterLose(int min, int max) {
+                    h2hPresenter.filterLose(min, max);
+                }
+
+                @Override
+                public void onFilterDeltaWin(int min, int max) {
+                    h2hPresenter.filterDeltaWin(min, max);
+                }
+            });
+            filterDialog.setTitle(getString(R.string.filter_title));
+        }
+        filterDialog.show();
     }
 }

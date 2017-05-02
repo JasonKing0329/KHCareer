@@ -283,4 +283,6 @@
     <string name="sort_type">排序类型</string>
     <string name="sort_dir">排序顺序</string>
     <string name="sort_title">排序</string>
+    <string name="filter_type">过滤类型</string>
+    <string name="filter_title">过滤</string>
 </resources>

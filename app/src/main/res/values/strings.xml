@@ -305,4 +305,6 @@
     <string name="sort_type">Sort type</string>
     <string name="sort_dir">Sort order</string>
     <string name="sort_title">Sort</string>
+    <string name="filter_type">Filter type</string>
+    <string name="filter_title">Filter</string>
 </resources>

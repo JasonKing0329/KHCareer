@@ -164,6 +164,100 @@ public class H2hPresenter {
         h2hView.onSortFinished();
     }
 
+    /**
+     * 不过滤，还原所有数据
+     */
+    public void filterNothing() {
+        h2hView.onFiltFinished(h2hListPageData.getHeaderList());
+    }
+
+    /**
+     * 过滤数据不破坏已加载的全部数据
+     * @param country
+     */
+    public void filterCountry(String country) {
+        List<HeaderItem> list = new ArrayList<>();
+        if (country != null) {
+            for (HeaderItem item:h2hListPageData.getHeaderList()) {
+                if (country.equals(item.getHeader().getPlayerBean().getCountry())) {
+                    list.add(item);
+                }
+            }
+        }
+        h2hView.onFiltFinished(list);
+    }
+
+    public void filterCount(int min, int max) {
+        List<HeaderItem> list = new ArrayList<>();
+        for (HeaderItem item:h2hListPageData.getHeaderList()) {
+            int count = item.getHeader().getWin() + item.getHeader().getLose();
+            if (count >= min && count <= max) {
+                list.add(item);
+            }
+        }
+        h2hView.onFiltFinished(list);
+    }
+
+    public void filterWin(int min, int max) {
+        List<HeaderItem> list = new ArrayList<>();
+        for (HeaderItem item:h2hListPageData.getHeaderList()) {
+            int count = item.getHeader().getWin();
+            if (count >= min && count <= max) {
+                list.add(item);
+            }
+        }
+        h2hView.onFiltFinished(list);
+    }
+
+    public void filterLose(int min, int max) {
+        List<HeaderItem> list = new ArrayList<>();
+        for (HeaderItem item:h2hListPageData.getHeaderList()) {
+            int count = item.getHeader().getLose();
+            if (count >= min && count <= max) {
+                list.add(item);
+            }
+        }
+        h2hView.onFiltFinished(list);
+    }
+
+    public void filterDeltaWin(int min, int max) {
+        List<HeaderItem> list = new ArrayList<>();
+        for (HeaderItem item:h2hListPageData.getHeaderList()) {
+            int count = item.getHeader().getWin() - item.getHeader().getLose();
+            if (count >= min && count <= max) {
+                list.add(item);
+            }
+        }
+        h2hView.onFiltFinished(list);
+    }
+
+    /**
+     * 不能破坏总的数据，要过滤header的record list中rank在min和max区间的记录
+     * @param min
+     * @param max
+     */
+    public void filterRank(int min, int max) {
+        List<HeaderItem> list = new ArrayList<>();
+        for (HeaderItem item:h2hListPageData.getHeaderList()) {
+            HeaderItem newItem = new HeaderItem();
+            newItem.setChildItemList(new ArrayList<RecordItem>());
+            // 查询属于min max区间内的记录
+            for (RecordItem record:item.getChildItemList()) {
+                int rank = record.getRecord().getCptRank();
+                if (rank >= min && rank <= max) {
+                    newItem.getChildItemList().add(record);
+                }
+            }
+            // 有记录才添加header
+            if (newItem.getChildItemList().size() > 0) {
+                newItem.setExpanded(item.isExpanded());
+                newItem.setHeader(item.getHeader());
+                list.add(newItem);
+            }
+        }
+        h2hView.onFiltFinished(list);
+    }
+
     private class PlayerComparator implements Comparator<HeaderItem> {
 
         private int order;

@@ -167,8 +167,13 @@
     </string-array>
 
 	<array name="h2hlist_filter_type">
+		<item>None</item>
 		<item>Competitor country</item>
 		<item>Competitor rank</item>
+		<item>总交手次数</item>
+		<item>胜场数</item>
+		<item>负场数</item>
+		<item>净胜场数</item>
 	</array>
 
 	<array name="h2hlist_sort_type">
