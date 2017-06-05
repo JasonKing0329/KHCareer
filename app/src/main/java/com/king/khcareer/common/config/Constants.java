@@ -75,6 +75,38 @@ public class Constants {
 			"Bronze"
 	};
 
+	public static final String[] RECORD_GS_ROUNDS_GLORY = new String[] {
+
+			"冠军",
+			"亚军",
+			"四强",
+			"八强",
+			"第四轮",
+			"第三轮",
+			"第二轮",
+			"第一轮"
+	};
+
+	/**
+	 * RECORD_MATCH_ROUNDS对照的RECORD_GS_ROUNDS_GLORY
+	 * @param round
+	 * @param isWinner
+	 * @return
+	 */
+	public static final String getGsGloryForRound(String round, boolean isWinner) {
+		if (round.equals(RECORD_MATCH_ROUNDS[0]) && isWinner) {
+			return RECORD_GS_ROUNDS_GLORY[0];
+		}
+
+		String glory = "--";
+		for (int i = 0; i < RECORD_MATCH_ROUNDS.length; i ++) {
+			if (RECORD_GS_ROUNDS_GLORY[i].equals(round)) {
+				glory = RECORD_GS_ROUNDS_GLORY[i + 1];
+			}
+		}
+		return glory;
+	}
+
 	public static final String MATCH_CONST_MONTECARLO = "蒙特卡洛大师赛";
 
 	public static final String[] MONTH_ENG = new String[] {

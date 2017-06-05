@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
-ext.appVersionName = "4.4.1.1"
-ext.appVersionCode = 52
+ext.appVersionName = "4.4.1.2"
+ext.appVersionCode = 53
 ext.appReleaseDir = "E:/temp/release/KHCareer"
 
 android {
@@ -108,9 +108,9 @@ dependencies {
     compile 'com.squareup.retrofit2:adapter-rxjava:2.0.1'
     compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
     compile 'com.jakewharton:butterknife:8.5.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     compile 'com.android.support.constraint:constraint-layout:+'
     testCompile 'junit:junit:4.12'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
     compile project(':expandablerecycleradapter')
     compile project(':boommenu')
 }
