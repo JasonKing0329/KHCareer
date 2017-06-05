@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.github.siyamed.shapeimageview.RoundedImageView;
 import com.king.khcareer.common.config.Constants;
+import com.king.khcareer.glory.GloryActivity;
 import com.king.khcareer.player.h2hlist.H2hListActivity;
 import com.king.khcareer.record.k4.RecordActivity;
 import com.king.khcareer.utils.DebugLog;
@@ -47,7 +48,6 @@ import com.king.khcareer.home.classic.ManagerActivity;
 import com.king.mytennis.view.R;
 import com.king.khcareer.record.editor.RecordEditorActivity;
 import com.king.khcareer.settings.SettingActivity;
-import com.king.khcareer.home.classic.ClassicActivity;
 import com.king.khcareer.home.v7.V7MainActivity;
 import com.king.khcareer.common.helper.BasicOperation;
 import com.king.khcareer.player.swipecard.SwipeCardActivity;
@@ -565,7 +565,7 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
     }
 
     private void startGloryActivity() {
-        Intent intent = new Intent().setClass(this, GloryModuleActivity.class);
+        Intent intent = new Intent().setClass(this, GloryActivity.class);
         startActivity(intent);
     }
 

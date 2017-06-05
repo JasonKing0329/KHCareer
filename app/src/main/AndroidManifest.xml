@@ -134,6 +134,10 @@
             android:name="com.king.khcareer.player.h2hlist.H2hListActivity"
             android:theme="@style/RecordTheme"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name="com.king.khcareer.glory.GloryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HomeTheme"/>
     </application>
 
 </manifest>

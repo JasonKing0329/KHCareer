@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:elevation="0dp"
+        app:elevation="0dp"
+        android:theme="@style/RecordTheme.AppBarOverlay">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/ctl_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:contentScrim="@color/colorPrimary"
+            app:scrimVisibleHeightTrigger="@dimen/home_scrim_visible_height"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/player_basic_head_height">
+
+                <ImageView
+                    android:id="@+id/iv_head"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/player_basic_head_height"
+                    android:src="@drawable/nav_header_mon"
+                    android:scaleType="fitXY"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="#99000000"
+                    android:orientation="vertical"
+                    android:gravity="right">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="right"
+                        android:layout_marginRight="25dp"
+                        android:layout_marginTop="15dp"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Career Title"
+                            android:textColor="@color/tab_actionbar_text_focus"
+                            android:textSize="16dp"/>
+                        <TextView
+                            android:id="@+id/tv_career_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/tab_actionbar_text_focus"
+                            android:textSize="16dp"
+                            android:layout_marginLeft="15dp"/>
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/tv_career"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="45dp"
+                        android:layout_marginRight="25dp"
+                        android:gravity="right"
+                        android:textColor="#eeeeee"
+                        android:textStyle="italic"
+                        android:textSize="12dp"
+                        android:text="Grand Slam(13)  ATP 1000(16)  ATP 500(6)  ATP 250(12)  Master Cup(2)  Olympics Game(1)"
+                        android:layout_marginTop="5dp"/>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="25dp"
+                        android:layout_marginTop="15dp"
+                        android:gravity="right"
+                        android:orientation="horizontal">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Season Title"
+                            android:textColor="@color/tab_actionbar_text_focus"
+                            android:textSize="16dp"/>
+                        <TextView
+                            android:id="@+id/tv_season_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/tab_actionbar_text_focus"
+                            android:textSize="16dp"
+                            android:layout_marginLeft="10dp"/>
+                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/tv_season"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="45dp"
+                        android:layout_marginRight="25dp"
+                        android:gravity="right"
+                        android:textColor="#eeeeee"
+                        android:textStyle="italic"
+                        android:textSize="12dp"
+                        android:text="Grand Slam(13)  ATP 1000(16)  ATP 500(6)  ATP 250(12)  Master Cup(2)  Olympics Game(1)"
+                        android:layout_marginTop="5dp"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                app:title="Glory"
+                app:layout_collapseMode="pin"
+                app:navigationIcon="@drawable/ic_arrow_back_white_24dp"
+                app:popupTheme="@style/RecordTheme.PopupOverlay" />
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+        <android.support.design.widget.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/colorPrimary"
+            app:tabGravity="fill"
+            app:tabMode="fixed"
+            app:tabSelectedTextColor="@color/tab_actionbar_text_focus"
+            app:tabTextColor="@color/white"
+            app:tabIndicatorColor="@color/tab_actionbar_text_focus"/>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:scrollbars="none"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </LinearLayout>
+
+</android.support.design.widget.CoordinatorLayout>
