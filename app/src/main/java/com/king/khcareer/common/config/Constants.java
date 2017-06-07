@@ -84,7 +84,9 @@ public class Constants {
 			"第四轮",
 			"第三轮",
 			"第二轮",
-			"第一轮"
+			"第一轮",
+			"",
+			""
 	};
 
 	/**
@@ -100,7 +102,7 @@ public class Constants {
 
 		String glory = "--";
 		for (int i = 0; i < RECORD_MATCH_ROUNDS.length; i ++) {
-			if (RECORD_GS_ROUNDS_GLORY[i].equals(round)) {
+			if (RECORD_MATCH_ROUNDS[i].equals(round)) {
 				glory = RECORD_GS_ROUNDS_GLORY[i + 1];
 			}
 		}

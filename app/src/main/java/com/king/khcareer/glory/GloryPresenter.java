@@ -46,7 +46,7 @@ public class GloryPresenter {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        e.printStackTrace();
                     }
 
                     @Override
@@ -133,7 +133,12 @@ public class GloryPresenter {
     private void countChampion(GloryTitle bean, Record record) {
         int thisYear = Calendar.getInstance().get(Calendar.YEAR);
         int year = Integer.parseInt(record.getStrDate().split("-")[0]);
-        
+
+        if (year == thisYear) {
+            bean.setYearTitle(bean.getYearTitle() + 1);
+        }
+        bean.setCareerTitle(bean.getCareerTitle() + 1);
+
         if (Constants.RECORD_MATCH_LEVELS[0].equals(record.getLevel())) {
             bean.setCareerGs(bean.getCareerGs() + 1);
             if (year == thisYear) {

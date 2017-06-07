@@ -12,7 +12,10 @@ public class GloryTitle {
     
     private List<Record> championList;
     private List<Record> runnerUpList;
-    
+
+    private int careerTitle;
+    private int yearTitle;
+
     private int careerGs;
     private int careerAtp1000;
     private int careerAtp500;
@@ -43,6 +46,22 @@ public class GloryTitle {
 
     public void setRunnerUpList(List<Record> runnerUpList) {
         this.runnerUpList = runnerUpList;
+    }
+
+    public int getCareerTitle() {
+        return careerTitle;
+    }
+
+    public void setCareerTitle(int careerTitle) {
+        this.careerTitle = careerTitle;
+    }
+
+    public int getYearTitle() {
+        return yearTitle;
+    }
+
+    public void setYearTitle(int yearTitle) {
+        this.yearTitle = yearTitle;
     }
 
     public int getCareerGs() {
