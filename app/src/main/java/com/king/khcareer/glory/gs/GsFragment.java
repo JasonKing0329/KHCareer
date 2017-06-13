@@ -1,7 +1,8 @@
-package com.king.khcareer.glory;
+package com.king.khcareer.glory.gs;
 
 import android.view.View;
 
+import com.king.khcareer.glory.BaseGloryPageFragment;
 import com.king.mytennis.view.R;
 
 /**

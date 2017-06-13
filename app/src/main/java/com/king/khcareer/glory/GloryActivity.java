@@ -7,6 +7,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.king.khcareer.base.BaseActivity;
+import com.king.khcareer.common.image.ImageUtil;
+import com.king.khcareer.glory.gs.GsFragment;
+import com.king.khcareer.glory.title.SeqChampionListFragment;
+import com.king.khcareer.glory.title.SeqRunnerupListFragment;
 import com.king.mytennis.view.R;
 
 import butterknife.BindView;
@@ -36,6 +40,7 @@ public class GloryActivity extends BaseActivity implements IGloryHolder, IGloryV
 
     private GloryPageAdapter pagerAdapter;
     private GloryPresenter presenter;
+    private GloryTitle gloryTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,13 +53,19 @@ public class GloryActivity extends BaseActivity implements IGloryHolder, IGloryV
         initView();
         
         showProgress(null);
+
+        ImageUtil.initImageLoader(this, R.drawable.swipecard_default_img);
         presenter.loadDatas();
     }
 
     private void initView() {
+
+    }
+
+    private void initFragments() {
         pagerAdapter = new GloryPageAdapter(getSupportFragmentManager());
-        pagerAdapter.addFragment(new ChampionFragment(), "Champions");
-        pagerAdapter.addFragment(new RunnerUpFragment(), "Runner-ups");
+        pagerAdapter.addFragment(new SeqChampionListFragment(), "Champions");
+        pagerAdapter.addFragment(new SeqRunnerupListFragment(), "Runner-ups");
         pagerAdapter.addFragment(new GsFragment(), "GS");
         viewpager.setAdapter(pagerAdapter);
 
@@ -66,7 +77,8 @@ public class GloryActivity extends BaseActivity implements IGloryHolder, IGloryV
 
     @Override
     public void onGloryTitleLoaded(GloryTitle data) {
-        
+
+        gloryTitle = data;
         tvCareerTitle.setText(String.valueOf(data.getCareerTitle()));
         tvSeasonTitle.setText(String.valueOf(data.getYearTitle()));
         StringBuffer career = new StringBuffer();
@@ -110,8 +122,14 @@ public class GloryActivity extends BaseActivity implements IGloryHolder, IGloryV
             year.append("  ").append("Olympics(").append(data.getYearOlympics()).append(")");
         }
         tvSeason.setText(year.toString());
-        
+
+        initFragments();
+
         dismissProgress();
     }
-    
+
+    @Override
+    public GloryTitle getGloryTitle() {
+        return gloryTitle;
+    }
 }

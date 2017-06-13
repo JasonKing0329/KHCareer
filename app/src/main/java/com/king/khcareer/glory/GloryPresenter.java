@@ -2,8 +2,10 @@ package com.king.khcareer.glory;
 
 import com.king.khcareer.common.config.Constants;
 import com.king.khcareer.common.multiuser.MultiUserManager;
+import com.king.khcareer.glory.gs.GloryGsItem;
 import com.king.khcareer.model.sql.player.RecordDAOImp;
 import com.king.khcareer.model.sql.player.bean.Record;
+import com.king.khcareer.model.sql.player.interfc.RecordDAO;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -25,9 +27,11 @@ import rx.schedulers.Schedulers;
 public class GloryPresenter {
     
     private IGloryView gloryView;
+    private RecordDAO recordDAO;
     
     public GloryPresenter(IGloryView view) {
         gloryView = view;
+        recordDAO = new RecordDAOImp();
     }
     
     public void loadDatas() {
@@ -66,9 +70,8 @@ public class GloryPresenter {
         bean.setRunnerUpList(runnerUpList);
 
         Map<String, GloryGsItem> gsMap = new HashMap<>();
-        
-        RecordDAOImp dao = new RecordDAOImp(MultiUserManager.getInstance().getCurrentUser());
-        ArrayList<Record> list = dao.queryAll();
+
+        ArrayList<Record> list = recordDAO.queryAll();
         for (Record record:list) {
             // Final
             if (Constants.RECORD_MATCH_ROUNDS[0].equals(record.getRound())) {
@@ -103,15 +106,19 @@ public class GloryPresenter {
                         item.setYear(Integer.parseInt(year));
                     }
                     if (record.getMatchCountry().equals("澳大利亚")) {
+                        item.setRecordAo(record);
                         item.setAo(Constants.getGsGloryForRound(record.getRound(), MultiUserManager.USER_DB_FLAG.equals(record.getWinner())));
                     }
                     else if (record.getMatchCountry().equals("法国")) {
+                        item.setRecordFo(record);
                         item.setFo(Constants.getGsGloryForRound(record.getRound(), MultiUserManager.USER_DB_FLAG.equals(record.getWinner())));
                     }
                     else if (record.getMatchCountry().equals("英国")) {
+                        item.setRecordWo(record);
                         item.setWo(Constants.getGsGloryForRound(record.getRound(), MultiUserManager.USER_DB_FLAG.equals(record.getWinner())));
                     }
                     else if (record.getMatchCountry().equals("美国")) {
+                        item.setRecordUo(record);
                         item.setUo(Constants.getGsGloryForRound(record.getRound(), MultiUserManager.USER_DB_FLAG.equals(record.getWinner())));
                     }
                 }
@@ -176,4 +183,11 @@ public class GloryPresenter {
             }
         }
     }
+
+    public List<Record> loadMatchRecord(String match, String date) {
+        List<Record> records = recordDAO.queryByWhere(
+                "date_str = ? and match = ?", new String[]{date, match});
+        return records;
+    }
+
 }

@@ -1,5 +1,6 @@
 package com.king.khcareer.glory;
 
+import com.king.khcareer.glory.gs.GloryGsItem;
 import com.king.khcareer.model.sql.player.bean.Record;
 
 import java.util.List;
