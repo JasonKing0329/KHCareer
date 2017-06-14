@@ -134,6 +134,10 @@ public class GloryPresenter {
                 return item1.getYear() - item2.getYear();
             }
         });
+
+        // 按倒序排列
+        Collections.reverse(championList);
+        Collections.reverse(runnerUpList);
         return bean;
     }
 

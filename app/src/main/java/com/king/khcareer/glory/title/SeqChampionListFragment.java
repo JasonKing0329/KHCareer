@@ -4,7 +4,6 @@ import android.support.v7.widget.RecyclerView;
 
 import com.king.khcareer.model.sql.player.bean.Record;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -17,7 +16,6 @@ public class SeqChampionListFragment extends AbsGloryListFragment {
     @Override
     protected RecyclerView.Adapter getListAdapter() {
         List<Record> recordList = gloryHolder.getGloryTitle().getChampionList();
-        Collections.reverse(recordList);
         SeqListAdapter adapter = new SeqListAdapter(recordList);
         adapter.setShowCompetitor(false);
         adapter.setOnRecordItemListener(new OnRecordItemListener() {

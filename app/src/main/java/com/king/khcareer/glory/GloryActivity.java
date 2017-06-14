@@ -11,6 +11,7 @@ import com.king.khcareer.common.image.ImageUtil;
 import com.king.khcareer.glory.gs.GsFragment;
 import com.king.khcareer.glory.title.SeqChampionListFragment;
 import com.king.khcareer.glory.title.SeqRunnerupListFragment;
+import com.king.khcareer.utils.SeasonManager;
 import com.king.mytennis.view.R;
 
 import butterknife.BindView;
@@ -59,7 +60,8 @@ public class GloryActivity extends BaseActivity implements IGloryHolder, IGloryV
     }
 
     private void initView() {
-
+        // top head image
+        updateSeasonStyle();
     }
 
     private void initFragments() {
@@ -132,4 +134,21 @@ public class GloryActivity extends BaseActivity implements IGloryHolder, IGloryV
     public GloryTitle getGloryTitle() {
         return gloryTitle;
     }
+
+    private void updateSeasonStyle() {
+        SeasonManager.SeasonEnum type = SeasonManager.getSeasonType();
+        if (type == SeasonManager.SeasonEnum.CLAY) {
+            ivHead.setImageResource(R.drawable.nav_header_mon);
+        }
+        else if (type == SeasonManager.SeasonEnum.GRASS) {
+            ivHead.setImageResource(R.drawable.nav_header_win);
+        }
+        else if (type == SeasonManager.SeasonEnum.INHARD) {
+            ivHead.setImageResource(R.drawable.nav_header_sydney);
+        }
+        else {
+            ivHead.setImageResource(R.drawable.nav_header_iw);
+        }
+    }
+
 }
