@@ -59,6 +59,10 @@ public class DatabaseStruct {
 	public static final String TABLE_RANK_FINAL="rank_final";
 	public static final String[] TTABLE_RANK_FINAL_COL={"_id", "_year", "_rank"};
 
+	public static final String VIEW_GS_RESULT= "gs_result";
+	public static final String VIEW_MASTER_RESULT= "master_result";
+	public static final String VIEW_H2H= "h2hview";
+
 	/**
 	 * public database
 	 */

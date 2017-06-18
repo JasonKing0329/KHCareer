@@ -2,6 +2,7 @@ package com.king.khcareer.model.sql.pubdata;
 
 import com.king.khcareer.common.config.Configuration;
 import com.king.khcareer.model.sql.player.DatabaseStruct;
+import com.king.khcareer.model.sql.player.bean.MatchIdBean;
 import com.king.khcareer.model.sql.pubdata.bean.MatchNameBean;
 import com.king.khcareer.model.sql.pubdata.bean.PlayerBean;
 import com.king.khcareer.model.sql.pubdata.dao.MatchDao;
@@ -104,6 +105,18 @@ public class PubDataProvider {
         try {
             SqlConnection.getInstance().connect(databasePath);
             return new MatchDao().queryMatchNameList(matchId, SqlConnection.getInstance().getConnection());
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            SqlConnection.getInstance().close();
+        }
+        return null;
+    }
+
+    public Map<Integer, MatchIdBean> loadMasterIdMap() {
+        try {
+            SqlConnection.getInstance().connect(databasePath);
+            return new MatchDao().loadMasterIdMap(SqlConnection.getInstance().getConnection());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

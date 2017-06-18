@@ -9,6 +9,7 @@ import android.widget.TextView;
 import com.king.khcareer.base.BaseActivity;
 import com.king.khcareer.common.image.ImageUtil;
 import com.king.khcareer.glory.gs.GsFragment;
+import com.king.khcareer.glory.gs.MasterFragment;
 import com.king.khcareer.glory.title.SeqChampionListFragment;
 import com.king.khcareer.glory.title.SeqRunnerupListFragment;
 import com.king.khcareer.utils.SeasonManager;
@@ -69,11 +70,13 @@ public class GloryActivity extends BaseActivity implements IGloryHolder, IGloryV
         pagerAdapter.addFragment(new SeqChampionListFragment(), "Champions");
         pagerAdapter.addFragment(new SeqRunnerupListFragment(), "Runner-ups");
         pagerAdapter.addFragment(new GsFragment(), "GS");
+        pagerAdapter.addFragment(new MasterFragment(), "ATP1000");
         viewpager.setAdapter(pagerAdapter);
 
         tabLayout.addTab(tabLayout.newTab().setText("Champions"));
         tabLayout.addTab(tabLayout.newTab().setText("Runner-ups"));
         tabLayout.addTab(tabLayout.newTab().setText("GS"));
+        tabLayout.addTab(tabLayout.newTab().setText("ATP1000"));
         tabLayout.setupWithViewPager(viewpager);
     }
 

@@ -118,7 +118,7 @@
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
             app:tabGravity="fill"
-            app:tabMode="fixed"
+            app:tabMode="scrollable"
             app:tabSelectedTextColor="@color/tab_actionbar_text_focus"
             app:tabTextColor="@color/white"
             app:tabIndicatorColor="@color/tab_actionbar_text_focus"/>

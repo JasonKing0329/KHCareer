@@ -1,6 +1,7 @@
 package com.king.khcareer.model.sql.pubdata.dao;
 
 import com.king.khcareer.model.sql.player.DatabaseStruct;
+import com.king.khcareer.model.sql.player.bean.MatchIdBean;
 import com.king.khcareer.model.sql.pubdata.bean.MatchBean;
 import com.king.khcareer.model.sql.pubdata.bean.MatchNameBean;
 
@@ -10,7 +11,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 描述:
@@ -313,6 +316,38 @@ public class MatchDao {
         nameBean.setName(set.getString(2));
         nameBean.setMatchId(set.getInt(3));
         return nameBean;
+    }
+
+    public Map<Integer, MatchIdBean> loadMasterIdMap(Connection connection) {
+        Map<Integer, MatchIdBean> map = new HashMap<>();
+        String sql = "select a._id, a.week, b.name from _match a, _match_name b where a._id=b.match_id and a.level = 'ATP1000' order by a.week";
+        Statement stmt = null;
+        try {
+            stmt = connection.createStatement();
+            ResultSet set = stmt.executeQuery(sql);
+            while (set.next()) {
+                MatchIdBean bean = map.get(set.getInt(1));
+                if (bean == null) {
+                    bean = new MatchIdBean();
+                    bean.setId(set.getInt(1));
+                    bean.setWeek(set.getInt(2));
+                    bean.setNames(new ArrayList<String>());
+                    map.put(bean.getId(), bean);
+                }
+                bean.getNames().add(set.getString(3));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            if (stmt != null) {
+                try {
+                    stmt.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return map;
     }
 
 }

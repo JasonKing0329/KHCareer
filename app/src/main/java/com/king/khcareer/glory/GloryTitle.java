@@ -1,6 +1,7 @@
 package com.king.khcareer.glory;
 
 import com.king.khcareer.glory.gs.GloryGsItem;
+import com.king.khcareer.glory.gs.GloryMasterItem;
 import com.king.khcareer.model.sql.player.bean.Record;
 
 import java.util.List;
@@ -13,6 +14,8 @@ public class GloryTitle {
     
     private List<Record> championList;
     private List<Record> runnerUpList;
+    private List<Record> targetList;
+    private List<Record> targetWinList;
 
     private int careerTitle;
     private int yearTitle;
@@ -32,6 +35,7 @@ public class GloryTitle {
     private int yearOlympics;
 
     private List<GloryGsItem> gsItemList;
+    private List<GloryMasterItem> masterItemList;
 
     public List<Record> getChampionList() {
         return championList;
@@ -167,5 +171,29 @@ public class GloryTitle {
 
     public void setGsItemList(List<GloryGsItem> gsItemList) {
         this.gsItemList = gsItemList;
+    }
+
+    public List<GloryMasterItem> getMasterItemList() {
+        return masterItemList;
+    }
+
+    public void setMasterItemList(List<GloryMasterItem> masterItemList) {
+        this.masterItemList = masterItemList;
+    }
+
+    public List<Record> getTargetList() {
+        return targetList;
+    }
+
+    public void setTargetList(List<Record> targetList) {
+        this.targetList = targetList;
+    }
+
+    public List<Record> getTargetWinList() {
+        return targetWinList;
+    }
+
+    public void setTargetWinList(List<Record> targetWinList) {
+        this.targetWinList = targetWinList;
     }
 }

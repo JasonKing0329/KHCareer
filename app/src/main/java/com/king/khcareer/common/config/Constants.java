@@ -1,5 +1,7 @@
 package com.king.khcareer.common.config;
 
+import android.text.TextUtils;
+
 import com.king.mytennis.view.R;
 
 import static android.R.attr.name;
@@ -96,6 +98,9 @@ public class Constants {
 	 * @return
 	 */
 	public static final String getGsGloryForRound(String round, boolean isWinner) {
+		if (TextUtils.isEmpty(round)) {
+			return "--";
+		}
 		if (round.equals(RECORD_MATCH_ROUNDS[0]) && isWinner) {
 			return RECORD_GS_ROUNDS_GLORY[0];
 		}
@@ -104,6 +109,28 @@ public class Constants {
 		for (int i = 0; i < RECORD_MATCH_ROUNDS.length; i ++) {
 			if (RECORD_MATCH_ROUNDS[i].equals(round)) {
 				glory = RECORD_GS_ROUNDS_GLORY[i + 1];
+			}
+		}
+		return glory;
+	}
+
+	/**
+	 * RECORD_MATCH_ROUNDS对照的RECORD_GS_ROUNDS_GLORY
+	 * @param round
+	 * @return
+	 */
+	public static final String getMasterGloryForRound(String round) {
+		if (TextUtils.isEmpty(round)) {
+			return "--";
+		}
+		if (round.equals("Winner")) {
+			return "W";
+		}
+
+		String glory = "--";
+		for (int i = 0; i < RECORD_MATCH_ROUNDS.length; i ++) {
+			if (RECORD_MATCH_ROUNDS[i].equals(round)) {
+				glory = RECORD_MATCH_ROUNDS_SHORT[i];
 			}
 		}
 		return glory;
@@ -131,5 +158,10 @@ public class Constants {
 	 * record记录有改动（增删改）标志
 	 */
 	public static final int FLAG_RECORD_UPDATE = 1030;
+
+	public static final int[] ATP_1000_PUBLIC_ID = new int[] {
+			//iw,miami,mc,madrid,roma,rc,cicinati,sh,paris
+			5, 6, 7, 9, 8, 13, 14, 17, 18
+	};
 
 }
