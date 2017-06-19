@@ -25,6 +25,10 @@ public abstract class BaseGloryPageFragment extends BaseFragment {
         gloryHolder = (IGloryHolder) context;
     }
 
+    /**
+     * record could only include match and strdate
+     * @param record
+     */
     protected void showGloryMatchDialog(final Record record) {
         GloryMatchDialog dialog = new GloryMatchDialog(getActivity(), new CustomDialog.OnCustomDialogActionListener() {
 

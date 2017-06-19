@@ -14,6 +14,11 @@ public class Constants {
 
 	public static final String SCORE_RETIRE_NORMAL = "(对手退赛)";
 
+	/**
+	 * 统计整百场的记录
+	 */
+	public static final int GLORY_TARGET_FACTOR = 100;
+
 	public static final int[] MainViewMenu = new int[] {
 		R.string.menu_save,
 		R.string.menu_load,

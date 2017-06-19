@@ -96,24 +96,19 @@ public class GloryModel {
      */
     public List<Record> getTargetRecords(int factor, boolean isWinner) {
 
-        String sql = "SELECT COUNT(*) FROM record";
-        if (isWinner) {
-            sql = sql + " WHERE iswinner='_user'";
-        }
-        Cursor cursor = getCursor(sql, null);
-        cursor.moveToNext();
-        int total = cursor.getInt(0);
+        int total = getMatchNumber(isWinner);
         int count = 0;
         List<Record> list = new ArrayList<>();
         count += (factor - 1);
+        String sql;
         while (count < total) {
             if (isWinner) {
-                sql = "SELECT * FROM record LIMIT " + count + ",1";
-            }
-            else {
                 sql = "SELECT * FROM record WHERE iswinner='_user' LIMIT " + count + ",1";
             }
-            cursor = getCursor(sql, null);
+            else {
+                sql = "SELECT * FROM record LIMIT " + count + ",1";
+            }
+            Cursor cursor = getCursor(sql, null);
             while (cursor.moveToNext()) {
                 Record bean = parseRecord(cursor);
                 list.add(bean);
@@ -134,6 +129,17 @@ public class GloryModel {
         }
 
         return list;
+    }
+
+    public int getMatchNumber(boolean isWinner) {
+        String sql = "SELECT COUNT(*) FROM record";
+        if (isWinner) {
+            sql = sql + " WHERE iswinner='_user'";
+        }
+        Cursor cursor = getCursor(sql, null);
+        cursor.moveToNext();
+        int total = cursor.getInt(0);
+        return total;
     }
 
     private MatchResultBean parseMatchResult(Cursor cursor) {
@@ -180,4 +186,5 @@ public class GloryModel {
         SQLiteDatabase db = sqlHelper.getReadableDatabase();
         return db.rawQuery(sql, args);
     }
+
 }

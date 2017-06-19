@@ -34,6 +34,9 @@ public class GloryTitle {
     private int yearMasterCup;
     private int yearOlympics;
 
+    private int careerMatch;
+    private int careerWin;
+
     private List<GloryGsItem> gsItemList;
     private List<GloryMasterItem> masterItemList;
 
@@ -195,5 +198,21 @@ public class GloryTitle {
 
     public void setTargetWinList(List<Record> targetWinList) {
         this.targetWinList = targetWinList;
+    }
+
+    public int getCareerMatch() {
+        return careerMatch;
+    }
+
+    public void setCareerMatch(int careerMatch) {
+        this.careerMatch = careerMatch;
+    }
+
+    public int getCareerWin() {
+        return careerWin;
+    }
+
+    public void setCareerWin(int careerWin) {
+        this.careerWin = careerWin;
     }
 }

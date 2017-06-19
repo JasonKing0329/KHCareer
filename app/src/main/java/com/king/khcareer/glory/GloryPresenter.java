@@ -9,6 +9,7 @@ import com.king.khcareer.model.sql.player.bean.MatchResultBean;
 import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.khcareer.model.sql.pubdata.PubDataProvider;
 import com.king.khcareer.model.sql.pubdata.bean.MatchNameBean;
+import com.king.mytennis.view.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -72,8 +73,10 @@ public class GloryPresenter {
         GloryTitle data = new GloryTitle();
         data.setChampionList(gloryModel.getChampionRecords());
         data.setRunnerUpList(gloryModel.getRunnerupRecords());
-        data.setTargetList(gloryModel.getTargetRecords(100, false));
-        data.setTargetWinList(gloryModel.getTargetRecords(100, true));
+        data.setTargetList(gloryModel.getTargetRecords(Constants.GLORY_TARGET_FACTOR, false));
+        data.setTargetWinList(gloryModel.getTargetRecords(Constants.GLORY_TARGET_FACTOR, true));
+        data.setCareerMatch(gloryModel.getMatchNumber(false));
+        data.setCareerWin(gloryModel.getMatchNumber(true));
         List<KeyValueCountBean> titleCounts = gloryModel.getTitleCountByLevel(false);
         parseCountData(data, titleCounts, false);
         titleCounts = gloryModel.getTitleCountByLevel(true);
@@ -91,6 +94,12 @@ public class GloryPresenter {
         for (MatchResultBean bean:gsList) {
             String year = bean.getDate().split("-")[0];
             GloryGsItem item = gsMap.get(year);
+
+            // 只记录name和date
+            Record record = new Record();
+            record.setMatch(bean.getMatch());
+            record.setStrDate(bean.getDate());
+
             if (item == null) {
                 item = new GloryGsItem();
                 gsMap.put(year, item);
@@ -103,7 +112,8 @@ public class GloryPresenter {
                 }
                 else {
                     item.setAo(Constants.getGsGloryForRound(bean.getResult(), false));
-                }
+               }
+               item.setRecordAo(record);
             }
             else if (bean.getMatch().equals("法国网球公开赛")) {
                 if ("Winner".equals(bean.getResult())) {
@@ -112,6 +122,7 @@ public class GloryPresenter {
                 else {
                     item.setFo(Constants.getGsGloryForRound(bean.getResult(), false));
                 }
+                item.setRecordFo(record);
             }
             else if (bean.getMatch().equals("温布尔顿网球公开赛")) {
                 if ("Winner".equals(bean.getResult())) {
@@ -120,6 +131,7 @@ public class GloryPresenter {
                 else {
                     item.setWo(Constants.getGsGloryForRound(bean.getResult(), false));
                 }
+                item.setRecordWo(record);
             }
             else if (bean.getMatch().equals("美国网球公开赛")) {
                 if ("Winner".equals(bean.getResult())) {
@@ -128,6 +140,7 @@ public class GloryPresenter {
                 else {
                     item.setUo(Constants.getGsGloryForRound(bean.getResult(), false));
                 }
+                item.setRecordUo(record);
             }
         }
         Collections.sort(gsGlories, new Comparator<GloryGsItem>() {
@@ -153,7 +166,13 @@ public class GloryPresenter {
                 masterMap.put(year, item);
                 masterGlories.add(item);
             }
-            setMasterResult(item, nameMap.get(bean.getMatch()).getMatchId(), bean.getResult());
+
+            // 只记录name和date
+            Record record = new Record();
+            record.setMatch(bean.getMatch());
+            record.setStrDate(bean.getDate());
+
+            setMasterResult(item, nameMap.get(bean.getMatch()).getMatchId(), bean.getResult(), record);
         }
         Collections.sort(masterGlories, new Comparator<GloryMasterItem>() {
             @Override
@@ -164,33 +183,42 @@ public class GloryPresenter {
         data.setMasterItemList(masterGlories);
     }
 
-    private void setMasterResult(GloryMasterItem item, int matchId, String result) {
+    private void setMasterResult(GloryMasterItem item, int matchId, String result, Record record) {
         if (matchId == Constants.ATP_1000_PUBLIC_ID[0]) {
             item.setIw(Constants.getMasterGloryForRound(result));
+            item.setRecordIW(record);
         }
         else if (matchId == Constants.ATP_1000_PUBLIC_ID[1]) {
             item.setMiami(Constants.getMasterGloryForRound(result));
+            item.setRecordMiami(record);
         }
         else if (matchId == Constants.ATP_1000_PUBLIC_ID[2]) {
             item.setMc(Constants.getMasterGloryForRound(result));
+            item.setRecordMC(record);
         }
         else if (matchId == Constants.ATP_1000_PUBLIC_ID[3]) {
             item.setMadrid(Constants.getMasterGloryForRound(result));
+            item.setRecordMadrid(record);
         }
         else if (matchId == Constants.ATP_1000_PUBLIC_ID[4]) {
             item.setRoma(Constants.getMasterGloryForRound(result));
+            item.setRecordRoma(record);
         }
         else if (matchId == Constants.ATP_1000_PUBLIC_ID[5]) {
             item.setRc(Constants.getMasterGloryForRound(result));
+            item.setRecordRC(record);
         }
         else if (matchId == Constants.ATP_1000_PUBLIC_ID[6]) {
             item.setCicinati(Constants.getMasterGloryForRound(result));
+            item.setRecordCicinati(record);
         }
         else if (matchId == Constants.ATP_1000_PUBLIC_ID[7]) {
             item.setSh(Constants.getMasterGloryForRound(result));
+            item.setRecordSH(record);
         }
         else if (matchId == Constants.ATP_1000_PUBLIC_ID[8]) {
             item.setParis(Constants.getMasterGloryForRound(result));
+            item.setRecordParis(record);
         }
     }
 

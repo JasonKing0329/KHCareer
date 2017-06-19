@@ -10,6 +10,7 @@ import com.github.siyamed.shapeimageview.CircularImageView;
 import com.github.siyamed.shapeimageview.RoundedImageView;
 import com.king.khcareer.common.image.ImageFactory;
 import com.king.khcareer.common.image.ImageUtil;
+import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.mytennis.view.R;
 
@@ -28,6 +29,10 @@ public class SeqListAdapter extends RecyclerView.Adapter<SeqListAdapter.ItemHold
     private List<Record> recordList;
     private OnRecordItemListener onRecordItemListener;
     private boolean showCompetitor;
+    private boolean showTitle;
+    private boolean hideSequence;
+    private List<String> titleList;
+    private boolean showLose;
 
     public SeqListAdapter(List<Record> recordList) {
         this.recordList = recordList;
@@ -36,6 +41,30 @@ public class SeqListAdapter extends RecyclerView.Adapter<SeqListAdapter.ItemHold
     @Override
     public SeqListAdapter.ItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ItemHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.adapter_glory_list_item, parent, false));
+    }
+
+    public void setRecordList(List<Record> recordList) {
+        this.recordList = recordList;
+    }
+
+    public void setShowCompetitor(boolean showCompetitor) {
+        this.showCompetitor = showCompetitor;
+    }
+
+    public void setShowTitle(boolean showTitle) {
+        this.showTitle = showTitle;
+    }
+
+    public void setShowLose(boolean showLose) {
+        this.showLose = showLose;
+    }
+
+    public void setHideSequence(boolean hideSequence) {
+        this.hideSequence = hideSequence;
+    }
+
+    public void setTitleList(List<String> list) {
+        this.titleList = list;
     }
 
     @Override
@@ -47,7 +76,13 @@ public class SeqListAdapter extends RecyclerView.Adapter<SeqListAdapter.ItemHold
         holder.tvYear.setText(record.getStrDate());
 
         // list是倒序排列的
-        holder.tvSeq.setText(String.valueOf(getItemCount() - position));
+        if (hideSequence) {
+            holder.tvSeq.setVisibility(View.GONE);
+        }
+        else {
+            holder.tvSeq.setVisibility(View.VISIBLE);
+            holder.tvSeq.setText(String.valueOf(getItemCount() - position));
+        }
 
         ImageUtil.load("file://" + ImageFactory.getMatchHeadPath(record.getMatch(), record.getCourt()), holder.ivMatch);
 
@@ -62,6 +97,21 @@ public class SeqListAdapter extends RecyclerView.Adapter<SeqListAdapter.ItemHold
         }
         else {
             holder.groupCompetitor.setVisibility(View.GONE);
+        }
+
+        if (showTitle) {
+            holder.tvTitle.setVisibility(View.VISIBLE);
+            holder.tvTitle.setText(titleList.get(position));
+        }
+        else {
+            holder.tvTitle.setVisibility(View.GONE);
+        }
+
+        if (showLose && !record.getWinner().equals(MultiUserManager.USER_DB_FLAG)) {
+            holder.tvLose.setVisibility(View.VISIBLE);
+        }
+        else {
+            holder.tvLose.setVisibility(View.GONE);
         }
     }
 
@@ -82,12 +132,10 @@ public class SeqListAdapter extends RecyclerView.Adapter<SeqListAdapter.ItemHold
         this.onRecordItemListener = onRecordItemListener;
     }
 
-    public void setShowCompetitor(boolean showCompetitor) {
-        this.showCompetitor = showCompetitor;
-    }
-
     public static class ItemHolder extends RecyclerView.ViewHolder {
 
+        @BindView(R.id.tv_title)
+        TextView tvTitle;
         @BindView(R.id.group_item)
         ViewGroup groupItem;
         @BindView(R.id.group_competitor)
@@ -98,6 +146,8 @@ public class SeqListAdapter extends RecyclerView.Adapter<SeqListAdapter.ItemHold
         CircularImageView ivCompetitor;
         @BindView(R.id.tv_seq)
         TextView tvSeq;
+        @BindView(R.id.tv_lose)
+        TextView tvLose;
         @BindView(R.id.tv_name)
         TextView tvName;
         @BindView(R.id.tv_level)
