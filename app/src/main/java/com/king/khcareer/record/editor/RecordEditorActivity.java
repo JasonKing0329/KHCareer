@@ -2,17 +2,14 @@ package com.king.khcareer.record.editor;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.king.khcareer.common.config.Constants;
-import com.king.khcareer.common.helper.BackgroundProvider;
 import com.king.khcareer.match.manage.MatchCache;
 import com.king.khcareer.match.manage.MatchManageActivity;
 import com.king.khcareer.model.sql.player.bean.Record;
@@ -35,9 +32,7 @@ public class RecordEditorActivity extends BaseActivity implements IEditorHolder,
 
     private ViewGroup groupPlayer, groupMatch;
     private TextView nextPageView, previousPageView, doneView, continueView;
-
-    private RelativeLayout bkLayout;
-    private TextView titleView;
+    private Toolbar toolbar;
 
     private PlayerEditPage playerEditPage;
     private MatchEditPage matchEditPage;
@@ -60,23 +55,32 @@ public class RecordEditorActivity extends BaseActivity implements IEditorHolder,
         super.onCreate(savedInstanceState);
     }
 
+    @Override
+    protected boolean applyCommonTheme() {
+        return false;
+    }
+
     private void initParentView() {
         groupMatch = (ViewGroup) findViewById(R.id.editor_layout_match);
         groupPlayer = (ViewGroup) findViewById(R.id.editor_layout_player);
-        titleView = (TextView) findViewById(R.id.editor_title);
         nextPageView = (TextView) findViewById(R.id.next_indicator);
         previousPageView = (TextView) findViewById(R.id.previous_indicator);
         doneView = (TextView) findViewById(R.id.done_indicator);
         continueView = (TextView) findViewById(R.id.continue_indicator);
-        bkLayout = (RelativeLayout) findViewById(R.id.layout_editor);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        Bitmap bitmap = new BackgroundProvider().loadBackgound();
-        if (bitmap == null) {
-            bkLayout.setBackground(null);
-        }
-        else {
-            bkLayout.setBackground(new BitmapDrawable(bitmap));
-        }
+        // 只有title必须在setSupportActionBar之前调用，其他都必须在setSupportActionBar之后调用
+        toolbar.setTitle(getResources().getString(R.string.player_infor));
+        setSupportActionBar(toolbar);
+        toolbar.setNavigationIcon(R.drawable.ic_arrow_back_white_24dp);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+        toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
 
         nextPageView.setOnClickListener(this);
         previousPageView.setOnClickListener(this);
@@ -105,14 +109,14 @@ public class RecordEditorActivity extends BaseActivity implements IEditorHolder,
     @Override
     public void onClick(View v) {
         if (v == nextPageView) {
-            titleView.setText(getResources().getString(R.string.match_infor));
+            toolbar.setTitle(getResources().getString(R.string.match_infor));
             previousPageView.setVisibility(View.VISIBLE);
             nextPageView.setVisibility(View.GONE);
             doneView.setVisibility(View.VISIBLE);
             showMatchView();
         }
         else if (v == previousPageView) {
-            titleView.setText(getResources().getString(R.string.player_infor));
+            toolbar.setTitle(getResources().getString(R.string.player_infor));
             previousPageView.setVisibility(View.GONE);
             nextPageView.setVisibility(View.VISIBLE);
             doneView.setVisibility(View.GONE);
@@ -138,7 +142,7 @@ public class RecordEditorActivity extends BaseActivity implements IEditorHolder,
 
     private void continueInsert() {
         continueView.setVisibility(View.GONE);
-        titleView.setText(getResources().getString(R.string.player_infor));
+        toolbar.setTitle(getResources().getString(R.string.player_infor));
         previousPageView.setVisibility(View.GONE);
         nextPageView.setVisibility(View.VISIBLE);
         doneView.setVisibility(View.GONE);

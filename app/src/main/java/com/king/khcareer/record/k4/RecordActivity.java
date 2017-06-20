@@ -2,10 +2,8 @@ package com.king.khcareer.record.k4;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -154,7 +152,7 @@ public class RecordActivity extends BaseActivity implements IRecordView, OnItemM
 
         Record record = data.getYearList().get(0).getChildItemList().get(0).getRecord();
         String path = ImageFactory.getMatchHeadPath(record.getMatch(), record.getCourt());
-        ImageUtil.load("file://" + path, ivRecordHead, R.drawable.swipecard_default_img);
+        ImageUtil.load("file://" + path, ivRecordHead, R.drawable.default_img);
     }
 
     @Override

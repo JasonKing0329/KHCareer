@@ -353,7 +353,6 @@ public class H2HSearcher extends BaseActivity implements OnClickListener
 		else {
 			imageView.setImageDrawable(hourglassAnimDrawable2);
 		}
-		//imageView.setImageResource(R.drawable.image_loading);
 		new Handler().postDelayed(new Runnable() {
 			
 			@Override

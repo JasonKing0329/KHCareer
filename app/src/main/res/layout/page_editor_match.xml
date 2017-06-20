@@ -117,16 +117,14 @@
                 android:id="@+id/editor_match_year"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:background="@drawable/tw_spinner_bk" />
+                android:layout_weight="1" />
 
             <Spinner
                 android:id="@+id/editor_match_round"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
-                android:layout_weight="1"
-                android:background="@drawable/tw_spinner_bk" />
+                android:layout_weight="1" />
         </LinearLayout>
 
         <LinearLayout

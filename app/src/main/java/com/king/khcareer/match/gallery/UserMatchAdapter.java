@@ -88,7 +88,7 @@ public class UserMatchAdapter extends RecyclerView.Adapter<ItemHolder> implement
             filePath = ImageFactory.getMatchHeadPath(bean.getNameBean().getName()
                     , bean.getNameBean().getMatchBean().getCourt(), imageIndexMap.get(bean.getNameBean().getName()));
         }
-        ImageUtil.load("file://" + filePath, holder.image, R.drawable.swipecard_default_img);
+        ImageUtil.load("file://" + filePath, holder.image, R.drawable.default_img);
         holder.level.setText(bean.getNameBean().getMatchBean().getLevel());
         holder.court.setText(bean.getNameBean().getMatchBean().getCourt());
         holder.total.setText("总胜负  " + bean.getWin() + "胜" + bean.getLose() + "负");

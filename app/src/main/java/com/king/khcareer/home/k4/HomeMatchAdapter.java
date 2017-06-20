@@ -37,7 +37,7 @@ public class HomeMatchAdapter extends RecyclerView.Adapter<HomeMatchAdapter.Item
         UserMatchBean bean = list.get(position);
         String filePath = ImageFactory.getMatchHeadPath(bean.getNameBean().getName()
                 , bean.getNameBean().getMatchBean().getCourt());
-        ImageUtil.load("file://" + filePath, holder.image, R.drawable.swipecard_default_img);
+        ImageUtil.load("file://" + filePath, holder.image, R.drawable.default_img);
         holder.level.setText(bean.getNameBean().getMatchBean().getLevel());
         holder.court.setText(bean.getNameBean().getMatchBean().getCourt());
         holder.name.setText(bean.getNameBean().getName());

@@ -157,7 +157,7 @@ public class MatchSwipeCardAdapter extends AbstractSwipeAdapter implements Reque
 		else {
 			filePath = ImageFactory.getMatchHeadPath(bean.getName(), bean.getCourt(), imageIndexMap.get(bean.getName()));
 		}
-		ImageUtil.load("file://" + filePath, holder.image, R.drawable.swipecard_default_img);
+		ImageUtil.load("file://" + filePath, holder.image, R.drawable.default_img);
 		holder.name.setText(bean.getName());
 		holder.place.setText(bean.getCountry() + "/" + bean.getCity());
 		holder.level.setText(bean.getLevel());

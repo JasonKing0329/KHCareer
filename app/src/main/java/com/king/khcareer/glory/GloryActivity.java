@@ -57,7 +57,7 @@ public class GloryActivity extends BaseActivity implements IGloryHolder, IGloryV
         
         showProgress(null);
 
-        ImageUtil.initImageLoader(this, R.drawable.swipecard_default_img);
+        ImageUtil.initImageLoader(this, R.drawable.default_img);
         presenter.loadDatas();
     }
 

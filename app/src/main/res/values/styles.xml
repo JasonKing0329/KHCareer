@@ -183,10 +183,12 @@
     <style name="RecordEditorBtn">
         <item name="android:layout_width">100dp</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@drawable/indicator_bk</item>
-        <item name="android:padding">5dp</item>
+        <item name="android:background">?android:attr/selectableItemBackground</item>
+        <item name="android:paddingTop">15dp</item>
+        <item name="android:paddingBottom">15dp</item>
         <item name="android:gravity">center</item>
-        <item name="android:textSize">16sp</item>
+        <item name="android:textSize">16dp</item>
+        <item name="android:textColor">@color/colorPrimary</item>
     </style>
 
     <style name="CommonPlayerGroup">
@@ -226,11 +228,26 @@
     <style name="HomeTheme" parent="AppTheme">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <!--toolbar的背景-->
         <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryDark">#eeeeee</item>
+        <!--toolbar的文字颜色-->
         <item name="android:textColorPrimary">#3F51B5</item>
-        <item name="android:textColorSecondary">#00ff00</item>
+        <!--<item name="android:textColorSecondary">#00ff00</item>-->
         <item name="android:actionMenuTextColor">#3F51B5</item>
+    </style>
+
+    <style name="SubTheme" parent="AppTheme">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <!--toolbar的背景-->
+        <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+        <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+        <!--toolbar的文字颜色-->
+        <!--<item name="android:textColorPrimary">@color/white</item>-->
+        <!--会影响：EditText的底线颜色，spinner的下拉颜色，滚动条的颜色...-->
+        <!--<item name="android:textColorSecondary">#00ff00</item>-->
+        <!--<item name="android:actionMenuTextColor">#3F51B5</item>-->
     </style>
 
     <style name="HomeTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">

@@ -56,7 +56,7 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name="com.king.khcareer.record.editor.RecordEditorActivity"
-            android:theme="@style/ActionBarBlue"
+            android:theme="@style/SubTheme"
             android:screenOrientation="portrait">
         </activity>
         <activity

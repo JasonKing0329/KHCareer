@@ -118,7 +118,7 @@ public class PlayerActivity extends BaseActivity implements OnGroupCollapseListe
 
 	private void initHeader(View headView, View zoomView) {
 		ImageUtil.load("file://" + ImageFactory.getDetailPlayerPath(mPlayerBean.getName())
-				, (ImageView) zoomView, R.drawable.swipecard_default_img);
+				, (ImageView) zoomView, R.drawable.default_img);
 		h2hView = (TextView) headView.findViewById(R.id.player_head_h2h);
 		countInforView = (TextView) headView.findViewById(R.id.player_head_count_details);
 		h2hView.setText(mPlayerBean.getWin() + "胜" + mPlayerBean.getLose() + "负");

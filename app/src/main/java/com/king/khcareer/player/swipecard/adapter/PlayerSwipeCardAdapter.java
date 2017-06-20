@@ -161,7 +161,7 @@ public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter implements Requ
 		else {
 			filePath = ImageFactory.getDetailPlayerPath(bean.getName(), imageIndexMap.get(bean.getName()));
 		}
-		ImageUtil.load("file://" + filePath, holder.image, R.drawable.swipecard_default_img);
+		ImageUtil.load("file://" + filePath, holder.image, R.drawable.default_img);
 		com.king.khcareer.model.sql.pubdata.bean.PlayerBean pb = pubDataProvider.getPlayerByChnName(bean.getName());
 		String name = bean.getName();
 		String country = bean.getCountry();

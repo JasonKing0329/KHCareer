@@ -103,7 +103,7 @@ public class RecordItemAdapter extends AbstractExpandableAdapterItem implements 
         groupRecord.setOnClickListener(this);
 
         String path = ImageFactory.getMatchHeadPath(curRecord.getMatch(), curRecord.getCourt());
-        ImageUtil.load("file://" + path, ivMatch, R.drawable.image_load_error);
+        ImageUtil.load("file://" + path, ivMatch, R.drawable.default_img);
     }
 
     @Override

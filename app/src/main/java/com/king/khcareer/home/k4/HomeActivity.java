@@ -29,7 +29,6 @@ import com.king.khcareer.player.h2hlist.H2hListActivity;
 import com.king.khcareer.record.k4.RecordActivity;
 import com.king.khcareer.utils.DebugLog;
 import com.king.khcareer.utils.SeasonManager;
-import com.king.mytennis.glory.GloryModuleActivity;
 import com.king.khcareer.match.manage.MatchManageActivity;
 import com.king.khcareer.match.gallery.UserMatchActivity;
 import com.king.khcareer.match.gallery.UserMatchBean;
@@ -57,7 +56,6 @@ import com.nightonke.boommenu.BoomMenuButton;
 import com.yarolegovich.discretescrollview.DiscreteScrollView;
 import com.yarolegovich.discretescrollview.transform.ScaleTransformer;
 
-import java.util.Calendar;
 import java.util.List;
 
 import butterknife.BindView;
@@ -325,7 +323,7 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
     @Override
     public void onHomeDataLoaded(HomeData data) {
         ImageUtil.load("file://" + ImageFactory.getMatchHeadPath(data.getRecordMatch(), data.getRecordCourt()), ivRecordBk
-                , R.drawable.swipecard_default_img);
+                , R.drawable.default_img);
         tvMatchName.setText(data.getRecordMatch() + "(" + data.getRecordCountry() + ")");
         tvMatchRound.setText(data.getRecordRound());
         ImageUtil.load("file://" + ImageFactory.getPlayerHeadPath(data.getPlayerName1()), ivPlayer1

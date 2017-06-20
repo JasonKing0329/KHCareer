@@ -81,7 +81,7 @@ public class MatchActivity extends BaseActivity implements OnGroupCollapseListen
 
 	private void initHeader(View headView, View zoomView) {
 		ImageUtil.load("file://" + ImageFactory.getMatchHeadPath(mMatchBean.getNameBean().getName(), mMatchBean.getNameBean().getMatchBean().getCourt())
-				, (ImageView) zoomView, R.drawable.swipecard_default_img);
+				, (ImageView) zoomView, R.drawable.default_img);
 		((TextView) headView.findViewById(R.id.match_head_court)).setText(mMatchBean.getNameBean().getMatchBean().getCourt());
 		((TextView) headView.findViewById(R.id.match_head_level)).setText(mMatchBean.getNameBean().getMatchBean().getLevel());
 		((TextView) headView.findViewById(R.id.match_head_name)).setText(mMatchBean.getNameBean().getName());

@@ -92,7 +92,7 @@ public class HeaderAdapter extends AbstractExpandableAdapterItem {
             String path = ImageFactory.getDetailPlayerPath(bean.getPlayer());
             imagePathMap.put(bean.getPlayer(), path);
         }
-        ImageUtil.load("file://" + imagePathMap.get(bean.getPlayer()), ivPlayer, R.drawable.image_load_error);
+        ImageUtil.load("file://" + imagePathMap.get(bean.getPlayer()), ivPlayer, R.drawable.default_img);
     }
 
     @Override
