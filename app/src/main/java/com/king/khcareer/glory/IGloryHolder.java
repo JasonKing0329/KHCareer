@@ -7,4 +7,5 @@ package com.king.khcareer.glory;
  */
 public interface IGloryHolder {
     GloryTitle getGloryTitle();
+    GloryPresenter getPresenter();
 }

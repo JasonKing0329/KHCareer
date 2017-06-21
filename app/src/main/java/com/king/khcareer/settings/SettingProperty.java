@@ -1,5 +1,6 @@
 package com.king.khcareer.settings;
 
+import com.king.khcareer.common.config.Constants;
 import com.king.mytennis.view.R;
 
 import android.content.Context;
@@ -39,6 +40,11 @@ public class SettingProperty {
 	public static final int VALUE_SORT_PLAYER_COUNTRY = 2;
 	public static final int VALUE_SORT_PLAYER_AGE = 3;
 	public static final int VALUE_SORT_PLAYER_CONSTELLATION = 4;
+
+	public static final String KEY_GLORY_PAGE_INDEX = "key_glory_page_index";
+	public static final String KEY_GLORY_TARGET_WIN = "key_glory_target_win";
+	public static final String KEY_GLORY_CHAMPION_GROUP_MODE = "key_glory_champion_group_mode";
+	public static final String KEY_GLORY_RUNNERUP_GROUP_MODE = "key_glory_runnerup_group_mode";
 
 	public static int getHttpMethod(Context context) {
 		
@@ -196,6 +202,94 @@ public class SettingProperty {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
 		int mode = preferences.getInt(KEY_SORT_PLAYER, VALUE_SORT_PLAYER_NAME);
 		return mode;
+	}
+
+	/**
+	 * glory page
+	 * @param context
+	 */
+	public static int getGloryPageIndex(Context context) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		int mode = preferences.getInt(KEY_GLORY_PAGE_INDEX, 0);
+		return mode;
+	}
+
+	/**
+	 * glory page
+	 * @param context
+	 * @param index
+	 */
+	public static void setGloryPageIndex(Context context, int index) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putInt(KEY_GLORY_PAGE_INDEX, index);
+		editor.commit();
+	}
+
+	/**
+	 * glory target: select win
+	 * @param context
+	 */
+	public static boolean isGloryTargetWin(Context context) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		boolean mode = preferences.getBoolean(KEY_GLORY_TARGET_WIN, false);
+		return mode;
+	}
+
+	/**
+	 * glory target: select win
+	 * @param context
+	 * @param check
+	 */
+	public static void setGloryTargetWin(Context context, boolean check) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putBoolean(KEY_GLORY_TARGET_WIN, check);
+		editor.commit();
+	}
+
+	/**
+	 * glory champion group mode
+	 * @param context
+	 */
+	public static int getGloryChampionGroupMode(Context context) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		int mode = preferences.getInt(KEY_GLORY_CHAMPION_GROUP_MODE, Constants.GROUP_BY_ALL);
+		return mode;
+	}
+
+	/**
+	 * glory champion group mode
+	 * @param context
+	 * @param mode
+	 */
+	public static void setGloryChampionGroupMode(Context context, int mode) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putInt(KEY_GLORY_CHAMPION_GROUP_MODE, mode);
+		editor.commit();
+	}
+
+	/**
+	 * glory runnerup group mode
+	 * @param context
+	 */
+	public static int getGloryRunnerupGroupMode(Context context) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		int mode = preferences.getInt(KEY_GLORY_RUNNERUP_GROUP_MODE, Constants.GROUP_BY_ALL);
+		return mode;
+	}
+
+	/**
+	 * glory runnerup group mode
+	 * @param context
+	 * @param mode
+	 */
+	public static void setGloryRunnerupGroupMode(Context context, int mode) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putInt(KEY_GLORY_RUNNERUP_GROUP_MODE, mode);
+		editor.commit();
 	}
 
 }

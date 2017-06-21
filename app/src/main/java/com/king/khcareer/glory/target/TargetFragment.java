@@ -1,13 +1,8 @@
 package com.king.khcareer.glory.target;
 
-import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.king.khcareer.common.config.Constants;
@@ -15,6 +10,7 @@ import com.king.khcareer.glory.BaseGloryPageFragment;
 import com.king.khcareer.glory.title.OnRecordItemListener;
 import com.king.khcareer.glory.title.SeqListAdapter;
 import com.king.khcareer.model.sql.player.bean.Record;
+import com.king.khcareer.settings.SettingProperty;
 import com.king.mytennis.view.R;
 
 import java.util.ArrayList;
@@ -58,7 +54,16 @@ public class TargetFragment extends BaseGloryPageFragment implements OnRecordIte
 
         tvAll.setText("All(" + gloryHolder.getGloryTitle().getCareerMatch() + ")");
         tvWin.setText("Win(" + gloryHolder.getGloryTitle().getCareerWin() + ")");
-        initList(gloryHolder.getGloryTitle().getTargetList());
+        if (SettingProperty.isGloryTargetWin(getActivity())) {
+            tvWin.setSelected(true);
+            tvAll.setSelected(false);
+            initList(gloryHolder.getGloryTitle().getTargetWinList());
+        }
+        else {
+            tvWin.setSelected(false);
+            tvAll.setSelected(true);
+            initList(gloryHolder.getGloryTitle().getTargetList());
+        }
     }
 
     @Override
@@ -71,12 +76,14 @@ public class TargetFragment extends BaseGloryPageFragment implements OnRecordIte
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.tv_all:
+                SettingProperty.setGloryTargetWin(getActivity(), false);
                 tvAll.setSelected(true);
                 tvWin.setSelected(false);
 
                 refreshList(gloryHolder.getGloryTitle().getTargetList());
                 break;
             case R.id.tv_win:
+                SettingProperty.setGloryTargetWin(getActivity(), true);
                 tvAll.setSelected(false);
                 tvWin.setSelected(true);
 

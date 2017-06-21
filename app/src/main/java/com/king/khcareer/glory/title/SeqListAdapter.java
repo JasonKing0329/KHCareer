@@ -31,8 +31,8 @@ public class SeqListAdapter extends RecyclerView.Adapter<SeqListAdapter.ItemHold
     private boolean showCompetitor;
     private boolean showTitle;
     private boolean hideSequence;
-    private List<String> titleList;
     private boolean showLose;
+    private List<String> titleList;
 
     public SeqListAdapter(List<Record> recordList) {
         this.recordList = recordList;

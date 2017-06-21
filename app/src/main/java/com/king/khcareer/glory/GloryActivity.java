@@ -2,17 +2,22 @@ package com.king.khcareer.glory;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.king.khcareer.base.BaseActivity;
+import com.king.khcareer.common.config.Constants;
 import com.king.khcareer.common.image.ImageUtil;
 import com.king.khcareer.glory.gs.GsFragment;
 import com.king.khcareer.glory.gs.MasterFragment;
 import com.king.khcareer.glory.target.TargetFragment;
-import com.king.khcareer.glory.title.SeqChampionListFragment;
-import com.king.khcareer.glory.title.SeqRunnerupListFragment;
+import com.king.khcareer.glory.title.ChampionFragment;
+import com.king.khcareer.glory.title.RunnerUpFragment;
+import com.king.khcareer.settings.SettingProperty;
 import com.king.khcareer.utils.SeasonManager;
 import com.king.mytennis.view.R;
 
@@ -24,8 +29,19 @@ import butterknife.ButterKnife;
  * <p/>作者：景阳
  * <p/>创建时间: 2017/5/25 16:42
  */
-public class GloryActivity extends BaseActivity implements IGloryHolder, IGloryView {
+public class GloryActivity extends BaseActivity implements IGloryHolder, IGloryView, Toolbar.OnMenuItemClickListener {
 
+    private final String[] titles = new String[] {
+            "Champions", "Runner-ups", "Grand Slam", "ATP1000", "Target"
+    };
+    private final int PAGE_CHAMPION = 0;
+    private final int PAGE_RUNNERUP = 1;
+    private final int PAGE_GS = 2;
+    private final int PAGE_ATP1000 = 3;
+    private final int PAGE_TARGET = 4;
+
+    @BindView(R.id.toolbar)
+    Toolbar toolbar;
     @BindView(R.id.iv_head)
     ImageView ivHead;
     @BindView(R.id.tv_career_title)
@@ -64,23 +80,77 @@ public class GloryActivity extends BaseActivity implements IGloryHolder, IGloryV
     private void initView() {
         // top head image
         updateSeasonStyle();
+
+        toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_more_vert_white_24dp));
+        toolbar.setOnMenuItemClickListener(this);
     }
 
     private void initFragments() {
         pagerAdapter = new GloryPageAdapter(getSupportFragmentManager());
-        pagerAdapter.addFragment(new SeqChampionListFragment(), "Champions");
-        pagerAdapter.addFragment(new SeqRunnerupListFragment(), "Runner-ups");
-        pagerAdapter.addFragment(new GsFragment(), "GS");
-        pagerAdapter.addFragment(new MasterFragment(), "ATP1000");
-        pagerAdapter.addFragment(new TargetFragment(), "Target");
+        pagerAdapter.addFragment(new ChampionFragment(), titles[PAGE_CHAMPION]);
+        pagerAdapter.addFragment(new RunnerUpFragment(), titles[PAGE_RUNNERUP]);
+        pagerAdapter.addFragment(new GsFragment(), titles[PAGE_GS]);
+        pagerAdapter.addFragment(new MasterFragment(), titles[PAGE_ATP1000]);
+        pagerAdapter.addFragment(new TargetFragment(), titles[PAGE_TARGET]);
         viewpager.setAdapter(pagerAdapter);
 
-        tabLayout.addTab(tabLayout.newTab().setText("Champions"));
-        tabLayout.addTab(tabLayout.newTab().setText("Runner-ups"));
-        tabLayout.addTab(tabLayout.newTab().setText("GS"));
-        tabLayout.addTab(tabLayout.newTab().setText("ATP1000"));
-        tabLayout.addTab(tabLayout.newTab().setText("Target"));
+        tabLayout.addTab(tabLayout.newTab().setText(titles[PAGE_CHAMPION]));
+        tabLayout.addTab(tabLayout.newTab().setText(titles[PAGE_RUNNERUP]));
+        tabLayout.addTab(tabLayout.newTab().setText(titles[PAGE_GS]));
+        tabLayout.addTab(tabLayout.newTab().setText(titles[PAGE_ATP1000]));
+        tabLayout.addTab(tabLayout.newTab().setText(titles[PAGE_TARGET]));
         tabLayout.setupWithViewPager(viewpager);
+
+        viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                SettingProperty.setGloryPageIndex(GloryActivity.this, position);
+                updatePubPage(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        int page = SettingProperty.getGloryPageIndex(this);
+        if (page < pagerAdapter.getCount()) {
+            viewpager.setCurrentItem(page);
+        }
+        // 第一次viewpager.setCurrentItem(0)不会触发onPageSelected
+        if (page == 0) {
+            toolbar.inflateMenu(R.menu.glory_list);
+        }
+    }
+
+    private void updatePubPage(int position) {
+        switch (position) {
+            case PAGE_CHAMPION:
+                toolbar.getMenu().clear();
+                toolbar.inflateMenu(R.menu.glory_list);
+                break;
+            case PAGE_RUNNERUP:
+                toolbar.getMenu().clear();
+                toolbar.inflateMenu(R.menu.glory_list);
+                break;
+            case PAGE_GS:
+                toolbar.getMenu().clear();
+                toolbar.inflateMenu(R.menu.glory_none);
+                break;
+            case PAGE_ATP1000:
+                toolbar.getMenu().clear();
+                toolbar.inflateMenu(R.menu.glory_none);
+                break;
+            case PAGE_TARGET:
+                toolbar.getMenu().clear();
+                toolbar.inflateMenu(R.menu.glory_none);
+                break;
+        }
     }
 
     @Override
@@ -141,6 +211,11 @@ public class GloryActivity extends BaseActivity implements IGloryHolder, IGloryV
         return gloryTitle;
     }
 
+    @Override
+    public GloryPresenter getPresenter() {
+        return presenter;
+    }
+
     private void updateSeasonStyle() {
         SeasonManager.SeasonEnum type = SeasonManager.getSeasonType();
         if (type == SeasonManager.SeasonEnum.CLAY) {
@@ -157,4 +232,43 @@ public class GloryActivity extends BaseActivity implements IGloryHolder, IGloryV
         }
     }
 
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        Fragment fragment = pagerAdapter.getItem(viewpager.getCurrentItem());
+        switch (item.getItemId()) {
+            case R.id.menu_group_by_all:
+                if (fragment instanceof ChampionFragment) {
+                    ((ChampionFragment) fragment).groupBy(Constants.GROUP_BY_ALL);
+                }
+                else if (fragment instanceof RunnerUpFragment) {
+                    ((RunnerUpFragment) fragment).groupBy(Constants.GROUP_BY_ALL);
+                }
+                break;
+            case R.id.menu_group_by_court:
+                if (fragment instanceof ChampionFragment) {
+                    ((ChampionFragment) fragment).groupBy(Constants.GROUP_BY_COURT);
+                }
+                else if (fragment instanceof RunnerUpFragment) {
+                    ((RunnerUpFragment) fragment).groupBy(Constants.GROUP_BY_COURT);
+                }
+                break;
+            case R.id.menu_group_by_level:
+                if (fragment instanceof ChampionFragment) {
+                    ((ChampionFragment) fragment).groupBy(Constants.GROUP_BY_LEVEL);
+                }
+                else if (fragment instanceof RunnerUpFragment) {
+                    ((RunnerUpFragment) fragment).groupBy(Constants.GROUP_BY_LEVEL);
+                }
+                break;
+            case R.id.menu_group_by_year:
+                if (fragment instanceof ChampionFragment) {
+                    ((ChampionFragment) fragment).groupBy(Constants.GROUP_BY_YEAR);
+                }
+                else if (fragment instanceof RunnerUpFragment) {
+                    ((RunnerUpFragment) fragment).groupBy(Constants.GROUP_BY_YEAR);
+                }
+                break;
+        }
+        return true;
+    }
 }

@@ -3,6 +3,9 @@ package com.king.khcareer.glory;
 import com.king.khcareer.common.config.Constants;
 import com.king.khcareer.glory.gs.GloryGsItem;
 import com.king.khcareer.glory.gs.GloryMasterItem;
+import com.king.khcareer.glory.title.HeaderBean;
+import com.king.khcareer.glory.title.HeaderItem;
+import com.king.khcareer.glory.title.SubItem;
 import com.king.khcareer.model.sql.player.GloryModel;
 import com.king.khcareer.model.sql.player.bean.KeyValueCountBean;
 import com.king.khcareer.model.sql.player.bean.MatchResultBean;
@@ -282,4 +285,103 @@ public class GloryPresenter {
             bean.setCareerTitle(sum);
         }
     }
+
+    /**
+     *
+     * @param recordList
+     * @param groupMode Constants.GROUP_BY_XX
+     * @return
+     */
+    public List<HeaderItem> getHeaderList(List<Record> recordList, int groupMode) {
+        List<HeaderItem> list = new ArrayList<>();
+        Map<String, List<SubItem>> keyMap = new HashMap<>();
+        for (Record record:recordList) {
+            String key;
+            if (groupMode == Constants.GROUP_BY_COURT) {
+                key = record.getCourt();
+            }
+            else if (groupMode == Constants.GROUP_BY_LEVEL) {
+                key = record.getLevel();
+            }
+            else {
+                key = record.getStrDate().split("-")[0];
+            }
+            List<SubItem> subList = keyMap.get(key);
+            if (subList == null) {
+                subList = new ArrayList<>();
+                keyMap.put(key, subList);
+
+                HeaderItem header = new HeaderItem();
+                header.setHeaderBean(new HeaderBean());
+                header.getHeaderBean().setItemList(subList);
+                header.getHeaderBean().setKey(key);
+                list.add(header);
+            }
+            SubItem item = new SubItem();
+            item.setItemPosition(subList.size());
+            item.setRecord(record);
+            subList.add(item);
+        }
+
+        if (groupMode == Constants.GROUP_BY_COURT) {
+            Collections.sort(list, new CourtComparotor());
+        }
+        else if (groupMode == Constants.GROUP_BY_LEVEL) {
+            Collections.sort(list, new LevelComparotor());
+        }
+        else if (groupMode == Constants.GROUP_BY_YEAR) {
+            Collections.sort(list, new YearComparotor());
+        }
+
+        for (HeaderItem item:list) {
+            item.getHeaderBean().setContent(String.valueOf(item.getHeaderBean().getItemList().size()));
+            for (SubItem sub:item.getHeaderBean().getItemList()) {
+                sub.setGroupCount(item.getHeaderBean().getItemList().size());
+            }
+        }
+        return list;
+    }
+
+    private class LevelComparotor implements Comparator<HeaderItem> {
+
+        @Override
+        public int compare(HeaderItem o1, HeaderItem o2) {
+            return getLevelValue(o1.getHeaderBean().getKey()) - getLevelValue(o2.getHeaderBean().getKey());
+        }
+
+        private int getLevelValue(String level) {
+            for (int i = 0; i < Constants.RECORD_MATCH_LEVELS.length; i ++) {
+                if (level.equals(Constants.RECORD_MATCH_LEVELS[i])) {
+                    return i;
+                }
+            }
+            return Constants.RECORD_MATCH_LEVELS.length;
+        }
+    }
+
+    private class CourtComparotor implements Comparator<HeaderItem> {
+
+        @Override
+        public int compare(HeaderItem o1, HeaderItem o2) {
+            return getCourtValue(o1.getHeaderBean().getKey()) - getCourtValue(o2.getHeaderBean().getKey());
+        }
+
+        private int getCourtValue(String court) {
+            for (int i = 0; i < Constants.RECORD_MATCH_COURTS.length; i ++) {
+                if (court.equals(Constants.RECORD_MATCH_COURTS[i])) {
+                    return i;
+                }
+            }
+            return Constants.RECORD_MATCH_COURTS.length;
+        }
+    }
+
+    private class YearComparotor implements Comparator<HeaderItem> {
+
+        @Override
+        public int compare(HeaderItem o1, HeaderItem o2) {
+            return Integer.parseInt(o2.getHeaderBean().getKey()) - Integer.parseInt(o1.getHeaderBean().getKey());
+        }
+    }
+
 }

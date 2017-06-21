@@ -169,4 +169,8 @@ public class Constants {
 			5, 6, 7, 9, 8, 13, 14, 17, 18
 	};
 
+	public static final int GROUP_BY_ALL = 0;
+	public static final int GROUP_BY_LEVEL = 1;
+	public static final int GROUP_BY_YEAR = 2;
+	public static final int GROUP_BY_COURT = 3;
 }

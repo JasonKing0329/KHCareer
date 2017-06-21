@@ -29,7 +29,7 @@ public class GloryPageAdapter extends FragmentPagerAdapter {
     }
 
     @Override
-    public Fragment getItem(int position) {
+    public BaseGloryPageFragment getItem(int position) {
         return fragmentList.get(position);
     }
 

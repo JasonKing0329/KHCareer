@@ -5,6 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 
 import com.king.khcareer.glory.BaseGloryPageFragment;
+import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.mytennis.view.R;
 
 import butterknife.BindView;
@@ -16,7 +17,9 @@ import butterknife.Unbinder;
  * Created by Administrator on 2017/6/5 0005.
  */
 
-public abstract class AbsGloryListFragment extends BaseGloryPageFragment {
+public abstract class AbsGloryListFragment extends BaseGloryPageFragment implements OnRecordItemListener {
+
+    protected int groupMode;
 
     @BindView(R.id.rv_record)
     RecyclerView rvRecord;
@@ -50,5 +53,14 @@ public abstract class AbsGloryListFragment extends BaseGloryPageFragment {
     @OnClick(R.id.fab_up)
     public void onViewClicked() {
         rvRecord.scrollToPosition(0);
+    }
+
+    public void setGroupMode(int groupMode) {
+        this.groupMode = groupMode;
+    }
+
+    @Override
+    public void onClickRecord(Record record) {
+        showGloryMatchDialog(record);
     }
 }
