@@ -1,6 +1,7 @@
 package com.king.khcareer.glory;
 
 import com.king.khcareer.common.config.Constants;
+import com.king.khcareer.glory.bean.GloryTitle;
 import com.king.khcareer.glory.gs.GloryGsItem;
 import com.king.khcareer.glory.gs.GloryMasterItem;
 import com.king.khcareer.glory.title.HeaderBean;
@@ -12,7 +13,6 @@ import com.king.khcareer.model.sql.player.bean.MatchResultBean;
 import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.khcareer.model.sql.pubdata.PubDataProvider;
 import com.king.khcareer.model.sql.pubdata.bean.MatchNameBean;
-import com.king.mytennis.view.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -80,14 +80,75 @@ public class GloryPresenter {
         data.setTargetWinList(gloryModel.getTargetRecords(Constants.GLORY_TARGET_FACTOR, true));
         data.setCareerMatch(gloryModel.getMatchNumber(false));
         data.setCareerWin(gloryModel.getMatchNumber(true));
-        List<KeyValueCountBean> titleCounts = gloryModel.getTitleCountByLevel(false);
-        parseCountData(data, titleCounts, false);
-        titleCounts = gloryModel.getTitleCountByLevel(true);
-        parseCountData(data, titleCounts, true);
+
+        // count champion params
+        data.setChampionTitle(data.new Title());
+        boolean isWinner = true;
+        List<KeyValueCountBean> titleCounts = gloryModel.getTitleCountByLevel(false, isWinner);
+        parseCountDataByLevel(data.getChampionTitle(), titleCounts, false);
+        titleCounts = gloryModel.getTitleCountByLevel(true, isWinner);
+        parseCountDataByLevel(data.getChampionTitle(), titleCounts, true);
+        titleCounts = gloryModel.getTitleCountByCourt(false, isWinner);
+        parseCountDataByCourt(data.getChampionTitle(), titleCounts, false);
+        titleCounts = gloryModel.getTitleCountByCourt(true, isWinner);
+        parseCountDataByCourt(data.getChampionTitle(), titleCounts, true);
+        // count runner-up params
+        isWinner = false;
+        data.setRunnerupTitle(data.new Title());
+        titleCounts = gloryModel.getTitleCountByLevel(false, isWinner);
+        parseCountDataByLevel(data.getRunnerupTitle(), titleCounts, false);
+        titleCounts = gloryModel.getTitleCountByLevel(true, isWinner);
+        parseCountDataByLevel(data.getRunnerupTitle(), titleCounts, true);
+        titleCounts = gloryModel.getTitleCountByCourt(false, isWinner);
+        parseCountDataByCourt(data.getRunnerupTitle(), titleCounts, false);
+        titleCounts = gloryModel.getTitleCountByCourt(true, isWinner);
+        parseCountDataByCourt(data.getRunnerupTitle(), titleCounts, true);
+        // count gs params
+        data.setGs(data.new Gs());
+        Map<String, Integer[]> map = gloryModel.getGsWinLose();
+        parseGsParamData(data, map);
+        Integer[] result = gloryModel.getGsCount(false);
+        data.getGs().setCareerWin(result[0]);
+        data.getGs().setCareerLose(result[1]);
+        result = gloryModel.getGsCount(true);
+        data.getGs().setSeasonWin(result[0]);
+        data.getGs().setSeasonLose(result[1]);
+        // count atp1000 params
+        data.setMaster1000(data.new Master1000());
+        result = gloryModel.getAtp1000Count(false);
+        data.getMaster1000().setCareerWin(result[0]);
+        data.getMaster1000().setCareerLose(result[1]);
+        result = gloryModel.getAtp1000Count(true);
+        data.getMaster1000().setSeasonWin(result[0]);
+        data.getMaster1000().setSeasonLose(result[1]);
 
         parseGsData(data);
         parseMasterData(data);
         return data;
+    }
+
+    private void parseGsParamData(GloryTitle data, Map<String, Integer[]> map) {
+        Integer[] result = map.get(Constants.MATCH_GS[0]);
+        if (result != null) {
+            data.getGs().setAoWin(result[0]);
+            data.getGs().setAoLose(result[1]);
+        }
+        result = map.get(Constants.MATCH_GS[1]);
+        if (result != null) {
+            data.getGs().setFoWin(result[0]);
+            data.getGs().setFoLose(result[1]);
+        }
+        result = map.get(Constants.MATCH_GS[2]);
+        if (result != null) {
+            data.getGs().setWoWin(result[0]);
+            data.getGs().setWoLose(result[1]);
+        }
+        result = map.get(Constants.MATCH_GS[3]);
+        if (result != null) {
+            data.getGs().setUoWin(result[0]);
+            data.getGs().setUoLose(result[1]);
+        }
+        data.getGs().setCareerWin(data.getGs().getAoWin());
     }
 
     private void parseGsData(GloryTitle data) {
@@ -225,64 +286,101 @@ public class GloryPresenter {
         }
     }
 
-    private void parseCountData(GloryTitle bean, List<KeyValueCountBean> countList, boolean isCurrentYear) {
+    private void parseCountDataByLevel(GloryTitle.Title title, List<KeyValueCountBean> countList, boolean isCurrentYear) {
         int sum = 0;
         for (KeyValueCountBean countBean:countList) {
             sum += countBean.getValue();
             if (Constants.RECORD_MATCH_LEVELS[0].equals(countBean.getKey())) {
                 if (isCurrentYear) {
-                    bean.setYearGs(countBean.getValue());
+                    title.setYearGs(countBean.getValue());
                 }
                 else {
-                    bean.setCareerGs(countBean.getValue());
+                    title.setCareerGs(countBean.getValue());
                 }
             }
             else if (Constants.RECORD_MATCH_LEVELS[1].equals(countBean.getKey())) {
                 if (isCurrentYear) {
-                    bean.setYearMasterCup(countBean.getValue());
+                    title.setYearMasterCup(countBean.getValue());
                 }
                 else {
-                    bean.setCareerMasterCup(countBean.getValue());
+                    title.setCareerMasterCup(countBean.getValue());
                 }
             }
             else if (Constants.RECORD_MATCH_LEVELS[2].equals(countBean.getKey())) {
                 if (isCurrentYear) {
-                    bean.setYearAtp1000(countBean.getValue());
+                    title.setYearAtp1000(countBean.getValue());
                 }
                 else {
-                    bean.setCareerAtp1000(countBean.getValue());
+                    title.setCareerAtp1000(countBean.getValue());
                 }
             }
             else if (Constants.RECORD_MATCH_LEVELS[3].equals(countBean.getKey())) {
                 if (isCurrentYear) {
-                    bean.setYearAtp500(countBean.getValue());
+                    title.setYearAtp500(countBean.getValue());
                 }
                 else {
-                    bean.setCareerAtp500(countBean.getValue());
+                    title.setCareerAtp500(countBean.getValue());
                 }
             }
             else if (Constants.RECORD_MATCH_LEVELS[4].equals(countBean.getKey())) {
                 if (isCurrentYear) {
-                    bean.setYearAtp250(countBean.getValue());
+                    title.setYearAtp250(countBean.getValue());
                 }
                 else {
-                    bean.setCareerAtp250(countBean.getValue());
+                    title.setCareerAtp250(countBean.getValue());
                 }
             }
             else if (Constants.RECORD_MATCH_LEVELS[6].equals(countBean.getKey())) {
                 if (isCurrentYear) {
-                    bean.setYearOlympics(countBean.getValue());
+                    title.setYearOlympics(countBean.getValue());
                 }
                 else {
-                    bean.setCareerOlympics(countBean.getValue());
+                    title.setCareerOlympics(countBean.getValue());
                 }
             }
         }
         if (isCurrentYear) {
-            bean.setYearTitle(sum);
+            title.setYearTotal(sum);
         }
         else {
-            bean.setCareerTitle(sum);
+            title.setCareerTotal(sum);
+        }
+    }
+
+    private void parseCountDataByCourt(GloryTitle.Title title, List<KeyValueCountBean> countList, boolean isCurrentYear) {
+        for (KeyValueCountBean countBean:countList) {
+            if (Constants.RECORD_MATCH_COURTS[0].equals(countBean.getKey())) {
+                if (isCurrentYear) {
+                    title.setYearHard(countBean.getValue());
+                }
+                else {
+                    title.setCareerHard(countBean.getValue());
+                }
+            }
+            else if (Constants.RECORD_MATCH_COURTS[1].equals(countBean.getKey())) {
+                if (isCurrentYear) {
+                    title.setYearClay(countBean.getValue());
+                }
+                else {
+                    title.setCareerClay(countBean.getValue());
+                }
+            }
+            else if (Constants.RECORD_MATCH_COURTS[2].equals(countBean.getKey())) {
+                if (isCurrentYear) {
+                    title.setYearGrass(countBean.getValue());
+                }
+                else {
+                    title.setCareerGrass(countBean.getValue());
+                }
+            }
+            else if (Constants.RECORD_MATCH_COURTS[3].equals(countBean.getKey())) {
+                if (isCurrentYear) {
+                    title.setYearInhard(countBean.getValue());
+                }
+                else {
+                    title.setCareerInhard(countBean.getValue());
+                }
+            }
         }
     }
 

@@ -10,7 +10,12 @@ import com.king.khcareer.model.sql.player.bean.KeyValueCountBean;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static android.R.attr.level;
+import static android.R.id.list;
 
 /**
  * Created by Administrator on 2017/6/18 0018.
@@ -70,22 +75,139 @@ public class GloryModel {
      * count title by match level
      * @return
      */
-    public List<KeyValueCountBean> getTitleCountByLevel(boolean isCurrentYear) {
+    public List<KeyValueCountBean> getTitleCountByLevel(boolean isCurrentYear, boolean isWinner) {
         List<KeyValueCountBean> list = new ArrayList<>();
-        String sql;
-        if (isCurrentYear) {
-            sql = "SELECT level AS key,count(*) as value FROM record WHERE round='Final' AND iswinner='_user' AND date_str LIKE '" + Calendar.getInstance().get(Calendar.YEAR) + "%' GROUP BY level";
+        StringBuffer buffer = new StringBuffer("SELECT level AS key,count(*) as value FROM record WHERE round='Final'");
+        if (isWinner) {
+            buffer.append(" AND iswinner='_user'");
         }
         else {
-            sql = "SELECT level AS key,count(*) as value FROM record WHERE round='Final' AND iswinner='_user' GROUP BY level";
+            buffer.append(" AND iswinner!='_user'");
         }
-        Cursor cursor = getCursor(sql, null);
+        if (isCurrentYear) {
+            buffer.append(" AND date_str LIKE '").append(Calendar.getInstance().get(Calendar.YEAR)).append("%'");
+        }
+        buffer.append(" GROUP BY level");
+        Cursor cursor = getCursor(buffer.toString(), null);
         while (cursor.moveToNext()) {
             KeyValueCountBean bean = parseKeyValueCount(cursor);
             list.add(bean);
         }
 
         return list;
+    }
+
+    /**
+     * count title by match court
+     * @return
+     */
+    public List<KeyValueCountBean> getTitleCountByCourt(boolean isCurrentYear, boolean isWinner) {
+        List<KeyValueCountBean> list = new ArrayList<>();
+        StringBuffer buffer = new StringBuffer("SELECT court AS key,count(*) as value FROM record WHERE round='Final'");
+        if (isWinner) {
+            buffer.append(" AND iswinner='_user'");
+        }
+        else {
+            buffer.append(" AND iswinner!='_user'");
+        }
+        if (isCurrentYear) {
+            buffer.append(" AND date_str LIKE '").append(Calendar.getInstance().get(Calendar.YEAR)).append("%'");
+        }
+        buffer.append(" GROUP BY court");
+        Cursor cursor = getCursor(buffer.toString(), null);
+        while (cursor.moveToNext()) {
+            KeyValueCountBean bean = parseKeyValueCount(cursor);
+            list.add(bean);
+        }
+
+        return list;
+    }
+
+    /**
+     * count title by match year
+     * @return
+     */
+    public List<KeyValueCountBean> getTitleCountByYear(boolean isCurrentYear, boolean isWinner) {
+        List<KeyValueCountBean> list = new ArrayList<>();
+        StringBuffer buffer = new StringBuffer("SELECT substr(date_str, 1, 4) AS key,count(*) as value FROM record WHERE round='Final'");
+        if (isWinner) {
+            buffer.append(" AND iswinner='_user'");
+        }
+        else {
+            buffer.append(" AND iswinner!='_user'");
+        }
+        if (isCurrentYear) {
+            buffer.append(" AND date_str LIKE '").append(Calendar.getInstance().get(Calendar.YEAR)).append("%'");
+        }
+        buffer.append(" GROUP BY substr(date_str, 1, 4)");
+        Cursor cursor = getCursor(buffer.toString(), null);
+        while (cursor.moveToNext()) {
+            KeyValueCountBean bean = parseKeyValueCount(cursor);
+            list.add(bean);
+        }
+
+        return list;
+    }
+
+    /**
+     * count gs win lose
+     * @return
+     */
+    public Map<String, Integer[]> getGsWinLose() {
+        Map<String, Integer[]> map = new HashMap<>();
+        String sql = "select match, sum(case when iswinner='_user' then 1 else 0 end) as win " +
+                ", sum(case when iswinner='_user' then 0 else 1 end) as lose " +
+                "from record where level='Grand Slam' group by match";
+        Cursor cursor = getCursor(sql, null);
+        while (cursor.moveToNext()) {
+            String key = cursor.getString(0);
+            Integer[] count = new Integer[2];
+            count[0] = cursor.getInt(1);
+            count[1] = cursor.getInt(2);
+            map.put(key, count);
+        }
+
+        return map;
+    }
+
+    /**
+     * count gs win lose
+     * @return
+     */
+    public Integer[] getGsCount(boolean isThisYear) {
+        String sql = "select sum(case when iswinner='_user' then 1 else 0 end) as win " +
+                ", sum(case when iswinner='_user' then 0 else 1 end) as lose from record where level='Grand Slam'";
+        if (isThisYear) {
+            sql = new StringBuffer(sql).append(" AND date_str LIKE '").append(Calendar.getInstance().get(Calendar.YEAR)).append("%'").toString();
+        }
+        Integer[] count = new Integer[2];
+        Cursor cursor = getCursor(sql, null);
+        if (cursor.moveToNext()) {
+            count[0] = cursor.getInt(0);
+            count[1] = cursor.getInt(1);
+        }
+
+        return count;
+    }
+
+    /**
+     * count atp1000 win lose
+     * @return
+     */
+    public Integer[] getAtp1000Count(boolean isThisYear) {
+        String sql = "select sum(case when iswinner='_user' then 1 else 0 end) as win " +
+                ", sum(case when iswinner='_user' then 0 else 1 end) as lose from record where level='ATP1000'";
+        if (isThisYear) {
+            sql = new StringBuffer(sql).append(" AND date_str LIKE '").append(Calendar.getInstance().get(Calendar.YEAR)).append("%'").toString();
+        }
+        Integer[] count = new Integer[2];
+        Cursor cursor = getCursor(sql, null);
+        if (cursor.moveToNext()) {
+            count[0] = cursor.getInt(0);
+            count[1] = cursor.getInt(1);
+        }
+
+        return count;
     }
 
     /**

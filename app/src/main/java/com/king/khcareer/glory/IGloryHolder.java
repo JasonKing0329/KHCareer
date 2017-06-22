@@ -1,5 +1,7 @@
 package com.king.khcareer.glory;
 
+import com.king.khcareer.glory.bean.GloryTitle;
+
 /**
  * 描述:
  * <p/>作者：景阳

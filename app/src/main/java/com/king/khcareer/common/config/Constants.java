@@ -173,4 +173,13 @@ public class Constants {
 	public static final int GROUP_BY_LEVEL = 1;
 	public static final int GROUP_BY_YEAR = 2;
 	public static final int GROUP_BY_COURT = 3;
+
+	public static final String[] MATCH_GS = new String[] {
+
+			"澳大利亚网球公开赛",
+			"法国网球公开赛",
+			"温布尔顿网球公开赛",
+			"美国网球公开赛"
+	};
+
 }
