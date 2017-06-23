@@ -218,7 +218,7 @@ public class GloryModel {
      */
     public List<Record> getTargetRecords(int factor, boolean isWinner) {
 
-        int total = getMatchNumber(isWinner);
+        int total = getMatchNumber(isWinner, false);
         int count = 0;
         List<Record> list = new ArrayList<>();
         count += (factor - 1);
@@ -253,10 +253,13 @@ public class GloryModel {
         return list;
     }
 
-    public int getMatchNumber(boolean isWinner) {
-        String sql = "SELECT COUNT(*) FROM record";
+    public int getMatchNumber(boolean isWinner, boolean isThisYear) {
+        String sql = "SELECT COUNT(*) FROM record WHERE 1=1";
         if (isWinner) {
-            sql = sql + " WHERE iswinner='_user'";
+            sql = sql + " AND iswinner='_user'";
+        }
+        if (isThisYear) {
+            sql = sql + " AND date_str LIKE '" + Calendar.getInstance().get(Calendar.YEAR) + "%'";
         }
         Cursor cursor = getCursor(sql, null);
         cursor.moveToNext();

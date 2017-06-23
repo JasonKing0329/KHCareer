@@ -78,8 +78,10 @@ public class GloryPresenter {
         data.setRunnerUpList(gloryModel.getRunnerupRecords());
         data.setTargetList(gloryModel.getTargetRecords(Constants.GLORY_TARGET_FACTOR, false));
         data.setTargetWinList(gloryModel.getTargetRecords(Constants.GLORY_TARGET_FACTOR, true));
-        data.setCareerMatch(gloryModel.getMatchNumber(false));
-        data.setCareerWin(gloryModel.getMatchNumber(true));
+        data.setCareerMatch(gloryModel.getMatchNumber(false, false));
+        data.setCareerWin(gloryModel.getMatchNumber(true, false));
+        data.setYearMatch(gloryModel.getMatchNumber(false, true));
+        data.setYearWin(gloryModel.getMatchNumber(true, true));
 
         // count champion params
         data.setChampionTitle(data.new Title());

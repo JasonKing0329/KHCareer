@@ -186,10 +186,18 @@ public class GloryActivity extends BaseActivity implements IGloryHolder, IGloryV
                 onShowAtp1000Page();
                 break;
             case PAGE_TARGET:
-                toolbar.getMenu().clear();
-                toolbar.inflateMenu(R.menu.glory_none);
+                onShowTargetPage();
                 break;
         }
+    }
+
+    private void onShowTargetPage() {
+        groupCurHead = groupMaster;
+        groupMaster.setVisibility(View.VISIBLE);
+        toolbar.getMenu().clear();
+        toolbar.inflateMenu(R.menu.glory_none);
+        tvCareerMaster.setText("Win " + gloryTitle.getCareerWin() + "  Lose " + (gloryTitle.getCareerMatch() - gloryTitle.getCareerWin()));
+        tvSeasonMaster.setText("Win " + gloryTitle.getYearWin() + "  Lose " + (gloryTitle.getYearMatch() - gloryTitle.getYearWin()));
     }
 
     private void onShowAtp1000Page() {

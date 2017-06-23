@@ -19,7 +19,10 @@ public class GloryTitle {
 
     private int careerMatch;
     private int careerWin;
-    
+
+    private int yearMatch;
+    private int yearWin;
+
     public Title championTitle;
     public Title runnerupTitle;
 
@@ -91,6 +94,22 @@ public class GloryTitle {
 
     public void setCareerWin(int careerWin) {
         this.careerWin = careerWin;
+    }
+
+    public int getYearMatch() {
+        return yearMatch;
+    }
+
+    public void setYearMatch(int yearMatch) {
+        this.yearMatch = yearMatch;
+    }
+
+    public int getYearWin() {
+        return yearWin;
+    }
+
+    public void setYearWin(int yearWin) {
+        this.yearWin = yearWin;
     }
 
     public Title getChampionTitle() {

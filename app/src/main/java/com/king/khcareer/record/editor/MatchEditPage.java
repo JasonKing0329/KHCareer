@@ -126,7 +126,7 @@ public class MatchEditPage implements View.OnClickListener {
         tvMatchLevel.setText(conf.autoFillItem.getLevel());
         cur_round = getRoundIndex(conf.autoFillItem.getRound());
         sp_round.setSelection(cur_round);
-        ImageUtil.load("file://" + ImageFactory.getMatchHeadPath(match, court), ivMatch);
+        ImageUtil.load("file://" + ImageFactory.getMatchHeadPath(match, court), ivMatch, R.drawable.default_img);
     }
 
     /**
