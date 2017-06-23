@@ -79,7 +79,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="55dp"
-                android:layout_marginTop="25dp"
+                android:layout_marginTop="35dp"
                 android:orientation="vertical"
                 android:gravity="center">
                 <TextView
@@ -92,13 +92,13 @@
                     android:id="@+id/tv_career_gs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:textColor="@color/tab_actionbar_text_focus"
+                    android:layout_marginTop="2dp"
+                    android:textColor="@color/white"
                     android:textSize="14dp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="10dp"
                     android:text="Season"
                     android:textColor="@color/tab_actionbar_text_focus"
                     android:textSize="16dp"/>
@@ -106,8 +106,8 @@
                     android:id="@+id/tv_season_gs"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:textColor="@color/tab_actionbar_text_focus"
+                    android:layout_marginTop="2dp"
+                    android:textColor="@color/white"
                     android:textSize="14dp"/>
             </LinearLayout>
             <LinearLayout
@@ -156,7 +156,8 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="55dp"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="55dp"
                 android:layout_marginTop="25dp"
                 android:orientation="vertical"
                 android:gravity="center">
@@ -171,7 +172,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:textColor="@color/tab_actionbar_text_focus"
+                    android:textColor="@color/white"
                     android:textSize="14dp"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -185,7 +186,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:textColor="@color/tab_actionbar_text_focus"
+                    android:textColor="@color/white"
                     android:textSize="14dp"/>
             </LinearLayout>
         </RelativeLayout>

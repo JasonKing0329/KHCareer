@@ -208,10 +208,10 @@ public class GloryActivity extends BaseActivity implements IGloryHolder, IGloryV
         toolbar.inflateMenu(R.menu.glory_none);
         tvCareerGs.setText("Win " + gloryTitle.getGs().getCareerWin() + "  Lose " + gloryTitle.getGs().getCareerLose());
         tvSeasonGs.setText("Win " + gloryTitle.getGs().getSeasonWin() + "  Lose " + gloryTitle.getGs().getSeasonLose());
-        tvCareerAo.setText("Win " + gloryTitle.getGs().getAoWin() + "  Lose " + gloryTitle.getGs().getAoLose());
-        tvCareerFo.setText("Win " + gloryTitle.getGs().getFoWin() + "  Lose " + gloryTitle.getGs().getFoLose());
-        tvCareerWo.setText("Win " + gloryTitle.getGs().getWoWin() + "  Lose " + gloryTitle.getGs().getWoLose());
-        tvCareerUo.setText("Win " + gloryTitle.getGs().getUoWin() + "  Lose " + gloryTitle.getGs().getUoLose());
+        tvCareerAo.setText("澳网 Win " + gloryTitle.getGs().getAoWin() + "  Lose " + gloryTitle.getGs().getAoLose());
+        tvCareerFo.setText("法网 Win " + gloryTitle.getGs().getFoWin() + "  Lose " + gloryTitle.getGs().getFoLose());
+        tvCareerWo.setText("温网 Win " + gloryTitle.getGs().getWoWin() + "  Lose " + gloryTitle.getGs().getWoLose());
+        tvCareerUo.setText("美网 Win " + gloryTitle.getGs().getUoWin() + "  Lose " + gloryTitle.getGs().getUoLose());
     }
 
     private void onShowRunnerUpPage() {
