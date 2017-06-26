@@ -14,6 +14,9 @@ public class ScoreBean {
     private boolean isCompleted;
     private MatchNameBean matchBean;
 
+    private String title;
+    private boolean isTitle;
+
     public int getScore() {
         return score;
     }
@@ -52,5 +55,21 @@ public class ScoreBean {
 
     public void setCompleted(boolean completed) {
         isCompleted = completed;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public boolean isTitle() {
+        return isTitle;
+    }
+
+    public void setTitle(boolean title) {
+        isTitle = title;
     }
 }

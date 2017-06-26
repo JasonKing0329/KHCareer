@@ -4,158 +4,19 @@
 
     <include layout="@layout/layout_player_basic"/>
 
-    <ScrollView
-        android:id="@+id/score_group_datas"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_score_list"
+        android:layout_marginTop="200dp"
+        android:layout_marginLeft="10dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none"
-        android:layout_marginTop="200dp">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingBottom="20dp">
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_horizontal_margin">
-                <TextView
-                    android:id="@+id/score_title_gs"
-                    style="@style/ScoreGroupTitle"
-                    android:text="Grand Slam"/>
-                <View
-                    style="@style/ScoreGroupTitleUnderline"
-                    android:layout_alignLeft="@id/score_title_gs"
-                    android:layout_alignRight="@id/score_title_gs"
-                    android:layout_below="@id/score_title_gs" />
-            </RelativeLayout>
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/score_gs"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_horizontal_margin">
-                <TextView
-                    android:id="@+id/score_title_mc"
-                    style="@style/ScoreGroupTitle"
-                    android:text="Master Cup"/>
-                <View
-                    style="@style/ScoreGroupTitleUnderline"
-                    android:layout_alignLeft="@id/score_title_mc"
-                    android:layout_alignRight="@id/score_title_mc"
-                    android:layout_below="@id/score_title_mc" />
-            </RelativeLayout>
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/score_mc"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_horizontal_margin">
-                <TextView
-                    android:id="@+id/score_title_1000"
-                    style="@style/ScoreGroupTitle"
-                    android:text="ATP 1000"/>
-                <View
-                    style="@style/ScoreGroupTitleUnderline"
-                    android:layout_alignLeft="@id/score_title_1000"
-                    android:layout_alignRight="@id/score_title_1000"
-                    android:layout_below="@id/score_title_1000" />
-            </RelativeLayout>
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/score_1000"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_horizontal_margin">
-                <TextView
-                    android:id="@+id/score_title_500"
-                    style="@style/ScoreGroupTitle"
-                    android:text="ATP 500"/>
-                <View
-                    style="@style/ScoreGroupTitleUnderline"
-                    android:layout_alignLeft="@id/score_title_500"
-                    android:layout_alignRight="@id/score_title_500"
-                    android:layout_below="@id/score_title_500" />
-            </RelativeLayout>
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/score_500"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_horizontal_margin">
-                <TextView
-                    android:id="@+id/score_title_250"
-                    style="@style/ScoreGroupTitle"
-                    android:text="ATP 250"/>
-                <View
-                    style="@style/ScoreGroupTitleUnderline"
-                    android:layout_alignLeft="@id/score_title_250"
-                    android:layout_alignRight="@id/score_title_250"
-                    android:layout_below="@id/score_title_250" />
-            </RelativeLayout>
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/score_250"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_horizontal_margin">
-                <TextView
-                    android:id="@+id/score_title_replace"
-                    style="@style/ScoreGroupTitle"
-                    android:text="Replace"/>
-                <View
-                    style="@style/ScoreGroupTitleUnderline"
-                    android:layout_alignLeft="@id/score_title_replace"
-                    android:layout_alignRight="@id/score_title_replace"
-                    android:layout_below="@id/score_title_replace" />
-            </RelativeLayout>
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/score_replace"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/activity_horizontal_margin">
-                <TextView
-                    android:id="@+id/score_title_other"
-                    style="@style/ScoreGroupTitle"
-                    android:text="Other"/>
-                <View
-                    style="@style/ScoreGroupTitleUnderline"
-                    android:layout_alignLeft="@id/score_title_other"
-                    android:layout_alignRight="@id/score_title_other"
-                    android:layout_below="@id/score_title_other" />
-            </RelativeLayout>
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/score_other"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-        </LinearLayout>
-    </ScrollView>
+        android:layout_height="match_parent"
+        android:layout_marginBottom="15dp"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_alignTop="@id/score_group_datas"
+        android:layout_alignTop="@id/rv_score_list"
         android:layout_alignParentRight="true"
         android:paddingLeft="10dp">
 

@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.charts.PieChart;
+import com.king.khcareer.common.config.Constants;
 import com.king.mytennis.glory.GloryController;
 import com.king.khcareer.match.GloryMatchDialog;
 import com.king.khcareer.model.sql.player.bean.Record;
@@ -44,21 +45,9 @@ public class ScoreFragment extends Fragment implements IScorePageView, View.OnCl
 
     private IScoreView scoreView;
 
-    private RecyclerView rvGs;
-    private RecyclerView rvMaster;
-    private RecyclerView rv1000;
-    private RecyclerView rv500;
-    private RecyclerView rv250;
-    private RecyclerView rvReplace;
-    private RecyclerView rvOther;
+    private RecyclerView rvScoreList;
 
-    private ScoreItemAdapter adapterGs;
-    private ScoreItemAdapter adapterMaster;
-    private ScoreItemAdapter adapter1000;
-    private ScoreItemAdapter adapter500;
-    private ScoreItemAdapter adapter250;
-    private ScoreItemAdapter adapterReplace;
-    private ScoreItemAdapter adapterOther;
+    private ScoreItemAdapter scoreItemAdapter;
 
     private TextView tvPlayer;
     private TextView tvCountry;
@@ -110,20 +99,8 @@ public class ScoreFragment extends Fragment implements IScorePageView, View.OnCl
         ivDateLast.setOnClickListener(this);
         ivDateNext.setOnClickListener(this);
 
-        rvGs = (RecyclerView) view.findViewById(R.id.score_gs);
-        initRecyclerView(rvGs);
-        rvMaster = (RecyclerView) view.findViewById(R.id.score_mc);
-        initRecyclerView(rvMaster);
-        rv1000 = (RecyclerView) view.findViewById(R.id.score_1000);
-        initRecyclerView(rv1000);
-        rv500 = (RecyclerView) view.findViewById(R.id.score_500);
-        initRecyclerView(rv500);
-        rv250 = (RecyclerView) view.findViewById(R.id.score_250);
-        initRecyclerView(rv250);
-        rvReplace = (RecyclerView) view.findViewById(R.id.score_replace);
-        initRecyclerView(rvReplace);
-        rvOther = (RecyclerView) view.findViewById(R.id.score_other);
-        initRecyclerView(rvOther);
+        rvScoreList = (RecyclerView) view.findViewById(R.id.rv_score_list);
+        initRecyclerView(rvScoreList);
         
         MultiUser user = MultiUserManager.getInstance().getCurrentUser();
         ivCountryFlag.setImageResource(user.getFlagImageResId());
@@ -197,117 +174,70 @@ public class ScoreFragment extends Fragment implements IScorePageView, View.OnCl
             tvRank.setText(String.valueOf(bean.getRank()));
         }
 
+        List<ScoreBean> scoreList = new ArrayList<>();
         // 积分、图表
         // gs
-        if (adapterGs == null) {
-            adapterGs = new ScoreItemAdapter(data.getGsList());
-            adapterGs.setOnScoreItemClickListener(new ScoreItemAdapter.OnScoreItemClickListener() {
-                @Override
-                public void onScoreItemClick(ScoreBean bean) {
-                    onMatchClicked(bean);
-                }
-            });
-            rvGs.setAdapter(adapterGs);
-        }
-        else {
-            adapterGs.setList(data.getGsList());
-            adapterGs.notifyDataSetChanged();
-        }
+        ScoreBean titleBean = new ScoreBean();
+        titleBean.setTitle(Constants.RECORD_MATCH_LEVELS[0]);
+        titleBean.setTitle(true);
+        scoreList.add(titleBean);
+        scoreList.addAll(data.getGsList());
 
         // master cup
-        if (adapterMaster == null) {
-            adapterMaster = new ScoreItemAdapter(data.getMasterCupList());
-            adapterMaster.setOnScoreItemClickListener(new ScoreItemAdapter.OnScoreItemClickListener() {
-                @Override
-                public void onScoreItemClick(ScoreBean bean) {
-                    onMatchClicked(bean);
-                }
-            });
-            rvMaster.setAdapter(adapterMaster);
-        }
-        else {
-            adapterMaster.setList(data.getMasterCupList());
-            adapterMaster.notifyDataSetChanged();
-        }
+        titleBean = new ScoreBean();
+        titleBean.setTitle(Constants.RECORD_MATCH_LEVELS[1]);
+        titleBean.setTitle(true);
+        scoreList.add(titleBean);
+        scoreList.addAll(data.getMasterCupList());
 
         // 1000
-        if (adapter1000 == null) {
-            adapter1000 = new ScoreItemAdapter(data.getAtp1000List());
-            adapter1000.setOnScoreItemClickListener(new ScoreItemAdapter.OnScoreItemClickListener() {
-                @Override
-                public void onScoreItemClick(ScoreBean bean) {
-                    onMatchClicked(bean);
-                }
-            });
-            rv1000.setAdapter(adapter1000);
-        }
-        else {
-            adapter1000.setList(data.getAtp1000List());
-            adapter1000.notifyDataSetChanged();
-        }
+        titleBean = new ScoreBean();
+        titleBean.setTitle(Constants.RECORD_MATCH_LEVELS[2]);
+        titleBean.setTitle(true);
+        scoreList.add(titleBean);
+        scoreList.addAll(data.getAtp1000List());
 
         // 500
-        if (adapter500 == null) {
-            adapter500 = new ScoreItemAdapter(data.getAtp500List());
-            adapter500.setOnScoreItemClickListener(new ScoreItemAdapter.OnScoreItemClickListener() {
-                @Override
-                public void onScoreItemClick(ScoreBean bean) {
-                    onMatchClicked(bean);
-                }
-            });
-            rv500.setAdapter(adapter500);
-        }
-        else {
-            adapter500.setList(data.getAtp500List());
-            adapter500.notifyDataSetChanged();
-        }
+        titleBean = new ScoreBean();
+        titleBean.setTitle(Constants.RECORD_MATCH_LEVELS[3]);
+        titleBean.setTitle(true);
+        scoreList.add(titleBean);
+        scoreList.addAll(data.getAtp500List());
 
         // 250
-        if (adapter250 == null) {
-            adapter250 = new ScoreItemAdapter(data.getAtp250List());
-            adapter250.setOnScoreItemClickListener(new ScoreItemAdapter.OnScoreItemClickListener() {
-                @Override
-                public void onScoreItemClick(ScoreBean bean) {
-                    onMatchClicked(bean);
-                }
-            });
-            rv250.setAdapter(adapter250);
-        }
-        else {
-            adapter250.setList(data.getAtp250List());
-            adapter250.notifyDataSetChanged();
-        }
+        titleBean = new ScoreBean();
+        titleBean.setTitle(Constants.RECORD_MATCH_LEVELS[4]);
+        titleBean.setTitle(true);
+        scoreList.add(titleBean);
+        scoreList.addAll(data.getAtp250List());
 
         // replace
-        if (adapterReplace == null) {
-            adapterReplace = new ScoreItemAdapter(data.getReplaceList());
-            adapterReplace.setOnScoreItemClickListener(new ScoreItemAdapter.OnScoreItemClickListener() {
-                @Override
-                public void onScoreItemClick(ScoreBean bean) {
-                    onMatchClicked(bean);
-                }
-            });
-            rvReplace.setAdapter(adapterReplace);
-        }
-        else {
-            adapterReplace.setList(data.getReplaceList());
-            adapterReplace.notifyDataSetChanged();
-        }
+        titleBean = new ScoreBean();
+        titleBean.setTitle("Replace");
+        titleBean.setTitle(true);
+        scoreList.add(titleBean);
+        scoreList.addAll(data.getReplaceList());
 
-        // replace
-        if (adapterOther == null) {
-            adapterOther = new ScoreItemAdapter(data.getOtherList());
-            adapterOther.setOnScoreItemClickListener(new ScoreItemAdapter.OnScoreItemClickListener() {
+        // other
+        titleBean = new ScoreBean();
+        titleBean.setTitle("Other");
+        titleBean.setTitle(true);
+        scoreList.add(titleBean);
+        scoreList.addAll(data.getOtherList());
+
+        if (scoreItemAdapter == null) {
+            scoreItemAdapter = new ScoreItemAdapter(scoreList);
+            scoreItemAdapter.setOnScoreItemClickListener(new ScoreItemAdapter.OnScoreItemClickListener() {
                 @Override
                 public void onScoreItemClick(ScoreBean bean) {
                     onMatchClicked(bean);
                 }
             });
-            rvOther.setAdapter(adapterOther);
+            rvScoreList.setAdapter(scoreItemAdapter);
         }
         else {
-            adapterOther.setList(data.getOtherList());
-            adapterOther.notifyDataSetChanged();
+            scoreItemAdapter.setList(scoreList);
+            scoreItemAdapter.notifyDataSetChanged();
         }
 
         tvScoreTotal.setText(String.valueOf(data.getCountScore()));
