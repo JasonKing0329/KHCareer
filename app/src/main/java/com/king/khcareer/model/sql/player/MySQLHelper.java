@@ -15,7 +15,7 @@ public class MySQLHelper extends SQLiteOpenHelper{
 	private static final String TAG = "MySQLHelper";
 	private static MySQLHelper sqlHelper = null;
 	private static String currentDatabase = DatabaseStruct.DATABASE;
-	private static int version = 3;
+	private static int version = 5;
 
 	private static Context appContext;
 
@@ -79,6 +79,14 @@ public class MySQLHelper extends SQLiteOpenHelper{
 		DebugLog.e("oldVersion=" + oldVersion + ", newVersion=" + newVersion);
 		if (oldVersion <= 2 && newVersion == 3) {
 			db.execSQL("CREATE TABLE IF NOT EXISTS rank_final(_id INTEGER PRIMARY KEY AUTOINCREMENT, _year INTEGER, _rank INTEGER)");
+		}
+		if (oldVersion < 5 && newVersion == 5) {
+			db.execSQL("DROP VIEW h2hview");
+			db.execSQL("CREATE VIEW h2hview as " +
+					"select id, competitor, competitor_country, count(*) as total" +
+					", sum(case when iswinner='_user' and score!='W/O' then 1 else 0 end) as win " +
+					", sum(case when iswinner='_user' then 0 else 1 end) as lose " +
+					"from record group by competitor order by total desc");
 		}
 	}
 }

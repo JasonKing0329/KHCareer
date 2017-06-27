@@ -1,14 +1,10 @@
 package com.king.khcareer.player.h2hlist;
 
-import com.king.khcareer.common.config.Constants;
-import com.king.khcareer.common.multiuser.MultiUserManager;
-import com.king.khcareer.model.sql.player.RecordDAOImp;
-import com.king.khcareer.model.sql.player.bean.Record;
-import com.king.khcareer.model.sql.player.interfc.RecordDAO;
+import com.king.khcareer.model.sql.player.H2hModel;
+import com.king.khcareer.model.sql.player.bean.H2hParentBean;
 import com.king.khcareer.model.sql.pubdata.PubDataProvider;
 import com.king.khcareer.model.sql.pubdata.bean.PlayerBean;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -28,11 +24,12 @@ import rx.schedulers.Schedulers;
 public class H2hPresenter {
 
     private IH2hListView h2hView;
-    private ArrayList<Record> recordList;
     private H2hListPageData h2hListPageData;
+    private H2hModel h2hModel;
 
     public H2hPresenter(IH2hListView h2hView) {
         this.h2hView = h2hView;
+        h2hModel = new H2hModel();
     }
 
     public void loadDatas() {
@@ -52,7 +49,7 @@ public class H2hPresenter {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        e.printStackTrace();
                     }
 
                     @Override
@@ -65,66 +62,29 @@ public class H2hPresenter {
     private H2hListPageData createHeaderList() {
         H2hListPageData data = new H2hListPageData();
 
-        RecordDAO dao = new RecordDAOImp();
-        if (recordList == null) {
-            recordList = dao.queryAll();
-            Collections.reverse(recordList);
-        }
-        data.setRecordList(recordList);
+        // h2h list
+        List<H2hParentBean> list = h2hModel.queryH2hList();
+        data.setHeaderList(list);
 
-        int competitors = 0;
-        int toTop10Win = 0;
-        int toTop10Lose = 0;
+        // chart datas
+        data.setChartContents(new String[]{
+                "Top10", "Top11-20", "Top21-50", "Top51-100", "OutOf100"
+        });
+        data.setCareerChartWinValues(h2hModel.getTotalCount(true, false));
+        data.setCareerChartLoseValues(h2hModel.getTotalCount(false, false));
+        data.setSeasonChartWinValues(h2hModel.getTotalCount(true, true));
+        data.setSeasonChartLoseValues(h2hModel.getTotalCount(false, true));
+
+        // load player bean for each player
         Map<String, PlayerBean> playerMap = getPlayerBeanMap();
-        List<HeaderItem> list = new ArrayList<>();
-        Map<String, HeaderItem> headerMap = new HashMap<>();
-        for (int i = 0; i < recordList.size(); i ++) {
-            Record record = recordList.get(i);
-            String keyHeader = record.getCompetitor();
-            HeaderItem item = headerMap.get(keyHeader);
-            if (item == null) {
-                competitors ++;
-                item = new HeaderItem();
-                headerMap.put(keyHeader, item);
-                list.add(item);
-
-                H2hHeaderBean bean = new H2hHeaderBean();
-                bean.setPlayerBean(playerMap.get(record.getCompetitor()));
-                bean.setPlayer(record.getCompetitor());
-                bean.setCountry(record.getCptCountry());
-                item.setHeader(bean);
-                item.setChildItemList(new ArrayList<RecordItem>());
-            }
-            RecordItem recordItem = new RecordItem();
-            recordItem.setRecord(record);
-            item.getChildItemList().add(recordItem);
-
-            // count win lose
-            // W/0不算作胜负场
-            if (!Constants.SCORE_RETIRE.equals(record.getScore())) {
-
-                if (MultiUserManager.USER_DB_FLAG.equals(record.getWinner())) {
-                    item.getHeader().setWin(item.getHeader().getWin() + 1);
-                    if (record.getCptRank() <= 10 && record.getCptRank() > 0) {
-                        toTop10Win ++;
-                    }
-                }
-                else {
-                    item.getHeader().setLose(item.getHeader().getLose() + 1);
-                    if (record.getCptRank() <= 10 && record.getCptRank() > 0) {
-                        toTop10Lose ++;
-                    }
-                }
-            }
+        for (int i = 0; i < list.size(); i ++) {
+            H2hParentBean bean = list.get(i);
+            bean.setPlayerBean(playerMap.get(bean.getPlayer()));
         }
 
         // sort by pinyin
         Collections.sort(list, new PlayerComparator(SortDialog.SORT_ORDER_ASC));
 
-        data.setCompetitors(competitors);
-        data.setTop10Lose(toTop10Lose);
-        data.setTop10Win(toTop10Win);
-        data.setHeaderList(list);
         return data;
     }
 
@@ -140,7 +100,7 @@ public class H2hPresenter {
     }
 
     public void sortDatas(int sortType, int sortOrder) {
-        List<HeaderItem> list = h2hListPageData.getHeaderList();
+        List<H2hParentBean> list = h2hListPageData.getHeaderList();
         switch (sortType) {
             case SortDialog.SORT_TYPE_NAME:
                 Collections.sort(list, new PlayerComparator(sortOrder));
@@ -171,94 +131,37 @@ public class H2hPresenter {
         h2hView.onFiltFinished(h2hListPageData.getHeaderList());
     }
 
-    /**
-     * 过滤数据不破坏已加载的全部数据
-     * @param country
-     */
     public void filterCountry(String country) {
-        List<HeaderItem> list = new ArrayList<>();
-        if (country != null) {
-            for (HeaderItem item:h2hListPageData.getHeaderList()) {
-                if (country.equals(item.getHeader().getPlayerBean().getCountry())) {
-                    list.add(item);
-                }
-            }
-        }
+        List<H2hParentBean> list = h2hModel.queryH2hListByCountry(country);
         h2hView.onFiltFinished(list);
     }
 
     public void filterCount(int min, int max) {
-        List<HeaderItem> list = new ArrayList<>();
-        for (HeaderItem item:h2hListPageData.getHeaderList()) {
-            int count = item.getHeader().getWin() + item.getHeader().getLose();
-            if (count >= min && count <= max) {
-                list.add(item);
-            }
-        }
+        List<H2hParentBean> list = h2hModel.queryH2hListByTotal(min, max);
         h2hView.onFiltFinished(list);
     }
 
     public void filterWin(int min, int max) {
-        List<HeaderItem> list = new ArrayList<>();
-        for (HeaderItem item:h2hListPageData.getHeaderList()) {
-            int count = item.getHeader().getWin();
-            if (count >= min && count <= max) {
-                list.add(item);
-            }
-        }
+        List<H2hParentBean> list = h2hModel.queryH2hListByWin(min, max);
         h2hView.onFiltFinished(list);
     }
 
     public void filterLose(int min, int max) {
-        List<HeaderItem> list = new ArrayList<>();
-        for (HeaderItem item:h2hListPageData.getHeaderList()) {
-            int count = item.getHeader().getLose();
-            if (count >= min && count <= max) {
-                list.add(item);
-            }
-        }
-        h2hView.onFiltFinished(list);
-    }
-
-    public void filterDeltaWin(int min, int max) {
-        List<HeaderItem> list = new ArrayList<>();
-        for (HeaderItem item:h2hListPageData.getHeaderList()) {
-            int count = item.getHeader().getWin() - item.getHeader().getLose();
-            if (count >= min && count <= max) {
-                list.add(item);
-            }
-        }
+        List<H2hParentBean> list = h2hModel.queryH2hListByLose(min, max);
         h2hView.onFiltFinished(list);
     }
 
     /**
-     * 不能破坏总的数据，要过滤header的record list中rank在min和max区间的记录
+     * 净胜场
      * @param min
      * @param max
      */
-    public void filterRank(int min, int max) {
-        List<HeaderItem> list = new ArrayList<>();
-        for (HeaderItem item:h2hListPageData.getHeaderList()) {
-            HeaderItem newItem = new HeaderItem();
-            newItem.setChildItemList(new ArrayList<RecordItem>());
-            // 查询属于min max区间内的记录
-            for (RecordItem record:item.getChildItemList()) {
-                int rank = record.getRecord().getCptRank();
-                if (rank >= min && rank <= max) {
-                    newItem.getChildItemList().add(record);
-                }
-            }
-            // 有记录才添加header
-            if (newItem.getChildItemList().size() > 0) {
-                newItem.setExpanded(item.isExpanded());
-                newItem.setHeader(item.getHeader());
-                list.add(newItem);
-            }
-        }
+    public void filterOdds(int min, int max) {
+        List<H2hParentBean> list = h2hModel.queryH2hListByOdds(min, max);
         h2hView.onFiltFinished(list);
     }
 
-    private class PlayerComparator implements Comparator<HeaderItem> {
+    private class PlayerComparator implements Comparator<H2hParentBean> {
 
         private int order;
 
@@ -267,9 +170,9 @@ public class H2hPresenter {
         }
 
         @Override
-        public int compare(HeaderItem item1, HeaderItem item2) {
-            PlayerBean pb1 = item1.getHeader().getPlayerBean();
-            PlayerBean pb2 = item2.getHeader().getPlayerBean();
+        public int compare(H2hParentBean item1, H2hParentBean item2) {
+            PlayerBean pb1 = item1.getPlayerBean();
+            PlayerBean pb2 = item2.getPlayerBean();
             String pinyin1 = pb1 == null ? "zzzz":pb1.getNamePinyin();
             String pinyin2 = pb2 == null ? "zzzz":pb2.getNamePinyin();
             if (order == SortDialog.SORT_ORDER_DESC) {
@@ -281,7 +184,7 @@ public class H2hPresenter {
         }
     }
 
-    private class TotalComparator implements Comparator<HeaderItem> {
+    private class TotalComparator implements Comparator<H2hParentBean> {
 
         private int order;
 
@@ -290,9 +193,9 @@ public class H2hPresenter {
         }
 
         @Override
-        public int compare(HeaderItem item1, HeaderItem item2) {
-            int lTotal = item1.getHeader().getWin() + item1.getHeader().getLose();
-            int rTotal = item2.getHeader().getWin() + item2.getHeader().getLose();
+        public int compare(H2hParentBean item1, H2hParentBean item2) {
+            int lTotal = item1.getWin() + item1.getLose();
+            int rTotal = item2.getWin() + item2.getLose();
             if (order == SortDialog.SORT_ORDER_DESC) {
                 return rTotal - lTotal;
             }
@@ -302,7 +205,7 @@ public class H2hPresenter {
         }
     }
 
-    private class WinComparator implements Comparator<HeaderItem> {
+    private class WinComparator implements Comparator<H2hParentBean> {
 
         private int order;
 
@@ -311,9 +214,9 @@ public class H2hPresenter {
         }
 
         @Override
-        public int compare(HeaderItem item1, HeaderItem item2) {
-            int lWin = item1.getHeader().getWin();
-            int rWin = item2.getHeader().getWin();
+        public int compare(H2hParentBean item1, H2hParentBean item2) {
+            int lWin = item1.getWin();
+            int rWin = item2.getWin();
             if (order == SortDialog.SORT_ORDER_DESC) {
                 return rWin - lWin;
             }
@@ -323,7 +226,7 @@ public class H2hPresenter {
         }
     }
 
-    private class LoseComparator implements Comparator<HeaderItem> {
+    private class LoseComparator implements Comparator<H2hParentBean> {
 
         private int order;
 
@@ -332,9 +235,9 @@ public class H2hPresenter {
         }
 
         @Override
-        public int compare(HeaderItem item1, HeaderItem item2) {
-            int lWin = item1.getHeader().getLose();
-            int rWin = item2.getHeader().getLose();
+        public int compare(H2hParentBean item1, H2hParentBean item2) {
+            int lWin = item1.getLose();
+            int rWin = item2.getLose();
             if (order == SortDialog.SORT_ORDER_DESC) {
                 return rWin - lWin;
             }
@@ -344,7 +247,7 @@ public class H2hPresenter {
         }
     }
 
-    private class PureWinComparator implements Comparator<HeaderItem> {
+    private class PureWinComparator implements Comparator<H2hParentBean> {
 
         private int order;
 
@@ -353,9 +256,9 @@ public class H2hPresenter {
         }
 
         @Override
-        public int compare(HeaderItem item1, HeaderItem item2) {
-            int lTotal = item1.getHeader().getWin() - item1.getHeader().getLose();
-            int rTotal = item2.getHeader().getWin() - item2.getHeader().getLose();
+        public int compare(H2hParentBean item1, H2hParentBean item2) {
+            int lTotal = item1.getWin() - item1.getLose();
+            int rTotal = item2.getWin() - item2.getLose();
             if (order == SortDialog.SORT_ORDER_DESC) {
                 return rTotal - lTotal;
             }
@@ -365,7 +268,7 @@ public class H2hPresenter {
         }
     }
 
-    private class PureLoseComparator implements Comparator<HeaderItem> {
+    private class PureLoseComparator implements Comparator<H2hParentBean> {
 
         private int order;
 
@@ -374,9 +277,9 @@ public class H2hPresenter {
         }
 
         @Override
-        public int compare(HeaderItem item1, HeaderItem item2) {
-            int lTotal = item1.getHeader().getLose() - item1.getHeader().getWin();
-            int rTotal = item2.getHeader().getLose() - item2.getHeader().getWin();
+        public int compare(H2hParentBean item1, H2hParentBean item2) {
+            int lTotal = item1.getLose() - item1.getWin();
+            int rTotal = item2.getLose() - item2.getWin();
             if (order == SortDialog.SORT_ORDER_DESC) {
                 return rTotal - lTotal;
             }

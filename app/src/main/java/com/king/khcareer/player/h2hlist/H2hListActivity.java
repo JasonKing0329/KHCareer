@@ -2,6 +2,7 @@ package com.king.khcareer.player.h2hlist;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -9,10 +10,13 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.mikephil.charting.charts.PieChart;
 import com.king.khcareer.base.BaseActivity;
 import com.king.khcareer.base.CustomDialog;
 import com.king.khcareer.common.multiuser.MultiUserManager;
-import com.king.khcareer.match.timeline.MatchActivity;
+import com.king.khcareer.glory.ChartManager;
+import com.king.khcareer.model.sql.player.bean.H2hParentBean;
+import com.king.khcareer.player.timeline.PlayerActivity;
 import com.king.mytennis.view.R;
 import com.nightonke.boommenu.BoomButtons.ButtonPlaceAlignmentEnum;
 import com.nightonke.boommenu.BoomButtons.ButtonPlaceEnum;
@@ -28,32 +32,48 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by Administrator on 2017/4/30 0030.
  */
 
 public class H2hListActivity extends BaseActivity implements IH2hListView, OnItemMenuListener
-    , OnBMClickListener{
+        , OnBMClickListener {
 
     @BindView(R.id.iv_head)
     ImageView ivHead;
     @BindView(R.id.tv_total_player)
     TextView tvTotalPlayer;
-    @BindView(R.id.tv_to_top10)
-    TextView tvToTop10;
     @BindView(R.id.rv_h2h_list)
     RecyclerView rvH2hList;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.bmb_menu)
     BoomMenuButton bmbMenu;
+    @BindView(R.id.piechart)
+    PieChart pieChart;
+    @BindView(R.id.tv_career)
+    TextView tvCareer;
+    @BindView(R.id.tv_win)
+    TextView tvWin;
+    @BindView(R.id.tv_season)
+    TextView tvSeason;
+    @BindView(R.id.tv_lose)
+    TextView tvLose;
+    @BindView(R.id.tv_conclude)
+    TextView tvConclude;
+    @BindView(R.id.ctl_toolbar)
+    CollapsingToolbarLayout ctlToolbar;
 
     private H2hPresenter h2hPresenter;
     private H2hListAdapter h2hAdapter;
 
     private SortDialog sortDialog;
     private FilterDialog filterDialog;
+
+    private ChartManager chartManager;
+    private H2hListPageData pageData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +88,7 @@ public class H2hListActivity extends BaseActivity implements IH2hListView, OnIte
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         rvH2hList.setLayoutManager(manager);
 
+        chartManager = new ChartManager(this);
         h2hPresenter = new H2hPresenter(this);
         h2hPresenter.loadDatas();
     }
@@ -112,17 +133,21 @@ public class H2hListActivity extends BaseActivity implements IH2hListView, OnIte
     @Override
     public void onDataLoaded(H2hListPageData data) {
 
-        tvTotalPlayer.setText(String.valueOf(data.getCompetitors()));
-        tvToTop10.setText(data.getTop10Win() + "-" + data.getTop10Lose());
+        this.pageData = data;
+        tvTotalPlayer.setText(String.valueOf(data.getHeaderList().size()));
 
         if (h2hAdapter == null) {
-            h2hAdapter = new H2hListAdapter(data.getHeaderList(), this);
+            h2hAdapter = new H2hListAdapter(this, data.getHeaderList(), this);
             rvH2hList.setAdapter(h2hAdapter);
-        }
-        else {
+        } else {
             h2hAdapter.updateData(data.getHeaderList());
             h2hAdapter.notifyDataSetChanged();
         }
+        updateCurrentWinLose();
+
+        tvCareer.setSelected(true);
+        tvWin.setSelected(true);
+        showChart();
     }
 
     @Override
@@ -131,16 +156,23 @@ public class H2hListActivity extends BaseActivity implements IH2hListView, OnIte
     }
 
     @Override
-    public void onFiltFinished(List<HeaderItem> list) {
+    public void onFiltFinished(List<H2hParentBean> list) {
         h2hAdapter.updateData(list);
         h2hAdapter.notifyDataSetChanged();
+        updateCurrentWinLose();
+    }
+
+    private void updateCurrentWinLose() {
+        int[] winlose = h2hAdapter.getWinLose();
+        tvConclude.setText("Win " + winlose[0] + "  Lose " + winlose[1]);
     }
 
     @Override
-    public void onItemClicked(RecordItem item) {
+    public void onItemClicked(H2hParentBean item) {
 
-        Intent intent = new Intent().setClass(this, MatchActivity.class);
-        intent.putExtra(MatchActivity.KEY_MATCH_NAME, item.getRecord().getMatch());
+        Intent intent = new Intent();
+        intent.setClass(this, PlayerActivity.class);
+        intent.putExtra(PlayerActivity.KEY_COMPETITOR_NAME, item.getPlayer());
         startActivity(intent);
     }
 
@@ -203,7 +235,7 @@ public class H2hListActivity extends BaseActivity implements IH2hListView, OnIte
 
                 @Override
                 public void onFilterRank(int min, int max) {
-                    h2hPresenter.filterRank(min, max);
+
                 }
 
                 @Override
@@ -223,11 +255,62 @@ public class H2hListActivity extends BaseActivity implements IH2hListView, OnIte
 
                 @Override
                 public void onFilterDeltaWin(int min, int max) {
-                    h2hPresenter.filterDeltaWin(min, max);
+                    h2hPresenter.filterOdds(min, max);
                 }
             });
             filterDialog.setTitle(getString(R.string.filter_title));
         }
         filterDialog.show();
+    }
+
+    @OnClick({R.id.tv_career, R.id.tv_win, R.id.tv_season, R.id.tv_lose})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.tv_career:
+                tvCareer.setSelected(true);
+                tvSeason.setSelected(false);
+                showChart();
+                break;
+            case R.id.tv_win:
+                tvWin.setSelected(true);
+                tvLose.setSelected(false);
+                showChart();
+                break;
+            case R.id.tv_season:
+                tvCareer.setSelected(false);
+                tvSeason.setSelected(true);
+                showChart();
+                break;
+            case R.id.tv_lose:
+                tvWin.setSelected(false);
+                tvLose.setSelected(true);
+                showChart();
+                break;
+        }
+    }
+
+    private void showChart() {
+        float[] values = new float[pageData.getChartContents().length];
+        Integer[] targetValues;
+        if (tvCareer.isSelected()) {
+            if (tvWin.isSelected()) {
+                targetValues = pageData.getCareerChartWinValues();
+            }
+            else {
+                targetValues = pageData.getCareerChartLoseValues();
+            }
+        }
+        else {
+            if (tvWin.isSelected()) {
+                targetValues = pageData.getSeasonChartWinValues();
+            }
+            else {
+                targetValues = pageData.getSeasonChartLoseValues();
+            }
+        }
+        for (int i = 0; i < values.length; i++) {
+            values[i] = targetValues[i];
+        }
+        chartManager.showH2hChart(pieChart, pageData.getChartContents(), values);
     }
 }

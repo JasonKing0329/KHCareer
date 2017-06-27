@@ -113,7 +113,7 @@ public class RecordItemAdapter extends AbstractExpandableAdapterItem implements 
 
     @Override
     public void onClick(View view) {
-        onItemMenuListener.onItemClicked(curRecordItem);
+//        onItemMenuListener.onItemClicked(curRecordItem);
     }
 
 }

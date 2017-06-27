@@ -161,11 +161,42 @@ public class ChartManager {
             entries.add(entry);
         }
 
-        int[] colors = new int[6];
+        int[] colors = new int[4];
         colors[0] = chart.getContext().getResources().getColor(R.color.pie_court_hard);
         colors[1] = chart.getContext().getResources().getColor(R.color.pie_court_clay);
         colors[2] = chart.getContext().getResources().getColor(R.color.pie_court_grass);
         colors[3] = chart.getContext().getResources().getColor(R.color.pie_court_inhard);
+        setChartData(chart, entries, colors, new IValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+                if (value == 0) {
+                    return "";
+                }
+                GloryPieEntry gpe = (GloryPieEntry) entry;
+                return gpe.getMyValue();
+            }
+        });
+    }
+
+    public void showH2hChart(PieChart chart, String[] contents, float[] values) {
+
+        ChartStyle style = new ChartStyle();
+        setPieChartParams(chart, style);
+
+        // 饼图内色块content
+        ArrayList<PieEntry> entries = new ArrayList<>();
+        for (int i = 0; i < contents.length; i ++) {
+            // 第一个参数对应getFormattedValue里的value值，直接定义一个myvalue直接拼成最后显示的内容
+            PieEntry entry = new GloryPieEntry(values[i], contents[i], contents[i] + "(" + (int) values[i] + ")");
+            entries.add(entry);
+        }
+
+        int[] colors = new int[5];
+        colors[0] = chart.getContext().getResources().getColor(R.color.pie_court_hard);
+        colors[1] = chart.getContext().getResources().getColor(R.color.pie_court_clay);
+        colors[2] = chart.getContext().getResources().getColor(R.color.pie_court_grass);
+        colors[3] = chart.getContext().getResources().getColor(R.color.pie_court_inhard);
+        colors[4] = chart.getContext().getResources().getColor(R.color.pie_level_1000);
         setChartData(chart, entries, colors, new IValueFormatter() {
             @Override
             public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {

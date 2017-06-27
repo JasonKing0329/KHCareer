@@ -1,9 +1,7 @@
 package com.king.khcareer.model.sql.player;
 
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 
-import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.model.sql.player.bean.MatchResultBean;
 import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.khcareer.model.sql.player.bean.KeyValueCountBean;
@@ -14,14 +12,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static android.R.attr.level;
-import static android.R.id.list;
-
 /**
  * Created by Administrator on 2017/6/18 0018.
  */
 
-public class GloryModel {
+public class GloryModel extends BaseSqlModel {
 
     public List<MatchResultBean> getGsResultList() {
         List<MatchResultBean> list = new ArrayList<>();
@@ -276,40 +271,11 @@ public class GloryModel {
         return bean;
     }
 
-    private Record parseRecord(Cursor cursor) {
-        Record record = new Record();
-        record.setId(cursor.getInt(DatabaseStruct.COL_ID));
-        record.setCompetitor(cursor.getString(DatabaseStruct.COL_competitor));
-        record.setCptCountry(cursor.getString(DatabaseStruct.COL_competitor_country));
-        record.setCourt(cursor.getString(DatabaseStruct.COL_court));
-        record.setLongDate(Long.parseLong(cursor.getString(DatabaseStruct.COL_date_long)));
-        record.setStrDate(cursor.getString(DatabaseStruct.COL_date_str));
-        record.setWinner(cursor.getString(DatabaseStruct.COL_iswinner));
-        record.setLevel(cursor.getString(DatabaseStruct.COL_level));
-        record.setMatch(cursor.getString(DatabaseStruct.COL_match));
-        record.setCity(cursor.getString(DatabaseStruct.COL_match_city));
-        record.setMatchCountry(cursor.getString(DatabaseStruct.COL_match_country));
-        record.setRank(Integer.parseInt(cursor.getString(DatabaseStruct.COL_rankp1)));
-        record.setCptRank(Integer.parseInt(cursor.getString(DatabaseStruct.COL_rank)));
-        record.setSeed(Integer.parseInt(cursor.getString(DatabaseStruct.COL_seedp1)));
-        record.setCptSeed(Integer.parseInt(cursor.getString(DatabaseStruct.COL_seed)));
-        record.setRegion(cursor.getString(DatabaseStruct.COL_region));
-        record.setRound(cursor.getString(DatabaseStruct.COL_round));
-        record.setScore(cursor.getString(DatabaseStruct.COL_score));
-        return record;
-    }
-
     private KeyValueCountBean parseKeyValueCount(Cursor cursor) {
         KeyValueCountBean bean = new KeyValueCountBean();
         bean.setKey(cursor.getString(cursor.getColumnIndex("key")));
         bean.setValue(cursor.getInt(cursor.getColumnIndex("value")));
         return bean;
-    }
-
-    private Cursor getCursor(String sql, String[] args) {
-        MySQLHelper sqlHelper = MySQLHelper.getInstance(MultiUserManager.getInstance().getCurrentUser());
-        SQLiteDatabase db = sqlHelper.getReadableDatabase();
-        return db.rawQuery(sql, args);
     }
 
 }

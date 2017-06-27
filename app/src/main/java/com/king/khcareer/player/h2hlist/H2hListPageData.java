@@ -1,8 +1,7 @@
 package com.king.khcareer.player.h2hlist;
 
-import com.king.khcareer.model.sql.player.bean.Record;
+import com.king.khcareer.model.sql.player.bean.H2hParentBean;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,49 +10,59 @@ import java.util.List;
 
 public class H2hListPageData {
 
-    private int competitors;
-    private int top10Win;
-    private int top10Lose;
-    private List<HeaderItem> headerList;
-    private ArrayList<Record> recordList;
+    private List<H2hParentBean> headerList;
 
-    public ArrayList<Record> getRecordList() {
-        return recordList;
-    }
+    private String[] chartContents;
+    private Integer[] careerChartWinValues;
+    private Integer[] seasonChartWinValues;
+    private Integer[] careerChartLoseValues;
+    private Integer[] seasonChartLoseValues;
 
-    public void setRecordList(ArrayList<Record> recordList) {
-        this.recordList = recordList;
-    }
-
-    public int getCompetitors() {
-        return competitors;
-    }
-
-    public void setCompetitors(int competitors) {
-        this.competitors = competitors;
-    }
-
-    public int getTop10Win() {
-        return top10Win;
-    }
-
-    public void setTop10Win(int top10Win) {
-        this.top10Win = top10Win;
-    }
-
-    public int getTop10Lose() {
-        return top10Lose;
-    }
-
-    public void setTop10Lose(int top10Lose) {
-        this.top10Lose = top10Lose;
-    }
-
-    public List<HeaderItem> getHeaderList() {
+    public List<H2hParentBean> getHeaderList() {
         return headerList;
     }
 
-    public void setHeaderList(List<HeaderItem> headerList) {
+    public void setHeaderList(List<H2hParentBean> headerList) {
         this.headerList = headerList;
+    }
+
+    public String[] getChartContents() {
+        return chartContents;
+    }
+
+    public void setChartContents(String[] chartContents) {
+        this.chartContents = chartContents;
+    }
+
+    public Integer[] getCareerChartWinValues() {
+        return careerChartWinValues;
+    }
+
+    public void setCareerChartWinValues(Integer[] careerChartWinValues) {
+        this.careerChartWinValues = careerChartWinValues;
+    }
+
+    public Integer[] getSeasonChartWinValues() {
+        return seasonChartWinValues;
+    }
+
+    public void setSeasonChartWinValues(Integer[] seasonChartWinValues) {
+        this.seasonChartWinValues = seasonChartWinValues;
+    }
+
+    public Integer[] getCareerChartLoseValues() {
+        return careerChartLoseValues;
+    }
+
+    public void setCareerChartLoseValues(Integer[] careerChartLoseValues) {
+        this.careerChartLoseValues = careerChartLoseValues;
+    }
+
+    public Integer[] getSeasonChartLoseValues() {
+        return seasonChartLoseValues;
+    }
+
+    public void setSeasonChartLoseValues(Integer[] seasonChartLoseValues) {
+        this.seasonChartLoseValues = seasonChartLoseValues;
     }
 }

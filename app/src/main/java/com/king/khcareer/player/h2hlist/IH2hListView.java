@@ -1,5 +1,7 @@
 package com.king.khcareer.player.h2hlist;
 
+import com.king.khcareer.model.sql.player.bean.H2hParentBean;
+
 import java.util.List;
 
 /**
@@ -11,5 +13,5 @@ public interface IH2hListView {
 
     void onSortFinished();
 
-    void onFiltFinished(List<HeaderItem> list);
+    void onFiltFinished(List<H2hParentBean> list);
 }
