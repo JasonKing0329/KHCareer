@@ -136,7 +136,7 @@
         android:id="@+id/tv_conclude"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#66ffffff"
+        android:background="#66000000"
         android:textColor="@color/tab_actionbar_text_focus"
         android:padding="10dp"
         android:layout_gravity="bottom"/>
@@ -151,5 +151,30 @@
         app:bmb_piecePlaceEnum="piecePlace_dot_3_1"
         app:bmb_buttonPlaceEnum="buttonPlace_vertical"
         app:bmb_buttonEnum="simpleCircle"/>
+
+    <com.king.khcareer.pubview.SideBar
+        android:id="@+id/sidebar"
+        android:layout_width="16dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:layout_marginTop="-28dp"
+        android:layout_marginBottom="70dp"
+        android:visibility="gone"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        app:sideBackground="@drawable/shape_h2hlist_sidebar_bg"
+        app:indexTextSize="12dp"
+        app:indexColor="@color/white"
+        app:indexColorFocus="@color/tab_actionbar_text_focus"/>
+
+    <TextView
+        android:id="@+id/tv_index"
+        android:layout_width="@dimen/swipecard_indexbar_popup_size"
+        android:layout_height="@dimen/swipecard_indexbar_popup_size"
+        android:background="@drawable/shape_swipecard_sidebar_popup_bk"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="@dimen/swipecard_indexbar_popup_text_size"
+        android:visibility="gone" />
 
 </android.support.design.widget.CoordinatorLayout>

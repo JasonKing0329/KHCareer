@@ -18,6 +18,8 @@ public class H2hListPageData {
     private Integer[] careerChartLoseValues;
     private Integer[] seasonChartLoseValues;
 
+    private List<H2hParentBean> showList;
+
     public List<H2hParentBean> getHeaderList() {
         return headerList;
     }
@@ -64,5 +66,13 @@ public class H2hListPageData {
 
     public void setSeasonChartLoseValues(Integer[] seasonChartLoseValues) {
         this.seasonChartLoseValues = seasonChartLoseValues;
+    }
+
+    public List<H2hParentBean> getShowList() {
+        return showList;
+    }
+
+    public void setShowList(List<H2hParentBean> showList) {
+        this.showList = showList;
     }
 }

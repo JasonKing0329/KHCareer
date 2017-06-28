@@ -17,6 +17,7 @@ import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.glory.ChartManager;
 import com.king.khcareer.model.sql.player.bean.H2hParentBean;
 import com.king.khcareer.player.timeline.PlayerActivity;
+import com.king.khcareer.pubview.SideBar;
 import com.king.mytennis.view.R;
 import com.nightonke.boommenu.BoomButtons.ButtonPlaceAlignmentEnum;
 import com.nightonke.boommenu.BoomButtons.ButtonPlaceEnum;
@@ -27,7 +28,6 @@ import com.nightonke.boommenu.ButtonEnum;
 import com.nightonke.boommenu.Piece.PiecePlaceEnum;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import butterknife.BindView;
@@ -39,7 +39,7 @@ import butterknife.OnClick;
  */
 
 public class H2hListActivity extends BaseActivity implements IH2hListView, OnItemMenuListener
-        , OnBMClickListener {
+        , OnBMClickListener, SideBar.OnTouchingLetterChangedListener {
 
     @BindView(R.id.iv_head)
     ImageView ivHead;
@@ -65,6 +65,10 @@ public class H2hListActivity extends BaseActivity implements IH2hListView, OnIte
     TextView tvConclude;
     @BindView(R.id.ctl_toolbar)
     CollapsingToolbarLayout ctlToolbar;
+    @BindView(R.id.sidebar)
+    SideBar sideBar;
+    @BindView(R.id.tv_index)
+    TextView tvIndex;
 
     private H2hPresenter h2hPresenter;
     private H2hListAdapter h2hAdapter;
@@ -87,6 +91,23 @@ public class H2hListActivity extends BaseActivity implements IH2hListView, OnIte
         LinearLayoutManager manager = new LinearLayoutManager(this);
         manager.setOrientation(LinearLayoutManager.VERTICAL);
         rvH2hList.setLayoutManager(manager);
+
+        sideBar.setOnTouchingLetterChangedListener(this);
+        sideBar.setTextView(tvIndex);
+        // 底部栏控制sidebar显示
+        tvConclude.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (h2hPresenter.getSortType() == SortDialog.SORT_TYPE_NAME) {
+                    if (sideBar.getVisibility() == View.VISIBLE) {
+                        sideBar.setVisibility(View.GONE);
+                    }
+                    else {
+                        sideBar.setVisibility(View.VISIBLE);
+                    }
+                }
+            }
+        });
 
         chartManager = new ChartManager(this);
         h2hPresenter = new H2hPresenter(this);
@@ -128,6 +149,7 @@ public class H2hListActivity extends BaseActivity implements IH2hListView, OnIte
                 .normalImageRes(R.drawable.ic_refresh_white_24dp)
                 .buttonRadius(radius)
                 .listener(this));
+
     }
 
     @Override
@@ -148,18 +170,39 @@ public class H2hListActivity extends BaseActivity implements IH2hListView, OnIte
         tvCareer.setSelected(true);
         tvWin.setSelected(true);
         showChart();
+
+        updateSideBar();
+    }
+
+    private void updateSideBar() {
+        // 只有按name排序创建并显示side bar
+        if (h2hPresenter.getSortType() == SortDialog.SORT_TYPE_NAME) {
+            sideBar.setVisibility(View.VISIBLE);
+            h2hAdapter.updateSideBar(sideBar);
+        }
+        else {
+            sideBar.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onTouchingLetterChanged(String letter) {
+        rvH2hList.scrollToPosition(h2hAdapter.getIndexPosition(letter));
     }
 
     @Override
     public void onSortFinished() {
+        h2hAdapter.updateData(pageData.getShowList());
         h2hAdapter.notifyDataSetChanged();
+        updateSideBar();
     }
 
     @Override
-    public void onFiltFinished(List<H2hParentBean> list) {
-        h2hAdapter.updateData(list);
+    public void onFilterFinished() {
+        h2hAdapter.updateData(pageData.getShowList());
         h2hAdapter.notifyDataSetChanged();
         updateCurrentWinLose();
+        updateSideBar();
     }
 
     private void updateCurrentWinLose() {

@@ -5,6 +5,7 @@ import com.king.khcareer.model.sql.player.bean.H2hParentBean;
 import com.king.khcareer.model.sql.pubdata.PubDataProvider;
 import com.king.khcareer.model.sql.pubdata.bean.PlayerBean;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -27,9 +28,15 @@ public class H2hPresenter {
     private H2hListPageData h2hListPageData;
     private H2hModel h2hModel;
 
+    private int sortType;
+    private int sortOrder;
+    private Map<String, PlayerBean> playerMap = getPlayerBeanMap();
+
     public H2hPresenter(IH2hListView h2hView) {
         this.h2hView = h2hView;
         h2hModel = new H2hModel();
+        sortType = SortDialog.SORT_TYPE_NAME;
+        sortOrder = SortDialog.SORT_ORDER_ASC;
     }
 
     public void loadDatas() {
@@ -65,6 +72,8 @@ public class H2hPresenter {
         // h2h list
         List<H2hParentBean> list = h2hModel.queryH2hList();
         data.setHeaderList(list);
+        data.setShowList(new ArrayList<H2hParentBean>());
+        data.getShowList().addAll(list);
 
         // chart datas
         data.setChartContents(new String[]{
@@ -76,11 +85,7 @@ public class H2hPresenter {
         data.setSeasonChartLoseValues(h2hModel.getTotalCount(false, true));
 
         // load player bean for each player
-        Map<String, PlayerBean> playerMap = getPlayerBeanMap();
-        for (int i = 0; i < list.size(); i ++) {
-            H2hParentBean bean = list.get(i);
-            bean.setPlayerBean(playerMap.get(bean.getPlayer()));
-        }
+        fillPlayerBean(list);
 
         // sort by pinyin
         Collections.sort(list, new PlayerComparator(SortDialog.SORT_ORDER_ASC));
@@ -99,8 +104,19 @@ public class H2hPresenter {
         return map;
     }
 
+    public int getSortType() {
+        return sortType;
+    }
+
     public void sortDatas(int sortType, int sortOrder) {
-        List<H2hParentBean> list = h2hListPageData.getHeaderList();
+        this.sortType = sortType;
+        this.sortOrder = sortOrder;
+        List<H2hParentBean> list = h2hListPageData.getShowList();
+        handleSort(list, sortType, sortOrder);
+        h2hView.onSortFinished();
+    }
+
+    private void handleSort(List<H2hParentBean> list, int sortType, int sortOrder) {
         switch (sortType) {
             case SortDialog.SORT_TYPE_NAME:
                 Collections.sort(list, new PlayerComparator(sortOrder));
@@ -121,34 +137,59 @@ public class H2hPresenter {
                 Collections.sort(list, new PureLoseComparator(sortOrder));
                 break;
         }
-        h2hView.onSortFinished();
+    }
+
+    /**
+     * load player bean for each player
+     * @param list
+     */
+    private void fillPlayerBean(List<H2hParentBean> list) {
+        for (int i = 0; i < list.size(); i ++) {
+            H2hParentBean bean = list.get(i);
+            bean.setPlayerBean(playerMap.get(bean.getPlayer()));
+        }
     }
 
     /**
      * 不过滤，还原所有数据
      */
     public void filterNothing() {
-        h2hView.onFiltFinished(h2hListPageData.getHeaderList());
+        h2hListPageData.getShowList().clear();
+        h2hListPageData.getShowList().addAll(h2hListPageData.getHeaderList());
+        handleSort(h2hListPageData.getShowList(), sortType, sortOrder);
+        h2hView.onFilterFinished();
     }
 
     public void filterCountry(String country) {
         List<H2hParentBean> list = h2hModel.queryH2hListByCountry(country);
-        h2hView.onFiltFinished(list);
+        fillPlayerBean(list);
+        handleSort(list, sortType, sortOrder);
+        h2hListPageData.setShowList(list);
+        h2hView.onFilterFinished();
     }
 
     public void filterCount(int min, int max) {
         List<H2hParentBean> list = h2hModel.queryH2hListByTotal(min, max);
-        h2hView.onFiltFinished(list);
+        fillPlayerBean(list);
+        handleSort(list, sortType, sortOrder);
+        h2hListPageData.setShowList(list);
+        h2hView.onFilterFinished();
     }
 
     public void filterWin(int min, int max) {
         List<H2hParentBean> list = h2hModel.queryH2hListByWin(min, max);
-        h2hView.onFiltFinished(list);
+        fillPlayerBean(list);
+        handleSort(list, sortType, sortOrder);
+        h2hListPageData.setShowList(list);
+        h2hView.onFilterFinished();
     }
 
     public void filterLose(int min, int max) {
         List<H2hParentBean> list = h2hModel.queryH2hListByLose(min, max);
-        h2hView.onFiltFinished(list);
+        fillPlayerBean(list);
+        handleSort(list, sortType, sortOrder);
+        h2hListPageData.setShowList(list);
+        h2hView.onFilterFinished();
     }
 
     /**
@@ -158,7 +199,10 @@ public class H2hPresenter {
      */
     public void filterOdds(int min, int max) {
         List<H2hParentBean> list = h2hModel.queryH2hListByOdds(min, max);
-        h2hView.onFiltFinished(list);
+        fillPlayerBean(list);
+        handleSort(list, sortType, sortOrder);
+        h2hListPageData.setShowList(list);
+        h2hView.onFilterFinished();
     }
 
     private class PlayerComparator implements Comparator<H2hParentBean> {

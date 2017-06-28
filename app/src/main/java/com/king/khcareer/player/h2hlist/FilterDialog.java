@@ -60,25 +60,22 @@ public class FilterDialog extends CustomDialog implements AdapterView.OnItemSele
                     case 1:// country
                         filterCallback.onFilterCountry(etValue1.getText().toString());
                         break;
-                    case 2:// rank
-                        filterCallback.onFilterRank(getMin(), getMax());
-                        break;
-                    case 3:// count
+                    case 2:// count
                         filterCallback.onFilterCount(getMin(), getMax());
                         break;
-                    case 4:// win
+                    case 3:// win
                         filterCallback.onFilterWin(getMin(), getMax());
                         break;
-                    case 5:// lose
+                    case 4:// lose
                         filterCallback.onFilterLose(getMin(), getMax());
                         break;
-                    case 6:// delta
+                    case 5:// delta
                         filterCallback.onFilterDeltaWin(getMin(), getMax());
                         break;
                 }
             }
-            super.onClick(view);
         }
+        super.onClick(view);
     }
 
     private int getMax() {
@@ -120,11 +117,10 @@ public class FilterDialog extends CustomDialog implements AdapterView.OnItemSele
                 etValue1.setText("");
                 etValue1.setInputType(EditorInfo.TYPE_CLASS_TEXT);
                 break;
-            case 2:// rank
-            case 3:// count
-            case 4:// win
-            case 5:// lose
-            case 6:// delta
+            case 2:// count
+            case 3:// win
+            case 4:// lose
+            case 5:// delta
                 etValue1.setVisibility(View.VISIBLE);
                 etValue2.setVisibility(View.VISIBLE);
                 etValue1.setText("");

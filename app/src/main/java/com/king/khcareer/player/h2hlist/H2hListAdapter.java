@@ -2,6 +2,7 @@ package com.king.khcareer.player.h2hlist;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +13,8 @@ import android.widget.TextView;
 import com.king.khcareer.common.image.ImageFactory;
 import com.king.khcareer.common.image.ImageUtil;
 import com.king.khcareer.model.sql.player.bean.H2hParentBean;
+import com.king.khcareer.model.sql.pubdata.bean.PlayerBean;
+import com.king.khcareer.pubview.SideBar;
 import com.king.mytennis.view.R;
 
 import java.util.HashMap;
@@ -38,10 +41,13 @@ public class H2hListAdapter extends RecyclerView.Adapter<H2hListAdapter.ParentHo
     private int colorLose;
     private int colorTie;
 
+    private Map<String, Integer> indexMap;
+
     protected H2hListAdapter(Context context, List<H2hParentBean> data, OnItemMenuListener onItemMenuListener) {
         this.data = data;
         this.onItemMenuListener = onItemMenuListener;
         imagePathMap = new HashMap<>();
+        indexMap = new HashMap<>();
         colorWin = context.getResources().getColor(R.color.h2hlist_color_win);
         colorLose = context.getResources().getColor(R.color.h2hlist_color_lose);
         colorTie = context.getResources().getColor(R.color.h2hlist_color_tie);
@@ -104,6 +110,37 @@ public class H2hListAdapter extends RecyclerView.Adapter<H2hListAdapter.ParentHo
 
     public void updateData(List<H2hParentBean> headerList) {
         this.data = headerList;
+    }
+
+    /**
+     * data must be already sorted by pinyin
+     * @param sideBar
+     */
+    public void updateSideBar(SideBar sideBar) {
+        sideBar.clear();
+        indexMap.clear();
+        if (data.size() > 0) {
+            for (int i = 0; i < data.size(); i ++) {
+                H2hParentBean bean = data.get(i);
+                String key;
+                PlayerBean pb = bean.getPlayerBean();
+                if (pb == null || TextUtils.isEmpty(pb.getNamePinyin())) {
+                    key = "#";
+                }
+                else {
+                    key = String.valueOf(pb.getNamePinyin().charAt(0)).toUpperCase();
+                }
+                if (indexMap.get(key) == null) {
+                    sideBar.addIndex(key);
+                    indexMap.put(key, i);
+                }
+            }
+        }
+        sideBar.invalidate();
+    }
+
+    public int getIndexPosition(String letter) {
+        return indexMap.get(letter);
     }
 
     public static class ParentHolder extends RecyclerView.ViewHolder {
