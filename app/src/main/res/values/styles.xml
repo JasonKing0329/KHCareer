@@ -290,4 +290,10 @@
         <item name="android:textColor">#ff0000</item>
         <item name="android:textStyle">bold</item>
     </style>
+
+    <style name="TvRecordFilterTitle">
+        <item name="android:textColor">#3c3c3c</item>
+        <item name="android:textSize">14dp</item>
+    </style>
+
 </resources>

@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.king.khcareer.base.BaseActivity;
+import com.king.khcareer.base.CustomDialog;
 import com.king.khcareer.common.config.Constants;
 import com.king.khcareer.common.image.ImageFactory;
 import com.king.khcareer.common.image.ImageUtil;
@@ -21,8 +22,8 @@ import com.king.khcareer.model.sql.player.H2HDAOList;
 import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.khcareer.player.timeline.PlayerActivity;
 import com.king.khcareer.record.DetailsDialog;
+import com.king.khcareer.record.RecordFilterDialog;
 import com.king.khcareer.record.RecordService;
-import com.king.khcareer.record.SearchDialog;
 import com.king.khcareer.record.detail.DetailGallery;
 import com.king.khcareer.record.editor.UpdateDialog;
 import com.king.mytennis.view.R;
@@ -35,6 +36,7 @@ import com.nightonke.boommenu.ButtonEnum;
 import com.nightonke.boommenu.Piece.PiecePlaceEnum;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -149,10 +151,12 @@ public class RecordActivity extends BaseActivity implements IRecordView, OnItemM
         } else {
             recordAdapter.updateData(data.getYearList());
         }
-
         Record record = data.getYearList().get(0).getChildItemList().get(0).getRecord();
         String path = ImageFactory.getMatchHeadPath(record.getMatch(), record.getCourt());
         ImageUtil.load("file://" + path, ivRecordHead, R.drawable.default_img);
+
+        // expand the first item, it's 1, not 0
+        recordAdapter.expandParent(1);
     }
 
     @Override
@@ -169,17 +173,25 @@ public class RecordActivity extends BaseActivity implements IRecordView, OnItemM
     }
 
     private void showSearchDialog() {
-        SearchDialog dialog = new SearchDialog(this, new SearchDialog.OnSearchListener() {
+        RecordFilterDialog dialog = new RecordFilterDialog(this, new CustomDialog.OnCustomDialogActionListener() {
             @Override
-            public List<Record> onGetSearchList() {
-                return recordPageData.getRecordList();
+            public boolean onSave(Object object) {
+                List<Record> list = (List<Record>) object;
+                recordPresenter.loadRecordDatas((ArrayList<Record>) list);
+                return true;
             }
 
             @Override
-            public void onSearchResult(List<Record> list) {
-                recordPresenter.loadRecordDatas((ArrayList<Record>) list);
+            public boolean onCancel() {
+                return true;
+            }
+
+            @Override
+            public void onLoadData(HashMap<String, Object> data) {
+                data.put("data", recordPageData.getRecordList());
             }
         });
+        dialog.setTitle(getString(R.string.filter_title));
         dialog.show();
     }
 

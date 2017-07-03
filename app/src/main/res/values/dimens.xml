@@ -100,4 +100,8 @@
     <dimen name="boom_menu_btn_size">60dp</dimen>
     <dimen name="boom_menu_btn_margin_ver">10dp</dimen>
     <dimen name="boom_menu_image_size">30dp</dimen>
+    <dimen name="record_filter_spinner_width_large">150dp</dimen>
+    <dimen name="record_filter_spinner_input_large">150dp</dimen>
+    <dimen name="record_filter_spinner_input_short">60dp</dimen>
+    <dimen name="record_filter_item_height">40dp</dimen>
 </resources>

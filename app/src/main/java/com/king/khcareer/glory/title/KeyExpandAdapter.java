@@ -22,6 +22,14 @@ public class KeyExpandAdapter extends BaseExpandableAdapter {
     private boolean hideSequence;
     private boolean showLose;
 
+    /**
+     *
+     * @param data
+     * @param onRecordItemListener
+     * @param showCompetitor 显示决赛对手
+     * @param hideSequence 不显示编号
+     * @param showLose 显示记录结果为lose
+     */
     protected KeyExpandAdapter(List<HeaderItem> data, OnRecordItemListener onRecordItemListener
             , boolean showCompetitor, boolean hideSequence, boolean showLose) {
         super(data);

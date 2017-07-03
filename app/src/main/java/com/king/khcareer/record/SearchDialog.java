@@ -29,6 +29,10 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemSelectedListener;
 
+/**
+ * @Deprecated replace this with RecordFilterDialog
+ */
+@Deprecated
 public class SearchDialog implements Button.OnClickListener
 		, DialogInterface.OnClickListener, CompoundButton.OnCheckedChangeListener {
 
