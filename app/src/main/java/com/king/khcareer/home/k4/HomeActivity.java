@@ -46,7 +46,7 @@ import com.king.khcareer.base.BaseActivity;
 import com.king.khcareer.home.classic.ManagerActivity;
 import com.king.mytennis.view.R;
 import com.king.khcareer.record.editor.RecordEditorActivity;
-import com.king.khcareer.settings.SettingActivity;
+import com.king.khcareer.settings.k4.SettingActivityK4;
 import com.king.khcareer.home.v7.V7MainActivity;
 import com.king.khcareer.common.helper.BasicOperation;
 import com.king.khcareer.player.swipecard.SwipeCardActivity;
@@ -599,7 +599,7 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
     }
 
     private void startSettingActivity() {
-        Intent intent = new Intent().setClass(this, SettingActivity.class);
+        Intent intent = new Intent().setClass(this, SettingActivityK4.class);
         startActivity(intent);
     }
 

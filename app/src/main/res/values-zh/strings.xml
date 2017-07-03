@@ -4,6 +4,7 @@
     <string name="no">否</string>
     <string name="login">身份验证</string>
     <string name="error_password">密码错误</string>
+    <string name="back">返回</string>
     <string name="fgtpwd">忘记密码？</string>
     <string name="question">密码问题：</string>
     <string name="answer">答案：</string>
@@ -285,4 +286,10 @@
     <string name="sort_title">排序</string>
     <string name="filter_type">过滤类型</string>
     <string name="filter_title">过滤</string>
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">常规</string>
+    <string name="pref_title_safe">安全设置</string>
+    <string name="pref_title_network">网络设置</string>
+
 </resources>

@@ -1,0 +1,12 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <SwitchPreference
+        android:defaultValue="true"
+        android:key="setting_login_fingerprint"
+        android:title="@string/setting_login_fingerprint" />
+
+    <Preference
+        android:key="pref_safeset"
+        android:title="@string/setting_safeset_update"/>
+
+</PreferenceScreen>

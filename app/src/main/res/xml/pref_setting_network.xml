@@ -1,0 +1,13 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:key="pref_http_server"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:title="@string/setting_http_server" />
+
+    <Preference
+        android:key="pref_http_update"
+        android:title="@string/setting_http_update"/>
+
+</PreferenceScreen>

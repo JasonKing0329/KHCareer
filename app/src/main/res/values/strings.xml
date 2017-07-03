@@ -5,6 +5,7 @@
     <string name="no">No</string>
     <string name="login">Identity Confirm</string>
     <string name="error_password">error password</string>
+    <string name="back">Back</string>
     <!--string name="fgtpwd">foget password?</string-->
     <string name="fgtpwd">foget password?</string>
     <string name="question">question:</string>
@@ -307,4 +308,10 @@
     <string name="sort_title">Sort</string>
     <string name="filter_type">Filter type</string>
     <string name="filter_title">Filter</string>
+    <string name="title_activity_ksettings">Settings</string>
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">General</string>
+    <string name="pref_title_safe">Safe</string>
+    <string name="pref_title_network">Network</string>
 </resources>
