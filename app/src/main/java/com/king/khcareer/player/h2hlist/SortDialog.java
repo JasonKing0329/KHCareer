@@ -74,6 +74,7 @@ public class SortDialog extends CustomDialog {
 
     @Override
     protected View getCustomToolbar() {
+        setTitleIcon(R.drawable.ic_sort_grey_700_36dp);
         return null;
     }
 }

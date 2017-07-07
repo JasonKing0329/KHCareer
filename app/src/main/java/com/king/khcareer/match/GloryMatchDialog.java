@@ -30,6 +30,7 @@ public class GloryMatchDialog extends CustomDialog implements OnItemLongClickLis
 	private ImageView imageView;
 	private TextView placeView;
 	private TextView levelCourtView;
+	private TextView dateView;
 	private TextView achieveView;
 	private TextView rankView;
 	private TextView seedView;
@@ -52,7 +53,8 @@ public class GloryMatchDialog extends CustomDialog implements OnItemLongClickLis
 		Record record = recordList.get(recordList.size() - 1);
 		Collections.reverse(recordList);
 
-		setTitle(record.getMatch() + "  " + record.getStrDate());
+		setTitle(record.getMatch());
+		dateView.setText(record.getStrDate());
 
 		ImageUtil.load("file://" + ImageFactory.getMatchHeadPath(record.getMatch(), record.getCourt()), imageView);
 
@@ -97,13 +99,14 @@ public class GloryMatchDialog extends CustomDialog implements OnItemLongClickLis
 		seedView = (TextView) view.findViewById(R.id.glory_match_seed);
 		levelCourtView = (TextView) view.findViewById(R.id.glory_match_levelcourt);
 		achieveView = (TextView) view.findViewById(R.id.glory_match_achieve);
+		dateView = (TextView) view.findViewById(R.id.glory_match_date);
 		return view;
 	}
 
 	@Override
 	protected View getCustomToolbar() {
 		hideSaveButton();
-		hideCancelButton();
+		hideTitleIcon();
 		return null;
 	}
 

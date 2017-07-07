@@ -1,9 +1,7 @@
 package com.king.khcareer.record;
 
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -29,7 +27,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 描述:
@@ -212,6 +209,7 @@ public class RecordFilterDialog extends CustomDialog implements CompoundButton.O
 
     @Override
     protected View getCustomToolbar() {
+        setTitleIcon(R.drawable.ic_search_grey_700_36dp);
         return null;
     }
 

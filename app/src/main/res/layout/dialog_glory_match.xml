@@ -22,7 +22,7 @@
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
 		    android:textStyle="bold"
-		    android:textSize="16sp"/>
+		    android:textSize="16dp"/>
 	    
 	    <TextView 
 	        android:id="@+id/glory_match_levelcourt"
@@ -30,10 +30,18 @@
 		    android:layout_height="wrap_content"
 		    android:layout_marginLeft="30dp"
 		    android:textStyle="bold"
-		    android:textSize="16sp"/>
+		    android:textSize="16dp"/>
     </LinearLayout>
-    
-    <LinearLayout 
+
+	<TextView
+		android:id="@+id/glory_match_date"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="10dp"
+		android:textStyle="bold"
+		android:textSize="16dp"/>
+
+	<LinearLayout 
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 		android:layout_marginLeft="10dp"
@@ -44,7 +52,7 @@
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
 		    android:textStyle="bold"
-		    android:textSize="16sp"/>
+		    android:textSize="16dp"/>
 	    
 	    <TextView 
 	        android:id="@+id/glory_match_seed"
@@ -52,7 +60,7 @@
 		    android:layout_height="wrap_content"
 		    android:layout_marginLeft="30dp"
 		    android:textStyle="bold"
-		    android:textSize="16sp"/>
+		    android:textSize="16dp"/>
     </LinearLayout>
     
     <TextView 
@@ -61,7 +69,7 @@
 	    android:layout_height="wrap_content"
 		android:layout_marginLeft="10dp"
 		android:textStyle="bold"
-		android:textSize="16sp"/>
+		android:textSize="16dp"/>
     
     <ListView 
         android:id="@+id/glory_match_list"

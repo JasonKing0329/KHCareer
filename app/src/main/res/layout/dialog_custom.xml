@@ -12,20 +12,20 @@
 	        style="@style/DrawsBlue_Toolbar"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
-	       	android:layout_marginLeft="5dp"
        		android:orientation="horizontal"
 		    android:gravity="center_vertical">
-		    <ImageView 
-		        android:layout_width="@dimen/custom_dialog_toolbar_icon"
-	       		android:layout_height="@dimen/custom_dialog_toolbar_icon"
-	       		android:src="@drawable/dialog_title_icon"
-		        />
+		    <ImageView
+				android:id="@+id/dialog_custom_title_icon"
+		        android:layout_width="@dimen/custom_dialog_toolbar_title_icon"
+	       		android:layout_height="@dimen/custom_dialog_toolbar_title_icon"
+				android:scaleType="fitCenter"
+	       		android:src="@drawable/ic_info_grey_700_36dp"
+				android:layout_marginRight="5dp"/>
 		    <TextView 
 		        android:id="@+id/dialog_custom_title"
 		        android:layout_centerVertical="true"
 		        android:layout_width="wrap_content"
 	       		android:layout_height="wrap_content"
-	       		android:layout_marginLeft="5dp"
 	       		android:textSize="18dp"
 	       		android:textStyle="bold"/>
 	    </LinearLayout>

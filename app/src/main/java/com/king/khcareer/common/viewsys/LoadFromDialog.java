@@ -7,6 +7,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -85,6 +86,9 @@ public class LoadFromDialog extends CustomDialog implements OnItemClickListener 
 			return null;
 		}
 		listView = new ListView(context);
+		ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT
+				, getContext().getResources().getDimensionPixelSize(R.dimen.dlg_loadfrom_list_height));
+		listView.setLayoutParams(params);
 		adapter = new ArrayAdapter<String>(context
 				, android.R.layout.simple_dropdown_item_1line, historyFiles);
 		listView.setAdapter(adapter);

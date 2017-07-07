@@ -18,11 +18,12 @@ import com.king.mytennis.view.R;
 public abstract class CustomDialog extends Dialog implements android.view.View.OnClickListener, OnTouchListener {
 
 	private TextView titleView;
-	private TextView nullContentView;;
+	private TextView nullContentView;
 	private LinearLayout customView;
 	private LinearLayout customToolbar;
 
 	protected ImageView saveButton, cancelButton, deleteButton;
+	protected ImageView ivTitle;
 	protected Context context;
 	protected OnCustomDialogActionListener actionListener;
 	private Point startPoint, touchPoint;
@@ -38,6 +39,7 @@ public abstract class CustomDialog extends Dialog implements android.view.View.O
 		saveButton = (ImageView) findViewById(R.id.dialog_custom_save);
 		cancelButton = (ImageView) findViewById(R.id.dialog_custom_cancle);
 		deleteButton = (ImageView) findViewById(R.id.dialog_custom_delete);
+		ivTitle = (ImageView) findViewById(R.id.dialog_custom_title_icon);
 		customView = (LinearLayout) findViewById(R.id.dialog_custom_view);
 		customToolbar = (LinearLayout) findViewById(R.id.dialog_custom_toolbar);
 		saveButton.setOnClickListener(this);
@@ -60,6 +62,23 @@ public abstract class CustomDialog extends Dialog implements android.view.View.O
 		if (view != null) {
 			customToolbar.addView(view);
 		}
+	}
+
+	/**
+	 * 隐藏标题左侧图标
+	 * @return
+	 */
+	protected void hideTitleIcon() {
+		ivTitle.setVisibility(View.GONE);
+	}
+
+	/**
+	 * 标题左侧图标
+	 * @param resId
+	 * @return
+	 */
+	protected void setTitleIcon(int resId) {
+		ivTitle.setImageResource(resId);
 	}
 
 	private class Point {

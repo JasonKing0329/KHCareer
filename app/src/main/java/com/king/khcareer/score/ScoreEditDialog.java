@@ -140,6 +140,8 @@ public class ScoreEditDialog extends CustomDialog {
 
     @Override
     protected View getCustomToolbar() {
+        setTitle(getContext().getString(R.string.edit));
+        setTitleIcon(R.drawable.ic_edit_grey_700_36dp);
         return null;
     }
 

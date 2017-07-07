@@ -182,6 +182,7 @@ public class InputScoreDialog extends CustomDialog {
 
     @Override
     protected View getCustomToolbar() {
+        hideTitleIcon();
         return null;
     }
 

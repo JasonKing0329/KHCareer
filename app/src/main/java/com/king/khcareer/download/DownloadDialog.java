@@ -113,6 +113,7 @@ public class DownloadDialog extends CustomDialog implements DownloadCallback, Ha
 
     @Override
     protected View getCustomToolbar() {
+        setTitleIcon(R.drawable.ic_file_download_grey_700_36dp);
         return null;
     }
 

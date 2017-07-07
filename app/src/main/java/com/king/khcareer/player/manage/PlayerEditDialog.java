@@ -44,6 +44,7 @@ public class PlayerEditDialog extends CustomDialog {
 
     @Override
     protected View getCustomToolbar() {
+        setTitleIcon(R.drawable.ic_edit_grey_700_36dp);
         return null;
     }
 

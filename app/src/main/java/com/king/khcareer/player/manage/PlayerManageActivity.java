@@ -388,7 +388,7 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
                     data.put("bean", mEditBean);
                 }
             });
-            playerEditDialog.setTitle("Edit match");
+            playerEditDialog.setTitle("Edit player");
         }
         playerEditDialog.show();
     }

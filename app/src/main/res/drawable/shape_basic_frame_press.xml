@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<shape xmlns:android="http://schemas.android.com/apk/res/android" >
-	<corners android:radius="14dp"/>
-	<stroke android:width="2dp" android:color="@color/draws_toolbar_button_frame"/>
-	<gradient android:type="radial"
-        android:startColor="@color/draws_frame"
-        android:gradientRadius="500"
-        android:endColor="@color/draws_blue_bk_normal"/>
-</shape>

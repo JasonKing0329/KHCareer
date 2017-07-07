@@ -46,6 +46,7 @@ public class FilterDialog extends CustomDialog implements AdapterView.OnItemSele
 
     @Override
     protected View getCustomToolbar() {
+        setTitleIcon(R.drawable.ic_filter_list_grey_700_36dp);
         return null;
     }
 
