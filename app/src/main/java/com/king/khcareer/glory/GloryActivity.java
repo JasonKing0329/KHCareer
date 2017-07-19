@@ -125,6 +125,12 @@ public class GloryActivity extends BaseActivity implements IGloryHolder, IGloryV
 
         toolbar.setOverflowIcon(getResources().getDrawable(R.drawable.ic_more_vert_white_24dp));
         toolbar.setOnMenuItemClickListener(this);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
 
         setCareerFocus(true);
     }

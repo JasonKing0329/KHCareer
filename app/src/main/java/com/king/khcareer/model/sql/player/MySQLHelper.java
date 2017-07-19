@@ -77,10 +77,10 @@ public class MySQLHelper extends SQLiteOpenHelper{
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 		DebugLog.e("oldVersion=" + oldVersion + ", newVersion=" + newVersion);
-		if (oldVersion <= 2 && newVersion == 3) {
+		if (oldVersion <= 2) {
 			db.execSQL("CREATE TABLE IF NOT EXISTS rank_final(_id INTEGER PRIMARY KEY AUTOINCREMENT, _year INTEGER, _rank INTEGER)");
 		}
-		if (oldVersion < 5 && newVersion == 5) {
+		if (oldVersion < 5) {
 			db.execSQL("DROP VIEW h2hview");
 			db.execSQL("CREATE VIEW h2hview as " +
 					"select id, competitor, competitor_country, count(*) as total" +
