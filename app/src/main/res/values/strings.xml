@@ -315,4 +315,10 @@
     <string name="pref_header_general">General</string>
     <string name="pref_title_safe">Safe</string>
     <string name="pref_title_network">Network</string>
+
+    <!-- transition anim -->
+    <string name="anim_home_rank" translatable="false">anim_home_rank</string>
+    <string name="anim_home_date" translatable="false">anim_home_date</string>
+    <string name="anim_home_add" translatable="false">anim_home_add</string>
+    <string name="anim_home_match" translatable="false">anim_home_match</string>
 </resources>

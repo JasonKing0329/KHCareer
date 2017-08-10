@@ -97,7 +97,8 @@ public class RecordActivity extends BaseActivity implements IRecordView, OnItemM
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                // 加入了转场动画，必须用onBackPressed，finish无效果
+                onBackPressed();
             }
         });
     }

@@ -7,6 +7,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,6 +19,7 @@ import com.king.khcareer.glory.ChartManager;
 import com.king.khcareer.model.sql.player.bean.H2hParentBean;
 import com.king.khcareer.player.timeline.PlayerActivity;
 import com.king.khcareer.pubview.SideBar;
+import com.king.khcareer.utils.AnimUtil;
 import com.king.mytennis.view.R;
 import com.nightonke.boommenu.BoomButtons.ButtonPlaceAlignmentEnum;
 import com.nightonke.boommenu.BoomButtons.ButtonPlaceEnum;
@@ -41,6 +43,8 @@ import butterknife.OnClick;
 public class H2hListActivity extends BaseActivity implements IH2hListView, OnItemMenuListener
         , OnBMClickListener, SideBar.OnTouchingLetterChangedListener {
 
+    @BindView(R.id.group_root)
+    ViewGroup groupRoot;
     @BindView(R.id.iv_head)
     ImageView ivHead;
     @BindView(R.id.tv_total_player)
@@ -112,6 +116,13 @@ public class H2hListActivity extends BaseActivity implements IH2hListView, OnIte
         chartManager = new ChartManager(this);
         h2hPresenter = new H2hPresenter(this);
         h2hPresenter.loadDatas();
+
+        groupRoot.post(new Runnable() {
+            @Override
+            public void run() {
+                AnimUtil.startFullCircleRevealAnimation(H2hListActivity.this, groupRoot, null);
+            }
+        });
     }
 
     private void initToolbar() {

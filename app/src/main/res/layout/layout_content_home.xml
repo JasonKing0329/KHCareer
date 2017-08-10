@@ -23,7 +23,8 @@
                 android:scaleType="fitXY"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"/>
+                android:layout_marginTop="10dp"
+                android:transitionName="@string/anim_home_date"/>
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -127,12 +128,13 @@
             android:paddingBottom="15dp"
             android:orientation="vertical"
             android:gravity="center"
+            android:transitionName="@string/anim_home_add"
             android:background="?android:attr/selectableItemBackgroundBorderless" >
             <ImageView
                 android:layout_width="20dp"
                 android:layout_height="20dp"
                 android:src="@drawable/ic_add"
-                android:scaleType="fitXY" />
+                android:scaleType="fitXY"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -152,7 +154,8 @@
             <com.yarolegovich.discretescrollview.DiscreteScrollView
                 android:id="@+id/dsv_match"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:transitionName="@string/anim_home_match"/>
         </LinearLayout>
 
         <LinearLayout
@@ -182,6 +185,7 @@
             android:id="@+id/group_chart"
             android:layout_marginTop="10dp"
             android:layout_width="match_parent"
+            android:transitionName="@string/anim_home_rank"
             android:layout_height="@dimen/rank_chart_height"/>
 
         <LinearLayout

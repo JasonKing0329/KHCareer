@@ -24,6 +24,7 @@ import com.king.khcareer.glory.target.TargetFragment;
 import com.king.khcareer.glory.title.ChampionFragment;
 import com.king.khcareer.glory.title.RunnerUpFragment;
 import com.king.khcareer.settings.SettingProperty;
+import com.king.khcareer.utils.AnimUtil;
 import com.king.khcareer.utils.SeasonManager;
 import com.king.mytennis.view.R;
 
@@ -47,6 +48,8 @@ public class GloryActivity extends BaseActivity implements IGloryHolder, IGloryV
     private final int PAGE_ATP1000 = 3;
     private final int PAGE_TARGET = 4;
 
+    @BindView(R.id.group_root)
+    ViewGroup groupRoot;
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.iv_head)
@@ -117,6 +120,13 @@ public class GloryActivity extends BaseActivity implements IGloryHolder, IGloryV
 
         ImageUtil.initImageLoader(this, R.drawable.default_img);
         presenter.loadDatas();
+
+        groupRoot.post(new Runnable() {
+            @Override
+            public void run() {
+                AnimUtil.startFullCircleRevealAnimation(GloryActivity.this, groupRoot, null);
+            }
+        });
     }
 
     private void initView() {

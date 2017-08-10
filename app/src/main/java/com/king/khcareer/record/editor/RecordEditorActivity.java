@@ -76,7 +76,8 @@ public class RecordEditorActivity extends BaseActivity implements IEditorHolder,
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                // 加入了转场动画，必须用onBackPressed，finish无效果
+                onBackPressed();
             }
         });
         toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));

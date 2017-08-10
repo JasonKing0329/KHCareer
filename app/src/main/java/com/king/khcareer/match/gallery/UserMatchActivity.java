@@ -83,12 +83,12 @@ public class UserMatchActivity extends BaseActivity implements DiscreteScrollVie
 
     private void focusToLatestWeek() {
         final int position = mPresenter.findLatestWeekItem(matchList);
-        dsvMatch.post(new Runnable() {
+        dsvMatch.postDelayed(new Runnable() {
             @Override
             public void run() {
                 dsvMatch.smoothScrollToPosition(position);
             }
-        });
+        }, 1000);
         scrollManager.initPosition(position);
     }
 
@@ -104,7 +104,8 @@ public class UserMatchActivity extends BaseActivity implements DiscreteScrollVie
 
     @OnClick({R.id.match_back})
     public void onBack() {
-        finish();
+        // 加入了转场动画，必须用onBackPressed，finish无效果
+        onBackPressed();
     }
 
     @OnClick({R.id.match_refresh})

@@ -1,5 +1,6 @@
 package com.king.khcareer.home.k4;
 
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,6 +13,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -549,12 +551,17 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
 
     private void startRankManageActivity() {
         Intent intent = new Intent().setClass(this, RankManageActivity.class);
-        startActivityForResult(intent, REQUEST_RANK);
+        ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(this
+                , Pair.create(findViewById(R.id.group_chart),getString(R.string.anim_home_rank)));
+        startActivityForResult(intent, REQUEST_RANK, transitionActivityOptions.toBundle());
+
     }
 
     private void startRecordEditorActivity() {
         Intent intent = new Intent().setClass(this, RecordEditorActivity.class);
-        startActivityForResult(intent, REQUEST_EDITOR);
+        ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(this
+                , Pair.create(findViewById(R.id.group_add),getString(R.string.anim_home_add)));
+        startActivityForResult(intent, REQUEST_EDITOR, transitionActivityOptions.toBundle());
     }
 
     private void startScoreActivity() {
@@ -570,17 +577,22 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
     private void startPlayerActivity() {
         Intent intent = new Intent().setClass(this, SwipeCardActivity.class);
         intent.putExtra(SwipeCardActivity.KEY_INIT_MODE, SwipeCardActivity.INIT_PLAYER);
-        startActivity(intent);
+        ActivityOptions transitionActivityOptions = ActivityOptions.makeScaleUpAnimation(groupPlayer, 0, 0, 200, 200);
+        startActivity(intent, transitionActivityOptions.toBundle());
     }
 
     private void startMatchActivity() {
         Intent intent = new Intent().setClass(this, UserMatchActivity.class);
-        startActivity(intent);
+        ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(this
+                , Pair.create(findViewById(R.id.dsv_match),getString(R.string.anim_home_match)));
+        startActivity(intent, transitionActivityOptions.toBundle());
     }
 
     private void startRecordLineActivity() {
         Intent intent = new Intent().setClass(this, RecordActivity.class);
-        startActivityForResult(intent, REQUEST_RECORD_LIST);
+        ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(this
+                , Pair.create(findViewById(R.id.iv_record_bk),getString(R.string.anim_home_date)));
+        startActivityForResult(intent, REQUEST_RECORD_LIST, transitionActivityOptions.toBundle());
     }
 
     private void startPlayerH2hActivity() {
@@ -590,17 +602,20 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
 
     private void startPlayerManageActivity() {
         Intent intent = new Intent().setClass(this, PlayerManageActivity.class);
-        startActivity(intent);
+        ActivityOptions transitionActivityOptions = ActivityOptions.makeScaleUpAnimation(groupNavPlayer, 0, 0, 100, 100);
+        startActivity(intent, transitionActivityOptions.toBundle());
     }
 
     private void startMatchManageActivity() {
         Intent intent = new Intent().setClass(this, MatchManageActivity.class);
-        startActivity(intent);
+        ActivityOptions transitionActivityOptions = ActivityOptions.makeScaleUpAnimation(groupNavMatch, 0, 0, 100, 100);
+        startActivity(intent, transitionActivityOptions.toBundle());
     }
 
     private void startSettingActivity() {
         Intent intent = new Intent().setClass(this, SettingActivityK4.class);
-        startActivity(intent);
+        ActivityOptions transitionActivityOptions = ActivityOptions.makeScaleUpAnimation(findViewById(R.id.group_nav_setting), 0, 0, 100, 100);
+        startActivity(intent, transitionActivityOptions.toBundle());
     }
 
     private void startClassicActivity() {

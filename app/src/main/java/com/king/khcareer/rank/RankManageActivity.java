@@ -103,7 +103,8 @@ public class RankManageActivity extends BaseActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.view7_actionbar_back:
-                finish();
+                // 加入了转场动画，必须用onBackPressed，finish无效果
+                onBackPressed();
                 break;
             case R.id.iv_add:
                 addRank();

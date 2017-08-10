@@ -23,7 +23,8 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/player_basic_head_height">
+                android:layout_height="@dimen/player_basic_head_height"
+                android:transitionName="@string/anim_home_date">
 
                 <ImageView
                     android:id="@+id/iv_record_head"
