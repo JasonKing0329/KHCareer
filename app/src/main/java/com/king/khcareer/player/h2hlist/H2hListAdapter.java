@@ -105,7 +105,7 @@ public class H2hListAdapter extends RecyclerView.Adapter<H2hListAdapter.ParentHo
     @Override
     public void onClick(View v) {
         H2hParentBean bean = (H2hParentBean) v.getTag();
-        onItemMenuListener.onItemClicked(bean);
+        onItemMenuListener.onItemClicked(v, bean);
     }
 
     public void updateData(List<H2hParentBean> headerList) {

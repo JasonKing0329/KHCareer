@@ -379,7 +379,7 @@ public class MatchSwipeCardAdapter extends AbstractSwipeAdapter implements Reque
 		}
 	}
 	@Override
-	public void onItemClicked(int itemPosition) {
+	public void onItemClicked(View v, int itemPosition) {
 		ObjectCache.putMatchBean(mList.get(itemPosition));
 		Intent intent = new Intent().setClass(mContext, MatchActivity.class);
 		((Activity) mContext).startActivity(intent);

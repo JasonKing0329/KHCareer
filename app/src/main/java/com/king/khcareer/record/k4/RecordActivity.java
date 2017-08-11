@@ -1,5 +1,6 @@
 package com.king.khcareer.record.k4;
 
+import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +8,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Pair;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -242,11 +244,13 @@ public class RecordActivity extends BaseActivity implements IRecordView, OnItemM
     }
 
     @Override
-    public void onItemClicked(RecordItem recordItem) {
+    public void onItemClicked(View view, RecordItem recordItem) {
         Intent intent = new Intent();
         intent.setClass(this, PlayerActivity.class);
         intent.putExtra(PlayerActivity.KEY_COMPETITOR_NAME, recordItem.getRecord().getCompetitor());
-        startActivity(intent);
+        ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(this
+                , Pair.create(view.findViewById(R.id.iv_player),getString(R.string.anim_pullzoom_head)));
+        startActivity(intent, transitionActivityOptions.toBundle());
     }
 
     @Override

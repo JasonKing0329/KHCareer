@@ -1,5 +1,7 @@
 package com.king.khcareer.player.h2hlist;
 
+import android.view.View;
+
 import com.king.khcareer.model.sql.player.bean.H2hParentBean;
 
 /**
@@ -7,5 +9,5 @@ import com.king.khcareer.model.sql.player.bean.H2hParentBean;
  */
 
 public interface OnItemMenuListener {
-    void onItemClicked(H2hParentBean bean);
+    void onItemClicked(View v, H2hParentBean bean);
 }

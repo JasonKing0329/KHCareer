@@ -1,5 +1,7 @@
 package com.king.khcareer.record.k4;
 
+import android.view.View;
+
 /**
  * Created by Administrator on 2017/4/22 0022.
  */
@@ -10,5 +12,5 @@ public interface OnItemMenuListener {
     void onAllDetail(RecordItem record);
     void onListDetail(RecordItem record);
 
-    void onItemClicked(RecordItem curRecordItem);
+    void onItemClicked(View view, RecordItem curRecordItem);
 }

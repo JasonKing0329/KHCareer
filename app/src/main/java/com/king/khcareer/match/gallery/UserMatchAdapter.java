@@ -1,8 +1,11 @@
 package com.king.khcareer.match.gallery;
 
+import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,6 +59,9 @@ public class UserMatchAdapter extends RecyclerView.Adapter<ItemHolder> implement
      * 保存首次从文件夹加载的图片序号
      */
     private Map<String, Integer> imageIndexMap;
+
+    private View tvMatch;
+    private View tvPlace;
 
     public UserMatchAdapter(Context mContext, List<UserMatchBean> list) {
         this.list = list;
@@ -240,7 +246,23 @@ public class UserMatchAdapter extends RecyclerView.Adapter<ItemHolder> implement
         int position = (int) view.getTag();
         ObjectCache.putUserMatchBean(list.get(position));
         Intent intent = new Intent().setClass(view.getContext(), MatchActivity.class);
-        view.getContext().startActivity(intent);
+        Pair<View, String>[] pairs = new Pair[3];
+        pairs[0] = Pair.create(view.findViewById(R.id.swipecard_match_img), view.getContext().getString(R.string.anim_pullzoom_head));
+        pairs[1] = Pair.create(tvMatch, view.getContext().getString(R.string.anim_pullzoom_match_name));
+        pairs[2] = Pair.create(tvPlace, view.getContext().getString(R.string.anim_pullzoom_match_country));
+        ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(
+                (Activity) view.getContext(), pairs);
+        view.getContext().startActivity(intent, transitionActivityOptions.toBundle());
+    }
+
+    /**
+     * 用于转场动画
+     * @param tvMatch
+     * @param tvPlace
+     */
+    public void setMatchTextView(TextView tvMatch, TextView tvPlace) {
+        this.tvMatch = tvMatch;
+        this.tvPlace = tvPlace;
     }
 
     public static class ItemHolder extends RecyclerView.ViewHolder {

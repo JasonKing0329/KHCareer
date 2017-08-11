@@ -21,14 +21,16 @@
 		    android:layout_height="wrap_content"
 		    android:textColor="@color/yellow"
 	    	android:textStyle="bold"
-		    android:textSize="20sp" />
+		    android:textSize="20sp"
+			android:transitionName="@string/anim_pullzoom_match_name"/>
 	    <TextView
 	        android:id="@+id/match_head_place"
 		    android:layout_width="wrap_content"
 		    android:layout_height="wrap_content"
 		    android:textColor="@color/white"
 		    android:layout_marginTop="5dp"
-		    android:textSize="16sp" />
+		    android:textSize="16sp"
+			android:transitionName="@string/anim_pullzoom_match_country" />
     </LinearLayout>
 
     <TextView

@@ -75,6 +75,7 @@ public class UserMatchActivity extends BaseActivity implements DiscreteScrollVie
         scrollManager.bindData(matchList);
 
         userMatchAdapter = new UserMatchAdapter(this, matchList);
+        userMatchAdapter.setMatchTextView(tvMatch, tvPlace);
         dsvMatch.setAdapter(userMatchAdapter);
 
         // 定位到最近的赛事

@@ -218,7 +218,7 @@ public class SwipeCardActivity extends BaseActivity implements onFlingListener
 //            }
 //        }
 		int itemPosition = (Integer) dataObject;
-		mAdapter.onItemClicked(itemPosition);
+		mAdapter.onItemClicked(v, itemPosition);
 	}
 
 	@Override

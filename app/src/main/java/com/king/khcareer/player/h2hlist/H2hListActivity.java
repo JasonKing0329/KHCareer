@@ -1,11 +1,13 @@
 package com.king.khcareer.player.h2hlist;
 
+import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -222,12 +224,14 @@ public class H2hListActivity extends BaseActivity implements IH2hListView, OnIte
     }
 
     @Override
-    public void onItemClicked(H2hParentBean item) {
+    public void onItemClicked(View v, H2hParentBean item) {
 
         Intent intent = new Intent();
         intent.setClass(this, PlayerActivity.class);
         intent.putExtra(PlayerActivity.KEY_COMPETITOR_NAME, item.getPlayer());
-        startActivity(intent);
+        ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(this
+                , Pair.create(v.findViewById(R.id.iv_player),getString(R.string.anim_pullzoom_head)));
+        startActivity(intent, transitionActivityOptions.toBundle());
     }
 
     @Override

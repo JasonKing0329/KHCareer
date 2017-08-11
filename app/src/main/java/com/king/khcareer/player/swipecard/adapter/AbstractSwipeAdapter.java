@@ -3,6 +3,7 @@ package com.king.khcareer.player.swipecard.adapter;
 import com.king.khcareer.pubview.SideBar;
 
 import android.content.Context;
+import android.view.View;
 import android.view.animation.Animation;
 import android.widget.BaseAdapter;
 
@@ -37,7 +38,7 @@ public abstract class AbstractSwipeAdapter extends BaseAdapter {
 
 	public abstract void addItem(int i, Object bean);
 
-	public abstract void onItemClicked(int itemPosition);
+	public abstract void onItemClicked(View v, int itemPosition);
 
 	/**
 	 * adapter的getItem用于返回position，因此重新定义一个返回item对象的方法

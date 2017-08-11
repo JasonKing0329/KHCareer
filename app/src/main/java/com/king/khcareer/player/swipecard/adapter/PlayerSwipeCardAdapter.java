@@ -26,10 +26,12 @@ import com.king.khcareer.player.timeline.PlayerBean;
 import com.king.khcareer.player.timeline.PlayerActivity;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -395,10 +397,12 @@ public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter implements Requ
 		}
 	}
 	@Override
-	public void onItemClicked(int itemPosition) {
+	public void onItemClicked(View v, int itemPosition) {
 		ObjectCache.putPlayerBean(mList.get(itemPosition));
 		Intent intent = new Intent().setClass(mContext, PlayerActivity.class);
-		((Activity) mContext).startActivity(intent);
+		ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation((Activity) mContext
+				, Pair.create(v.findViewById(R.id.swipecard_player_img), mContext.getString(R.string.anim_pullzoom_head)));
+		mContext.startActivity(intent, transitionActivityOptions.toBundle());
 	}
 
 	@Override
