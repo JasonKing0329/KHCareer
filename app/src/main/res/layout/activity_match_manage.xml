@@ -3,11 +3,17 @@
 	xmlns:swipe="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/view7_home_background" >
+    android:background="@color/white" >
 
     <include
         android:id="@+id/match_manage_actionbar"
         layout="@layout/view7_layout_actionbar" />
+
+	<android.support.v7.widget.RecyclerView
+		android:id="@+id/rv_stagger_list"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_below="@id/match_manage_actionbar"/>
 
 	<com.king.khcareer.pubview.SideBar
 		android:id="@+id/manage_sidebar"

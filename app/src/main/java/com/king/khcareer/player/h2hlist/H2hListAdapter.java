@@ -10,8 +10,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.king.khcareer.base.KApplication;
 import com.king.khcareer.common.image.ImageFactory;
-import com.king.khcareer.common.image.ImageUtil;
+import com.king.khcareer.common.image.glide.GlideOptions;
 import com.king.khcareer.model.sql.player.bean.H2hParentBean;
 import com.king.khcareer.model.sql.pubdata.bean.PlayerBean;
 import com.king.khcareer.pubview.SideBar;
@@ -59,7 +61,7 @@ public class H2hListAdapter extends RecyclerView.Adapter<H2hListAdapter.ParentHo
     }
 
     @Override
-    public void onBindViewHolder(ParentHolder holder, int position) {
+    public void onBindViewHolder(ParentHolder holder, final int position) {
         H2hParentBean bean = data.get(position);
         holder.tvName.setText(String.valueOf(bean.getPlayer()));
         holder.tvCountry.setText(bean.getCountry());
@@ -82,7 +84,10 @@ public class H2hListAdapter extends RecyclerView.Adapter<H2hListAdapter.ParentHo
             String path = ImageFactory.getDetailPlayerPath(bean.getPlayer());
             imagePathMap.put(bean.getPlayer(), path);
         }
-        ImageUtil.load("file://" + imagePathMap.get(bean.getPlayer()), holder.ivPlayer, R.drawable.default_img);
+        Glide.with(KApplication.getInstance())
+                .load("file://" + imagePathMap.get(bean.getPlayer()))
+                .apply(GlideOptions.getCommonOptions())
+                .into(holder.ivPlayer);
 
         holder.groupRecord.setTag(bean);
         holder.groupRecord.setOnClickListener(this);

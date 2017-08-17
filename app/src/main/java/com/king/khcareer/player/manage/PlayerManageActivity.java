@@ -6,10 +6,14 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,6 +21,7 @@ import com.king.khcareer.model.sql.pubdata.PubDataProvider;
 import com.king.khcareer.model.sql.pubdata.bean.PlayerBean;
 import com.king.khcareer.base.BaseActivity;
 import com.king.khcareer.base.CustomDialog;
+import com.king.khcareer.utils.ScreenUtils;
 import com.king.mytennis.view.R;
 import com.king.khcareer.pubview.SideBar;
 import com.king.khcareer.settings.SettingProperty;
@@ -25,6 +30,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static android.R.id.list;
 import static com.king.khcareer.model.sql.pubdata.PubDataProvider.VIRTUAL_PLAYER;
 
 /**
@@ -52,7 +58,9 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
     private ImageView ivChart;
 
     private RecyclerView rvList;
+    private RecyclerView rvStaggerList;
     private PlayerItemAdapter playerItemAdapter;
+    private PlayerStaggerAdapter playerStaggerAdapter;
 
     private List<PlayerBean> playerList;
     private Map<Character, Integer> playerIndexMap;
@@ -96,10 +104,17 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
         findViewById(R.id.view7_actionbar_edit_group).setVisibility(View.VISIBLE);
 
         rvList = (RecyclerView) findViewById(R.id.match_manage_list);
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        rvList.setLayoutManager(manager);
-        rvList.setItemAnimator(new DefaultItemAnimator());
+        rvStaggerList = (RecyclerView) findViewById(R.id.rv_stagger_list);
+        initVerticalList();
+        initStaggerList();
+        if (SettingProperty.isPlayerManageCardMode()) {
+            rvList.setVisibility(View.GONE);
+            rvStaggerList.setVisibility(View.VISIBLE);
+        }
+        else {
+            rvStaggerList.setVisibility(View.GONE);
+            rvList.setVisibility(View.VISIBLE);
+        }
 
         ((TextView) findViewById(R.id.view7_actionbar_title)).setText(getString(R.string.player_manage_title));
 
@@ -114,10 +129,23 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
         findViewById(R.id.view7_actionbar_delete).setOnClickListener(this);
         findViewById(R.id.view7_actionbar_done).setOnClickListener(this);
         findViewById(R.id.view7_actionbar_close).setOnClickListener(this);
+        findViewById(R.id.view7_actionbar_mode).setOnClickListener(this);
         ivSort.setOnClickListener(this);
         ivChart.setOnClickListener(this);
 
         loadDatas();
+    }
+
+    private void initVerticalList() {
+        LinearLayoutManager manager = new LinearLayoutManager(this);
+        manager.setOrientation(LinearLayoutManager.VERTICAL);
+        rvList.setLayoutManager(manager);
+        rvList.setItemAnimator(new DefaultItemAnimator());
+    }
+
+    private void initStaggerList() {
+        StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        rvStaggerList.setLayoutManager(manager);
     }
 
     private void loadDatas() {
@@ -128,18 +156,31 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onLoadPlayerList(List<PlayerBean> list) {
         playerList = list;
-        if (playerItemAdapter == null) {
-            playerItemAdapter = new PlayerItemAdapter(playerList);
-            playerItemAdapter.setOnPlayerItemClickListener(this);
+        if (isWaterfall()) {
+            if (playerStaggerAdapter == null) {
+                playerStaggerAdapter = new PlayerStaggerAdapter(this, playerList, ScreenUtils.getScreenWidth(this) / 2 - ScreenUtils.dp2px(10) * 2);
+                playerStaggerAdapter.setOnPlayerItemClickListener(this);
 
-            rvList.setAdapter(playerItemAdapter);
+                rvStaggerList.setAdapter(playerStaggerAdapter);
+            }
+            else {
+                playerStaggerAdapter.setList(playerList);
+                playerStaggerAdapter.notifyDataSetChanged();
+            }
         }
         else {
-            playerItemAdapter.setList(playerList);
-            playerItemAdapter.notifyDataSetChanged();
-        }
+            if (playerItemAdapter == null) {
+                playerItemAdapter = new PlayerItemAdapter(this, playerList);
+                playerItemAdapter.setOnPlayerItemClickListener(this);
 
-        createIndex();
+                rvList.setAdapter(playerItemAdapter);
+            }
+            else {
+                playerItemAdapter.setList(playerList);
+                playerItemAdapter.notifyDataSetChanged();
+            }
+            createIndex();
+        }
 
         showChartIcon();
 
@@ -198,6 +239,19 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
             case R.id.view7_actionbar_back:
                 finish();
                 break;
+            case R.id.view7_actionbar_mode:
+                if (isWaterfall()) {
+                    rvStaggerList.startAnimation(getDisappearAnim(rvStaggerList));
+                    rvList.startAnimation(getAppearAnim(rvList));
+                    SettingProperty.setPlayerManageCardMode(false);
+                }
+                else {
+                    rvList.startAnimation(getDisappearAnim(rvList));
+                    rvStaggerList.startAnimation(getAppearAnim(rvStaggerList));
+                    SettingProperty.setPlayerManageCardMode(true);
+                }
+                refreshList();
+                break;
             case R.id.view7_actionbar_sort:
                 showSortPopup();
                 break;
@@ -215,8 +269,14 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
             case R.id.view7_actionbar_delete:
                 isDeleteMode = true;
                 updateActionbarStatus(true);
-                playerItemAdapter.setSelectMode(true);
-                playerItemAdapter.notifyDataSetChanged();
+                if (playerItemAdapter != null) {
+                    playerItemAdapter.setSelectMode(true);
+                    playerItemAdapter.notifyDataSetChanged();
+                }
+                if (playerStaggerAdapter != null) {
+                    playerStaggerAdapter.setSelectMode(true);
+                    playerStaggerAdapter.notifyDataSetChanged();
+                }
                 break;
             case R.id.view7_actionbar_done:
                 if (isEditMode) {
@@ -289,7 +349,15 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     public void onSortFinished() {
-        playerItemAdapter.notifyDataSetChanged();
+
+        if (isWaterfall()) {
+            playerStaggerAdapter.notifyDataSetChanged();
+            rvStaggerList.scrollToPosition(0);
+        }
+        else {
+            playerItemAdapter.notifyDataSetChanged();
+            rvList.scrollToPosition(0);
+        }
         createIndex();
 
         showChartIcon();
@@ -306,8 +374,14 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
             groupConfirm.setVisibility(View.GONE);
             groupNormal.setVisibility(View.VISIBLE);
             if (isDeleteMode) {
-                playerItemAdapter.setSelectMode(false);
-                playerItemAdapter.notifyDataSetChanged();
+                if (playerItemAdapter != null) {
+                    playerItemAdapter.setSelectMode(false);
+                    playerItemAdapter.notifyDataSetChanged();
+                }
+                if (playerStaggerAdapter != null) {
+                    playerStaggerAdapter.setSelectMode(false);
+                    playerStaggerAdapter.notifyDataSetChanged();
+                }
             }
             isEditMode = false;
             isDeleteMode = false;
@@ -398,7 +472,13 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
     }
 
     private void deletePlayerItems() {
-        List<PlayerBean> list = playerItemAdapter.getSelectedList();
+        List<PlayerBean> list;
+        if (isWaterfall()) {
+            list = playerStaggerAdapter.getSelectedList();
+        }
+        else {
+            list = playerItemAdapter.getSelectedList();
+        }
         for (PlayerBean bean:list) {
             mPresenter.deletePlayer(bean);
         }
@@ -408,7 +488,45 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onTouchingLetterChanged(String s) {
         int selection = playerIndexMap.get(s.charAt(0));
-        rvList.smoothScrollToPosition(selection);
+        if (isWaterfall()) {
+            // 卡片布局距离相隔很远，不适合用smooth scroll
+            rvStaggerList.scrollToPosition(selection);
+        }
+        else {
+            rvList.smoothScrollToPosition(selection);
+        }
     }
 
+    public boolean isWaterfall() {
+        return rvStaggerList.getVisibility() == View.VISIBLE;
+    }
+
+    public Animation getDisappearAnim(final View view) {
+        AlphaAnimation anim = new AlphaAnimation(1, 0);
+        anim.setDuration(500);
+        anim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                view.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        return anim;
+    }
+
+    public Animation getAppearAnim(View view) {
+        view.setVisibility(View.VISIBLE);
+        AlphaAnimation anim = new AlphaAnimation(0, 1);
+        anim.setDuration(500);
+        return anim;
+    }
 }

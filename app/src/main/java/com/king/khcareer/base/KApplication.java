@@ -7,6 +7,8 @@ import com.king.khcareer.model.sql.player.MySQLHelper;
 
 public class KApplication extends Application {
 
+	private static KApplication instance;
+
 	/**
 	 * 行为约束：
 	 * 1. 程序的folder目录遵从：与文件夹同级的只能是文件夹不能是image文件
@@ -36,8 +38,13 @@ public class KApplication extends Application {
 
 	public static boolean DEBUG = false;
 
+	public static KApplication getInstance() {
+		return instance;
+	}
+
 	@Override
 	public void onCreate() {
+		instance = this;
 		super.onCreate();
 	}
 

@@ -1,5 +1,6 @@
 package com.king.khcareer.settings;
 
+import com.king.khcareer.base.KApplication;
 import com.king.khcareer.common.config.Constants;
 import com.king.mytennis.view.R;
 
@@ -45,6 +46,8 @@ public class SettingProperty {
 	public static final String KEY_GLORY_TARGET_WIN = "key_glory_target_win";
 	public static final String KEY_GLORY_CHAMPION_GROUP_MODE = "key_glory_champion_group_mode";
 	public static final String KEY_GLORY_RUNNERUP_GROUP_MODE = "key_glory_runnerup_group_mode";
+
+	public static final String KEY_PLAYER_MANAGE_CARD = "key_player_manage_card";
 
 	public static int getHttpMethod(Context context) {
 		
@@ -290,6 +293,26 @@ public class SettingProperty {
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.putInt(KEY_GLORY_RUNNERUP_GROUP_MODE, mode);
 		editor.commit();
+	}
+
+	/**
+	 * card type of player manage list
+	 * @param cardMode
+	 */
+	public static void setPlayerManageCardMode(boolean cardMode) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(KApplication.getInstance());
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putBoolean(KEY_PLAYER_MANAGE_CARD, cardMode);
+		editor.commit();
+	}
+
+	/**
+	 * card type of player manage list
+	 */
+	public static boolean isPlayerManageCardMode() {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(KApplication.getInstance());
+		boolean mode = preferences.getBoolean(KEY_PLAYER_MANAGE_CARD, false);
+		return mode;
 	}
 
 }

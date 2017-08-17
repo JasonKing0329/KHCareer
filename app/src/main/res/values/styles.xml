@@ -298,4 +298,21 @@
         <item name="android:textSize">14dp</item>
     </style>
 
+    <style name="IvPlayerSwipeIcon">
+        <item name="android:layout_width">35dp</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:padding">5dp</item>
+        <item name="android:scaleType">fitCenter</item>
+        <item name="android:background">?android:attr/selectableItemBackgroundBorderless</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
+
+    <style name="IvPlayerSwipeItemIcon">
+        <item name="android:layout_width">35dp</item>
+        <item name="android:layout_height">35dp</item>
+        <item name="android:padding">8dp</item>
+        <item name="android:background">@drawable/shape_oval_transgrey</item>
+        <item name="android:scaleType">fitCenter</item>
+    </style>
+
 </resources>
