@@ -156,13 +156,13 @@ public abstract class PlayerManageBaseAdapter extends RecyclerView.Adapter imple
     protected void updateItemImage(String path, int position, ImageView view) {
         if (path == null) {
             Glide.with(KApplication.getInstance())
-                    .load(R.drawable.default_img)
+                    .load(R.drawable.pic_def)
                     .into(view);
         }
         else {
             Glide.with(KApplication.getInstance())
                     .load("file://" + path)
-                    .apply(GlideOptions.getCommonOptions())
+                    .apply(GlideOptions.getDefaultPlayerOptions())
                     .into(view);
         }
         view.setOnClickListener(this);

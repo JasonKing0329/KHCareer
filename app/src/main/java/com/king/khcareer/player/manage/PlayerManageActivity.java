@@ -79,6 +79,8 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
 
     private PlayerChartDialog chartDialog;
 
+    private boolean isCardMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -107,13 +109,15 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
         rvStaggerList = (RecyclerView) findViewById(R.id.rv_stagger_list);
         initVerticalList();
         initStaggerList();
-        if (SettingProperty.isPlayerManageCardMode()) {
+
+        isCardMode = SettingProperty.isPlayerManageCardMode();
+        if (isCardMode) {
             rvList.setVisibility(View.GONE);
             rvStaggerList.setVisibility(View.VISIBLE);
         }
         else {
-            rvStaggerList.setVisibility(View.GONE);
             rvList.setVisibility(View.VISIBLE);
+            rvStaggerList.setVisibility(View.GONE);
         }
 
         ((TextView) findViewById(R.id.view7_actionbar_title)).setText(getString(R.string.player_manage_title));
@@ -179,8 +183,9 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
                 playerItemAdapter.setList(playerList);
                 playerItemAdapter.notifyDataSetChanged();
             }
-            createIndex();
         }
+
+        createIndex();
 
         showChartIcon();
 
@@ -241,11 +246,13 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
                 break;
             case R.id.view7_actionbar_mode:
                 if (isWaterfall()) {
+                    isCardMode = false;
                     rvStaggerList.startAnimation(getDisappearAnim(rvStaggerList));
                     rvList.startAnimation(getAppearAnim(rvList));
                     SettingProperty.setPlayerManageCardMode(false);
                 }
                 else {
+                    isCardMode = true;
                     rvList.startAnimation(getDisappearAnim(rvList));
                     rvStaggerList.startAnimation(getAppearAnim(rvStaggerList));
                     SettingProperty.setPlayerManageCardMode(true);
@@ -498,7 +505,7 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
     }
 
     public boolean isWaterfall() {
-        return rvStaggerList.getVisibility() == View.VISIBLE;
+        return isCardMode;
     }
 
     public Animation getDisappearAnim(final View view) {
@@ -523,10 +530,25 @@ public class PlayerManageActivity extends BaseActivity implements View.OnClickLi
         return anim;
     }
 
-    public Animation getAppearAnim(View view) {
-        view.setVisibility(View.VISIBLE);
+    public Animation getAppearAnim(final View view) {
         AlphaAnimation anim = new AlphaAnimation(0, 1);
         anim.setDuration(500);
+        anim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                view.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
         return anim;
     }
 }

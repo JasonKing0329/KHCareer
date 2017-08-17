@@ -21,4 +21,13 @@ public class GlideOptions {
         }
         return commonOptions;
     }
+
+    public static RequestOptions getDefaultPlayerOptions() {
+        if (commonOptions == null) {
+            commonOptions = new RequestOptions();
+            commonOptions.centerCrop();
+            commonOptions.error(R.drawable.pic_def);
+        }
+        return commonOptions;
+    }
 }
