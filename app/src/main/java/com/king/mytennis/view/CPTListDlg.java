@@ -2,13 +2,16 @@ package com.king.mytennis.view;
 
 import java.util.List;
 
+import com.king.khcareer.common.image.interaction.ImageManager;
+import com.king.khcareer.common.image.interaction.controller.InteractionController;
+import com.king.khcareer.model.http.Command;
+import com.king.khcareer.model.http.bean.ImageUrlBean;
 import com.king.khcareer.record.RecordService;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Handler.Callback;
 import android.os.Handler;
 import android.os.Message;
@@ -96,12 +99,37 @@ public class CPTListDlg implements OnItemClickListener, OnItemLongClickListener,
 //		thisDialog.dismiss();//要用Dialog类的dismiss方法手动关闭
 
 		nSelected = position;
-		AlertDialog.Builder dlg=new AlertDialog.Builder(userActivity);
-		dlg.setTitle(nameArray[position]);
-		dlg.setItems(userActivity.getResources().getStringArray(R.array.cptdlg_item_oper)
-				, itemListener);
-		dlg.show();
+
+		ImageManager manager = new ImageManager(userActivity);
+		manager.setOnActionListener(actionListener);
+		manager.setDataProvider(dataProvider);
+		manager.showOptions(nameArray[position], position, Command.TYPE_IMG_PLAYER, nameArray[position]);
 	}
+
+	ImageManager.DataProvider dataProvider = new ImageManager.DataProvider() {
+		@Override
+		public ImageUrlBean createImageUrlBean(InteractionController interactionController) {
+			ImageUrlBean bean = interactionController.getPlayerImageUrlBean(nameArray[nSelected]);
+			return bean;
+		}
+	};
+
+	ImageManager.OnActionListener actionListener = new ImageManager.OnActionListener() {
+		@Override
+		public void onRefresh(int position) {
+			adapter.onItemClickRefresh(position);
+		}
+
+		@Override
+		public void onManageFinished() {
+			adapter.notifyDataSetChanged();
+		}
+
+		@Override
+		public void onDownloadFinished() {
+			adapter.notifyDataSetChanged();
+		}
+	};
 
 	@Override
 	public boolean onItemLongClick(AdapterView<?> parent, View view,
@@ -109,24 +137,5 @@ public class CPTListDlg implements OnItemClickListener, OnItemLongClickListener,
 
 		return true;
 	}
-
-	DialogInterface.OnClickListener itemListener = new DialogInterface.OnClickListener() {
-
-		private final int DOWNLOAD = 0;
-		private final int REFRESH = 1;
-		private final int MANAGE = 2;
-		@Override
-		public void onClick(DialogInterface dialog, int which) {
-			if (which == DOWNLOAD) {
-				adapter.onItemClickDownload(nSelected);
-			}
-			else if (which == REFRESH) {
-				adapter.onItemClickRefresh(nSelected);
-			}
-			else if (which == MANAGE) {
-				adapter.onItemClickManage(nSelected);
-			}
-		}
-	};
 
 }

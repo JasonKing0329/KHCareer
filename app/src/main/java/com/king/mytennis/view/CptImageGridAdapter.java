@@ -7,33 +7,17 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.king.khcareer.base.CustomDialog;
-import com.king.khcareer.download.DownloadItem;
-import com.king.khcareer.model.http.Command;
-import com.king.khcareer.model.http.RequestCallback;
-import com.king.khcareer.model.http.bean.ImageUrlBean;
-import com.king.khcareer.common.config.Configuration;
 import com.king.khcareer.common.image.ImageFactory;
 import com.king.khcareer.common.image.ImageUtil;
-import com.king.khcareer.common.image.interaction.controller.InteractionController;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class CptImageGridAdapter  extends BaseAdapter implements RequestCallback {
+public class CptImageGridAdapter  extends BaseAdapter {
 
 	private String[] cptArray;
 	private Context context;
-
-	/**
-	 * 下载/浏览网络图库 控制器
-	 */
-	private InteractionController interactionController;
 
 	/**
 	 * 保存首次从文件夹加载的图片序号
@@ -44,7 +28,6 @@ public class CptImageGridAdapter  extends BaseAdapter implements RequestCallback
 		this.context = context;
 		cptArray = array;
 		imageIndexMap = new HashMap<>();
-		interactionController = new InteractionController(this);
 	}
 
 	@Override
@@ -91,116 +74,11 @@ public class CptImageGridAdapter  extends BaseAdapter implements RequestCallback
 		return convertView;
 	}
 
-	public void onItemClickDownload(int position) {
-		String name = cptArray[position];
-		interactionController.getImages(Command.TYPE_IMG_PLAYER_HEAD, name);
-	}
-
-	public void onItemClickRefresh(int position) {
-		String name = cptArray[position];
-		ImageFactory.getPlayerHeadPath(name, imageIndexMap);
-		notifyDataSetChanged();
-	}
-
-	public void onItemClickManage(int position) {
-		final String name = cptArray[position];
-		interactionController.showLocalImageDialog(context, new CustomDialog.OnCustomDialogActionListener() {
-			@Override
-			public boolean onSave(Object object) {
-				List<String> list = (List<String>) object;
-				interactionController.deleteImages(list);
-				notifyDataSetChanged();
-				return false;
-			}
-
-			@Override
-			public boolean onCancel() {
-				return false;
-			}
-
-			@Override
-			public void onLoadData(HashMap<String, Object> data) {
-				ImageUrlBean bean = interactionController.getPlayerHeadUrlBean(name);
-				data.put("data", bean);
-				data.put("flag", Command.TYPE_IMG_PLAYER_HEAD);
-			}
-		});
-	}
-
-	@Override
-	public void onServiceDisConnected() {
-		Toast.makeText(context, R.string.gdb_server_offline, Toast.LENGTH_LONG).show();
-	}
-
-	@Override
-	public void onRequestError() {
-		Toast.makeText(context, R.string.gdb_request_fail, Toast.LENGTH_LONG).show();
-	}
-
-	@Override
-	public void onImagesReceived(final ImageUrlBean bean) {
-		if (bean.getUrlList() == null) {
-			String text = context.getString(R.string.image_not_found);
-			text = String.format(text, bean.getKey());
-			Toast.makeText(context, text, Toast.LENGTH_LONG).show();
-		}
-		else {
-			// 直接下载更新
-			if (bean.getUrlList().size() == 1) {
-				List<DownloadItem> list = new ArrayList<>();
-				DownloadItem item = new DownloadItem();
-				item.setKey(bean.getUrlList().get(0));
-				item.setFlag(Command.TYPE_IMG_PLAYER_HEAD);
-				item.setSize(bean.getSizeList().get(0));
-
-				String url = bean.getUrlList().get(0);
-				if (url.contains("/")) {
-					String[] array = url.split("/");
-					url = array[array.length - 1];
-				}
-				item.setName(url);
-
-				list.add(item);
-
-				startDownload(list, bean.getKey());
-			}
-			// 显示对话框选择下载
-			else {
-				interactionController.showHttpImageDialog(context, new CustomDialog.OnCustomDialogActionListener() {
-					@Override
-					public boolean onSave(Object object) {
-						List<DownloadItem> list = (List<DownloadItem>) object;
-						startDownload(list, bean.getKey());
-						return false;
-					}
-
-					@Override
-					public boolean onCancel() {
-						return false;
-					}
-
-					@Override
-					public void onLoadData(HashMap<String, Object> data) {
-						data.put("data", bean);
-						data.put("flag", Command.TYPE_IMG_PLAYER_HEAD);
-					}
-				});
-			}
-		}
-	}
-
-	@Override
-	public void onDownloadFinished() {
-		notifyDataSetChanged();
-	}
-
-	private void startDownload(List<DownloadItem> list, String key) {
-		File file = new File(Configuration.IMG_PLAYER_HEAD + key);
-		if (!file.exists() || !file.isDirectory()) {
-			file.mkdir();
-		}
-		interactionController.downloadImage(context, list, file.getPath(), true);
-	}
+    public void onItemClickRefresh(int position) {
+        String name = cptArray[position];
+        ImageFactory.getPlayerHeadPath(name, imageIndexMap);
+        notifyDataSetChanged();
+    }
 
 	private class ViewHolder {
 		public ImageView image;

@@ -5,8 +5,10 @@ import android.content.Context;
 import com.king.khcareer.download.DownloadDialog;
 import com.king.khcareer.download.DownloadItem;
 import com.king.khcareer.model.http.AppHttpClient;
+import com.king.khcareer.model.http.Command;
 import com.king.khcareer.model.http.KHCareerHttpClient;
 import com.king.khcareer.model.http.RequestCallback;
+import com.king.khcareer.model.http.bean.ImageItemBean;
 import com.king.khcareer.model.http.bean.ImageUrlBean;
 import com.king.khcareer.common.config.Configuration;
 import com.king.khcareer.update.GdbRespBean;
@@ -22,6 +24,8 @@ import java.util.List;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+
+import static android.R.attr.key;
 
 /**
  * Created by Administrator on 2016/10/9.
@@ -95,7 +99,7 @@ public class InteractionController {
      * 启动下载器进行图片下载
      * @param context
      * @param itemList 要下载的图片url列表
-     * @param savePath 保存的路径
+     * @param savePath 保存的路径，如果为null，则从DownloadItem里的flag进行判断
      * @param noOption 是否提示有多少需要下载
      */
     public void downloadImage(Context context, final List<DownloadItem> itemList, final String savePath, final boolean noOption) {
@@ -150,14 +154,22 @@ public class InteractionController {
     }
 
     /**
-     * 删除制定图片文件
+     * 删除指定图片文件
      * @param list
+     * @param deleteParentWhileEmpty 删除文件后如果父目录下再无其他文件，则删除父目录
      */
-    public void deleteImages(List<String> list) {
+    public void deleteImages(List<String> list, boolean deleteParentWhileEmpty) {
         for (int i = 0; i < list.size(); i ++) {
             File file = new File(list.get(i));
             if (file.exists()) {
                 file.delete();
+
+                if (deleteParentWhileEmpty) {
+                    File parent = file.getParentFile();
+                    if (parent.exists() && parent.list().length == 0) {
+                        parent.delete();
+                    }
+                }
             }
         }
     }
@@ -168,7 +180,9 @@ public class InteractionController {
      * @return
      */
     public ImageUrlBean getMatchImageUrlBean(String match) {
-        return createImageUrlBean(match, Configuration.IMG_MATCH_BASE);
+        String[] folders = new String[]{Configuration.IMG_MATCH_BASE};
+        String[] cmdTypes = new String[]{Command.TYPE_IMG_MATCH};
+        return createImageUrlBean(match, folders, cmdTypes);
     }
 
     /**
@@ -177,43 +191,44 @@ public class InteractionController {
      * @return
      */
     public ImageUrlBean getPlayerImageUrlBean(String player) {
-        return createImageUrlBean(player, Configuration.IMG_PLAYER_BASE);
-    }
-
-    /**
-     * 获取本地player对应的图片
-     * @param player
-     * @return
-     */
-    public ImageUrlBean getPlayerHeadUrlBean(String player) {
-        return createImageUrlBean(player, Configuration.IMG_PLAYER_HEAD);
+        String[] folders = new String[]{Configuration.IMG_PLAYER_BASE, Configuration.IMG_PLAYER_HEAD};
+        String[] cmdTypes = new String[]{Command.TYPE_IMG_PLAYER, Command.TYPE_IMG_PLAYER_HEAD};
+        return createImageUrlBean(player, folders, cmdTypes);
     }
 
     /**
      * key对应的本地图片包括basePath目录下的单张jpg图片，和basePath下以key为文件夹里的所有图片
      * @param key
-     * @param basePath
+     * @param basePaths
      * @return
      */
-    private ImageUrlBean createImageUrlBean(String key, String basePath) {
+    private ImageUrlBean createImageUrlBean(String key, String[] basePaths, String[] cmdTypes) {
         ImageUrlBean bean = new ImageUrlBean();
-        bean.setUrlList(new ArrayList<String>());
-        bean.setSizeList(new ArrayList<Long>());
         bean.setKey(key);
+        bean.setItemList(new ArrayList<ImageItemBean>());
 
-        // 先检查单张图片
-        File file = new File(basePath + key + ".jpg");
-        if (file.exists()) {
-            bean.getUrlList().add(file.getPath());
-            bean.getSizeList().add(file.length());
-        }
-        // 检查文件夹中的图片
-        file = new File(basePath + key);
-        if (file.exists() && file.isDirectory()) {
-            File[] files = file.listFiles();
-            for (File f:files) {
-                bean.getUrlList().add(f.getPath());
-                bean.getSizeList().add(f.length());
+        for (int i = 0; i < basePaths.length; i ++) {
+            String basePath = basePaths[i];
+            // 先检查单张图片
+            File file = new File(basePath + key + ".jpg");
+            if (file.exists()) {
+                ImageItemBean itemBean = new ImageItemBean();
+                itemBean.setKey(cmdTypes[i]);
+                itemBean.setUrl(file.getPath());
+                itemBean.setSize(file.length());
+                bean.getItemList().add(itemBean);
+            }
+            // 检查文件夹中的图片
+            file = new File(basePath + key);
+            if (file.exists() && file.isDirectory()) {
+                File[] files = file.listFiles();
+                for (File f:files) {
+                    ImageItemBean itemBean = new ImageItemBean();
+                    itemBean.setKey(cmdTypes[i]);
+                    itemBean.setUrl(f.getPath());
+                    itemBean.setSize(f.length());
+                    bean.getItemList().add(itemBean);
+                }
             }
         }
         return bean;

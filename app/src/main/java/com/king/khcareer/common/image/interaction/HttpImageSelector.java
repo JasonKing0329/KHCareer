@@ -3,6 +3,7 @@ package com.king.khcareer.common.image.interaction;
 import android.content.Context;
 
 import com.king.khcareer.download.DownloadItem;
+import com.king.khcareer.model.http.bean.ImageItemBean;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,15 +31,16 @@ public class HttpImageSelector extends ImageSelector {
 
     @Override
     protected void onConfirm() {
-        List<Integer> indexList = mAdapter.getSelectedKey();
+        List<ImageItemBean> itemList = mAdapter.getSelectedKey();
         List<DownloadItem> list = new ArrayList<>();
-        for (int i = 0; i < indexList.size(); i ++) {
+        for (int i = 0; i < itemList.size(); i ++) {
+            ImageItemBean itemBean = itemList.get(i);
             DownloadItem item = new DownloadItem();
-            item.setKey(imageUrlBean.getUrlList().get(indexList.get(i)));
-            item.setFlag(imageFlag);
-            item.setSize(imageUrlBean.getSizeList().get(indexList.get(i)));
+            item.setKey(itemBean.getUrl());
+            item.setFlag(itemBean.getKey());
+            item.setSize(itemBean.getSize());
 
-            String url = imageUrlBean.getUrlList().get(indexList.get(i));
+            String url = itemBean.getUrl();
             if (url.contains("/")) {
                 String[] array = url.split("/");
                 url = array[array.length - 1];

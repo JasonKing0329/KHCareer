@@ -1,26 +1,20 @@
 package com.king.khcareer.player.manage;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
 import android.util.SparseBooleanArray;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.king.khcareer.base.CustomDialog;
 import com.king.khcareer.base.KApplication;
-import com.king.khcareer.common.config.Configuration;
 import com.king.khcareer.common.image.ImageFactory;
 import com.king.khcareer.common.image.glide.GlideOptions;
+import com.king.khcareer.common.image.interaction.ImageManager;
 import com.king.khcareer.common.image.interaction.controller.InteractionController;
-import com.king.khcareer.download.DownloadItem;
 import com.king.khcareer.model.http.Command;
-import com.king.khcareer.model.http.RequestCallback;
 import com.king.khcareer.model.http.bean.ImageUrlBean;
 import com.king.khcareer.model.sql.pubdata.PubDataProvider;
 import com.king.khcareer.model.sql.pubdata.bean.PlayerBean;
@@ -28,7 +22,6 @@ import com.king.khcareer.settings.SettingProperty;
 import com.king.khcareer.utils.ConstellationUtil;
 import com.king.mytennis.view.R;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -39,7 +32,7 @@ import java.util.Map;
  * <p/>作者：景阳
  * <p/>创建时间: 2017/8/17 16:14
  */
-public abstract class PlayerManageBaseAdapter extends RecyclerView.Adapter implements View.OnClickListener, RequestCallback {
+public abstract class PlayerManageBaseAdapter extends RecyclerView.Adapter implements View.OnClickListener {
 
     private Context context;
 
@@ -58,17 +51,11 @@ public abstract class PlayerManageBaseAdapter extends RecyclerView.Adapter imple
      */
     protected Map<String, Integer> playerImageIndexMap;
 
-    /**
-     * Player list，下载图片/刷新头像/管理图片
-     */
-    protected InteractionController interactionController;
-
     public PlayerManageBaseAdapter(Context context, List<PlayerBean> list) {
         this.context = context;
         this.list = list;
         mCheckMap = new SparseBooleanArray();
         playerImageIndexMap = new HashMap<>();
-        interactionController = new InteractionController(this);
     }
 
     public void setSelectMode(boolean selectMode) {
@@ -206,143 +193,40 @@ public abstract class PlayerManageBaseAdapter extends RecyclerView.Adapter imple
         else if (v instanceof ImageView) {
             nGroupPosition = (int) v.getTag(R.id.tag_record_list_player_group_index);
 
-            AlertDialog.Builder dlg = new AlertDialog.Builder(v.getContext());
-            dlg.setTitle(list.get(nGroupPosition).getNameChn());
-            dlg.setItems(v.getContext().getResources().getStringArray(R.array.cptdlg_item_oper)
-                    , itemListener);
-            dlg.show();
+            ImageManager imageManager = new ImageManager(v.getContext());
+            imageManager.setOnActionListener(imageActionListener);
+            imageManager.setDataProvider(dataProvider);
+            imageManager.showOptions(list.get(nGroupPosition).getNameChn(), nGroupPosition, Command.TYPE_IMG_PLAYER, list.get(nGroupPosition).getNameChn());
         }
     }
 
-    DialogInterface.OnClickListener itemListener = new DialogInterface.OnClickListener() {
+    ImageManager.DataProvider dataProvider = new ImageManager.DataProvider() {
 
-        private final int DOWNLOAD = 0;
-        private final int REFRESH = 1;
-        private final int MANAGE = 2;
         @Override
-        public void onClick(DialogInterface dialog, int which) {
-            if (which == DOWNLOAD) {
-                onItemClickDownload(nGroupPosition);
-            }
-            else if (which == REFRESH) {
-                onItemClickRefresh(nGroupPosition);
-            }
-            else if (which == MANAGE) {
-                onItemClickManage(nGroupPosition);
-            }
+        public ImageUrlBean createImageUrlBean(InteractionController interactionController) {
+            ImageUrlBean bean = interactionController.getPlayerImageUrlBean(list.get(nGroupPosition).getNameChn());
+            return bean;
         }
     };
 
-    public void onItemClickDownload(int position) {
-        String name = list.get(position).getNameChn();
-        interactionController.getImages(Command.TYPE_IMG_PLAYER_HEAD, name);
-    }
-
-    public void onItemClickRefresh(int position) {
-        String name = list.get(position).getNameChn();
-        ImageFactory.getPlayerHeadPath(name, playerImageIndexMap);
-        notifyDataSetChanged();
-    }
-
-    public void onItemClickManage(int position) {
-        final String name = list.get(position).getNameChn();
-        interactionController.showLocalImageDialog(context, new CustomDialog.OnCustomDialogActionListener() {
-            @Override
-            public boolean onSave(Object object) {
-                List<String> list = (List<String>) object;
-                interactionController.deleteImages(list);
-                notifyDataSetChanged();
-                return false;
-            }
-
-            @Override
-            public boolean onCancel() {
-                return false;
-            }
-
-            @Override
-            public void onLoadData(HashMap<String, Object> data) {
-                ImageUrlBean bean = interactionController.getPlayerHeadUrlBean(name);
-                data.put("data", bean);
-                data.put("flag", Command.TYPE_IMG_PLAYER_HEAD);
-            }
-        });
-    }
-
-    @Override
-    public void onServiceDisConnected() {
-        Toast.makeText(context, R.string.gdb_server_offline, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onRequestError() {
-        Toast.makeText(context, R.string.gdb_request_fail, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onImagesReceived(final ImageUrlBean bean) {
-        if (bean.getUrlList() == null) {
-            String text = context.getString(R.string.image_not_found);
-            text = String.format(text, bean.getKey());
-            Toast.makeText(context, text, Toast.LENGTH_LONG).show();
+    ImageManager.OnActionListener imageActionListener = new ImageManager.OnActionListener() {
+        @Override
+        public void onRefresh(int position) {
+            String name = list.get(position).getNameChn();
+            ImageFactory.getPlayerHeadPath(name, playerImageIndexMap);
+            notifyDataSetChanged();
         }
-        else {
-            // 直接下载更新
-            if (bean.getUrlList().size() == 1) {
-                List<DownloadItem> list = new ArrayList<>();
-                DownloadItem item = new DownloadItem();
-                item.setKey(bean.getUrlList().get(0));
-                item.setFlag(Command.TYPE_IMG_PLAYER_HEAD);
-                item.setSize(bean.getSizeList().get(0));
 
-                String url = bean.getUrlList().get(0);
-                if (url.contains("/")) {
-                    String[] array = url.split("/");
-                    url = array[array.length - 1];
-                }
-                item.setName(url);
-
-                list.add(item);
-
-                startDownload(list, bean.getKey());
-            }
-            // 显示对话框选择下载
-            else {
-                interactionController.showHttpImageDialog(context, new CustomDialog.OnCustomDialogActionListener() {
-                    @Override
-                    public boolean onSave(Object object) {
-                        List<DownloadItem> list = (List<DownloadItem>) object;
-                        startDownload(list, bean.getKey());
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onCancel() {
-                        return false;
-                    }
-
-                    @Override
-                    public void onLoadData(HashMap<String, Object> data) {
-                        data.put("data", bean);
-                        data.put("flag", Command.TYPE_IMG_PLAYER_HEAD);
-                    }
-                });
-            }
+        @Override
+        public void onManageFinished() {
+            notifyDataSetChanged();
         }
-    }
 
-    @Override
-    public void onDownloadFinished() {
-        notifyDataSetChanged();
-    }
-
-    private void startDownload(List<DownloadItem> list, String key) {
-        File file = new File(Configuration.IMG_PLAYER_HEAD + key);
-        if (!file.exists() || !file.isDirectory()) {
-            file.mkdir();
+        @Override
+        public void onDownloadFinished() {
+            notifyDataSetChanged();
         }
-        interactionController.downloadImage(context, list, file.getPath(), true);
-    }
+    };
 
     public interface OnPlayerItemClickListener {
         void onPlayerItemClick(int position);

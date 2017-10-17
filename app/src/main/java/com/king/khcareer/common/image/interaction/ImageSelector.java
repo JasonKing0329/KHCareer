@@ -1,7 +1,7 @@
 package com.king.khcareer.common.image.interaction;
 
 import android.content.Context;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +25,6 @@ public abstract class ImageSelector extends CustomDialog {
     protected ImageUrlBean imageUrlBean;
     protected RecyclerView recyclerView;
     protected ImageSelectorAdapter mAdapter;
-    protected String imageFlag;
 
     public ImageSelector(Context context, OnCustomDialogActionListener actionListener) {
         super(context, actionListener);
@@ -34,10 +33,8 @@ public abstract class ImageSelector extends CustomDialog {
         actionListener.onLoadData(map);
         imageUrlBean = (ImageUrlBean) map.get("data");
         setTitle(imageUrlBean.getKey());
-        imageFlag = (String) map.get("flag");
         initData(map);
         initAdapter();
-        mAdapter.setImageFlag(imageFlag);
     }
 
     protected abstract void initData(HashMap<String, Object> data);
@@ -50,7 +47,8 @@ public abstract class ImageSelector extends CustomDialog {
         View view = LayoutInflater.from(getContext()).inflate(R.layout.dialog_image_selector, null);
         recyclerView = (RecyclerView) view.findViewById(R.id.dlg_bg_selector_recyclerview);
 
-        GridLayoutManager layoutManager = new GridLayoutManager(getContext(), 3);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
         recyclerView.setLayoutManager(layoutManager);
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(

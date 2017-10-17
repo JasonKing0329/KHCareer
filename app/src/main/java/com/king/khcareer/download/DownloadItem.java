@@ -14,12 +14,18 @@ public class DownloadItem {
     private String name;
     /**
      * 下载文件的文件flag
+     * see Command.TYPE_IMG_PLAYER_HEAD...
      */
     private String flag;
     /**
      * 下载文件的总大小
      */
     private long size;
+
+    /**
+     * 下载待保存的目录
+     */
+    private String targetPath;
 
     /**
      * 下载后的完整目录(客户端生成)
@@ -56,6 +62,14 @@ public class DownloadItem {
 
     public void setSize(long size) {
         this.size = size;
+    }
+
+    public String getTargetPath() {
+        return targetPath;
+    }
+
+    public void setTargetPath(String targetPath) {
+        this.targetPath = targetPath;
     }
 
     public String getPath() {

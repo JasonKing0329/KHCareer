@@ -1,35 +1,23 @@
 package com.king.khcareer.record.classic;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.king.khcareer.download.DownloadItem;
-import com.king.khcareer.model.http.Command;
-import com.king.khcareer.model.http.RequestCallback;
-import com.king.khcareer.model.http.bean.ImageUrlBean;
-import com.king.khcareer.common.config.Configuration;
 import com.king.khcareer.common.image.ImageFactory;
 import com.king.khcareer.common.image.ImageUtil;
-import com.king.khcareer.base.CustomDialog;
 import com.king.mytennis.view.R;
-import com.king.khcareer.common.image.interaction.controller.InteractionController;
 import com.king.khcareer.pubview.CircleImageView;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class RecordListPlayerAdapter extends BaseExpandableListAdapter implements RequestCallback, View.OnClickListener {
+public class RecordListPlayerAdapter extends BaseExpandableListAdapter implements View.OnClickListener {
 
 	private List<HashMap<String, String>> titleList;
 	private List<List<HashMap<String, String>>> recordList;
@@ -51,11 +39,6 @@ public class RecordListPlayerAdapter extends BaseExpandableListAdapter implement
 	private Map<String, Integer> matchImageIndexMap;
 
 	/**
-	 * Player list，下载图片/刷新头像/管理图片
-	 */
-	private InteractionController interactionController;
-
-	/**
 	 * 单击头像位置
 	 */
 	private int nGroupPosition;
@@ -71,7 +54,6 @@ public class RecordListPlayerAdapter extends BaseExpandableListAdapter implement
 		PLAYER_TITLE_FLAG1 = context.getResources().getColor(R.color.groupbyplayer_flag1);
 		playerImageIndexMap = new HashMap<>();
 		matchImageIndexMap = new HashMap<>();
-		interactionController = new InteractionController(this);
 	}
 
 	@Override
@@ -229,142 +211,6 @@ public class RecordListPlayerAdapter extends BaseExpandableListAdapter implement
 	@Override
 	public void onClick(View v) {
 		nGroupPosition = (int) v.getTag(R.id.tag_record_list_player_group_index);
-
-		AlertDialog.Builder dlg = new AlertDialog.Builder(context);
-		dlg.setTitle(titleList.get(nGroupPosition).get("player"));
-		dlg.setItems(context.getResources().getStringArray(R.array.cptdlg_item_oper)
-				, itemListener);
-		dlg.show();
-	}
-
-	DialogInterface.OnClickListener itemListener = new DialogInterface.OnClickListener() {
-
-		private final int DOWNLOAD = 0;
-		private final int REFRESH = 1;
-		private final int MANAGE = 2;
-		@Override
-		public void onClick(DialogInterface dialog, int which) {
-			if (which == DOWNLOAD) {
-				onItemClickDownload(nGroupPosition);
-			}
-			else if (which == REFRESH) {
-				onItemClickRefresh(nGroupPosition);
-			}
-			else if (which == MANAGE) {
-				onItemClickManage(nGroupPosition);
-			}
-		}
-	};
-
-	public void onItemClickDownload(int position) {
-		String name = titleList.get(position).get("player");
-		interactionController.getImages(Command.TYPE_IMG_PLAYER_HEAD, name);
-	}
-
-	public void onItemClickRefresh(int position) {
-		String name = titleList.get(position).get("player");
-		ImageFactory.getPlayerHeadPath(name, playerImageIndexMap);
-		notifyDataSetChanged();
-	}
-
-	public void onItemClickManage(int position) {
-		final String name = titleList.get(position).get("player");
-		interactionController.showLocalImageDialog(context, new CustomDialog.OnCustomDialogActionListener() {
-			@Override
-			public boolean onSave(Object object) {
-				List<String> list = (List<String>) object;
-				interactionController.deleteImages(list);
-				notifyDataSetChanged();
-				return false;
-			}
-
-			@Override
-			public boolean onCancel() {
-				return false;
-			}
-
-			@Override
-			public void onLoadData(HashMap<String, Object> data) {
-				ImageUrlBean bean = interactionController.getPlayerHeadUrlBean(name);
-				data.put("data", bean);
-				data.put("flag", Command.TYPE_IMG_PLAYER_HEAD);
-			}
-		});
-	}
-
-	@Override
-	public void onServiceDisConnected() {
-		Toast.makeText(context, R.string.gdb_server_offline, Toast.LENGTH_LONG).show();
-	}
-
-	@Override
-	public void onRequestError() {
-		Toast.makeText(context, R.string.gdb_request_fail, Toast.LENGTH_LONG).show();
-	}
-
-	@Override
-	public void onImagesReceived(final ImageUrlBean bean) {
-		if (bean.getUrlList() == null) {
-			String text = context.getString(R.string.image_not_found);
-			text = String.format(text, bean.getKey());
-			Toast.makeText(context, text, Toast.LENGTH_LONG).show();
-		}
-		else {
-			// 直接下载更新
-			if (bean.getUrlList().size() == 1) {
-				List<DownloadItem> list = new ArrayList<>();
-				DownloadItem item = new DownloadItem();
-				item.setKey(bean.getUrlList().get(0));
-				item.setFlag(Command.TYPE_IMG_PLAYER_HEAD);
-				item.setSize(bean.getSizeList().get(0));
-
-				String url = bean.getUrlList().get(0);
-				if (url.contains("/")) {
-					String[] array = url.split("/");
-					url = array[array.length - 1];
-				}
-				item.setName(url);
-
-				list.add(item);
-
-				startDownload(list, bean.getKey());
-			}
-			// 显示对话框选择下载
-			else {
-				interactionController.showHttpImageDialog(context, new CustomDialog.OnCustomDialogActionListener() {
-					@Override
-					public boolean onSave(Object object) {
-						List<DownloadItem> list = (List<DownloadItem>) object;
-						startDownload(list, bean.getKey());
-						return false;
-					}
-
-					@Override
-					public boolean onCancel() {
-						return false;
-					}
-
-					@Override
-					public void onLoadData(HashMap<String, Object> data) {
-						data.put("data", bean);
-						data.put("flag", Command.TYPE_IMG_PLAYER_HEAD);
-					}
-				});
-			}
-		}
-	}
-
-	@Override
-	public void onDownloadFinished() {
-		notifyDataSetChanged();
-	}
-
-	private void startDownload(List<DownloadItem> list, String key) {
-		File file = new File(Configuration.IMG_PLAYER_HEAD + key);
-		if (!file.exists() || !file.isDirectory()) {
-			file.mkdir();
-		}
-		interactionController.downloadImage(context, list, file.getPath(), true);
 	}
 
 	private class TitleViewHolder {

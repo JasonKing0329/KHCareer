@@ -115,7 +115,7 @@ public class DownloadManager {
                 @Override
                 public void onNext(final ResponseBody responseBody) {
                     DebugLog.e("");
-                    saveFile(pack.item.getName(), responseBody.byteStream());
+                    saveFile(pack.item.getTargetPath(), pack.item.getName(), responseBody.byteStream());
                     handler.sendEmptyMessage(MSG_NEXT);
                 }
             });
@@ -172,8 +172,13 @@ public class DownloadManager {
      *
      * @param input  输入流
      */
-    private File saveFile(String filename, InputStream input) {
-        File file = new File(savePath + "/" + filename);
+    private File saveFile(String folderPath, String filename, InputStream input) {
+        // 设置了统一保存目录
+        if (savePath != null) {
+            folderPath = savePath;
+        }
+
+        File file = new File(folderPath + "/" + filename);
         if (file.exists()) {
             file.delete();
         }

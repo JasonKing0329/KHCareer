@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.king.khcareer.model.http.bean.ImageItemBean;
 import com.king.khcareer.model.http.bean.ImageUrlBean;
 import com.king.khcareer.common.image.ImageUtil;
 
@@ -16,13 +17,13 @@ public class LocalSelectorAdapter extends ImageSelectorAdapter {
     }
 
     @Override
-    protected void onBindItemImage(ImageView imageView, int position) {
-        String url = "file://" + imageUrlBean.getUrlList().get(position);
+    public void onBindItemImage(ImageView imageView, ImageItemBean bean) {
+        String url = "file://" + bean.getUrl();
         ImageUtil.load(url, imageView);
     }
 
     @Override
-    protected void onBindItemMark(ImageView markNew, int position) {
+    public void onBindItemMark(ImageView markNew, ImageItemBean bean) {
         markNew.setVisibility(View.GONE);
     }
 }

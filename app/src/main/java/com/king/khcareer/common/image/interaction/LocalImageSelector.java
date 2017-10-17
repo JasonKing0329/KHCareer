@@ -2,6 +2,8 @@ package com.king.khcareer.common.image.interaction;
 
 import android.content.Context;
 
+import com.king.khcareer.model.http.bean.ImageItemBean;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,11 +31,11 @@ public class LocalImageSelector extends ImageSelector {
 
     @Override
     protected void onConfirm() {
-        List<Integer> indexList = mAdapter.getSelectedKey();
+        List<ImageItemBean> itemList = mAdapter.getSelectedKey();
 
         List<String> selectedList = new ArrayList<>();
-        for (int i = 0; i < indexList.size(); i ++) {
-            String path = imageUrlBean.getUrlList().get(indexList.get(i));
+        for (int i = 0; i < itemList.size(); i ++) {
+            String path = itemList.get(i).getUrl();
             selectedList.add(path);
         }
         actionListener.onSave(selectedList);

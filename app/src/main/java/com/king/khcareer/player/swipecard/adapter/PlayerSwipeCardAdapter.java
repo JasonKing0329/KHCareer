@@ -1,24 +1,20 @@
 package com.king.khcareer.player.swipecard.adapter;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeSet;
 
-import com.king.khcareer.download.DownloadItem;
+import com.king.khcareer.common.image.interaction.ImageManager;
 import com.king.khcareer.model.http.Command;
-import com.king.khcareer.model.http.RequestCallback;
 import com.king.khcareer.model.http.bean.ImageUrlBean;
-import com.king.khcareer.common.config.Configuration;
 import com.king.khcareer.common.config.Constants;
 import com.king.khcareer.common.image.ImageFactory;
 import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.model.sql.pubdata.PubDataProvider;
 import com.king.khcareer.common.image.ImageUtil;
-import com.king.khcareer.base.CustomDialog;
 import com.king.mytennis.view.R;
 import com.king.khcareer.common.helper.ObjectCache;
 import com.king.khcareer.common.image.interaction.controller.InteractionController;
@@ -38,14 +34,13 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 /**
  * @author JingYang
  * @version create time：2016-3-11 上午11:32:25
  *
  */
-public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter implements RequestCallback {
+public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter {
 
 	private List<PlayerBean>  mList;
 	private List<PlayerBean> mOriginList;
@@ -60,16 +55,13 @@ public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter implements Requ
 	private ViewHolder firstItemHolder;
 
 	/**
-	 * 下载/浏览网络图库 控制器
-	 */
-	private InteractionController interactionController;
-
-	/**
 	 * 保存首次从文件夹加载的图片序号
 	 */
 	private Map<String, Integer> imageIndexMap;
 
 	private PubDataProvider pubDataProvider;
+
+	private ImageManager imageManager;
 
 	public PlayerSwipeCardAdapter(Context context, List<PlayerBean> list) {
 		super(context);
@@ -93,7 +85,24 @@ public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter implements Requ
 		colorInnerHard = mContext.getResources().getColor(R.color.swipecard_text_innerhard);
 
 		imageIndexMap = new HashMap<>();
-		interactionController = new InteractionController(this);
+
+		imageManager = new ImageManager(context);
+		imageManager.setOnActionListener(new ImageManager.OnActionListener() {
+			@Override
+			public void onRefresh(int position) {
+
+			}
+
+			@Override
+			public void onManageFinished() {
+				refreshFirstItem(null);
+			}
+
+			@Override
+			public void onDownloadFinished() {
+				refreshFirstItem(null);
+			}
+		});
 	}
 	@Override
 	public int getCount() {
@@ -205,7 +214,7 @@ public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter implements Requ
 		@Override
 		public void onClick(View v) {
 			String name = ((Record) v.getTag()).getCompetitor();
-			interactionController.getImages(Command.TYPE_IMG_PLAYER, name);
+			imageManager.download(Command.TYPE_IMG_PLAYER, name);
 		}
 	};
 
@@ -223,104 +232,16 @@ public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter implements Requ
 		@Override
 		public void onClick(View v) {
 			final String name = ((Record) v.getTag()).getCompetitor();
-			interactionController.showLocalImageDialog(mContext, new CustomDialog.OnCustomDialogActionListener() {
+			imageManager.setDataProvider(new ImageManager.DataProvider() {
 				@Override
-				public boolean onSave(Object object) {
-					List<String> list = (List<String>) object;
-					interactionController.deleteImages(list);
-					refreshFirstItem(null);
-					return false;
-				}
-
-				@Override
-				public boolean onCancel() {
-					return false;
-				}
-
-				@Override
-				public void onLoadData(HashMap<String, Object> data) {
+				public ImageUrlBean createImageUrlBean(InteractionController interactionController) {
 					ImageUrlBean bean = interactionController.getPlayerImageUrlBean(name);
-					data.put("data", bean);
-					data.put("flag", Command.TYPE_IMG_PLAYER);
+					return bean;
 				}
 			});
+			imageManager.manageLocal();
 		}
 	};
-
-	@Override
-	public void onServiceDisConnected() {
-		Toast.makeText(mContext, R.string.gdb_server_offline, Toast.LENGTH_LONG).show();
-	}
-
-	@Override
-	public void onRequestError() {
-		Toast.makeText(mContext, R.string.gdb_request_fail, Toast.LENGTH_LONG).show();
-	}
-
-	@Override
-	public void onImagesReceived(final ImageUrlBean bean) {
-		if (bean.getUrlList() == null) {
-			String text = mContext.getString(R.string.image_not_found);
-			text = String.format(text, bean.getKey());
-			Toast.makeText(mContext, text, Toast.LENGTH_LONG).show();
-		}
-		else {
-			// 直接下载更新
-			if (bean.getUrlList().size() == 1) {
-				List<DownloadItem> list = new ArrayList<>();
-				DownloadItem item = new DownloadItem();
-				item.setKey(bean.getUrlList().get(0));
-				item.setFlag(Command.TYPE_IMG_PLAYER);
-				item.setSize(bean.getSizeList().get(0));
-
-				String url = bean.getUrlList().get(0);
-				if (url.contains("/")) {
-					String[] array = url.split("/");
-					url = array[array.length - 1];
-				}
-				item.setName(url);
-
-				list.add(item);
-
-				startDownload(list, bean.getKey());
-			}
-			// 显示对话框选择下载
-			else {
-				interactionController.showHttpImageDialog(mContext, new CustomDialog.OnCustomDialogActionListener() {
-					@Override
-					public boolean onSave(Object object) {
-						List<DownloadItem> list = (List<DownloadItem>) object;
-						startDownload(list, bean.getKey());
-						return false;
-					}
-
-					@Override
-					public boolean onCancel() {
-						return false;
-					}
-
-					@Override
-					public void onLoadData(HashMap<String, Object> data) {
-						data.put("data", bean);
-						data.put("flag", Command.TYPE_IMG_PLAYER);
-					}
-				});
-			}
-		}
-	}
-
-	@Override
-	public void onDownloadFinished() {
-		refreshFirstItem(null);
-	}
-
-	private void startDownload(List<DownloadItem> list, String key) {
-		File file = new File(Configuration.IMG_PLAYER_BASE + key);
-		if (!file.exists() || !file.isDirectory()) {
-			file.mkdir();
-		}
-		interactionController.downloadImage(mContext, list, file.getPath(), true);
-	}
 
 	private class ViewHolder {
 		View convertView;

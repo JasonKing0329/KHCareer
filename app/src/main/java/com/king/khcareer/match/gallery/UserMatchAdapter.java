@@ -11,25 +11,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.king.khcareer.download.DownloadItem;
+import com.king.khcareer.common.image.interaction.ImageManager;
 import com.king.khcareer.model.http.Command;
-import com.king.khcareer.model.http.RequestCallback;
 import com.king.khcareer.model.http.bean.ImageUrlBean;
-import com.king.khcareer.common.config.Configuration;
 import com.king.khcareer.common.config.Constants;
 import com.king.khcareer.common.image.ImageFactory;
 import com.king.khcareer.common.image.ImageUtil;
-import com.king.khcareer.base.CustomDialog;
 import com.king.mytennis.view.R;
 import com.king.khcareer.match.gallery.UserMatchAdapter.ItemHolder;
 import com.king.khcareer.common.helper.ObjectCache;
 import com.king.khcareer.common.image.interaction.controller.InteractionController;
 import com.king.khcareer.match.timeline.MatchActivity;
 
-import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +33,7 @@ import java.util.Map;
  * <p/>作者：景阳
  * <p/>创建时间: 2017/315 10:1
  */
-public class UserMatchAdapter extends RecyclerView.Adapter<ItemHolder> implements RequestCallback, View.OnClickListener {
+public class UserMatchAdapter extends RecyclerView.Adapter<ItemHolder> implements View.OnClickListener {
 
     private Context mContext;
     private List<UserMatchBean> list;
@@ -51,17 +45,14 @@ public class UserMatchAdapter extends RecyclerView.Adapter<ItemHolder> implement
     private String[] courtValues;
 
     /**
-     * 下载/浏览网络图库 控制器
-     */
-    private InteractionController interactionController;
-
-    /**
      * 保存首次从文件夹加载的图片序号
      */
     private Map<String, Integer> imageIndexMap;
 
     private View tvMatch;
     private View tvPlace;
+
+    private ImageManager imageManager;
 
     public UserMatchAdapter(Context mContext, List<UserMatchBean> list) {
         this.list = list;
@@ -73,7 +64,23 @@ public class UserMatchAdapter extends RecyclerView.Adapter<ItemHolder> implement
         colorInnerHard = mContext.getResources().getColor(R.color.swipecard_text_innerhard);
 
         imageIndexMap = new HashMap<>();
-        interactionController = new InteractionController(this);
+        imageManager = new ImageManager(mContext);
+        imageManager.setOnActionListener(new ImageManager.OnActionListener() {
+            @Override
+            public void onRefresh(int position) {
+
+            }
+
+            @Override
+            public void onManageFinished() {
+                notifyDataSetChanged();
+            }
+
+            @Override
+            public void onDownloadFinished() {
+                notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
@@ -132,7 +139,7 @@ public class UserMatchAdapter extends RecyclerView.Adapter<ItemHolder> implement
     }
 
     public void startDownload(int index) {
-        interactionController.getImages(Command.TYPE_IMG_MATCH, list.get(index).getNameBean().getName());
+        imageManager.download(Command.TYPE_IMG_MATCH, list.get(index).getNameBean().getName());
     }
 
     public void refreshImage(int index) {
@@ -143,102 +150,14 @@ public class UserMatchAdapter extends RecyclerView.Adapter<ItemHolder> implement
 
     public void deleteImage(int index) {
         final String match = list.get(index).getNameBean().getName();
-        interactionController.showLocalImageDialog(mContext, new CustomDialog.OnCustomDialogActionListener() {
+        imageManager.setDataProvider(new ImageManager.DataProvider() {
             @Override
-            public boolean onSave(Object object) {
-                List<String> list = (List<String>) object;
-                interactionController.deleteImages(list);
-                notifyDataSetChanged();
-                return false;
-            }
-
-            @Override
-            public boolean onCancel() {
-                return false;
-            }
-
-            @Override
-            public void onLoadData(HashMap<String, Object> data) {
+            public ImageUrlBean createImageUrlBean(InteractionController interactionController) {
                 ImageUrlBean bean = interactionController.getMatchImageUrlBean(match);
-                data.put("data", bean);
-                data.put("flag", Command.TYPE_IMG_MATCH);
+                return bean;
             }
         });
-    }
-
-    @Override
-    public void onServiceDisConnected() {
-        Toast.makeText(mContext, R.string.gdb_server_offline, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onRequestError() {
-        Toast.makeText(mContext, R.string.gdb_request_fail, Toast.LENGTH_LONG).show();
-    }
-
-    @Override
-    public void onImagesReceived(final ImageUrlBean bean) {
-        if (bean.getUrlList() == null) {
-            String text = mContext.getString(R.string.image_not_found);
-            text = String.format(text, bean.getKey());
-            Toast.makeText(mContext, text, Toast.LENGTH_LONG).show();
-        }
-        else {
-            // 直接下载更新
-            if (bean.getUrlList().size() == 1) {
-                List<DownloadItem> list = new ArrayList<>();
-                DownloadItem item = new DownloadItem();
-                item.setKey(bean.getUrlList().get(0));
-                item.setFlag(Command.TYPE_IMG_MATCH);
-                item.setSize(bean.getSizeList().get(0));
-
-                String url = bean.getUrlList().get(0);
-                if (url.contains("/")) {
-                    String[] array = url.split("/");
-                    url = array[array.length - 1];
-                }
-                item.setName(url);
-
-                list.add(item);
-
-                startDownload(list, bean.getKey());
-            }
-            // 显示对话框选择下载
-            else {
-                interactionController.showHttpImageDialog(mContext, new CustomDialog.OnCustomDialogActionListener() {
-                    @Override
-                    public boolean onSave(Object object) {
-                        List<DownloadItem> list = (List<DownloadItem>) object;
-                        startDownload(list, bean.getKey());
-                        return false;
-                    }
-
-                    @Override
-                    public boolean onCancel() {
-                        return false;
-                    }
-
-                    @Override
-                    public void onLoadData(HashMap<String, Object> data) {
-                        data.put("data", bean);
-                        data.put("flag", Command.TYPE_IMG_MATCH);
-                    }
-                });
-            }
-        }
-    }
-
-    @Override
-    public void onDownloadFinished() {
-        notifyDataSetChanged();
-    }
-
-    private void startDownload(List<DownloadItem> list, String key) {
-        File file = new File(Configuration.IMG_MATCH_BASE + key);
-        if (!file.exists() || !file.isDirectory()) {
-            file.mkdir();
-        }
-        interactionController.downloadImage(mContext, list, file.getPath(), true);
+        imageManager.manageLocal();
     }
 
     @Override

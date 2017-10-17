@@ -1,130 +1,197 @@
 package com.king.khcareer.common.image.interaction;
 
 import android.content.Context;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.SparseBooleanArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.king.khcareer.model.http.Command;
+import com.king.khcareer.model.http.bean.ImageItemBean;
 import com.king.khcareer.model.http.bean.ImageUrlBean;
-import com.king.khcareer.utils.FileSizeUtil;
 import com.king.mytennis.view.R;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2016/7/12 0012.
  * 抽象出基类Adapter，local浏览和http浏览，不同点仅仅在于加载图片的方式
  */
-public abstract class ImageSelectorAdapter extends RecyclerView.Adapter<ImageSelectorAdapter.BgHolder>
-    implements View.OnClickListener{
+public abstract class ImageSelectorAdapter extends RecyclerView.Adapter {
+
+    private final int TYPE_HEAD = 0;
+    private final int TYPE_ITEM = 1;
 
     protected Context mContext;
-    protected SparseBooleanArray mCheckMap;
     protected ImageUrlBean imageUrlBean;
-    protected String imageFlag;
+
+    protected List<ItemPack> itemList;
+
+    /**
+     * key为ImageItemBean的 "key_url" 形式，调用ImageGridAdapter.getKey
+     */
+    private Map<String, Boolean> checkMap;
 
     public ImageSelectorAdapter(Context context, ImageUrlBean imageUrlBean) {
         mContext = context;
         this.imageUrlBean = imageUrlBean;
-        mCheckMap = new SparseBooleanArray();
-        if (imageUrlBean.getUrlList() != null) {
-            for (int i = 0; i < imageUrlBean.getUrlList().size(); i ++) {
-                mCheckMap.put(i, false);
+        checkMap = new HashMap<>();
+
+        createItemPacks();
+    }
+
+    private void createItemPacks() {
+        itemList = new ArrayList<>();
+        if (imageUrlBean.getItemList() != null) {
+            Map<String, GridItemPack> gridMaps = new HashMap<>();
+            for (int i = 0; i < imageUrlBean.getItemList().size(); i ++) {
+                ImageItemBean bean = imageUrlBean.getItemList().get(i);
+
+                GridItemPack gPack = gridMaps.get(bean.getKey());
+                if (gPack == null) {
+                    // head第一次出现，添加head
+                    HeadItemPack pack = new HeadItemPack();
+                    String key = bean.getKey();
+                    pack.viewType = TYPE_HEAD;
+                    pack.typeName = getTypeName(key);
+                    itemList.add(pack);
+                    // 初始化grid list
+                    gPack = new GridItemPack();
+                    gPack.viewType = TYPE_ITEM;
+                    gPack.itemList = new ArrayList<>();
+                    itemList.add(gPack);
+                    gridMaps.put(bean.getKey(), gPack);
+                }
+                // 对应head的list中添加bean
+                gPack.itemList.add(bean);
             }
         }
     }
 
-    /**
-     * 设置图片类型，player/match/player head
-     * @param flag see Command.TYPE_IMG_PLAYER ...
-     */
-    public void setImageFlag(String flag) {
-        imageFlag = flag;
-    }
-
-    @Override
-    public BgHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.adapter_image_selector, parent, false);
-        BgHolder holder = new BgHolder(view);
-        holder.container = (ViewGroup) view.findViewById(R.id.bg_selector_container);
-        holder.name = (TextView) view.findViewById(R.id.img_selector_size);
-        holder.image = (ImageView) view.findViewById(R.id.img_selector_img);
-        holder.check = (CheckBox) view.findViewById(R.id.img_selector_check);
-        holder.markNew = (ImageView) view.findViewById(R.id.img_selector_mark_new);
-        return holder;
-    }
-
-    @Override
-    public void onBindViewHolder(BgHolder holder, int position) {
-        holder.position = position;
-        holder.container.setTag(holder);
-        holder.container.setOnClickListener(this);
-        if (mCheckMap.get(position)) {
-            holder.check.setChecked(true);
+    private String getTypeName(String key) {
+        if (key.equals(Command.TYPE_IMG_PLAYER)) {
+            return "Player Normal";
+        }
+        else if (key.equals(Command.TYPE_IMG_MATCH)) {
+            return "Match";
         }
         else {
-            holder.check.setChecked(false);
+            return "Player Head";
         }
-        holder.name.setText(FileSizeUtil.convertFileSize(imageUrlBean.getSizeList().get(position)));
+    }
 
-        onBindItemImage(holder.image, position);
-        onBindItemMark(holder.markNew, position);
+    @Override
+    public int getItemViewType(int position) {
+        return itemList.get(position).viewType;
+    }
+
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == TYPE_HEAD) {
+            return new HeadHolder(LayoutInflater.from(mContext).inflate(R.layout.adapter_image_selector_head, parent, false));
+        }
+        else {
+            return new GridHolder(LayoutInflater.from(mContext).inflate(R.layout.adapter_image_selector_grid, parent, false));
+        }
+    }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder vholder, int position) {
+        if (vholder instanceof HeadHolder) {
+            HeadHolder holder = (HeadHolder) vholder;
+            HeadItemPack pack = (HeadItemPack) itemList.get(position);
+            holder.name.setText(pack.typeName);
+        }
+        else if (vholder instanceof GridHolder) {
+            GridHolder holder = (GridHolder) vholder;
+            GridItemPack pack = (GridItemPack) itemList.get(position);
+            if (holder.adapter == null) {
+                holder.adapter = new ImageGridAdapter(this);
+                holder.adapter.setCheckMap(checkMap);
+                holder.adapter.setList(pack.itemList);
+                holder.rvGrid.setAdapter(holder.adapter);
+            }
+            else {
+                holder.adapter.setList(pack.itemList);
+                holder.adapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return itemList.size();
     }
 
     /**
      * 加载item图片
      * @param imageView
-     * @param position
+     * @param bean
      */
-    protected abstract void onBindItemImage(ImageView imageView, int position);
+    public abstract void onBindItemImage(ImageView imageView, ImageItemBean bean);
 
     /**
      * 加载Item角标
      * @param markNew
-     * @param position
+     * @param bean
      */
-    protected abstract void onBindItemMark(ImageView markNew, int position);
+    public abstract void onBindItemMark(ImageView markNew, ImageItemBean bean);
 
-    @Override
-    public int getItemCount() {
-        return imageUrlBean.getUrlList().size();
-    }
-
-    @Override
-    public void onClick(View v) {
-        BgHolder holder = (BgHolder) v.getTag();
-        boolean check = !holder.check.isChecked();
-        mCheckMap.put(holder.position, check);
-        notifyDataSetChanged();
-    }
-
-    public List<Integer> getSelectedKey() {
-        List<Integer> result = new ArrayList<>();
-        for (int i = 0; i < mCheckMap.size(); i ++) {
-            if (mCheckMap.get(i)) {
-                result.add(i);
+    public List<ImageItemBean> getSelectedKey() {
+        List<ImageItemBean> result = new ArrayList<>();
+        for (int i = 0; i < itemList.size(); i ++) {
+            if (itemList.get(i) instanceof GridItemPack) {
+                List<ImageItemBean> imageList = ((GridItemPack) itemList.get(i)).itemList;
+                for (ImageItemBean bean:imageList) {
+                    Boolean icChecked = checkMap.get(ImageGridAdapter.getCheckKey(bean));
+                    if (icChecked != null && icChecked) {
+                        result.add(bean);
+                    }
+                }
             }
         }
         return result;
     }
 
-    public static class BgHolder extends RecyclerView.ViewHolder {
+    public static class HeadHolder extends RecyclerView.ViewHolder {
 
-        public ViewGroup container;
         public TextView name;
-        public ImageView image;
-        public CheckBox check;
-        public int position;
-        public ImageView markNew;
-
-        public BgHolder(View itemView) {
+        public HeadHolder(View itemView) {
             super(itemView);
+            name = (TextView) itemView.findViewById(R.id.tv_key);
         }
     }
+
+    public static class GridHolder extends RecyclerView.ViewHolder {
+
+        RecyclerView rvGrid;
+        ImageGridAdapter adapter;
+
+        public GridHolder(View itemView) {
+            super(itemView);
+            rvGrid = (RecyclerView) itemView.findViewById(R.id.rv_grid);
+            GridLayoutManager manager = new GridLayoutManager(itemView.getContext(), 3);
+            rvGrid.setLayoutManager(manager);
+        }
+
+    }
+
+    protected class ItemPack {
+        int viewType;
+    }
+
+    protected class HeadItemPack extends ItemPack {
+        String typeName;
+    }
+
+    protected class GridItemPack extends ItemPack {
+        List<ImageItemBean> itemList;
+    }
+
 }
