@@ -109,6 +109,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/ActionBarBlue" />
         <activity
+            android:name="com.king.khcareer.match.manage.MatchCommonActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/ActionBarBlue" />
+        <activity
             android:name="com.king.khcareer.score.ScoreActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ActionBarBlue" />

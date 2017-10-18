@@ -29,7 +29,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
- * 描述:
+ * 描述: player h2h for all users
  * <p/>作者：景阳
  * <p/>创建时间: 2017/3/14 11:05
  */

@@ -303,6 +303,11 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
                 setResult(RESULT_OK, intent);
                 finish();
             }
+            else {
+                Intent intent = new Intent().setClass(this, MatchCommonActivity.class);
+                intent.putExtra(MatchCommonActivity.KEY_MATCH, mEditBean.getName());
+                startActivity(intent);
+            }
         }
     }
 

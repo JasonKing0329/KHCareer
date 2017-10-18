@@ -31,6 +31,7 @@ public class MatchActivity extends BaseActivity implements OnGroupCollapseListen
 		, OnChildClickListener{
 
 	public static final String KEY_MATCH_NAME = "key_match_name";
+	public static final String KEY_USER_ID = "key_user_id";
 
 	private final String TAG = "MatchActivity";
 	private PullToZoomScrollViewEx pullView;
@@ -40,6 +41,8 @@ public class MatchActivity extends BaseActivity implements OnGroupCollapseListen
 	private MatchController mController;
 
 	private UserMatchBean mMatchBean;
+
+	private String userId;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +60,9 @@ public class MatchActivity extends BaseActivity implements OnGroupCollapseListen
 		pullView.setHeaderView(headView);
 		pullView.setZoomView(zoomView);
 		pullView.setScrollContentView(contentView);
+
+		userId = getIntent().getStringExtra(KEY_USER_ID);
+		mController.setUserId(userId);
 
 		// 从swipeCard/gallery中进入，已加载过UserMatchBean
 		mMatchBean = ObjectCache.getUserMatchBean();
@@ -167,6 +173,12 @@ public class MatchActivity extends BaseActivity implements OnGroupCollapseListen
 	@Override
 	public boolean onChildClick(ExpandableListView parent, View v,
 								int groupPosition, int childPosition, long id) {
+
+		// 从MatchCommonActivity里跳转过来的，不允许再跳转至其他页面
+		if (userId != null) {
+			return true;
+		}
+
 		Intent intent = new Intent();
 		intent.setClass(this, DetailGallery.class);
 		Bundle bundle = new Bundle();

@@ -45,7 +45,7 @@ public class MatchExpanAdapter extends BaseExpandableListAdapter {
 	@Override
 	public int getGroupCount() {
 
-		return childList.size();
+		return childList == null ? 0:childList.size();
 	}
 
 	@Override

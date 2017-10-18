@@ -26,8 +26,14 @@ public class MatchController {
 
 	private PubDataProvider pubDataProvider;
 
+	private String userId;
+
 	public MatchController() {
 		pubDataProvider = new PubDataProvider();
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public UserMatchBean getUserMatchBean(String matchName) {
@@ -47,6 +53,9 @@ public class MatchController {
 	 * @param bean
 	 */
 	private void countMatch(UserMatchBean bean) {
+		if (recordList == null) {
+			return;
+		}
 		for (int i = 0; i < recordList.size(); i ++) {
 			// W/0不算作胜场
 			if (!Constants.SCORE_RETIRE.equals(recordList.get(i).getScore())) {
@@ -88,8 +97,20 @@ public class MatchController {
 		else {
 			args = new String[]{matches.get(0).getName()};
 		}
-		recordList = new RecordService().queryByWhere(where, args);
-		
+
+		RecordService service;
+		if (userId == null) {
+			service = new RecordService();
+		}
+		else {
+			service = new RecordService(MultiUserManager.getInstance().getUser(userId));
+		}
+		recordList = service.queryByWhere(where, args);
+
+		if (recordList == null) {
+			return;
+		}
+
 		expandList = new ArrayList<List<Record>>();
 		Map<String, List<Record>> map = new HashMap<String, List<Record>>();
 		Collections.reverse(recordList);
