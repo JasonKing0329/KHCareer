@@ -3,12 +3,15 @@ package com.king.khcareer.match.manage;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -41,7 +44,9 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
     private PopupMenu popSort;
 
     private RecyclerView rvList;
+    private RecyclerView rvGrid;
     private MatchItemAdapter matchItemAdapter;
+    private MatchGridAdapter matchGridAdapter;
 
     private List<MatchNameBean> matchList;
 
@@ -56,6 +61,8 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
 
     private MatchPresenter mPresenter;
 
+    private boolean isGridMode;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,6 +73,8 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
         if (mode == START_MODE_SELECT) {
             isSelectMode = true;
         }
+
+        isGridMode = SettingProperty.isMatchManageGridMode();
 
         mPresenter = new MatchPresenter(this);
 
@@ -84,6 +93,11 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
         rvList.setLayoutManager(manager);
         rvList.setItemAnimator(new DefaultItemAnimator());
 
+        rvGrid = (RecyclerView) findViewById(R.id.rv_grid);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);
+        rvGrid.setLayoutManager(gridLayoutManager);
+        rvGrid.setItemAnimator(new DefaultItemAnimator());
+
         ((TextView) findViewById(R.id.view7_actionbar_title)).setText(getString(R.string.match_manage_title));
 
         findViewById(R.id.view7_actionbar_add).setOnClickListener(this);
@@ -91,7 +105,17 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
         findViewById(R.id.view7_actionbar_delete).setOnClickListener(this);
         findViewById(R.id.view7_actionbar_done).setOnClickListener(this);
         findViewById(R.id.view7_actionbar_close).setOnClickListener(this);
+        findViewById(R.id.view7_actionbar_mode).setOnClickListener(this);
         ivSort.setOnClickListener(this);
+
+        if (isGridMode) {
+            rvList.setVisibility(View.GONE);
+            rvGrid.setVisibility(View.VISIBLE);
+        }
+        else {
+            rvList.setVisibility(View.VISIBLE);
+            rvGrid.setVisibility(View.GONE);
+        }
 
         loadDatas();
     }
@@ -104,15 +128,29 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
     @Override
     public void onLoadMatchList(List<MatchNameBean> list) {
         matchList = list;
-        if (matchItemAdapter == null) {
-            matchItemAdapter = new MatchItemAdapter(matchList);
-            matchItemAdapter.setOnMatchItemClickListener(this);
+        if (isGridMode) {
+            if (matchGridAdapter == null) {
+                matchGridAdapter = new MatchGridAdapter(matchList);
+                matchGridAdapter.setOnMatchItemClickListener(this);
 
-            rvList.setAdapter(matchItemAdapter);
+                rvGrid.setAdapter(matchGridAdapter);
+            }
+            else {
+                matchGridAdapter.setList(matchList);
+                matchGridAdapter.notifyDataSetChanged();
+            }
         }
         else {
-            matchItemAdapter.setList(matchList);
-            matchItemAdapter.notifyDataSetChanged();
+            if (matchItemAdapter == null) {
+                matchItemAdapter = new MatchItemAdapter(matchList);
+                matchItemAdapter.setOnMatchItemClickListener(this);
+
+                rvList.setAdapter(matchItemAdapter);
+            }
+            else {
+                matchItemAdapter.setList(matchList);
+                matchItemAdapter.notifyDataSetChanged();
+            }
         }
         dismissProgress();
     }
@@ -137,8 +175,14 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
             case R.id.view7_actionbar_delete:
                 isDeleteMode = true;
                 updateActionbarStatus(true);
-                matchItemAdapter.setSelectMode(true);
-                matchItemAdapter.notifyDataSetChanged();
+                if (matchItemAdapter != null) {
+                    matchItemAdapter.setSelectMode(true);
+                    matchItemAdapter.notifyDataSetChanged();
+                }
+                if (matchGridAdapter != null) {
+                    matchGridAdapter.setSelectMode(true);
+                    matchGridAdapter.notifyDataSetChanged();
+                }
                 break;
             case R.id.view7_actionbar_done:
                 if (isEditMode) {
@@ -151,6 +195,21 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
                 break;
             case R.id.view7_actionbar_close:
                 updateActionbarStatus(false);
+                break;
+            case R.id.view7_actionbar_mode:
+                if (isGridMode) {
+                    isGridMode = false;
+                    rvGrid.startAnimation(getDisappearAnim(rvGrid));
+                    rvList.startAnimation(getAppearAnim(rvList));
+                    SettingProperty.setMatchManageGridMode(false);
+                }
+                else {
+                    isGridMode = true;
+                    rvList.startAnimation(getDisappearAnim(rvList));
+                    rvGrid.startAnimation(getAppearAnim(rvGrid));
+                    SettingProperty.setMatchManageGridMode(true);
+                }
+                refreshList();
                 break;
         }
     }
@@ -188,7 +247,14 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
 
     @Override
     public void onSortFinished() {
-        matchItemAdapter.notifyDataSetChanged();
+        if (isGridMode) {
+            matchGridAdapter.notifyDataSetChanged();
+            rvGrid.scrollToPosition(0);
+        }
+        else {
+            matchItemAdapter.notifyDataSetChanged();
+            rvList.scrollToPosition(0);
+        }
         dismissProgress();
     }
 
@@ -201,8 +267,14 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
             groupConfirm.setVisibility(View.GONE);
             groupNormal.setVisibility(View.VISIBLE);
             if (isDeleteMode) {
-                matchItemAdapter.setSelectMode(false);
-                matchItemAdapter.notifyDataSetChanged();
+                if (matchItemAdapter != null) {
+                    matchItemAdapter.setSelectMode(false);
+                    matchItemAdapter.notifyDataSetChanged();
+                }
+                if (matchGridAdapter != null) {
+                    matchGridAdapter.setSelectMode(false);
+                    matchGridAdapter.notifyDataSetChanged();
+                }
             }
             isEditMode = false;
             isDeleteMode = false;
@@ -278,11 +350,60 @@ public class MatchManageActivity extends BaseActivity implements View.OnClickLis
     }
 
     private void deleteMatchItems() {
-        List<MatchNameBean> list = matchItemAdapter.getSelectedList();
+        List<MatchNameBean> list;
+        if (isGridMode) {
+            list = matchGridAdapter.getSelectedList();
+        }
+        else {
+            list = matchItemAdapter.getSelectedList();
+        }
         for (MatchNameBean bean:list) {
             mPresenter.deleteMatchName(bean);
         }
         refreshList();
     }
 
+    public Animation getDisappearAnim(final View view) {
+        AlphaAnimation anim = new AlphaAnimation(1, 0);
+        anim.setDuration(500);
+        anim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                view.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        return anim;
+    }
+
+    public Animation getAppearAnim(final View view) {
+        AlphaAnimation anim = new AlphaAnimation(0, 1);
+        anim.setDuration(500);
+        anim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                view.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+        return anim;
+    }
 }

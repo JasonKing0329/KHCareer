@@ -15,6 +15,12 @@
 		android:layout_height="match_parent"
 		android:layout_below="@id/match_manage_actionbar"/>
 
+	<android.support.v7.widget.RecyclerView
+		android:id="@+id/rv_grid"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:layout_below="@id/match_manage_actionbar"/>
+
 	<com.king.khcareer.pubview.SideBar
 		android:id="@+id/manage_sidebar"
 		android:layout_width="@dimen/swipecard_indexbar_width"

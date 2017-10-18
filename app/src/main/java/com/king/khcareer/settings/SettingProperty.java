@@ -48,6 +48,7 @@ public class SettingProperty {
 	public static final String KEY_GLORY_RUNNERUP_GROUP_MODE = "key_glory_runnerup_group_mode";
 
 	public static final String KEY_PLAYER_MANAGE_CARD = "key_player_manage_card";
+	public static final String KEY_MATCH_MANAGE_GRID = "key_match_manage_grid";
 
 	public static int getHttpMethod(Context context) {
 		
@@ -312,6 +313,26 @@ public class SettingProperty {
 	public static boolean isPlayerManageCardMode() {
 		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(KApplication.getInstance());
 		boolean mode = preferences.getBoolean(KEY_PLAYER_MANAGE_CARD, false);
+		return mode;
+	}
+
+	/**
+	 * grid type of match manage list
+	 * @param cardMode
+	 */
+	public static void setMatchManageGridMode(boolean cardMode) {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(KApplication.getInstance());
+		SharedPreferences.Editor editor = preferences.edit();
+		editor.putBoolean(KEY_MATCH_MANAGE_GRID, cardMode);
+		editor.commit();
+	}
+
+	/**
+	 * grid type of match manage list
+	 */
+	public static boolean isMatchManageGridMode() {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(KApplication.getInstance());
+		boolean mode = preferences.getBoolean(KEY_MATCH_MANAGE_GRID, false);
 		return mode;
 	}
 

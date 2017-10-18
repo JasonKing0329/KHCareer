@@ -30,4 +30,13 @@ public class GlideOptions {
         }
         return commonOptions;
     }
+
+    public static RequestOptions getDefaultMatchOptions() {
+        if (commonOptions == null) {
+            commonOptions = new RequestOptions();
+            commonOptions.centerCrop();
+            commonOptions.error(R.drawable.default_img);
+        }
+        return commonOptions;
+    }
 }

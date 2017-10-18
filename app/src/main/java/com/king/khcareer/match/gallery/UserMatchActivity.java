@@ -84,12 +84,13 @@ public class UserMatchActivity extends BaseActivity implements DiscreteScrollVie
 
     private void focusToLatestWeek() {
         final int position = mPresenter.findLatestWeekItem(matchList);
-        dsvMatch.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                dsvMatch.smoothScrollToPosition(position);
-            }
-        }, 1000);
+//        dsvMatch.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                dsvMatch.smoothScrollToPosition(position);
+//            }
+//        }, 1000);
+        dsvMatch.scrollToPosition(position);
         scrollManager.initPosition(position);
     }
 
