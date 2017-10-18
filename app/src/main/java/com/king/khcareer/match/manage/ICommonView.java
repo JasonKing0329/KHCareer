@@ -8,5 +8,5 @@ import com.king.khcareer.common.multiuser.MultiUser;
  * <p/>创建时间: 2017/3/14 11:51
  */
 public interface ICommonView {
-    void onMatchHistoryLoaded(MultiUser user, int win, int lose);
+    void onMatchHistoryLoaded(MultiUser user, int win, int lose, String years);
 }

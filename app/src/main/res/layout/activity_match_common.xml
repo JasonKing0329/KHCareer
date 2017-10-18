@@ -73,6 +73,10 @@
                     android:id="@+id/tv_king_h2h"
                     android:text="9-7"
                     style="@style/CommonPlayerH2h" />
+                <TextView
+                    android:id="@+id/tv_king_year"
+                    android:text="2016, 2017"
+                    style="@style/CommonMatchYear" />
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/group_flamenco"
@@ -85,6 +89,10 @@
                     android:id="@+id/tv_flamenco_h2h"
                     android:text="9-7"
                     style="@style/CommonPlayerH2h" />
+                <TextView
+                    android:id="@+id/tv_flamenco_year"
+                    android:text="2016, 2017"
+                    style="@style/CommonMatchYear" />
             </LinearLayout>
 
         </LinearLayout>
@@ -105,6 +113,10 @@
                     android:id="@+id/tv_henry_h2h"
                     android:text="9-7"
                     style="@style/CommonPlayerH2h" />
+                <TextView
+                    android:id="@+id/tv_henry_year"
+                    android:text="2016, 2017"
+                    style="@style/CommonMatchYear" />
             </LinearLayout>
             <LinearLayout
                 android:id="@+id/group_qi"
@@ -117,6 +129,10 @@
                     android:id="@+id/tv_qi_h2h"
                     android:text="9-7"
                     style="@style/CommonPlayerH2h" />
+                <TextView
+                    android:id="@+id/tv_qi_year"
+                    android:text="2016, 2017"
+                    style="@style/CommonMatchYear" />
             </LinearLayout>
 
         </LinearLayout>

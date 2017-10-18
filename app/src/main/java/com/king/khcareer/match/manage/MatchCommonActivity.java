@@ -30,7 +30,7 @@ import butterknife.OnClick;
 public class MatchCommonActivity extends BaseActivity implements ICommonView {
 
     public static final String KEY_MATCH = "common_match";
-    
+
     @BindView(R.id.iv_match)
     ImageView ivMatch;
     @BindView(R.id.tv_name)
@@ -65,6 +65,14 @@ public class MatchCommonActivity extends BaseActivity implements ICommonView {
     TextView tvQiH2h;
     @BindView(R.id.group_qi)
     LinearLayout groupQi;
+    @BindView(R.id.tv_king_year)
+    TextView tvKingYear;
+    @BindView(R.id.tv_flamenco_year)
+    TextView tvFlamencoYear;
+    @BindView(R.id.tv_henry_year)
+    TextView tvHenryYear;
+    @BindView(R.id.tv_qi_year)
+    TextView tvQiYear;
 
     private MatchNameBean matchNameBean;
 
@@ -116,17 +124,21 @@ public class MatchCommonActivity extends BaseActivity implements ICommonView {
     }
 
     @Override
-    public void onMatchHistoryLoaded(MultiUser user, int win, int lose) {
+    public void onMatchHistoryLoaded(MultiUser user, int win, int lose, String years) {
 
         // 显示各个user对应的记录，保存进入详情页需要的bean
         if (user == MultiUserManager.getInstance().getUserKing()) {
             tvKingH2h.setText(win + " - " + lose);
+            tvKingYear.setText(years);
         } else if (user == MultiUserManager.getInstance().getUserFlamenco()) {
             tvFlamencoH2h.setText(win + " - " + lose);
+            tvFlamencoYear.setText(years);
         } else if (user == MultiUserManager.getInstance().getUserHenry()) {
             tvHenryH2h.setText(win + " - " + lose);
+            tvHenryYear.setText(years);
         } else if (user == MultiUserManager.getInstance().getUserQi()) {
             tvQiH2h.setText(win + " - " + lose);
+            tvQiYear.setText(years);
         }
     }
 
