@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.king.khcareer.common.image.ImageFactory;
+import com.king.khcareer.common.multiuser.MultiUser;
 import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.common.image.ImageUtil;
@@ -34,7 +35,8 @@ public class MatchExpanAdapter extends BaseExpandableListAdapter {
 	 * 保存首次从文件夹加载的图片序号
 	 */
 	private Map<String, Integer> imageIndexMap;
-	
+	private String userId;
+
 	public MatchExpanAdapter(Context context, List<List<Record>> list) {
 		mContext = context;
 		childList = list;
@@ -119,7 +121,14 @@ public class MatchExpanAdapter extends BaseExpandableListAdapter {
 				+ "  " + record.getRound());
 		String winner = record.getWinner();
 		if (winner.equals(MultiUserManager.USER_DB_FLAG)) {
-			winner = MultiUserManager.getInstance().getCurrentUser().getDisplayName();
+			MultiUser user;
+			if (userId == null) {
+				user = MultiUserManager.getInstance().getCurrentUser();
+			}
+			else {
+				user = MultiUserManager.getInstance().getUser(userId);
+			}
+			winner = user.getDisplayName();
 		}
 		holder.score.setText(winner + "  " + record.getScore());
 
@@ -137,6 +146,10 @@ public class MatchExpanAdapter extends BaseExpandableListAdapter {
 	@Override
 	public boolean isChildSelectable(int groupPosition, int childPosition) {
 		return true;//一定要在这里控制，否则单击、长按都没有效果
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	private class RecordViewHolder {
