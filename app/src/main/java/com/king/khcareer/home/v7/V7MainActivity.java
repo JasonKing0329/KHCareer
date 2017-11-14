@@ -71,7 +71,7 @@ public class V7MainActivity extends BaseActivity implements OnClickListener
 
 		//check default user
 		MultiUserManager.getInstance().loadUsers(this);
-		MultiUserManager.getInstance().loadFromPreference(this);
+		MultiUserManager.getInstance().loadFromPreference();
 
 		setContentView(R.layout.activity_view7_0_main);
 

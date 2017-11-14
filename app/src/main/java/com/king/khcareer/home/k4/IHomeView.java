@@ -8,6 +8,5 @@ import android.content.Context;
 
 public interface IHomeView {
     void onHomeDataLoaded(HomeData data);
-    void onScoreLoaded(int score, int rank);
     Context getContext();
 }

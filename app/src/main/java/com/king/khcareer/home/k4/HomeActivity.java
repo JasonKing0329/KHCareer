@@ -1,5 +1,6 @@
 package com.king.khcareer.home.k4;
 
+import android.animation.Animator;
 import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -17,7 +19,9 @@ import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -64,34 +68,20 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickListener {
+public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickListener, IHomeHeaderHolder {
 
     private final int REQUEST_RANK = 101;
     private final int REQUEST_EDITOR = 102;
     private final int REQUEST_RECORD_LIST = 103;
 
-    @BindView(R.id.iv_flag_bg)
-    ImageView ivFlagBg;
-    @BindView(R.id.tv_country)
-    TextView tvCountry;
-    @BindView(R.id.tv_birthday)
-    TextView tvBirthday;
-    @BindView(R.id.tv_height)
-    TextView tvHeight;
-    @BindView(R.id.tv_match_number)
-    TextView tvMatchNumber;
-    @BindView(R.id.tv_player)
-    TextView tvPlayer;
-    @BindView(R.id.tv_total)
-    TextView tvTotal;
-    @BindView(R.id.tv_rank)
-    TextView tvRank;
-    @BindView(R.id.group_player_basic)
-    RelativeLayout groupPlayerBasic;
+    private HomeHeadAdapter headAdapter;
+
     @BindView(R.id.toolbar)
     Toolbar toolbar;
     @BindView(R.id.ctl_toolbar)
     CollapsingToolbarLayout ctlToolbar;
+    @BindView(R.id.viewpager_head)
+    ViewPager viewpagerHead;
     @BindView(R.id.iv_record_bk)
     RoundedImageView ivRecordBk;
     @BindView(R.id.tv_match_round)
@@ -156,10 +146,6 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
 
     private HomeMatchAdapter matchAdapter;
 
-    // v4.3.2 弃用
-//    private HomeMatchScrollManager scrollManager;
-//    private HomeVerScrollManager verScrollManager;
-
     private List<UserMatchBean> matchList;
 
     private RankChartFragment ftChart;
@@ -177,10 +163,6 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
         menuService = new MenuService();
         presenter = new HomePresenter(this);
         boomMenuHome = new BoomMenuHome(bmbMenu);
-        // v4.3.2 弃用
-//        scrollManager = new HomeMatchScrollManager(this);
-//        // 先禁用横向滑动事件，等到上拉到一定位置再启用
-//        scrollManager.setEnable(false);
 
         initAppBar();
         initBoomMenu();
@@ -228,9 +210,38 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
     }
 
     private void initPlayerBasic() {
-        tvPlayer.setVisibility(View.INVISIBLE);
-        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) tvRank.getLayoutParams();
-        params.bottomMargin = params.bottomMargin + DensityUtil.dip2px(this, 20);
+        headAdapter = new HomeHeadAdapter(getSupportFragmentManager());
+        MultiUser[] users = MultiUserManager.getInstance().getUsers();
+        MultiUser curUser = MultiUserManager.getInstance().getCurrentUser();
+        int index = 0;
+        for (int i = 0; i < users.length; i ++) {
+            MultiUser user = users[i];
+            HomeHeadFragment fragment = HomeHeadFragment.newInstance(user.getId());
+            headAdapter.addFragment(fragment);
+
+            if (curUser.getId().equals(user.getId())) {
+                index = i;
+            }
+        }
+        viewpagerHead.setAdapter(headAdapter);
+        viewpagerHead.setCurrentItem(index);
+
+        viewpagerHead.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                onUserChanged(MultiUserManager.getInstance().getUsers()[position]);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
     }
 
     private void initNavView() {
@@ -250,26 +261,6 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
         dsvMatch.setItemTransformer(new ScaleTransformer.Builder()
                 .setMinScale(0.9f)
                 .build());
-        // v4.3.2 效果不是太好，从这一版开始弃用
-//        dsvMatch.setScrollStateChangeListener(scrollManager);
-//        scrollManager.bindBehaviorView(bkView);
-//        verScrollManager = new HomeVerScrollManager(this, new HomeVerScrollManager.VerScrollCallback() {
-//            @Override
-//            public void enableHorScrollChange(boolean enable) {
-//                scrollManager.setEnable(enable);
-//            }
-//
-//            @Override
-//            public int getCurrentMatchPosition() {
-//                return dsvMatch.getCurrentItem();
-//            }
-//
-//            @Override
-//            public void onColorChanging(int[] color) {
-//                bkView.updateGradientValues(color);
-//            }
-//        });
-//        scrollHome.setOnScrollChangeListener(verScrollManager);
 
         initRankChart();
     }
@@ -296,8 +287,8 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(null).setItems(names, new DialogInterface.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                onUserChanged(users[i]);
+            public void onClick(DialogInterface dialogInterface, int index) {
+                viewpagerHead.setCurrentItem(index);
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
         }).show();
@@ -308,13 +299,6 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
      */
     private void initData() {
 
-        MultiUser user = MultiUserManager.getInstance().getCurrentUser();
-        ivFlagBg.setImageResource(user.getFlagImageResId());
-        tvPlayer.setText(user.getFullName());
-        tvCountry.setText(user.getCountry());
-        tvBirthday.setText(user.getBirthday());
-        tvHeight.setText(user.getHeight() + "  " + user.getWeight());
-
         refreshHomeData();
     }
 
@@ -324,6 +308,9 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
 
     @Override
     public void onHomeDataLoaded(HomeData data) {
+
+        startRevealView(500);
+
         ImageUtil.load("file://" + ImageFactory.getMatchHeadPath(data.getRecordMatch(), data.getRecordCourt()), ivRecordBk
                 , R.drawable.default_img);
         tvMatchName.setText(data.getRecordMatch() + "(" + data.getRecordCountry() + ")");
@@ -339,9 +326,7 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
         tvPlayerName3.setText((data.isWinner3() ? "" : "(lose)") + data.getPlayerName3());
 
         matchList = data.getMatchList();
-        // v4.3.2 弃用
-//        scrollManager.bindData(matchList);
-//        verScrollManager.bindData(matchList);
+
         if (matchAdapter == null) {
             matchAdapter = new HomeMatchAdapter(data.getMatchList());
             dsvMatch.setAdapter(matchAdapter);
@@ -355,9 +340,6 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
             matchAdapter.setDatas(data.getMatchList());
             matchAdapter.notifyDataSetChanged();
         }
-
-        // 有数据库操作，在异步事件完成后再执行
-        presenter.load52WeekScore();
 
         // 定位到与当前周最近赛事
         focusToLatestWeek(data.getMatchList());
@@ -393,12 +375,6 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
     }
 
     @Override
-    public void onScoreLoaded(int score, int rank) {
-        tvTotal.setText(String.valueOf(score));
-        tvRank.setText(String.valueOf(rank));
-    }
-
-    @Override
     public Context getContext() {
         return this;
     }
@@ -407,7 +383,6 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
         MultiUserManager.getInstance().setCurrentUser(user);
         MultiUserManager.getInstance().saveToPreference(this, user);
         ImageUtil.load("file://" + ImageFactory.getPlayerHeadPath(user.getFullName()), ivUserHead, R.drawable.icon_list);
-        ivFlagBg.setImageResource(MultiUserManager.getInstance().getCurrentUser().getFlagImageResId());
         ctlToolbar.setTitle(user.getFullName());
 
         initData();
@@ -483,14 +458,11 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
-    @OnClick({R.id.group_nav, R.id.group_player_basic, R.id.group_record, R.id.group_player, R.id.group_add, R.id.group_glory, R.id.group_h2h})
+    @OnClick({R.id.group_nav, R.id.group_record, R.id.group_player, R.id.group_add, R.id.group_glory, R.id.group_h2h})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.group_nav:
                 // 无事件，只是夺取nav group的点击事件，不让其往下渗透
-                break;
-            case R.id.group_player_basic:
-                startScoreActivity();
                 break;
             case R.id.group_record:
                 startRecordLineActivity();
@@ -658,4 +630,40 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
+
+    @Override
+    public void onClickScoreHead() {
+        startScoreActivity();
+    }
+
+    private void startRevealView(int animTime) {
+        // centerX和centerY实是相对于view的
+        Animator anim = ViewAnimationUtils.createCircularReveal(scrollHome, scrollHome.getWidth() / 2
+                , 0, 0, (float) scrollHome.getHeight());
+        anim.setDuration(animTime);
+        anim.setInterpolator(new AccelerateDecelerateInterpolator());
+        anim.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        });
+        anim.start();
+    }
+
 }

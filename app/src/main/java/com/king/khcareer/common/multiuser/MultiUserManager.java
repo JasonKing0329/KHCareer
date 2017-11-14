@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.king.khcareer.base.KApplication;
 import com.king.khcareer.common.config.Configuration;
 import com.king.khcareer.model.sql.player.DatabaseStruct;
 import com.king.mytennis.view.R;
@@ -157,14 +158,18 @@ public class MultiUserManager {
 		return result;
 	}
 
-	public void loadFromPreference(Context context) {
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+	public void loadFromPreference() {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(KApplication.getInstance());
 		String id = preferences.getString(PREF_KEY, "King");
 		for (MultiUser user:users) {
 			if (user.getId().equals(id)) {
 				currentUser = user;
-				break;
+				return;
 			}
+		}
+
+		if (currentUser == null) {
+			currentUser = users[0];
 		}
 	}
 
@@ -176,6 +181,9 @@ public class MultiUserManager {
 	}
 
 	public MultiUser getCurrentUser() {
+		if (currentUser == null) {
+			loadFromPreference();
+		}
 		return currentUser;
 	}
 	public int getUserSelectorResId(Context context, MultiUser user) {

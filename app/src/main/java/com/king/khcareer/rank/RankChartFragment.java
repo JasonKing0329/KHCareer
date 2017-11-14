@@ -1,6 +1,5 @@
 package com.king.khcareer.rank;
 
-import android.content.Context;
 import android.graphics.Color;
 import android.view.View;
 
@@ -18,6 +17,7 @@ import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.interfaces.datasets.IBarDataSet;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.king.khcareer.base.BaseFragment;
+import com.king.khcareer.base.IFragmentHolder;
 import com.king.khcareer.utils.DebugLog;
 import com.king.mytennis.view.R;
 
@@ -54,7 +54,7 @@ public class RankChartFragment extends BaseFragment {
     };
 
     @Override
-    protected void onAttachParent(Context context) {
+    protected void onBindHolder(IFragmentHolder context) {
 
     }
 

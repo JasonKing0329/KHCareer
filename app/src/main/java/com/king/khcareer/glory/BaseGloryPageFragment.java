@@ -1,9 +1,8 @@
 package com.king.khcareer.glory;
 
-import android.content.Context;
-
 import com.king.khcareer.base.BaseFragment;
 import com.king.khcareer.base.CustomDialog;
+import com.king.khcareer.base.IFragmentHolder;
 import com.king.khcareer.match.GloryMatchDialog;
 import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.mytennis.glory.GloryController;
@@ -21,8 +20,8 @@ public abstract class BaseGloryPageFragment extends BaseFragment {
     protected IGloryHolder gloryHolder;
 
     @Override
-    protected void onAttachParent(Context context) {
-        gloryHolder = (IGloryHolder) context;
+    protected void onBindHolder(IFragmentHolder holder) {
+        gloryHolder = (IGloryHolder) holder;
     }
 
     /**

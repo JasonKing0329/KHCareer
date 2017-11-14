@@ -132,7 +132,7 @@ public class ManagerActivity extends BaseActivity implements OnSlideChagedListen
 		requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);//必须在setContentView之前
 
 		//check default user
-		MultiUserManager.getInstance().loadFromPreference(this);
+		MultiUserManager.getInstance().loadFromPreference();
 
 		int mainviewRes = R.layout.mainview;
 		if (KApplication.isLollipop()) {

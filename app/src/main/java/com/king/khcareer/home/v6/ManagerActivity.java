@@ -96,7 +96,7 @@ public class ManagerActivity extends BaseActivity implements CardListener
 		super.onCreate(savedInstanceState);
 		//check default user
 		MultiUserManager.getInstance().loadUsers(this);
-		MultiUserManager.getInstance().loadFromPreference(this);
+		MultiUserManager.getInstance().loadFromPreference();
 		JResource.initializeColors();
 
 		setContentView(R.layout.mainview_v_6_0);

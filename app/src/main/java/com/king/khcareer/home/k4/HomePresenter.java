@@ -4,9 +4,6 @@ import com.king.khcareer.match.gallery.UserMatchBean;
 import com.king.khcareer.match.gallery.UserMatchPresenter;
 import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.khcareer.common.multiuser.MultiUserManager;
-import com.king.khcareer.score.IScorePageView;
-import com.king.khcareer.score.ScorePageData;
-import com.king.khcareer.score.ScorePresenter;
 import com.king.khcareer.record.RecordService;
 
 import java.util.Collections;
@@ -26,12 +23,10 @@ public class HomePresenter {
 
     private IHomeView homeView;
     private UserMatchPresenter userMatchPresenter;
-    private ScorePresenter scorePrensenter;
 
     public HomePresenter(IHomeView homeView) {
         this.homeView = homeView;
         userMatchPresenter = new UserMatchPresenter(homeView.getContext());
-        scorePrensenter = new ScorePresenter();
     }
 
     public void loadHomeDatas() {
@@ -62,17 +57,6 @@ public class HomePresenter {
                         homeView.onHomeDataLoaded(data);
                     }
                 });
-    }
-
-    public void load52WeekScore() {
-        scorePrensenter = new ScorePresenter();
-        scorePrensenter.setScorePageView(new IScorePageView() {
-            @Override
-            public void onPageDataLoaded(ScorePageData data) {
-                homeView.onScoreLoaded(data.getCountScore(), scorePrensenter.loadRank().getRank());
-            }
-        });
-        scorePrensenter.query52WeekRecords();
     }
 
     public HomeData getHomeData() {

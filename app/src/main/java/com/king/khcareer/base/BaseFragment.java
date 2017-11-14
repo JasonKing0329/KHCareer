@@ -18,8 +18,12 @@ public abstract class BaseFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        onAttachParent(context);
+        if (context instanceof IFragmentHolder) {
+            onBindHolder((IFragmentHolder) context);
+        }
     }
+
+    protected abstract void onBindHolder(IFragmentHolder context);
 
     @Nullable
     @Override
@@ -28,8 +32,6 @@ public abstract class BaseFragment extends Fragment {
         onCreate(view);
         return view;
     }
-
-    protected abstract void onAttachParent(Context context);
 
     protected abstract int getContentLayoutRes();
 
