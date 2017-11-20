@@ -4,12 +4,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.king.khcareer.base.KApplication;
 import com.king.khcareer.common.config.Constants;
+import com.king.khcareer.common.image.ImageFactory;
+import com.king.khcareer.common.image.glide.GlideOptions;
 import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.khcareer.utils.DebugLog;
 import com.king.mytennis.view.R;
-import com.zaihuishou.expandablerecycleradapter.viewholder.AbstractAdapterItem;
 import com.zaihuishou.expandablerecycleradapter.viewholder.AbstractExpandableAdapterItem;
 
 /**
@@ -19,7 +22,8 @@ import com.zaihuishou.expandablerecycleradapter.viewholder.AbstractExpandableAda
  */
 public class HeaderAdapter extends AbstractExpandableAdapterItem {
 
-    private TextView tvMatchFirst;
+//    private TextView tvMatchFirst;
+    private ImageView ivMatch;
     private TextView tvMatchName;
     private TextView tvMatchLevel;
     private TextView tvMatchDate;
@@ -28,7 +32,7 @@ public class HeaderAdapter extends AbstractExpandableAdapterItem {
 
     @Override
     public int getLayoutResId() {
-        return R.layout.adapter_record_group;
+        return R.layout.adapter_record_group_card;
     }
 
     @Override
@@ -39,12 +43,13 @@ public class HeaderAdapter extends AbstractExpandableAdapterItem {
                 doExpandOrUnexpand();
             }
         });
-        tvMatchFirst = (TextView) root.findViewById(R.id.tv_match_first);
+//        tvMatchFirst = (TextView) root.findViewById(R.id.tv_match_first);
         tvMatchName = (TextView) root.findViewById(R.id.tv_match_name);
         tvMatchLevel = (TextView) root.findViewById(R.id.tv_match_level);
         tvMatchDate = (TextView) root.findViewById(R.id.tv_match_date);
         tvMatchRound = (TextView) root.findViewById(R.id.tv_match_round);
         ivWinnerCup = (ImageView) root.findViewById(R.id.iv_winner_cup);
+        ivMatch = (ImageView) root.findViewById(R.id.iv_match);
     }
 
     @Override
@@ -58,7 +63,6 @@ public class HeaderAdapter extends AbstractExpandableAdapterItem {
         }
 
         Record record = item.getRecord();
-        tvMatchFirst.setText(String.valueOf(record.getMatch().charAt(0)));
         tvMatchName.setText(record.getMatch());
         // champion
         if (Constants.RECORD_MATCH_ROUNDS[0].equals(record.getRound())
@@ -74,18 +78,24 @@ public class HeaderAdapter extends AbstractExpandableAdapterItem {
         tvMatchDate.setText(record.getStrDate());
         tvMatchLevel.setText(record.getLevel());
         String court = record.getCourt();
-        if (Constants.RECORD_MATCH_COURTS[1].equals(court)) {
-            tvMatchFirst.setBackgroundResource(R.drawable.shape_oval_clay);
-        }
-        else if (Constants.RECORD_MATCH_COURTS[2].equals(court)) {
-            tvMatchFirst.setBackgroundResource(R.drawable.shape_oval_grass);
-        }
-        else if (Constants.RECORD_MATCH_COURTS[3].equals(court)) {
-            tvMatchFirst.setBackgroundResource(R.drawable.shape_oval_inhard);
-        }
-        else {
-            tvMatchFirst.setBackgroundResource(R.drawable.shape_oval_hard);
-        }
+//        tvMatchFirst.setText(String.valueOf(record.getMatch().charAt(0)));
+//        if (Constants.RECORD_MATCH_COURTS[1].equals(court)) {
+//            tvMatchFirst.setBackgroundResource(R.drawable.shape_oval_clay);
+//        }
+//        else if (Constants.RECORD_MATCH_COURTS[2].equals(court)) {
+//            tvMatchFirst.setBackgroundResource(R.drawable.shape_oval_grass);
+//        }
+//        else if (Constants.RECORD_MATCH_COURTS[3].equals(court)) {
+//            tvMatchFirst.setBackgroundResource(R.drawable.shape_oval_inhard);
+//        }
+//        else {
+//            tvMatchFirst.setBackgroundResource(R.drawable.shape_oval_hard);
+//        }
+
+        Glide.with(KApplication.getInstance())
+                .load(ImageFactory.getMatchHeadPath(record.getMatch(), court))
+                .apply(GlideOptions.getDefaultMatchOptions())
+                .into(ivMatch);
     }
 
     @Override
