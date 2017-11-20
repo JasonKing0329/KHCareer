@@ -78,8 +78,6 @@ public class HomeHeadFragment extends BaseFragment {
 
         ButterKnife.bind(this, view);
 
-        scorePrensenter = new ScorePresenter();
-
         tvPlayer.setVisibility(View.INVISIBLE);
         ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) tvRank.getLayoutParams();
         params.bottomMargin = params.bottomMargin + DensityUtil.dip2px(getActivity(), 20);
@@ -87,6 +85,9 @@ public class HomeHeadFragment extends BaseFragment {
         String userId = getArguments().getString(BUNDLE_USERID);
 
         MultiUser user = MultiUserManager.getInstance().getUser(userId);
+
+        scorePrensenter = new ScorePresenter(user);
+
         ivFlagBg.setImageResource(user.getFlagImageResId());
         tvPlayer.setText(user.getFullName());
         tvCountry.setText(user.getCountry());
@@ -102,7 +103,6 @@ public class HomeHeadFragment extends BaseFragment {
     }
 
     private void load52WeekScore() {
-        scorePrensenter = new ScorePresenter();
         scorePrensenter.setScorePageView(new IScorePageView() {
             @Override
             public void onPageDataLoaded(ScorePageData data) {

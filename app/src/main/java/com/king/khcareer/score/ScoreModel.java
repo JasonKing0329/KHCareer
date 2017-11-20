@@ -3,6 +3,7 @@ package com.king.khcareer.score;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.king.khcareer.common.multiuser.MultiUser;
 import com.king.khcareer.model.sql.player.interfc.DatabaseAccess;
 import com.king.khcareer.common.config.Constants;
 import com.king.khcareer.model.sql.player.DatabaseStruct;
@@ -38,8 +39,17 @@ public class ScoreModel {
 
     private Map<String, MatchNameBean> matchMap;
 
+    public ScoreModel(IScoreCallback callback, MultiUser user) {
+        sqLitePlayer = new SQLiteDB(user);
+        init(callback);
+    }
+
     public ScoreModel(IScoreCallback callback) {
         sqLitePlayer = new SQLiteDB();
+        init(callback);
+    }
+
+    private void init(IScoreCallback callback) {
         pubDataProvider = new PubDataProvider();
         arrRound = Constants.RECORD_MATCH_ROUNDS;
         arrLevel = Constants.RECORD_MATCH_LEVELS;

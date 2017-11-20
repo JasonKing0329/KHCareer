@@ -1,6 +1,7 @@
 package com.king.khcareer.score;
 
 import com.king.khcareer.common.config.Constants;
+import com.king.khcareer.common.multiuser.MultiUser;
 import com.king.khcareer.model.FileIO;
 import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.model.sql.pubdata.PubDataProvider;
@@ -38,10 +39,19 @@ public class ScorePresenter implements IScoreCallback {
     private int startWeek, endWeek;
     private int startYear, endYear;
 
+    public ScorePresenter(MultiUser user) {
+        scoreModel = new ScoreModel(this, user);
+        init();
+    }
+
     public ScorePresenter() {
+        scoreModel = new ScoreModel(this);
+        init();
+    }
+
+    private void init() {
         arrCourt = Constants.RECORD_MATCH_COURTS;
         arrLevel = Constants.RECORD_MATCH_LEVELS;
-        scoreModel = new ScoreModel(this);
         scoreComparator = new ScoreComparator();
         matchSeqComparator = new MatchSeqComparator();
         thisYear = Calendar.getInstance().get(Calendar.YEAR);
