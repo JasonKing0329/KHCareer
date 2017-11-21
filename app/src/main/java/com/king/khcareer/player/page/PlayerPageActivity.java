@@ -68,25 +68,26 @@ public class PlayerPageActivity extends BaseActivity implements IPageView, IPage
         setContentView(R.layout.activity_player_page);
         ButterKnife.bind(this);
 
-        init(getIntent());
+        init();
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
 
+        setIntent(intent);
         tabLayout.removeAllTabs();
-        init(intent);
+        init();
     }
 
-    private void init(Intent intent) {
+    private void init() {
         presenter = new PagePresenter(this);
 
         initViews();
 
-        initPlayerBasics(intent);
+        initPlayerBasics();
 
-        userId = intent.getStringExtra(KEY_USER_ID);
+        userId = getIntent().getStringExtra(KEY_USER_ID);
         initFragments();
     }
 
@@ -109,8 +110,8 @@ public class PlayerPageActivity extends BaseActivity implements IPageView, IPage
 
     }
 
-    private void initPlayerBasics(Intent intent) {
-        String name = intent.getStringExtra(KEY_COMPETITOR_NAME);
+    private void initPlayerBasics() {
+        String name = getIntent().getStringExtra(KEY_COMPETITOR_NAME);
         if (!TextUtils.isEmpty(name)) {
             presenter.loadPlayerByChnName(name);
         }
@@ -155,7 +156,7 @@ public class PlayerPageActivity extends BaseActivity implements IPageView, IPage
     }
 
     private void initFragments() {
-        presenter.loadRecords();
+        presenter.loadRecords(userId);
     }
 
     @Override

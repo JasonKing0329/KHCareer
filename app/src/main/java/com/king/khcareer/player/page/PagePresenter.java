@@ -2,6 +2,8 @@ package com.king.khcareer.player.page;
 
 import com.king.khcareer.common.config.Constants;
 import com.king.khcareer.common.image.ImageFactory;
+import com.king.khcareer.common.multiuser.MultiUser;
+import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.model.sql.player.RecordDAOImp;
 import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.khcareer.model.sql.pubdata.PubDataProvider;
@@ -63,12 +65,19 @@ public class PagePresenter {
                 , mPlayerBean.getCountry());
     }
 
-    public void loadRecords() {
+    public void loadRecords(final String userId) {
         Observable.create(new ObservableOnSubscribe<List<TabBean>>() {
             @Override
             public void subscribe(ObservableEmitter<List<TabBean>> e) throws Exception {
 
-                recordList = new RecordDAOImp().queryByCompetitor(mPlayerBean.getNameChn());
+                MultiUser user;
+                if (userId == null) {
+                    user = MultiUserManager.getInstance().getCurrentUser();
+                }
+                else {
+                    user = MultiUserManager.getInstance().getUser(userId);
+                }
+                recordList = new RecordDAOImp(user).queryByCompetitor(mPlayerBean.getNameChn());
 
                 // 查出来的是时间升序，按时间降序排列
                 Collections.reverse(recordList);

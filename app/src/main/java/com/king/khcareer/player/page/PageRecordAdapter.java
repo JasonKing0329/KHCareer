@@ -84,15 +84,17 @@ public class PageRecordAdapter extends RecyclerView.Adapter implements View.OnCl
     }
 
     private void onBindRecord(RecordHolder holder, Record record) {
-        holder.tvLine1.setText(record.getLevel() + "  " + record.getStrDate().split("-")[1] + "月");
+        holder.tvLine1.setText(record.getLevel() + "  " + record.getStrDate().split("-")[1] + "月  " + record.getRound());
         holder.tvLine2.setText(record.getMatch() + "  " + record.getCourt());
         String winner = record.getWinner();
         if (winner.equals(MultiUserManager.USER_DB_FLAG)) {
             winner = user.getDisplayName();
             holder.tvLine3.setText(winner + "  def.  " + record.getCptSeed() + "/" + record.getCptRank());
+            holder.tvLine3.setTextColor(holder.tvLine3.getResources().getColor(R.color.record_item_text_gray));
         }
         else {
             holder.tvLine3.setText(winner + " " + record.getCptSeed() + "/" + record.getCptRank() + "  def.");
+            holder.tvLine3.setTextColor(holder.tvLine3.getResources().getColor(R.color.red));
         }
         holder.tvLine4.setText(record.getScore());
 

@@ -1,5 +1,6 @@
 package com.king.khcareer.match.page;
 
+import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -89,9 +90,20 @@ public class PageRecordAdapter extends RecyclerView.Adapter implements View.OnCl
         holder.tvLevel.setText(Constants.getMasterGloryForRound(record.getRound()));
         holder.tvLine2.setText(record.getCompetitor() + " " + record.getCptSeed() + "/" + record.getCptRank());
         String winner = record.getWinner();
+        GradientDrawable drawable = (GradientDrawable) holder.tvLevel.getBackground();
         if (winner.equals(MultiUserManager.USER_DB_FLAG)) {
             winner = user.getDisplayName();
+            if (record.getRound().equals(Constants.RECORD_MATCH_ROUNDS[0])) {
+                drawable.setColor(holder.tvLevel.getResources().getColor(R.color.round_tag_winner));
+            }
+            else {
+                drawable.setColor(holder.tvLevel.getResources().getColor(R.color.round_tag_normal));
+            }
         }
+        else {
+            drawable.setColor(holder.tvLevel.getResources().getColor(R.color.round_tag_normal));
+        }
+        holder.tvLevel.setBackground(drawable);
         holder.tvLine3.setText(winner + " " + record.getScore());
 
         String filePath;
