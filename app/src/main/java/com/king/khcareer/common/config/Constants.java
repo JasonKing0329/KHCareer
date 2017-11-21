@@ -78,8 +78,8 @@ public class Constants {
 			"R32",
 			"R64",
 			"R128",
-			"Group",
-			"Bronze"
+			"RR",
+			"BR"
 	};
 
 	public static final String[] RECORD_GS_ROUNDS_GLORY = new String[] {

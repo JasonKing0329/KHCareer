@@ -13,7 +13,7 @@ import com.king.khcareer.common.image.ImageFactory;
 import com.king.khcareer.common.image.glide.GlideOptions;
 import com.king.khcareer.common.multiuser.MultiUser;
 import com.king.khcareer.common.multiuser.MultiUserManager;
-import com.king.khcareer.match.timeline.MatchActivity;
+import com.king.khcareer.match.page.MatchPageActivity;
 import com.king.khcareer.model.sql.pubdata.bean.MatchNameBean;
 import com.king.lib.tool.ui.RippleFactory;
 import com.king.mytennis.view.R;
@@ -159,9 +159,9 @@ public class MatchCommonActivity extends BaseActivity implements ICommonView {
                 userId = MultiUserManager.getInstance().getUserQi().getId();
                 break;
         }
-        Intent intent = new Intent().setClass(this, MatchActivity.class);
-        intent.putExtra(MatchActivity.KEY_MATCH_NAME, matchNameBean.getName());
-        intent.putExtra(MatchActivity.KEY_USER_ID, userId);
+        Intent intent = new Intent().setClass(this, MatchPageActivity.class);
+        intent.putExtra(MatchPageActivity.KEY_MATCH_NAME, matchNameBean.getName());
+        intent.putExtra(MatchPageActivity.KEY_USER_ID, userId);
         startActivity(intent);
     }
 }

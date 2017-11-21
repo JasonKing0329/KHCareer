@@ -6,7 +6,6 @@ import java.util.List;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -21,8 +20,8 @@ import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.common.image.ImageUtil;
 import com.king.khcareer.base.CustomDialog;
+import com.king.khcareer.player.page.PlayerPageActivity;
 import com.king.mytennis.view.R;
-import com.king.khcareer.record.detail.DetailGallery;
 
 public class GloryMatchDialog extends CustomDialog implements OnItemLongClickListener {
 
@@ -115,11 +114,10 @@ public class GloryMatchDialog extends CustomDialog implements OnItemLongClickLis
 								   int position, long id) {
 
 		Intent intent = new Intent();
-		intent.setClass(getContext(), DetailGallery.class);
-		Bundle bundle = new Bundle();
-		bundle.putSerializable("record", recordList.get(position));
-		intent.putExtras(bundle);
+		intent.setClass(getContext(), PlayerPageActivity.class);
+		intent.putExtra(PlayerPageActivity.KEY_COMPETITOR_NAME, recordList.get(position).getCompetitor());
 		getContext().startActivity(intent);
+		dismiss();
 		return false;
 	}
 

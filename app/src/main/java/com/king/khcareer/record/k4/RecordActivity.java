@@ -20,9 +20,10 @@ import com.king.khcareer.common.image.ImageFactory;
 import com.king.khcareer.common.image.ImageUtil;
 import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.common.viewsys.DefaultDialogManager;
+import com.king.khcareer.match.page.MatchPageActivity;
 import com.king.khcareer.model.sql.player.H2HDAOList;
 import com.king.khcareer.model.sql.player.bean.Record;
-import com.king.khcareer.player.timeline.PlayerActivity;
+import com.king.khcareer.player.page.PlayerPageActivity;
 import com.king.khcareer.record.DetailsDialog;
 import com.king.khcareer.record.RecordFilterDialog;
 import com.king.khcareer.record.RecordService;
@@ -49,7 +50,7 @@ import butterknife.ButterKnife;
  * <p/>作者：景阳
  * <p/>创建时间: 2017/4/20 16:17
  */
-public class RecordActivity extends BaseActivity implements IRecordView, OnItemMenuListener
+public class RecordActivity extends BaseActivity implements IRecordView, OnItemMenuListener, OnHeadLongClickListener
     , OnBMClickListener {
 
     @BindView(R.id.rv_record)
@@ -149,7 +150,7 @@ public class RecordActivity extends BaseActivity implements IRecordView, OnItemM
         }
 
         if (recordAdapter == null) {
-            recordAdapter = new RecordAdapter(data.getYearList(), this);
+            recordAdapter = new RecordAdapter(data.getYearList(), this, this);
             rvRecord.setAdapter(recordAdapter);
         } else {
             recordAdapter.updateData(data.getYearList());
@@ -246,10 +247,10 @@ public class RecordActivity extends BaseActivity implements IRecordView, OnItemM
     @Override
     public void onItemClicked(View view, RecordItem recordItem) {
         Intent intent = new Intent();
-        intent.setClass(this, PlayerActivity.class);
-        intent.putExtra(PlayerActivity.KEY_COMPETITOR_NAME, recordItem.getRecord().getCompetitor());
+        intent.setClass(this, PlayerPageActivity.class);
+        intent.putExtra(PlayerPageActivity.KEY_COMPETITOR_NAME, recordItem.getRecord().getCompetitor());
         ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(this
-                , Pair.create(view.findViewById(R.id.iv_player),getString(R.string.anim_pullzoom_head)));
+                , Pair.create(view.findViewById(R.id.iv_player),getString(R.string.anim_player_page_head)));
         startActivity(intent, transitionActivityOptions.toBundle());
     }
 
@@ -266,5 +267,15 @@ public class RecordActivity extends BaseActivity implements IRecordView, OnItemM
                 rvRecord.smoothScrollToPosition(0);
                 break;
         }
+    }
+
+    @Override
+    public void onLongClickHead(View view, HeaderItem item) {
+        Intent intent = new Intent();
+        intent.setClass(this, MatchPageActivity.class);
+        intent.putExtra(MatchPageActivity.KEY_MATCH_NAME, item.getRecord().getMatch());
+        ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(this
+                , Pair.create(view.findViewById(R.id.iv_match),getString(R.string.anim_match_page_head)));
+        startActivity(intent, transitionActivityOptions.toBundle());
     }
 }

@@ -21,11 +21,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
-
-import static android.R.attr.key;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2016/10/9.
@@ -46,22 +44,18 @@ public class InteractionController {
         AppHttpClient.getInstance().getAppService().isServerOnline()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<GdbRespBean>() {
+                .subscribe(new Consumer<GdbRespBean>() {
                     @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        mCallback.onServiceDisConnected();
-                    }
-
-                    @Override
-                    public void onNext(GdbRespBean gdbRespBean) {
+                    public void accept(GdbRespBean gdbRespBean) throws Exception {
                         if (gdbRespBean.isOnline()) {
                             requestGetImages(flag, key);
                         }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        throwable.printStackTrace();
+                        mCallback.onServiceDisConnected();
                     }
                 });
 
@@ -77,20 +71,16 @@ public class InteractionController {
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<ImageUrlBean>() {
+                .subscribe(new Consumer<ImageUrlBean>() {
                     @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        mCallback.onRequestError();
-                    }
-
-                    @Override
-                    public void onNext(ImageUrlBean bean) {
+                    public void accept(ImageUrlBean bean) throws Exception {
                         mCallback.onImagesReceived(bean);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        throwable.printStackTrace();
+                        mCallback.onRequestError();
                     }
                 });
     }

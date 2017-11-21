@@ -37,8 +37,9 @@ import com.king.khcareer.common.helper.ObjectCache;
 /**
  * @author JingYang
  * @version create time：2016-3-14 下午3:21:54
- *
+ * pull to zoom style
  */
+@Deprecated
 public class PlayerActivity extends BaseActivity implements OnGroupCollapseListener
 		, OnChildClickListener, View.OnClickListener{
 

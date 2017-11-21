@@ -19,10 +19,12 @@ public class RecordAdapter extends BaseExpandableAdapter {
     private final int ITEM_TYPE_RECORD = 3;
 
     private OnItemMenuListener onItemMenuListener;
+    private OnHeadLongClickListener onHeadLongClickListener;
 
-    protected RecordAdapter(List<YearItem> data, OnItemMenuListener onItemMenuListener) {
+    protected RecordAdapter(List<YearItem> data, OnItemMenuListener onItemMenuListener, OnHeadLongClickListener onHeadLongClickListener) {
         super(data);
         this.onItemMenuListener = onItemMenuListener;
+        this.onHeadLongClickListener = onHeadLongClickListener;
     }
 
     @NonNull
@@ -33,7 +35,7 @@ public class RecordAdapter extends BaseExpandableAdapter {
             case ITEM_TYPE_YEAR:
                 return new YearAdapter();
             case ITEM_TYPE_HEAD:
-                return new HeaderAdapter();
+                return new HeaderAdapter(onHeadLongClickListener);
             case ITEM_TYPE_RECORD:
                 return new RecordItemAdapter(onItemMenuListener);
         }

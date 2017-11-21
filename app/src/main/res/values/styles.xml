@@ -326,4 +326,19 @@
         <item name="android:scaleType">fitCenter</item>
     </style>
 
+    <style name="PlayerCollapsingText">
+        <item name="android:textSize">24dp</item>
+        <item name="android:textColor">#DE000000</item>
+    </style>
+
+    <style name="PlayerPageName">
+        <item name="android:textSize">16dp</item>
+        <item name="android:textColor">#89000000</item>
+    </style>
+
+    <style name="PlayerPageDim">
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">#4F000000</item>
+    </style>
+
 </resources>

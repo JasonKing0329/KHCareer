@@ -4,9 +4,11 @@
     android:layout_width="match_parent" android:layout_height="wrap_content">
 
     <android.support.v7.widget.CardView
+        android:id="@+id/group_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="7dp"
+        android:background="?android:attr/selectableItemBackground"
         app:cardElevation="5dp"
         app:cardCornerRadius="10dp">
         <LinearLayout

@@ -14,11 +14,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import rx.Observable;
-import rx.Observer;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * 描述:
@@ -53,28 +54,23 @@ public class RecordPresenter {
     }
 
     private void executeLoad() {
-        Observable.create(new Observable.OnSubscribe<RecordPageData>() {
+        Observable.create(new ObservableOnSubscribe<RecordPageData>() {
             @Override
-            public void call(Subscriber<? super RecordPageData> subscriber) {
+            public void subscribe(ObservableEmitter<RecordPageData> e) throws Exception {
                 RecordPageData headerList = createHeaderList();
-                subscriber.onNext(headerList);
+                e.onNext(headerList);
             }
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<RecordPageData>() {
+                .subscribe(new Consumer<RecordPageData>() {
                     @Override
-                    public void onCompleted() {
-
+                    public void accept(RecordPageData recordPageData) throws Exception {
+                        recordView.onRecordDataLoaded(recordPageData);
                     }
-
+                }, new Consumer<Throwable>() {
                     @Override
-                    public void onError(Throwable e) {
-
-                    }
-
-                    @Override
-                    public void onNext(RecordPageData data) {
-                        recordView.onRecordDataLoaded(data);
+                    public void accept(Throwable throwable) throws Exception {
+                        throwable.printStackTrace();
                     }
                 });
     }

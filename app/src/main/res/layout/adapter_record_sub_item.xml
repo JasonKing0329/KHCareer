@@ -13,8 +13,8 @@
 	android:paddingRight="20dp">
 	<com.king.khcareer.pubview.CircleImageView
 		android:id="@+id/iv_player"
-		android:layout_width="45dp"
-		android:layout_height="45dp"
+		android:layout_width="@dimen/record_item_player_size"
+		android:layout_height="@dimen/record_item_player_size"
 		android:layout_margin="1dp"
 		android:src="@drawable/icon_list"
 		android:layout_gravity="center_vertical"

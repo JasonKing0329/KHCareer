@@ -12,11 +12,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import rx.Observable;
-import rx.Observer;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2017/4/30 0030.
@@ -40,28 +41,23 @@ public class H2hPresenter {
     }
 
     public void loadDatas() {
-        Observable.create(new Observable.OnSubscribe<H2hListPageData>() {
+        Observable.create(new ObservableOnSubscribe<H2hListPageData>() {
             @Override
-            public void call(Subscriber<? super H2hListPageData> subscriber) {
+            public void subscribe(ObservableEmitter<H2hListPageData> e) throws Exception {
                 h2hListPageData = createHeaderList();
-                subscriber.onNext(h2hListPageData);
+                e.onNext(h2hListPageData);
             }
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<H2hListPageData>() {
+                .subscribe(new Consumer<H2hListPageData>() {
                     @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onNext(H2hListPageData data) {
+                    public void accept(H2hListPageData data) throws Exception {
                         h2hView.onDataLoaded(data);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        throwable.printStackTrace();
                     }
                 });
     }

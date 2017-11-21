@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal" 
     android:paddingLeft="10dp">
-    <ImageView 
-        android:id="@+id/glory_match_list_item_head"
-	    android:layout_width="130px"
-	    android:layout_height="130px"
-	    android:scaleType="fitXY"
-	    android:layout_gravity="center_vertical"
-        />
+    <com.king.khcareer.pubview.CircleImageView
+        android:id="@+id/iv_player"
+	    android:layout_width="@dimen/record_item_player_size"
+	    android:layout_height="@dimen/record_item_player_size"
+		app:civ_border_width="0dp"
+		app:civ_border_color="@color/white"/>
 	<TextView
        	android:id="@+id/glory_match_list_item_round"
 	    android:layout_width="60dp"

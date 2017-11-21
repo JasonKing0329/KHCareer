@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
-ext.appVersionName = "4.11"
-ext.appVersionCode = 81
+ext.appVersionName = "5.0"
+ext.appVersionCode = 82
 ext.appReleaseDir = "E:/temp/release/KHCareer"
 
 android {
@@ -92,17 +92,20 @@ dependencies {
 
     compile 'com.nineoldandroids:library:2.4.0'
     /*gson*/
-    compile 'com.google.code.gson:gson:2.6.2'
-    /*rxjava*/
-    compile 'io.reactivex:rxjava:1.1.1'
-    compile 'io.reactivex:rxandroid:1.1.0'
-    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+    compile "com.google.code.gson:gson:${GSON_VERSION}"
+    /*rxjava  rxbinding  sqlbrite*/
+    compile "io.reactivex.rxjava2:rxjava:${RXJAVA_VERSION}"
+    compile "io.reactivex.rxjava2:rxandroid:${RXANDROID_VERSION}"
     /*retrofit2*/
-    compile 'com.squareup.retrofit2:retrofit:2.0.1'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.1'
-    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.1'
+    compile "com.squareup.retrofit2:retrofit:${RETROFIT_VERSION}"
+    compile "com.squareup.retrofit2:converter-gson:${RETROFIT_VERSION}"
+    compile "com.squareup.retrofit2:adapter-rxjava2:${RETROFIT_VERSION}"
+    compile "com.squareup.okhttp3:logging-interceptor:${OKHTTP_VERSION}"
+    /*okhttp*/
+    compile "com.squareup.okhttp3:okhttp:${OKHTTP_VERSION}"
+    compile "com.squareup.okio:okio:${OKIO_VERSION}"
     /*logger*/
-    compile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
+    compile "com.orhanobut:logger:${LOGGER_VERSION}"
     /*butterknife*/
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'

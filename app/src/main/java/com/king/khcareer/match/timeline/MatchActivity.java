@@ -27,6 +27,7 @@ import com.king.khcareer.common.helper.ObjectCache;
  * @author JingYang
  * @version create time：2016-3-14 下午3:21:54
  */
+@Deprecated
 public class MatchActivity extends BaseActivity implements OnGroupCollapseListener
 		, OnChildClickListener{
 

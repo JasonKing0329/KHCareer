@@ -15,19 +15,15 @@ import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.model.sql.pubdata.PubDataProvider;
 import com.king.khcareer.common.image.ImageUtil;
+import com.king.khcareer.player.page.PlayerPageActivity;
 import com.king.mytennis.view.R;
-import com.king.khcareer.common.helper.ObjectCache;
 import com.king.khcareer.common.image.interaction.controller.InteractionController;
 import com.king.khcareer.player.timeline.PlayerBean;
-import com.king.khcareer.player.timeline.PlayerActivity;
 
-import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -319,11 +315,9 @@ public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter {
 	}
 	@Override
 	public void onItemClicked(View v, int itemPosition) {
-		ObjectCache.putPlayerBean(mList.get(itemPosition));
-		Intent intent = new Intent().setClass(mContext, PlayerActivity.class);
-		ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation((Activity) mContext
-				, Pair.create(v.findViewById(R.id.swipecard_player_img), mContext.getString(R.string.anim_pullzoom_head)));
-		mContext.startActivity(intent, transitionActivityOptions.toBundle());
+		Intent intent = new Intent().setClass(mContext, PlayerPageActivity.class);
+		intent.putExtra(PlayerPageActivity.KEY_COMPETITOR_NAME, mList.get(itemPosition).getName());
+		mContext.startActivity(intent);
 	}
 
 	@Override

@@ -1,13 +1,11 @@
 package com.king.khcareer.player.h2hlist;
 
-import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Pair;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -19,7 +17,7 @@ import com.king.khcareer.base.CustomDialog;
 import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.glory.ChartManager;
 import com.king.khcareer.model.sql.player.bean.H2hParentBean;
-import com.king.khcareer.player.timeline.PlayerActivity;
+import com.king.khcareer.player.page.PlayerPageActivity;
 import com.king.khcareer.pubview.SideBar;
 import com.king.khcareer.utils.AnimUtil;
 import com.king.mytennis.view.R;
@@ -227,11 +225,9 @@ public class H2hListActivity extends BaseActivity implements IH2hListView, OnIte
     public void onItemClicked(View v, H2hParentBean item) {
 
         Intent intent = new Intent();
-        intent.setClass(this, PlayerActivity.class);
-        intent.putExtra(PlayerActivity.KEY_COMPETITOR_NAME, item.getPlayer());
-        ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(this
-                , Pair.create(v.findViewById(R.id.iv_player),getString(R.string.anim_pullzoom_head)));
-        startActivity(intent, transitionActivityOptions.toBundle());
+        intent.setClass(this, PlayerPageActivity.class);
+        intent.putExtra(PlayerPageActivity.KEY_COMPETITOR_NAME, item.getPlayer());
+        startActivity(intent);
     }
 
     @Override

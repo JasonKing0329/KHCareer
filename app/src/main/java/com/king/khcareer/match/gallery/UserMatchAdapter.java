@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.king.khcareer.common.image.interaction.ImageManager;
+import com.king.khcareer.match.page.MatchPageActivity;
 import com.king.khcareer.model.http.Command;
 import com.king.khcareer.model.http.bean.ImageUrlBean;
 import com.king.khcareer.common.config.Constants;
@@ -20,9 +21,7 @@ import com.king.khcareer.common.image.ImageFactory;
 import com.king.khcareer.common.image.ImageUtil;
 import com.king.mytennis.view.R;
 import com.king.khcareer.match.gallery.UserMatchAdapter.ItemHolder;
-import com.king.khcareer.common.helper.ObjectCache;
 import com.king.khcareer.common.image.interaction.controller.InteractionController;
-import com.king.khcareer.match.timeline.MatchActivity;
 
 import java.util.HashMap;
 import java.util.List;
@@ -163,15 +162,19 @@ public class UserMatchAdapter extends RecyclerView.Adapter<ItemHolder> implement
     @Override
     public void onClick(View view) {
         int position = (int) view.getTag();
-        ObjectCache.putUserMatchBean(list.get(position));
-        Intent intent = new Intent().setClass(view.getContext(), MatchActivity.class);
-        Pair<View, String>[] pairs = new Pair[3];
-        pairs[0] = Pair.create(view.findViewById(R.id.swipecard_match_img), view.getContext().getString(R.string.anim_pullzoom_head));
-        pairs[1] = Pair.create(tvMatch, view.getContext().getString(R.string.anim_pullzoom_match_name));
-        pairs[2] = Pair.create(tvPlace, view.getContext().getString(R.string.anim_pullzoom_match_country));
-        ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(
-                (Activity) view.getContext(), pairs);
-        view.getContext().startActivity(intent, transitionActivityOptions.toBundle());
+//        ObjectCache.putUserMatchBean(list.get(position));
+//        Intent intent = new Intent().setClass(view.getContext(), MatchActivity.class);
+//        Pair<View, String>[] pairs = new Pair[3];
+//        pairs[0] = Pair.create(view.findViewById(R.id.swipecard_match_img), view.getContext().getString(R.string.anim_player_page_head));
+//        pairs[1] = Pair.create(tvMatch, view.getContext().getString(R.string.anim_pullzoom_match_name));
+//        pairs[2] = Pair.create(tvPlace, view.getContext().getString(R.string.anim_pullzoom_match_country));
+//        ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(
+//                (Activity) view.getContext(), pairs);
+//        view.getContext().startActivity(intent, transitionActivityOptions.toBundle());
+
+        Intent intent = new Intent().setClass(view.getContext(), MatchPageActivity.class);
+        intent.putExtra(MatchPageActivity.KEY_MATCH_NAME, list.get(position).getNameBean().getName());
+        view.getContext().startActivity(intent);
     }
 
     /**

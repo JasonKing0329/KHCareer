@@ -21,10 +21,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import rx.Observable;
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2017/6/5 0005.
@@ -43,27 +45,22 @@ public class GloryPresenter {
     }
     
     public void loadDatas() {
-        Observable.create(new Observable.OnSubscribe<GloryTitle>() {
+        Observable.create(new ObservableOnSubscribe<GloryTitle>() {
             @Override
-            public void call(Subscriber<? super GloryTitle> subscriber) {
-                subscriber.onNext(loadGloryDatas());
+            public void subscribe(ObservableEmitter<GloryTitle> e) throws Exception {
+                e.onNext(loadGloryDatas());
             }
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<GloryTitle>() {
+                .subscribe(new Consumer<GloryTitle>() {
                     @Override
-                    public void onCompleted() {
-                        
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        e.printStackTrace();
-                    }
-
-                    @Override
-                    public void onNext(GloryTitle gloryTitle) {
+                    public void accept(GloryTitle gloryTitle) throws Exception {
                         gloryView.onGloryTitleLoaded(gloryTitle);
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        throwable.printStackTrace();
                     }
                 });
     }

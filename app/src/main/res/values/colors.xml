@@ -278,6 +278,13 @@
     <color name="normal_court_grass">#50a625</color>
     <color name="normal_court_inhard">#3453d1</color>
 
+    <color name="shot_toolbar_content_scrim">#8AFFFFFF</color>
+
+    <color name="text_color_primary">#DE000000</color>
+    <color name="text_color_secondary">#89000000</color>
+    <color name="text_color_hint">#61000000</color>
+    <color name="text_color_dim">#1F000000</color>
+
     <color name="white">#FFFFFF</color> <!-- 白色 -->
     <color name="ivory">#FFFFF0</color> <!-- 象牙色 -->
     <color name="lightyellow">#FFFFE0</color> <!-- 亮黄色 -->
@@ -426,6 +433,7 @@
     <color name="black">#000000</color> <!-- 黑色 -->
     <color name="clay">#cc6600</color>
     <color name="theme_h2hlist">#12161F</color>
+    <color name="icon_grey">#D8D8D8</color>
 
 </resources>
 <!--

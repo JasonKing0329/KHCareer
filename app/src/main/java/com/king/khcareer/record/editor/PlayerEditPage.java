@@ -14,9 +14,8 @@ import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.model.sql.pubdata.bean.PlayerBean;
 import com.king.khcareer.common.image.ImageUtil;
+import com.king.khcareer.player.page.PlayerPageActivity;
 import com.king.mytennis.view.R;
-import com.king.khcareer.common.helper.ObjectCache;
-import com.king.khcareer.player.timeline.PlayerActivity;
 
 /**
  * 描述:
@@ -90,13 +89,9 @@ public class PlayerEditPage implements View.OnClickListener {
 
     private void showH2hDetails() {
         if (playerBean != null) {
-            com.king.khcareer.player.timeline.PlayerBean bean = new com.king.khcareer.player.timeline.PlayerBean();
-            bean.setCountry(playerBean.getCountry());
-            bean.setName(playerBean.getNameChn());
-            bean.setWin(h2HDAO.getWin());
-            bean.setLose(h2HDAO.getLose());
-            ObjectCache.putPlayerBean(bean);
-            editorHolder.getActivity().startActivity(new Intent(editorHolder.getActivity(), PlayerActivity.class));
+            Intent intent = new Intent(editorHolder.getActivity(), PlayerPageActivity.class);
+            intent.putExtra(PlayerPageActivity.KEY_COMPETITOR_NAME, playerBean.getNameChn());
+            editorHolder.getActivity().startActivity(intent);
         }
     }
 

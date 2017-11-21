@@ -321,7 +321,8 @@
     <string name="anim_home_date" translatable="false">anim_home_date</string>
     <string name="anim_home_add" translatable="false">anim_home_add</string>
     <string name="anim_home_match" translatable="false">anim_home_match</string>
-    <string name="anim_pullzoom_head" translatable="false">anim_record_item</string>
+    <string name="anim_player_page_head" translatable="false">anim_player_head_circle</string>
+    <string name="anim_match_page_head" translatable="false">anim_match_head</string>
     <string name="anim_pullzoom_match_name" translatable="false">anim_pullzoom_match_name</string>
     <string name="anim_pullzoom_match_country" translatable="false">anim_pullzoom_match_country</string>
     <string name="anim_pullzoom_player_name" translatable="false">anim_pullzoom_player_name</string>

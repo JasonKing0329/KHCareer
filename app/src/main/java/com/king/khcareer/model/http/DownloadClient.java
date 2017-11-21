@@ -5,7 +5,7 @@ import com.king.khcareer.model.http.progress.ProgressListener;
 
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
-import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 /**
  * 文件下载
@@ -49,7 +49,7 @@ public class DownloadClient {
         }
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
-                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(client)
                 .build();
         mDownloadService = retrofit.create(DownloadService.class);

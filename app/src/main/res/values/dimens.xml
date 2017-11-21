@@ -105,4 +105,6 @@
     <dimen name="record_filter_spinner_input_large">150dp</dimen>
     <dimen name="record_filter_spinner_input_short">60dp</dimen>
     <dimen name="record_filter_item_height">40dp</dimen>
+    <dimen name="record_item_player_size">45dp</dimen>
+    <dimen name="match_page_line_left">20dp</dimen>
 </resources>

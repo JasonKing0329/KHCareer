@@ -63,7 +63,7 @@ public class GloryMatchAdapter extends BaseAdapter {
 		if (convertView == null) {
 			convertView = LayoutInflater.from(context).inflate(R.layout.glory_match_list_item, null);
 			holder = new RecordViewHolder();
-			holder.head = (ImageView) convertView.findViewById(R.id.glory_match_list_item_head);
+			holder.head = (ImageView) convertView.findViewById(R.id.iv_player);
 			holder.round = (TextView) convertView.findViewById(R.id.glory_match_list_item_round);
 			holder.player = (TextView) convertView.findViewById(R.id.glory_match_list_item_player);
 			holder.line1 = (TextView) convertView.findViewById(R.id.glory_match_list_item_line1);

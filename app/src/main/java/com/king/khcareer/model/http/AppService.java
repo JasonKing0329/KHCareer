@@ -3,9 +3,9 @@ package com.king.khcareer.model.http;
 import com.king.khcareer.update.AppCheckBean;
 import com.king.khcareer.update.GdbRespBean;
 
+import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;
-import rx.Observable;
 
 /**
  * Created by Administrator on 2016/9/5.

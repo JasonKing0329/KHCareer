@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.king.khcareer.player.page.PlayerPageActivity;
 import com.king.lib.tool.ui.RippleFactory;
 import com.king.khcareer.common.image.ImageFactory;
 import com.king.khcareer.common.multiuser.MultiUser;
@@ -18,8 +19,6 @@ import com.king.khcareer.common.image.ImageUtil;
 import com.king.khcareer.utils.ConstellationUtil;
 import com.king.khcareer.base.BaseActivity;
 import com.king.mytennis.view.R;
-import com.king.khcareer.common.helper.ObjectCache;
-import com.king.khcareer.player.timeline.PlayerActivity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -182,23 +181,20 @@ public class PlayerCommonActivity extends BaseActivity implements ICommonView {
         switch (view.getId()) {
             case R.id.common_group_king:
                 userId = MultiUserManager.getInstance().getUserKing().getId();
-                ObjectCache.putPlayerBean(pbMap.get(MultiUserManager.getInstance().getUserKing()));
                 break;
             case R.id.common_group_flamenco:
                 userId = MultiUserManager.getInstance().getUserFlamenco().getId();
-                ObjectCache.putPlayerBean(pbMap.get(MultiUserManager.getInstance().getUserFlamenco()));
                 break;
             case R.id.common_group_henry:
                 userId = MultiUserManager.getInstance().getUserHenry().getId();
-                ObjectCache.putPlayerBean(pbMap.get(MultiUserManager.getInstance().getUserHenry()));
                 break;
             case R.id.common_group_qi:
                 userId = MultiUserManager.getInstance().getUserQi().getId();
-                ObjectCache.putPlayerBean(pbMap.get(MultiUserManager.getInstance().getUserQi()));
                 break;
         }
-        Intent intent = new Intent().setClass(this, PlayerActivity.class);
-        intent.putExtra(PlayerActivity.KEY_USER_ID, userId);
+        Intent intent = new Intent().setClass(this, PlayerPageActivity.class);
+        intent.putExtra(PlayerPageActivity.KEY_USER_ID, userId);
+        intent.putExtra(PlayerPageActivity.KEY_COMPETITOR_NAME, playerBean.getNameChn());
         startActivity(intent);
     }
 }

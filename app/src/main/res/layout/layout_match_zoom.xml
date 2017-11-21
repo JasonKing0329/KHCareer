@@ -5,5 +5,5 @@
     android:layout_height="match_parent"
     android:scaleType="centerCrop"
     android:layout_gravity="center_horizontal"
-    android:transitionName="@string/anim_pullzoom_head"
+    android:transitionName="@string/anim_player_page_head"
     android:contentDescription="@string/app_name" />

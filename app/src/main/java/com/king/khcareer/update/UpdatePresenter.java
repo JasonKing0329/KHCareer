@@ -12,9 +12,9 @@ import com.king.khcareer.common.config.Configuration;
 
 import java.io.File;
 
-import rx.Subscriber;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.schedulers.Schedulers;
 
 /**
  * Created by Administrator on 2016/9/6.
@@ -41,22 +41,18 @@ public class UpdatePresenter {
         AppHttpClient.getInstance().getAppService().isServerOnline()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<GdbRespBean>() {
+                .subscribe(new Consumer<GdbRespBean>() {
                     @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        updateView.onServiceDisConnected();
-                    }
-
-                    @Override
-                    public void onNext(GdbRespBean gdbRespBean) {
+                    public void accept(GdbRespBean gdbRespBean) throws Exception {
                         if (gdbRespBean.isOnline()) {
                             requestCheckAppUpdate(versionName);
                         }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        throwable.printStackTrace();
+                        updateView.onServiceDisConnected();
                     }
                 });
     }
@@ -65,25 +61,21 @@ public class UpdatePresenter {
         AppHttpClient.getInstance().getAppService().checkAppUpdate(Command.TYPE_APP, versionName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<AppCheckBean>() {
+                .subscribe(new Consumer<AppCheckBean>() {
                     @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        updateView.onRequestError();
-                    }
-
-                    @Override
-                    public void onNext(AppCheckBean appCheckBean) {
+                    public void accept(AppCheckBean appCheckBean) throws Exception {
                         if (appCheckBean.isAppUpdate()) {
                             updateView.onAppUpdateFound(appCheckBean);
                         }
                         else {
                             updateView.onAppIsLatest();
                         }
+                    }
+                }, new Consumer<Throwable>() {
+                    @Override
+                    public void accept(Throwable throwable) throws Exception {
+                        throwable.printStackTrace();
+                        updateView.onRequestError();
                     }
                 });
     }

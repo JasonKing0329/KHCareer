@@ -105,6 +105,16 @@
             android:screenOrientation="portrait"
             android:theme="@style/ActionBarBlue" />
         <activity
+            android:name="com.king.khcareer.player.page.PlayerPageActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
+            android:theme="@style/HomeTheme" />
+        <activity
+            android:name="com.king.khcareer.match.page.MatchPageActivity"
+            android:screenOrientation="portrait"
+            android:launchMode="singleTask"
+            android:theme="@style/HomeTheme" />
+        <activity
             android:name="com.king.khcareer.match.manage.MatchManageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ActionBarBlue" />

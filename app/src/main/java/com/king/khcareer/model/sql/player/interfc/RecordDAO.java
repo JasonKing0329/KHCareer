@@ -22,5 +22,5 @@ public interface RecordDAO {
 	public String[] getCptNames();
 	public String[] getMatchNames();
 	public List<Record> queryByMatch(String match);
-	
+	List<Record> queryByCompetitor(String competitor);
 }

@@ -1,6 +1,7 @@
 package com.king.khcareer.record.k4;
 
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,7 +21,7 @@ import com.zaihuishou.expandablerecycleradapter.viewholder.AbstractExpandableAda
  * <p/>作者：景阳
  * <p/>创建时间: 2017/4/21 16:15
  */
-public class HeaderAdapter extends AbstractExpandableAdapterItem {
+public class HeaderAdapter extends AbstractExpandableAdapterItem implements View.OnLongClickListener {
 
 //    private TextView tvMatchFirst;
     private ImageView ivMatch;
@@ -29,6 +30,13 @@ public class HeaderAdapter extends AbstractExpandableAdapterItem {
     private TextView tvMatchDate;
     private TextView tvMatchRound;
     private ImageView ivWinnerCup;
+    private ViewGroup groupCard;
+
+    private OnHeadLongClickListener onHeadLongClickListener;
+
+    public HeaderAdapter(OnHeadLongClickListener onHeadLongClickListener) {
+        this.onHeadLongClickListener = onHeadLongClickListener;
+    }
 
     @Override
     public int getLayoutResId() {
@@ -50,6 +58,7 @@ public class HeaderAdapter extends AbstractExpandableAdapterItem {
         tvMatchRound = (TextView) root.findViewById(R.id.tv_match_round);
         ivWinnerCup = (ImageView) root.findViewById(R.id.iv_winner_cup);
         ivMatch = (ImageView) root.findViewById(R.id.iv_match);
+        groupCard = (ViewGroup) root.findViewById(R.id.group_card);
     }
 
     @Override
@@ -96,6 +105,9 @@ public class HeaderAdapter extends AbstractExpandableAdapterItem {
                 .load(ImageFactory.getMatchHeadPath(record.getMatch(), court))
                 .apply(GlideOptions.getDefaultMatchOptions())
                 .into(ivMatch);
+
+        groupCard.setTag(item);
+        groupCard.setOnLongClickListener(this);
     }
 
     @Override
@@ -106,5 +118,13 @@ public class HeaderAdapter extends AbstractExpandableAdapterItem {
     @Override
     public void onExpansionToggled(boolean expanded) {
 
+    }
+
+    @Override
+    public boolean onLongClick(View v) {
+        if (onHeadLongClickListener != null) {
+            onHeadLongClickListener.onLongClickHead(v, (HeaderItem) v.getTag());
+        }
+        return true;
     }
 }
