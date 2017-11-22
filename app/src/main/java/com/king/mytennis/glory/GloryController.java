@@ -118,7 +118,7 @@ public class GloryController {
 
 	public HashMap<String, Integer> getRankData() {
 		HashMap<String, Integer> data = null;
-		data = new FileIO().readRankData();
+		data = new FileIO().readRankData(MultiUserManager.getInstance().getTargetRankFile(null));
 		return data;
 	}
 

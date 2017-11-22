@@ -3,6 +3,7 @@ package com.king.khcareer.common.multiuser;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.util.Log;
 
 import com.king.khcareer.base.KApplication;
@@ -54,17 +55,20 @@ public class MultiUserManager {
 		return multiUserManager;
 	}
 
-	public int getFirstTop30Year() {
-		if (currentUser.getId().equals(users[0].getId())) {
+	public int getFirstTop30Year(MultiUser user) {
+		if (user == null) {
+			user = currentUser;
+		}
+		if (user.getId().equals(users[0].getId())) {
 			return firstTop30Year[0];
 		}
-		else if (currentUser.getId().equals(users[1].getId())) {
+		else if (user.getId().equals(users[1].getId())) {
 			return firstTop30Year[1];
 		}
-		else if (currentUser.getId().equals(users[2].getId())) {
+		else if (user.getId().equals(users[2].getId())) {
 			return firstTop30Year[2];
 		}
-		else if (currentUser.getId().equals(users[3].getId())) {
+		else if (user.getId().equals(users[3].getId())) {
 			return firstTop30Year[3];
 		}
 		return 0;
@@ -253,18 +257,21 @@ public class MultiUserManager {
 		return DatabaseStruct.DATABASE;
 	}
 
-	public String getTargetRankFile() {
-		if (users != null && currentUser != null) {
-			if (currentUser.getId().equals(users[0].getId())) {
+	public String getTargetRankFile(MultiUser user) {
+		if (user == null) {
+			user = currentUser;
+		}
+		if (users != null && user != null) {
+			if (user.getId().equals(users[0].getId())) {
 				return Configuration.RANK_FILE;
 			}
-			else if (currentUser.getId().equals(users[1].getId())) {
+			else if (user.getId().equals(users[1].getId())) {
 				return Configuration.RANK_FILE_FLAMENCO;
 			}
-			else if (currentUser.getId().equals(users[2].getId())) {
+			else if (user.getId().equals(users[2].getId())) {
 				return Configuration.RANK_FILE_HENRY;
 			}
-			else if (currentUser.getId().equals(users[3].getId())) {
+			else if (user.getId().equals(users[3].getId())) {
 				return Configuration.RANK_FILE_TIANQI;
 			}
 		}

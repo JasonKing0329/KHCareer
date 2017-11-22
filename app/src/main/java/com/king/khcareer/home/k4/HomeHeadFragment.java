@@ -116,4 +116,8 @@ public class HomeHeadFragment extends BaseFragment {
     public void onViewClicked() {
         holder.onClickScoreHead();
     }
+
+    public void onRankChanged() {
+        tvRank.setText(String.valueOf(scorePrensenter.loadRank().getRank()));
+    }
 }

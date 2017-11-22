@@ -154,8 +154,7 @@
             <com.yarolegovich.discretescrollview.DiscreteScrollView
                 android:id="@+id/dsv_match"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:transitionName="@string/anim_home_match"/>
+                android:layout_height="wrap_content"/>
         </LinearLayout>
 
         <LinearLayout

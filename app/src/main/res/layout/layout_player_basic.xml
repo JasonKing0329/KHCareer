@@ -79,7 +79,7 @@
         android:id="@+id/tv_rank"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_alignBottom="@id/iv_flag_bg"
         android:layout_marginLeft="60dp"
         android:layout_marginBottom="40dp"
         android:text="1"

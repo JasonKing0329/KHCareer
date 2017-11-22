@@ -73,6 +73,7 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
     private final int REQUEST_RANK = 101;
     private final int REQUEST_EDITOR = 102;
     private final int REQUEST_RECORD_LIST = 103;
+    private final int REQUEST_SCORE = 104;
 
     private HomeHeadAdapter headAdapter;
 
@@ -309,7 +310,12 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
     @Override
     public void onHomeDataLoaded(HomeData data) {
 
-        startRevealView(500);
+        scrollHome.post(new Runnable() {
+            @Override
+            public void run() {
+                startRevealView(500);
+            }
+        });
 
         ImageUtil.load("file://" + ImageFactory.getMatchHeadPath(data.getRecordMatch(), data.getRecordCourt()), ivRecordBk
                 , R.drawable.default_img);
@@ -333,7 +339,7 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
             matchAdapter.setItemOnclickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startMatchActivity();
+                    startMatchActivity((Integer) view.getTag());
                 }
             });
         } else {
@@ -538,7 +544,7 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
 
     private void startScoreActivity() {
         Intent intent = new Intent().setClass(this, ScoreActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, REQUEST_SCORE);
     }
 
     private void startGloryActivity() {
@@ -553,11 +559,10 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
         startActivity(intent, transitionActivityOptions.toBundle());
     }
 
-    private void startMatchActivity() {
+    private void startMatchActivity(int position) {
         Intent intent = new Intent().setClass(this, UserMatchActivity.class);
-        ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(this
-                , Pair.create(findViewById(R.id.dsv_match),getString(R.string.anim_home_match)));
-        startActivity(intent, transitionActivityOptions.toBundle());
+        intent.putExtra(UserMatchActivity.KEY_START_POSITION, String.valueOf(position));
+        startActivity(intent);
     }
 
     private void startRecordLineActivity() {
@@ -626,6 +631,11 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
             // 删除了记录，刷新home数据
             if (resultCode == Constants.FLAG_RECORD_UPDATE) {
                 refreshHomeData();
+            }
+        }
+        else if (requestCode == REQUEST_SCORE) {
+            if (resultCode == RESULT_OK) {
+                headAdapter.getItem(viewpagerHead.getCurrentItem()).onRankChanged();
             }
         }
         super.onActivityResult(requestCode, resultCode, data);

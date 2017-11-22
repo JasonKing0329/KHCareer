@@ -313,6 +313,7 @@ public class ScoreFragment extends Fragment implements IScorePageView, View.OnCl
     }
 
     public void onRankChanged(int rank) {
+        scoreView.setRankChanged();
         tvRank.setText(String.valueOf(rank));
     }
 
@@ -371,4 +372,5 @@ public class ScoreFragment extends Fragment implements IScorePageView, View.OnCl
         anim.setDuration(500);
         return anim;
     }
+
 }

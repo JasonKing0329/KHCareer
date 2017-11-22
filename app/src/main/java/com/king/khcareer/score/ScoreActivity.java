@@ -34,6 +34,8 @@ public class ScoreActivity extends BaseActivity implements View.OnClickListener,
 
     private ScoreEditDialog editDialog;
 
+    private boolean isRankChanged;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,12 +70,20 @@ public class ScoreActivity extends BaseActivity implements View.OnClickListener,
                 showScoreEditDialog();
                 break;
             case R.id.score_actionbar_back:
-                finish();
+                onBackPressed();
                 break;
             case R.id.score_actionbar_date:
                 showDateGroup();
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (isRankChanged) {
+            setResult(RESULT_OK);
+        }
+        super.onBackPressed();
     }
 
     private void showDateGroup() {
@@ -167,6 +177,11 @@ public class ScoreActivity extends BaseActivity implements View.OnClickListener,
     @Override
     public ScorePresenter getPresenter() {
         return mPresenter;
+    }
+
+    @Override
+    public void setRankChanged() {
+        isRankChanged = true;
     }
 
 }

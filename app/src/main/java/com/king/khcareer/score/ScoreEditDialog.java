@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.model.FileIO;
 import com.king.khcareer.rank.RankFinalBean;
 import com.king.khcareer.base.CustomDialog;
@@ -88,7 +89,7 @@ public class ScoreEditDialog extends CustomDialog {
     }
 
     public RankBean getRankData() {
-        RankBean bean = new FileIO().readRankBean();
+        RankBean bean = new FileIO().readRankBean(MultiUserManager.getInstance().getTargetRankFile(null));
         return bean;
     }
 
@@ -189,7 +190,7 @@ public class ScoreEditDialog extends CustomDialog {
                     rankBean.setTop1Week(Integer.parseInt(top1Week));
                 }
 
-                new FileIO().saveRankBean(rankBean);
+                new FileIO().saveRankBean(rankBean, MultiUserManager.getInstance().getTargetRankFile(null));
                 actionListener.onSave(rankBean);
             }
         }

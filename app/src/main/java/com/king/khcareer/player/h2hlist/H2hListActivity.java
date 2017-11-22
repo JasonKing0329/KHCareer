@@ -19,7 +19,6 @@ import com.king.khcareer.glory.ChartManager;
 import com.king.khcareer.model.sql.player.bean.H2hParentBean;
 import com.king.khcareer.player.page.PlayerPageActivity;
 import com.king.khcareer.pubview.SideBar;
-import com.king.khcareer.utils.AnimUtil;
 import com.king.mytennis.view.R;
 import com.nightonke.boommenu.BoomButtons.ButtonPlaceAlignmentEnum;
 import com.nightonke.boommenu.BoomButtons.ButtonPlaceEnum;
@@ -116,13 +115,6 @@ public class H2hListActivity extends BaseActivity implements IH2hListView, OnIte
         chartManager = new ChartManager(this);
         h2hPresenter = new H2hPresenter(this);
         h2hPresenter.loadDatas();
-
-        groupRoot.post(new Runnable() {
-            @Override
-            public void run() {
-                AnimUtil.startFullCircleRevealAnimation(H2hListActivity.this, groupRoot, null);
-            }
-        });
     }
 
     private void initToolbar() {

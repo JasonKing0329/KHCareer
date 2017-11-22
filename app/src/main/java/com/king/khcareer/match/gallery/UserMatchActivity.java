@@ -3,6 +3,7 @@ package com.king.khcareer.match.gallery;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.widget.TextView;
 
 import com.king.khcareer.common.config.Constants;
@@ -23,6 +24,8 @@ import butterknife.OnClick;
  * <p/>创建时间: 2017/3/15 9:42
  */
 public class UserMatchActivity extends BaseActivity implements DiscreteScrollView.CurrentItemChangeListener {
+
+    public static final String KEY_START_POSITION = "start_position";
 
     @BindView(R.id.match_bk)
     GradientBkView vMatchBk;
@@ -78,20 +81,30 @@ public class UserMatchActivity extends BaseActivity implements DiscreteScrollVie
         userMatchAdapter.setMatchTextView(tvMatch, tvPlace);
         dsvMatch.setAdapter(userMatchAdapter);
 
-        // 定位到最近的赛事
+        // 定位到最近的赛事或者intent指定的赛事
         focusToLatestWeek();
     }
 
     private void focusToLatestWeek() {
-        final int position = mPresenter.findLatestWeekItem(matchList);
-//        dsvMatch.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                dsvMatch.smoothScrollToPosition(position);
-//            }
-//        }, 1000);
+
+        String pos = getIntent().getStringExtra(KEY_START_POSITION);
+        final int position;
+        if (TextUtils.isEmpty(pos)) {
+            position = mPresenter.findLatestWeekItem(matchList);
+        }
+        else {
+            position = Integer.parseInt(pos);
+        }
         dsvMatch.scrollToPosition(position);
-        scrollManager.initPosition(position);
+
+        // 必须post，因为在GradientBkView里的相关计算getWidth()和getHeight()还等于0，渐变颜色的相关区域跟其有关
+        // 不post的话会造成只有一种颜色
+        vMatchBk.post(new Runnable() {
+            @Override
+            public void run() {
+                scrollManager.initPosition(position);
+            }
+        });
     }
 
     private void onItemChanged(int position) {

@@ -21,7 +21,7 @@ import com.zaihuishou.expandablerecycleradapter.viewholder.AbstractExpandableAda
  * <p/>作者：景阳
  * <p/>创建时间: 2017/4/21 16:15
  */
-public class HeaderAdapter extends AbstractExpandableAdapterItem implements View.OnLongClickListener {
+public class HeaderAdapter extends AbstractExpandableAdapterItem implements View.OnClickListener {
 
 //    private TextView tvMatchFirst;
     private ImageView ivMatch;
@@ -106,8 +106,11 @@ public class HeaderAdapter extends AbstractExpandableAdapterItem implements View
                 .apply(GlideOptions.getDefaultMatchOptions())
                 .into(ivMatch);
 
-        groupCard.setTag(item);
-        groupCard.setOnLongClickListener(this);
+        // 设置onLongClickListener会导致无法展开
+//        groupCard.setTag(item);
+//        groupCard.setOnLongClickListener(this);
+        ivMatch.setTag(R.id.tag_record_group_match, item);
+        ivMatch.setOnClickListener(this);
     }
 
     @Override
@@ -121,10 +124,7 @@ public class HeaderAdapter extends AbstractExpandableAdapterItem implements View
     }
 
     @Override
-    public boolean onLongClick(View v) {
-        if (onHeadLongClickListener != null) {
-            onHeadLongClickListener.onLongClickHead(v, (HeaderItem) v.getTag());
-        }
-        return true;
+    public void onClick(View v) {
+        onHeadLongClickListener.onLongClickHead(v, (HeaderItem) v.getTag(R.id.tag_record_group_match));
     }
 }

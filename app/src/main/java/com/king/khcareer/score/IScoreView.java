@@ -8,4 +8,6 @@ package com.king.khcareer.score;
 public interface IScoreView {
 
     ScorePresenter getPresenter();
+
+    void setRankChanged();
 }

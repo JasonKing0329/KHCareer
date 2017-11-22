@@ -39,7 +39,10 @@ public class ScorePresenter implements IScoreCallback {
     private int startWeek, endWeek;
     private int startYear, endYear;
 
+    private MultiUser user;
+
     public ScorePresenter(MultiUser user) {
+        this.user = user;
         scoreModel = new ScoreModel(this, user);
         init();
     }
@@ -66,7 +69,7 @@ public class ScorePresenter implements IScoreCallback {
     }
 
     public RankBean loadRank() {
-        return new FileIO().readRankBean();
+        return new FileIO().readRankBean(MultiUserManager.getInstance().getTargetRankFile(user));
     }
 
     public void queryYearRecords() {
@@ -172,7 +175,7 @@ public class ScorePresenter implements IScoreCallback {
             map.put(bean.getMatchBean().getName(), bean);
         }
 
-        boolean isForce = currentYear > MultiUserManager.getInstance().getFirstTop30Year();
+        boolean isForce = currentYear > MultiUserManager.getInstance().getFirstTop30Year(user);
 
         List<ScoreBean> replaceList = new ArrayList<>();
 

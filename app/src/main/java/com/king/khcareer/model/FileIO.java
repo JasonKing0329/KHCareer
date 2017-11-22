@@ -334,14 +334,14 @@ public class FileIO {
 		}
 	}
 
-	public HashMap<String, Integer> readRankData() {
+	public HashMap<String, Integer> readRankData(String dataFilePath) {
 		HashMap<String, Integer> data = new HashMap<String, Integer>();
 
 		FileInputStream stream = null;
 		DataInputStream din = null;
 		try {
 			stream = new FileInputStream(Configuration.CONF_DIR
-					+ MultiUserManager.getInstance().getTargetRankFile());
+					+ dataFilePath);
 			din = new DataInputStream(stream);
 
 			data.put("rank", din.readInt());
@@ -375,7 +375,7 @@ public class FileIO {
 		return data;
 	}
 
-	public void saveRankBean(RankBean data) {
+	public void saveRankBean(RankBean data, String dataFilePath) {
 		if (data == null) {
 			return;
 		}
@@ -383,7 +383,7 @@ public class FileIO {
 		DataOutputStream dout = null;
 		try {
 			stream = new FileOutputStream(Configuration.CONF_DIR
-					+ MultiUserManager.getInstance().getTargetRankFile());
+					+ dataFilePath);
 			dout = new DataOutputStream(stream);
 			dout.writeInt(data.getRank());
 			dout.writeInt(data.getHighestRank());
@@ -408,14 +408,14 @@ public class FileIO {
 		}
 	}
 
-	public RankBean readRankBean() {
+	public RankBean readRankBean(String dataFilePath) {
 		RankBean bean = new RankBean();
 
 		FileInputStream stream = null;
 		DataInputStream din = null;
 		try {
 			stream = new FileInputStream(Configuration.CONF_DIR
-					+ MultiUserManager.getInstance().getTargetRankFile());
+					+ dataFilePath);
 			din = new DataInputStream(stream);
 
 			bean.setRank(din.readInt());
