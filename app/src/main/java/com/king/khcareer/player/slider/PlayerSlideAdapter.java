@@ -14,7 +14,9 @@ import com.king.khcareer.common.image.glide.GlideOptions;
 import com.king.khcareer.model.sql.pubdata.bean.PlayerBean;
 import com.king.mytennis.view.R;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PlayerSlideAdapter extends RecyclerView.Adapter<PlayerSlideAdapter.SliderCard> implements View.OnClickListener {
 
@@ -23,8 +25,14 @@ public class PlayerSlideAdapter extends RecyclerView.Adapter<PlayerSlideAdapter.
 
     private RequestOptions starOptions;
 
+    /**
+     * 保存首次从文件夹加载的图片序号
+     */
+    private Map<String, Integer> imageIndexMap;
+
     public PlayerSlideAdapter() {
         starOptions = GlideOptions.getDefaultPlayerOptions();
+        imageIndexMap = new HashMap<>();
     }
 
     @Override
@@ -39,8 +47,17 @@ public class PlayerSlideAdapter extends RecyclerView.Adapter<PlayerSlideAdapter.
     @Override
     public void onBindViewHolder(SliderCard holder, int position) {
 
+        String key = list.get(position).getNameChn();
+        String filePath;
+        if (imageIndexMap.get(key) == null) {
+            filePath = ImageFactory.getPlayerHeadPath(key, imageIndexMap);
+        }
+        else {
+            filePath = ImageFactory.getPlayerHeadPath(key, imageIndexMap.get(key));
+        }
+
         Glide.with(KApplication.getInstance())
-                .load(ImageFactory.getPlayerHeadPath(list.get(position).getNameChn()))
+                .load(filePath)
                 .apply(starOptions)
                 .into(holder.imageView);
 

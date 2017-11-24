@@ -197,6 +197,7 @@ public class PlayerSlideActivity extends BaseActivity implements ISlideView {
             recordAdapter.setList(list);
             recordAdapter.notifyDataSetChanged();
         }
+        rvRecords.scrollToPosition(0);
     }
 
     @OnClick({R.id.iv_back})
