@@ -54,6 +54,10 @@ public class PageRecordAdapter extends RecyclerView.Adapter implements View.OnCl
         imageIndexMap = new HashMap<>();
     }
 
+    public void setList(List<Object> list) {
+        this.list = list;
+    }
+
     @Override
     public int getItemViewType(int position) {
         if (list.get(position) instanceof PageTitleBean) {

@@ -3,11 +3,15 @@ package com.king.khcareer.home.k4;
 import com.king.khcareer.match.gallery.UserMatchBean;
 import com.king.khcareer.match.gallery.UserMatchPresenter;
 import com.king.khcareer.model.sql.player.bean.Record;
-import com.king.khcareer.common.multiuser.MultiUserManager;
+import com.king.khcareer.model.sql.pubdata.PubDataProvider;
+import com.king.khcareer.model.sql.pubdata.bean.PlayerBean;
 import com.king.khcareer.record.RecordService;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
@@ -24,10 +28,12 @@ public class HomePresenter {
 
     private IHomeView homeView;
     private UserMatchPresenter userMatchPresenter;
+    private PubDataProvider pubDataProvider;
 
     public HomePresenter(IHomeView homeView) {
         this.homeView = homeView;
         userMatchPresenter = new UserMatchPresenter(homeView.getContext());
+        pubDataProvider = new PubDataProvider();
     }
 
     public void loadHomeDatas() {
@@ -60,19 +66,23 @@ public class HomePresenter {
         data.setRecordList(list);
         data.setMatchList(userMatchPresenter.getMatchList(list));
 
-        // 统计最近3个交手的选手（可重复），最近一条交手记录
-        if (list.size() > 0) {
-            data.setPlayerName1(list.get(0).getCompetitor());
-            data.setWinner1(MultiUserManager.USER_DB_FLAG.equals(list.get(0).getWinner()));
+        // 获取最近10个交手的选手
+        int count = 0;
+        Map<String, PlayerBean> map = new HashMap<>();
+        List<PlayerBean> playerList = new ArrayList<>();
+        for (Record record:list) {
+            PlayerBean bean = pubDataProvider.getPlayerByChnName(record.getCompetitor());
+            if (map.get(bean.getNameChn()) == null) {
+                map.put(bean.getNameChn(), bean);
+                playerList.add(bean);
+                count ++;
+            }
+            if (count == 10) {
+                break;
+            }
         }
-        if (list.size() > 1) {
-            data.setPlayerName2(list.get(1).getCompetitor());
-            data.setWinner2(MultiUserManager.USER_DB_FLAG.equals(list.get(1).getWinner()));
-        }
-        if (list.size() > 2) {
-            data.setPlayerName3(list.get(2).getCompetitor());
-            data.setWinner3(MultiUserManager.USER_DB_FLAG.equals(list.get(2).getWinner()));
-        }
+        data.setPlayerList(playerList);
+
         data.setRecordMatch(list.get(0).getMatch());
         data.setRecordRound(list.get(0).getRound());
         data.setRecordCourt(list.get(0).getCourt());

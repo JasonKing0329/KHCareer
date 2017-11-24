@@ -2,6 +2,7 @@ package com.king.khcareer.home.k4;
 
 import com.king.khcareer.match.gallery.UserMatchBean;
 import com.king.khcareer.model.sql.player.bean.Record;
+import com.king.khcareer.model.sql.pubdata.bean.PlayerBean;
 
 import java.util.List;
 
@@ -18,12 +19,7 @@ public class HomeData {
     private String recordRound;
     private String recordCourt;
 
-    private String playerName1;
-    private boolean isWinner1;
-    private String playerName2;
-    private boolean isWinner2;
-    private String playerName3;
-    private boolean isWinner3;
+    private List<PlayerBean> playerList;
 
     private List<UserMatchBean> matchList;
 
@@ -59,30 +55,6 @@ public class HomeData {
         this.recordCourt = recordCourt;
     }
 
-    public String getPlayerName1() {
-        return playerName1;
-    }
-
-    public void setPlayerName1(String playerName1) {
-        this.playerName1 = playerName1;
-    }
-
-    public String getPlayerName2() {
-        return playerName2;
-    }
-
-    public void setPlayerName2(String playerName2) {
-        this.playerName2 = playerName2;
-    }
-
-    public String getPlayerName3() {
-        return playerName3;
-    }
-
-    public void setPlayerName3(String playerName3) {
-        this.playerName3 = playerName3;
-    }
-
     public List<UserMatchBean> getMatchList() {
         return matchList;
     }
@@ -99,27 +71,11 @@ public class HomeData {
         this.recordCountry = recordCountry;
     }
 
-    public boolean isWinner1() {
-        return isWinner1;
+    public List<PlayerBean> getPlayerList() {
+        return playerList;
     }
 
-    public void setWinner1(boolean winner1) {
-        isWinner1 = winner1;
-    }
-
-    public boolean isWinner2() {
-        return isWinner2;
-    }
-
-    public void setWinner2(boolean winner2) {
-        isWinner2 = winner2;
-    }
-
-    public boolean isWinner3() {
-        return isWinner3;
-    }
-
-    public void setWinner3(boolean winner3) {
-        isWinner3 = winner3;
+    public void setPlayerList(List<PlayerBean> playerList) {
+        this.playerList = playerList;
     }
 }

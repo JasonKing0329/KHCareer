@@ -51,72 +51,39 @@
             </LinearLayout>
         </RelativeLayout>
 
-        <LinearLayout
+        <RelativeLayout
             android:id="@+id/group_player"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:orientation="horizontal">
-            <com.github.siyamed.shapeimageview.RoundedImageView
-                android:id="@+id/iv_player1"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                app:siRadius="10dp"
-                android:scaleType="centerCrop"/>
-            <com.github.siyamed.shapeimageview.RoundedImageView
-                android:id="@+id/iv_player2"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                app:siRadius="10dp"
-                android:layout_marginLeft="10dp"
-                android:scaleType="centerCrop"/>
-            <com.github.siyamed.shapeimageview.RoundedImageView
-                android:id="@+id/iv_player3"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                app:siRadius="10dp"
-                android:layout_marginLeft="10dp"
-                android:scaleType="centerCrop"/>
-        </LinearLayout>
-        <LinearLayout
+            android:layout_height="50dp"
+            android:background="?android:attr/selectableItemBackground">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="Players"
+                android:layout_centerVertical="true"
+                android:textColor="@color/colorPrimary"
+                android:textSize="24dp"/>
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/arrow_expand_right"
+                android:scaleType="fitCenter"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="20dp"/>
+        </RelativeLayout>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv_players"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
-            android:orientation="horizontal">
-            <TextView
-                android:id="@+id/tv_player_name1"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/colorPrimary"
-                android:textSize="12dp"/>
-            <TextView
-                android:id="@+id/tv_player_name2"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/colorPrimary"
-                android:layout_marginLeft="10dp"
-                android:textSize="12dp"/>
-            <TextView
-                android:id="@+id/tv_player_name3"
-                android:layout_width="100dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textColor="@color/colorPrimary"
-                android:layout_marginLeft="10dp"
-                android:textSize="12dp"/>
-        </LinearLayout>
+            android:layout_height="120dp"
+            android:clipChildren="false"
+            android:overScrollMode="never"
+            app:cardWidth="120dp"
+            app:cardsGap="12dp"
+            app:layoutManager="com.king.khcareer.pubview.cardslider.CardSliderLayoutManager"
+            app:viewUpdater="com.king.khcareer.player.slider.SlideUpdater"/>
 
         <LinearLayout
             android:id="@+id/group_add"

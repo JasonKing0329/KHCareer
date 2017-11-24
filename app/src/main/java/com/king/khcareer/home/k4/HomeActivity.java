@@ -14,6 +14,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Pair;
 import android.view.Menu;
@@ -28,10 +29,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.github.siyamed.shapeimageview.RoundedImageView;
 import com.king.khcareer.common.config.Constants;
+import com.king.khcareer.common.image.glide.GlideOptions;
 import com.king.khcareer.glory.GloryActivity;
+import com.king.khcareer.model.sql.pubdata.bean.PlayerBean;
 import com.king.khcareer.player.h2hlist.H2hListActivity;
+import com.king.khcareer.player.page.PlayerPageActivity;
+import com.king.khcareer.player.slider.PlayerSlideActivity;
+import com.king.khcareer.player.slider.PlayerSlideAdapter;
 import com.king.khcareer.record.k4.RecordActivity;
 import com.king.khcareer.utils.DebugLog;
 import com.king.khcareer.utils.SeasonManager;
@@ -45,9 +52,7 @@ import com.king.khcareer.player.manage.PlayerManageActivity;
 import com.king.khcareer.score.ScoreActivity;
 import com.king.khcareer.rank.RankChartFragment;
 import com.king.khcareer.rank.RankManageActivity;
-import com.king.khcareer.common.image.ImageUtil;
 import com.king.khcareer.common.helper.MenuService;
-import com.king.khcareer.utils.DensityUtil;
 import com.king.khcareer.base.BaseActivity;
 import com.king.khcareer.home.classic.ManagerActivity;
 import com.king.mytennis.view.R;
@@ -91,20 +96,8 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
     TextView tvMatchName;
     @BindView(R.id.group_record)
     RelativeLayout groupRecord;
-    @BindView(R.id.iv_player1)
-    RoundedImageView ivPlayer1;
-    @BindView(R.id.iv_player2)
-    RoundedImageView ivPlayer2;
-    @BindView(R.id.iv_player3)
-    RoundedImageView ivPlayer3;
-    @BindView(R.id.tv_player_name1)
-    TextView tvPlayerName1;
-    @BindView(R.id.tv_player_name2)
-    TextView tvPlayerName2;
-    @BindView(R.id.tv_player_name3)
-    TextView tvPlayerName3;
-    @BindView(R.id.group_player)
-    LinearLayout groupPlayer;
+    @BindView(R.id.rv_players)
+    RecyclerView rvPlayers;
     @BindView(R.id.group_add)
     LinearLayout groupAdd;
     @BindView(R.id.dsv_match)
@@ -153,6 +146,8 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
 
     private BoomMenuHome boomMenuHome;
 
+    private PlayerSlideAdapter playerSlideAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -160,7 +155,6 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
         setContentView(R.layout.activity_home);
         ButterKnife.bind(this);
 
-        ImageUtil.initImageLoader(this);
         menuService = new MenuService();
         presenter = new HomePresenter(this);
         boomMenuHome = new BoomMenuHome(bmbMenu);
@@ -246,7 +240,11 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
     }
 
     private void initNavView() {
-        ImageUtil.load("file://" + ImageFactory.getPlayerHeadPath(MultiUserManager.getInstance().getCurrentUser().getFullName()), ivUserHead, R.drawable.icon_list);
+        Glide.with(this)
+                .load(ImageFactory.getPlayerHeadPath(MultiUserManager.getInstance().getCurrentUser().getFullName()))
+                .apply(GlideOptions.getDefaultPlayerOptions())
+                .into(ivUserHead);
+
         ivUserHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -310,6 +308,7 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
     @Override
     public void onHomeDataLoaded(HomeData data) {
 
+        // reveal animation
         scrollHome.post(new Runnable() {
             @Override
             public void run() {
@@ -317,22 +316,35 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
             }
         });
 
-        ImageUtil.load("file://" + ImageFactory.getMatchHeadPath(data.getRecordMatch(), data.getRecordCourt()), ivRecordBk
-                , R.drawable.default_img);
+        // latest match
+        Glide.with(this)
+                .load(ImageFactory.getMatchHeadPath(data.getRecordMatch(), data.getRecordCourt()))
+                .apply(GlideOptions.getDefaultMatchOptions())
+                .into(ivRecordBk);
         tvMatchName.setText(data.getRecordMatch() + "(" + data.getRecordCountry() + ")");
         tvMatchRound.setText(data.getRecordRound());
-        ImageUtil.load("file://" + ImageFactory.getPlayerHeadPath(data.getPlayerName1()), ivPlayer1
-                , R.drawable.glory_rank);
-        tvPlayerName1.setText((data.isWinner1() ? "" : "(lose)") + data.getPlayerName1());
-        ImageUtil.load("file://" + ImageFactory.getPlayerHeadPath(data.getPlayerName2()), ivPlayer2
-                , R.drawable.glory_rank);
-        tvPlayerName2.setText((data.isWinner2() ? "" : "(lose)") + data.getPlayerName2());
-        ImageUtil.load("file://" + ImageFactory.getPlayerHeadPath(data.getPlayerName3()), ivPlayer3
-                , R.drawable.glory_rank);
-        tvPlayerName3.setText((data.isWinner3() ? "" : "(lose)") + data.getPlayerName3());
 
+        // player part
+        if (playerSlideAdapter == null) {
+            playerSlideAdapter = new PlayerSlideAdapter();
+            playerSlideAdapter.setList(data.getPlayerList());
+            playerSlideAdapter.setOnPlayerItemListener(new PlayerSlideAdapter.OnPlayerItemListener() {
+                @Override
+                public void onClickPlayer(PlayerBean bean, int position) {
+                    Intent intent = new Intent().setClass(HomeActivity.this, PlayerPageActivity.class);
+                    intent.putExtra(PlayerPageActivity.KEY_COMPETITOR_NAME, bean.getNameChn());
+                    startActivity(intent);
+                }
+            });
+            rvPlayers.setAdapter(playerSlideAdapter);
+        }
+        else {
+            playerSlideAdapter.setList(data.getPlayerList());
+            playerSlideAdapter.notifyDataSetChanged();
+        }
+
+        // match gallery
         matchList = data.getMatchList();
-
         if (matchAdapter == null) {
             matchAdapter = new HomeMatchAdapter(data.getMatchList());
             dsvMatch.setAdapter(matchAdapter);
@@ -388,7 +400,12 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
     private void onUserChanged(MultiUser user) {
         MultiUserManager.getInstance().setCurrentUser(user);
         MultiUserManager.getInstance().saveToPreference(this, user);
-        ImageUtil.load("file://" + ImageFactory.getPlayerHeadPath(user.getFullName()), ivUserHead, R.drawable.icon_list);
+
+        Glide.with(this)
+                .load(ImageFactory.getPlayerHeadPath(user.getFullName()))
+                .apply(GlideOptions.getDefaultPlayerOptions())
+                .into(ivUserHead);
+
         ctlToolbar.setTitle(user.getFullName());
 
         initData();
@@ -553,10 +570,8 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
     }
 
     private void startPlayerActivity() {
-        Intent intent = new Intent().setClass(this, SwipeCardActivity.class);
-        intent.putExtra(SwipeCardActivity.KEY_INIT_MODE, SwipeCardActivity.INIT_PLAYER);
-        ActivityOptions transitionActivityOptions = ActivityOptions.makeScaleUpAnimation(groupPlayer, 0, 0, 200, 200);
-        startActivity(intent, transitionActivityOptions.toBundle());
+        Intent intent = new Intent().setClass(this, PlayerSlideActivity.class);
+        startActivity(intent);
     }
 
     private void startMatchActivity(int position) {

@@ -136,6 +136,16 @@ public class H2hModel extends BaseSqlModel {
         return count;
     }
 
+    public H2hParentBean queryH2hBean(String competitor) {
+        String sql = "SELECT * FROM h2hview WHERE competitor=?";
+        Cursor cursor = getCursor(sql, new String[]{competitor});
+        if (cursor.moveToNext()) {
+            H2hParentBean bean = parseH2hParentBean(cursor);
+            return bean;
+        }
+        return null;
+    }
+
     private H2hParentBean parseH2hParentBean(Cursor cursor) {
         H2hParentBean bean = new H2hParentBean();
         bean.setId(cursor.getInt(cursor.getColumnIndex("id")));

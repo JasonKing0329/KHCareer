@@ -3,4 +3,5 @@
     <integer name="h2h_player_main_table">1</integer>
     <integer name="h2h_player_main_table_title">1</integer>
     <integer name="hourglass_frame_time">100</integer>
+    <integer name="labels_animation_duration">350</integer>
 </resources>

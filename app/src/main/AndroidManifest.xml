@@ -97,6 +97,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/ActionBarBlue" />
         <activity
+            android:name="com.king.khcareer.player.slider.PlayerSlideActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/HomeTheme" />
+        <activity
             android:name="com.king.khcareer.match.timeline.MatchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/ActionBarBlue" />
