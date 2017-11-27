@@ -12,9 +12,9 @@ import android.widget.TextView;
 import com.king.khcareer.common.config.Configuration;
 import com.king.khcareer.common.config.Constants;
 import com.king.khcareer.common.image.ImageFactory;
+import com.king.khcareer.model.PubProviderHelper;
 import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.khcareer.common.multiuser.MultiUserManager;
-import com.king.khcareer.model.sql.pubdata.PubDataProvider;
 import com.king.khcareer.model.sql.pubdata.bean.MatchNameBean;
 import com.king.khcareer.common.image.ImageUtil;
 import com.king.khcareer.base.CustomDialog;
@@ -114,7 +114,7 @@ public class MatchEditPage implements View.OnClickListener {
         else {
             groupMatch.setVisibility(View.VISIBLE);
             // initialize match bean, otherwise it will warning null match when save
-            matchBean = new PubDataProvider().getMatchByName(match);
+            matchBean = PubProviderHelper.getProvider().getMatchByName(match);
         }
         cur_year = conf.index_year;
         sp_year.setSelection(cur_year);

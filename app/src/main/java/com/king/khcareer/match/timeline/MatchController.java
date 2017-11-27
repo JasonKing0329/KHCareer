@@ -9,6 +9,7 @@ import java.util.Map;
 import com.king.khcareer.common.config.Constants;
 import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.match.gallery.UserMatchBean;
+import com.king.khcareer.model.PubProviderHelper;
 import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.khcareer.model.sql.pubdata.PubDataProvider;
 import com.king.khcareer.model.sql.pubdata.bean.MatchNameBean;
@@ -29,7 +30,7 @@ public class MatchController {
 	private String userId;
 
 	public MatchController() {
-		pubDataProvider = new PubDataProvider();
+		pubDataProvider = PubProviderHelper.getProvider();
 	}
 
 	public void setUserId(String userId) {

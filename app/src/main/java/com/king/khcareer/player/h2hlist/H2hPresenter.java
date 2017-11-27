@@ -1,8 +1,8 @@
 package com.king.khcareer.player.h2hlist;
 
+import com.king.khcareer.model.PubProviderHelper;
 import com.king.khcareer.model.sql.player.H2hModel;
 import com.king.khcareer.model.sql.player.bean.H2hParentBean;
-import com.king.khcareer.model.sql.pubdata.PubDataProvider;
 import com.king.khcareer.model.sql.pubdata.bean.PlayerBean;
 
 import java.util.ArrayList;
@@ -90,7 +90,7 @@ public class H2hPresenter {
     }
 
     public Map<String, PlayerBean> getPlayerBeanMap() {
-        List<PlayerBean> playerList = new PubDataProvider().getPlayerList();
+        List<PlayerBean> playerList = PubProviderHelper.getProvider().getPlayerList();
         Map<String, PlayerBean> map = new HashMap<>();
         if (playerList != null) {
             for (PlayerBean bean:playerList) {

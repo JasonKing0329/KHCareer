@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.TreeSet;
 
 import com.king.khcareer.common.image.interaction.ImageManager;
+import com.king.khcareer.model.PubProviderHelper;
 import com.king.khcareer.model.http.Command;
 import com.king.khcareer.model.http.bean.ImageUrlBean;
 import com.king.khcareer.common.config.Constants;
@@ -72,7 +73,7 @@ public class PlayerSwipeCardAdapter extends AbstractSwipeAdapter {
 			mList.addAll(mOriginList);
 		}
 		indexPosMap = new HashMap<>();
-		pubDataProvider = new PubDataProvider();
+		pubDataProvider = PubProviderHelper.getProvider();
 
 		courtValues = Constants.RECORD_MATCH_COURTS;
 		colorHard = mContext.getResources().getColor(R.color.swipecard_text_hard);

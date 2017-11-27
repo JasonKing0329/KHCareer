@@ -4,6 +4,7 @@ import com.king.khcareer.common.config.Constants;
 import com.king.khcareer.common.multiuser.MultiUser;
 import com.king.khcareer.model.FileIO;
 import com.king.khcareer.common.multiuser.MultiUserManager;
+import com.king.khcareer.model.PubProviderHelper;
 import com.king.khcareer.model.sql.pubdata.PubDataProvider;
 import com.king.khcareer.model.sql.pubdata.bean.MatchNameBean;
 
@@ -61,7 +62,7 @@ public class ScorePresenter implements IScoreCallback {
         thisWeek = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
         currentYear = thisYear;
         scorePageData = new ScorePageData();
-        pubDataProvider = new PubDataProvider();
+        pubDataProvider = PubProviderHelper.getProvider();
     }
 
     public void setScorePageView(IScorePageView scorePageView) {

@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.king.khcareer.model.PubProviderHelper;
 import com.king.khcareer.player.page.PlayerPageActivity;
 import com.king.lib.tool.ui.RippleFactory;
 import com.king.khcareer.common.image.ImageFactory;
@@ -90,7 +91,7 @@ public class PlayerCommonActivity extends BaseActivity implements ICommonView {
 
         ButterKnife.bind(this);
 
-        pubDataProvider = new PubDataProvider();
+        pubDataProvider = PubProviderHelper.getProvider();
         mPresenter = new CommonPresenter(this);
         pbMap = new HashMap<>();
 

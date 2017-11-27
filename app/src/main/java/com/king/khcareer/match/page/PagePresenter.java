@@ -2,6 +2,7 @@ package com.king.khcareer.match.page;
 
 import com.king.khcareer.common.config.Constants;
 import com.king.khcareer.common.multiuser.MultiUserManager;
+import com.king.khcareer.model.PubProviderHelper;
 import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.khcareer.model.sql.pubdata.PubDataProvider;
 import com.king.khcareer.model.sql.pubdata.bean.MatchNameBean;
@@ -40,7 +41,7 @@ public class PagePresenter {
 
     public PagePresenter(IPageView view) {
         this.view = view;
-        pubDataProvider = new PubDataProvider();
+        pubDataProvider = PubProviderHelper.getProvider();
     }
 
     public void loadMatchInfo(String matchName) {

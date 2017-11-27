@@ -8,13 +8,8 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
-import com.king.khcareer.common.image.ImageFactory;
-import com.king.khcareer.model.sql.pubdata.PubDataProvider;
 import com.king.khcareer.model.sql.pubdata.bean.PlayerBean;
-import com.king.khcareer.common.image.ImageUtil;
-import com.king.khcareer.utils.ConstellationUtil;
 import com.king.mytennis.view.R;
-import com.king.khcareer.settings.SettingProperty;
 import com.king.khcareer.pubview.CircleImageView;
 
 import java.util.List;

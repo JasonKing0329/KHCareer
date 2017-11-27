@@ -7,6 +7,7 @@ import com.king.khcareer.glory.gs.GloryMasterItem;
 import com.king.khcareer.glory.title.HeaderBean;
 import com.king.khcareer.glory.title.HeaderItem;
 import com.king.khcareer.glory.title.SubItem;
+import com.king.khcareer.model.PubProviderHelper;
 import com.king.khcareer.model.sql.player.GloryModel;
 import com.king.khcareer.model.sql.player.bean.KeyValueCountBean;
 import com.king.khcareer.model.sql.player.bean.MatchResultBean;
@@ -41,7 +42,7 @@ public class GloryPresenter {
     public GloryPresenter(IGloryView view) {
         gloryView = view;
         gloryModel = new GloryModel();
-        pubProvider = new PubDataProvider();
+        pubProvider = PubProviderHelper.getProvider();
     }
     
     public void loadDatas() {

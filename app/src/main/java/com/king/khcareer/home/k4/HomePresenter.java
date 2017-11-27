@@ -2,8 +2,8 @@ package com.king.khcareer.home.k4;
 
 import com.king.khcareer.match.gallery.UserMatchBean;
 import com.king.khcareer.match.gallery.UserMatchPresenter;
+import com.king.khcareer.model.PubProviderHelper;
 import com.king.khcareer.model.sql.player.bean.Record;
-import com.king.khcareer.model.sql.pubdata.PubDataProvider;
 import com.king.khcareer.model.sql.pubdata.bean.PlayerBean;
 import com.king.khcareer.record.RecordService;
 
@@ -28,12 +28,10 @@ public class HomePresenter {
 
     private IHomeView homeView;
     private UserMatchPresenter userMatchPresenter;
-    private PubDataProvider pubDataProvider;
 
     public HomePresenter(IHomeView homeView) {
         this.homeView = homeView;
         userMatchPresenter = new UserMatchPresenter(homeView.getContext());
-        pubDataProvider = new PubDataProvider();
     }
 
     public void loadHomeDatas() {
@@ -71,7 +69,7 @@ public class HomePresenter {
         Map<String, PlayerBean> map = new HashMap<>();
         List<PlayerBean> playerList = new ArrayList<>();
         for (Record record:list) {
-            PlayerBean bean = pubDataProvider.getPlayerByChnName(record.getCompetitor());
+            PlayerBean bean = PubProviderHelper.getProvider().getPlayerByChnName(record.getCompetitor());
             if (map.get(bean.getNameChn()) == null) {
                 map.put(bean.getNameChn(), bean);
                 playerList.add(bean);

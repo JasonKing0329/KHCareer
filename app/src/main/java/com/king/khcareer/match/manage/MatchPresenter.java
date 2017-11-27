@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 
 import com.king.khcareer.common.config.Constants;
+import com.king.khcareer.model.PubProviderHelper;
 import com.king.khcareer.model.sql.pubdata.PubDataProvider;
 import com.king.khcareer.model.sql.pubdata.bean.MatchNameBean;
 import com.king.khcareer.utils.PinyinUtil;
@@ -25,7 +26,7 @@ public class MatchPresenter {
 
     public MatchPresenter(IMatchView matchView) {
         this.matchView = matchView;
-        pubDataProvider = new PubDataProvider();
+        pubDataProvider = PubProviderHelper.getProvider();
     }
 
     public void loadMatchList(Context context) {

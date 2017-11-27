@@ -2,6 +2,7 @@ package com.king.khcareer.match.gallery;
 
 import android.content.Context;
 
+import com.king.khcareer.model.PubProviderHelper;
 import com.king.khcareer.model.sql.player.interfc.RecordDAO;
 import com.king.khcareer.common.config.Constants;
 import com.king.khcareer.model.sql.player.bean.Record;
@@ -33,7 +34,7 @@ public class UserMatchPresenter {
     private String strRunnerup;
 
     public UserMatchPresenter(Context context) {
-        pubDataProvider = new PubDataProvider();
+        pubDataProvider = PubProviderHelper.getProvider();
         recordDao = new RecordDAOImp();
         strChampion = context.getString(R.string.champion);
         strRunnerup = context.getString(R.string.runnerup);

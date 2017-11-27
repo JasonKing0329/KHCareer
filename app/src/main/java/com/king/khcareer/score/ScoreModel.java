@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.king.khcareer.common.multiuser.MultiUser;
+import com.king.khcareer.model.PubProviderHelper;
 import com.king.khcareer.model.sql.player.interfc.DatabaseAccess;
 import com.king.khcareer.common.config.Constants;
 import com.king.khcareer.model.sql.player.DatabaseStruct;
@@ -50,7 +51,7 @@ public class ScoreModel {
     }
 
     private void init(IScoreCallback callback) {
-        pubDataProvider = new PubDataProvider();
+        pubDataProvider = PubProviderHelper.getProvider();
         arrRound = Constants.RECORD_MATCH_ROUNDS;
         arrLevel = Constants.RECORD_MATCH_LEVELS;
         this.callback = callback;

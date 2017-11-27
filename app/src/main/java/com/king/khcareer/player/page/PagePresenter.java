@@ -4,6 +4,7 @@ import com.king.khcareer.common.config.Constants;
 import com.king.khcareer.common.image.ImageFactory;
 import com.king.khcareer.common.multiuser.MultiUser;
 import com.king.khcareer.common.multiuser.MultiUserManager;
+import com.king.khcareer.model.PubProviderHelper;
 import com.king.khcareer.model.sql.player.RecordDAOImp;
 import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.khcareer.model.sql.pubdata.PubDataProvider;
@@ -43,7 +44,7 @@ public class PagePresenter {
 
     public PagePresenter(IPageView view) {
         this.view = view;
-        pubDataProvider = new PubDataProvider();
+        pubDataProvider = PubProviderHelper.getProvider();
     }
 
 

@@ -15,6 +15,7 @@ import com.king.khcareer.common.viewsys.ChooseBkDialog;
 import com.king.khcareer.common.viewsys.LoadFromDialog;
 import com.king.khcareer.common.viewsys.SaveAsDialog;
 import com.king.khcareer.common.viewsys.SetRecordFileDialog;
+import com.king.khcareer.model.PubProviderHelper;
 import com.king.khcareer.record.DetailsDialog;
 import com.king.khcareer.record.SearchDialog;
 import com.king.khcareer.record.editor.UpdateDialog;
@@ -29,7 +30,6 @@ import com.king.khcareer.model.FileIO;
 import com.king.khcareer.common.multiuser.MultiUser;
 import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.common.multiuser.MultiUserSelector;
-import com.king.khcareer.model.sql.pubdata.PubDataProvider;
 import com.king.khcareer.model.sql.pubdata.bean.PlayerBean;
 import com.king.khcareer.base.KApplication;
 import com.king.khcareer.utils.ExternalRecordTool;
@@ -688,7 +688,7 @@ public class ManagerActivity extends BaseActivity implements OnSlideChagedListen
 
 	@Override
 	public Map<String, String> getNamePinyinMap() {
-		List<PlayerBean> playerList = new PubDataProvider().getPlayerList();
+		List<PlayerBean> playerList = PubProviderHelper.getProvider().getPlayerList();
 		Map<String, String> map = new HashMap<>();
 		if (playerList != null) {
 			for (PlayerBean bean:playerList) {

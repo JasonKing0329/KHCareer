@@ -11,11 +11,11 @@ import java.util.Set;
 import android.content.Context;
 
 import com.king.khcareer.common.config.Constants;
+import com.king.khcareer.model.PubProviderHelper;
 import com.king.khcareer.model.sql.player.bean.CountData;
 import com.king.khcareer.model.sql.player.bean.CountDataPlayer;
 import com.king.khcareer.model.FileIO;
 import com.king.khcareer.model.sql.player.bean.Record;
-import com.king.khcareer.model.sql.pubdata.PubDataProvider;
 import com.king.khcareer.model.sql.pubdata.bean.PlayerBean;
 
 public class CardManager implements CardContentProvider {
@@ -520,7 +520,7 @@ public class CardManager implements CardContentProvider {
 	}
 
 	public Map<String, String> getNamePinyinMap() {
-		List<PlayerBean> playerList = new PubDataProvider().getPlayerList();
+		List<PlayerBean> playerList = PubProviderHelper.getProvider().getPlayerList();
 		Map<String, String> map = new HashMap<>();
 		if (playerList != null) {
 			for (PlayerBean bean:playerList) {

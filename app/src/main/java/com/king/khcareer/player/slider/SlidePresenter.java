@@ -1,6 +1,7 @@
 package com.king.khcareer.player.slider;
 
 import com.king.khcareer.common.config.Constants;
+import com.king.khcareer.model.PubProviderHelper;
 import com.king.khcareer.model.sql.player.H2hModel;
 import com.king.khcareer.model.sql.player.RecordDAOImp;
 import com.king.khcareer.model.sql.player.bean.H2hParentBean;
@@ -40,7 +41,7 @@ public class SlidePresenter {
 
     public SlidePresenter(ISlideView view) {
         this.view = view;
-        pubDataProvider = new PubDataProvider();
+        pubDataProvider = PubProviderHelper.getProvider();
         h2hModel = new H2hModel();
     }
 

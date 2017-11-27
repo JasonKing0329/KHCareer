@@ -17,6 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.ecloud.pulltozoomview.PullToZoomScrollViewEx;
+import com.king.khcareer.model.PubProviderHelper;
 import com.king.khcareer.model.sql.player.H2HDAODB;
 import com.king.khcareer.model.sql.player.interfc.H2HDAO;
 import com.king.mytennis.glory.GloryController;
@@ -81,7 +82,7 @@ public class PlayerActivity extends BaseActivity implements OnGroupCollapseListe
 		pullView.setZoomView(zoomView);
 		pullView.setScrollContentView(contentView);
 
-		pubDataProvider = new PubDataProvider();
+		pubDataProvider = PubProviderHelper.getProvider();
 
 		// 正常的应该是在当前界面根据competitor加载基本信息，不过暂时兼容老接口的做法
 		mPlayerBean = ObjectCache.gePlayerBean();

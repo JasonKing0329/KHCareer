@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
-ext.appVersionName = "5.1.2"
-ext.appVersionCode = 87
+ext.appVersionName = "5.2"
+ext.appVersionCode = 88
 ext.appReleaseDir = "E:/temp/release/KHCareer"
 
 android {
@@ -112,6 +112,9 @@ dependencies {
     /*glide*/
     compile 'com.github.bumptech.glide:glide:4.0.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0'
+
+    /*sqlbrite2*/
+    compile "com.squareup.sqlbrite2:sqlbrite:${SQLBRITE_VERSION}"
 
     compile project(':libresmanager')
     compile project(':libtool')

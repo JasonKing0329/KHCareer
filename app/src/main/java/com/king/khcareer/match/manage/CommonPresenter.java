@@ -3,6 +3,7 @@ package com.king.khcareer.match.manage;
 import com.king.khcareer.common.config.Constants;
 import com.king.khcareer.common.multiuser.MultiUser;
 import com.king.khcareer.common.multiuser.MultiUserManager;
+import com.king.khcareer.model.PubProviderHelper;
 import com.king.khcareer.model.sql.player.RecordDAOImp;
 import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.khcareer.model.sql.player.interfc.RecordDAO;
@@ -26,7 +27,7 @@ public class CommonPresenter {
 
     public CommonPresenter(ICommonView commonView) {
         this.commonView = commonView;
-        pubDataProvider = new PubDataProvider();
+        pubDataProvider = PubProviderHelper.getProvider();
     }
 
     public void loadHistory(String match) {

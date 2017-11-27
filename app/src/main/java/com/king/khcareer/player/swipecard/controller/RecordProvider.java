@@ -12,6 +12,7 @@ import android.content.Context;
 import android.util.Log;
 
 import com.king.khcareer.common.config.Constants;
+import com.king.khcareer.model.PubProviderHelper;
 import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.model.sql.pubdata.PubDataProvider;
@@ -79,7 +80,7 @@ public class RecordProvider {
 
 		// 数据库系统更新后（v3.0），可以合并改名的赛事，不同名称但是matchId相同
 		Map<String, Integer> idMap = new HashMap<>();
-		PubDataProvider pubDataProvider = new PubDataProvider();
+		PubDataProvider pubDataProvider = PubProviderHelper.getProvider();
 		Map<Integer, MatchBean> map = new HashMap<>();
 		CharacterParser parser = CharacterParser.getInstance();
 		for (int i = 0; i < list.size(); i ++) {

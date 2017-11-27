@@ -16,10 +16,10 @@ import android.os.Handler.Callback;
 
 import com.king.khcareer.common.config.Configuration;
 import com.king.khcareer.model.FileIO;
+import com.king.khcareer.model.PubProviderHelper;
 import com.king.khcareer.model.sql.player.H2HDAOList;
 import com.king.khcareer.common.image.ImageFactory;
 import com.king.khcareer.model.sql.player.bean.Record;
-import com.king.khcareer.model.sql.pubdata.PubDataProvider;
 import com.king.khcareer.model.sql.pubdata.bean.PlayerBean;
 import com.king.khcareer.record.RecordService;
 import com.king.mytennis.view.CPTListDlg;
@@ -166,7 +166,7 @@ public class RecordListViewController implements RecordListViewService {
 
 	@Override
 	public Map<String, String> getNamePinyinMap() {
-		List<PlayerBean> playerList = new PubDataProvider().getPlayerList();
+		List<PlayerBean> playerList = PubProviderHelper.getProvider().getPlayerList();
 		Map<String, String> map = new HashMap<>();
 		if (playerList != null) {
 			for (PlayerBean bean:playerList) {

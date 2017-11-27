@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 
+import com.king.khcareer.model.PubProviderHelper;
 import com.king.khcareer.model.sql.pubdata.PubDataProvider;
 import com.king.khcareer.model.sql.pubdata.VirtualManager;
 import com.king.khcareer.model.sql.pubdata.bean.PlayerBean;
@@ -39,7 +40,7 @@ public class PlayerPresenter {
 
     public PlayerPresenter(IPlayerView playerView) {
         this.playerView = playerView;
-        pubDataProvider = new PubDataProvider();
+        pubDataProvider = PubProviderHelper.getProvider();
     }
 
     public void loadPlayerList(Context context) {

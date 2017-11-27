@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
+import com.king.khcareer.model.PubProviderHelper;
 import com.king.lib.tool.ui.RippleFactory;
 import com.king.lib.tool.ui.RippleParseException;
 import com.king.mytennis.glory.GloryController;
@@ -63,7 +64,7 @@ public class ViewFactory implements OnItemClickListener {
 		this.record = record;
 		this.h2hdao = h2hdao;
 
-		pubDataProvider = new PubDataProvider();
+		pubDataProvider = PubProviderHelper.getProvider();
 
 		rippleColor = context.getResources().getColor(R.color.ripple_material_light);
 
