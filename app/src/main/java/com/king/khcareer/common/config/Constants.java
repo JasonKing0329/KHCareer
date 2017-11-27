@@ -159,11 +159,6 @@ public class Constants {
 			"December"
 	};
 
-	/**
-	 * record记录有改动（增删改）标志
-	 */
-	public static final int FLAG_RECORD_UPDATE = 1030;
-
 	public static final int[] ATP_1000_PUBLIC_ID = new int[] {
 			//iw,miami,mc,madrid,roma,rc,cicinati,sh,paris
 			5, 6, 7, 9, 8, 13, 14, 17, 18

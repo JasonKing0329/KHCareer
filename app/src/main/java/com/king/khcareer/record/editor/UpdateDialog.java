@@ -63,8 +63,6 @@ public class UpdateDialog extends InsertOrUpdateDialog implements DialogInterfac
 				onUpdateListener.OnRecordUpdated(record);
 			}
 			destoryDialog(dialog);
-			// 记录record有修改
-			((Activity) userActivity).setResult(Constants.FLAG_RECORD_UPDATE);
 		}
 		else if (which == AlertDialog.BUTTON_NEGATIVE) {
 			destoryDialog(dialog);

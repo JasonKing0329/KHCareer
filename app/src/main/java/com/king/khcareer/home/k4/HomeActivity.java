@@ -34,6 +34,7 @@ import com.github.siyamed.shapeimageview.RoundedImageView;
 import com.king.khcareer.common.config.Constants;
 import com.king.khcareer.common.image.glide.GlideOptions;
 import com.king.khcareer.glory.GloryActivity;
+import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.khcareer.model.sql.pubdata.bean.PlayerBean;
 import com.king.khcareer.player.h2hlist.H2hListActivity;
 import com.king.khcareer.player.page.PlayerPageActivity;
@@ -76,8 +77,6 @@ import butterknife.OnClick;
 public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickListener, IHomeHeaderHolder {
 
     private final int REQUEST_RANK = 101;
-    private final int REQUEST_EDITOR = 102;
-    private final int REQUEST_RECORD_LIST = 103;
     private final int REQUEST_SCORE = 104;
 
     private HomeHeadAdapter headAdapter;
@@ -147,6 +146,8 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
     private BoomMenuHome boomMenuHome;
 
     private PlayerSlideAdapter playerSlideAdapter;
+
+    private HomeData homeData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -308,6 +309,8 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
     @Override
     public void onHomeDataLoaded(HomeData data) {
 
+        homeData = data;
+
         // reveal animation
         scrollHome.post(new Runnable() {
             @Override
@@ -317,31 +320,10 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
         });
 
         // latest match
-        Glide.with(this)
-                .load(ImageFactory.getMatchHeadPath(data.getRecordMatch(), data.getRecordCourt()))
-                .apply(GlideOptions.getDefaultMatchOptions())
-                .into(ivRecordBk);
-        tvMatchName.setText(data.getRecordMatch() + "(" + data.getRecordCountry() + ")");
-        tvMatchRound.setText(data.getRecordRound());
+        refreshLatestMatch();
 
         // player part
-        if (playerSlideAdapter == null) {
-            playerSlideAdapter = new PlayerSlideAdapter();
-            playerSlideAdapter.setList(data.getPlayerList());
-            playerSlideAdapter.setOnPlayerItemListener(new PlayerSlideAdapter.OnPlayerItemListener() {
-                @Override
-                public void onClickPlayer(PlayerBean bean, int position) {
-                    Intent intent = new Intent().setClass(HomeActivity.this, PlayerPageActivity.class);
-                    intent.putExtra(PlayerPageActivity.KEY_COMPETITOR_NAME, bean.getNameChn());
-                    startActivity(intent);
-                }
-            });
-            rvPlayers.setAdapter(playerSlideAdapter);
-        }
-        else {
-            playerSlideAdapter.setList(data.getPlayerList());
-            playerSlideAdapter.notifyDataSetChanged();
-        }
+        refreshPlayers();
 
         // match gallery
         matchList = data.getMatchList();
@@ -364,6 +346,54 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
 
         // 按照当前月份的赛季属性更改相应的视图
         updateSeasonStyle();
+    }
+
+    private void refreshPlayers() {
+        if (playerSlideAdapter == null) {
+            playerSlideAdapter = new PlayerSlideAdapter();
+            playerSlideAdapter.setList(homeData.getPlayerList());
+            playerSlideAdapter.setOnPlayerItemListener(new PlayerSlideAdapter.OnPlayerItemListener() {
+                @Override
+                public void onClickPlayer(PlayerBean bean, int position) {
+                    Intent intent = new Intent().setClass(HomeActivity.this, PlayerPageActivity.class);
+                    intent.putExtra(PlayerPageActivity.KEY_COMPETITOR_NAME, bean.getNameChn());
+                    startActivity(intent);
+                }
+            });
+            rvPlayers.setAdapter(playerSlideAdapter);
+        }
+        else {
+            playerSlideAdapter.setList(homeData.getPlayerList());
+            playerSlideAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private void refreshLatestMatch() {
+        Glide.with(this)
+                .load(ImageFactory.getMatchHeadPath(homeData.getRecordMatch(), homeData.getRecordCourt()))
+                .apply(GlideOptions.getDefaultMatchOptions())
+                .into(ivRecordBk);
+        tvMatchName.setText(homeData.getRecordMatch() + "(" + homeData.getRecordCountry() + ")");
+        tvMatchRound.setText(homeData.getRecordRound());
+    }
+
+    @Override
+    public void onRecordUpdated(List<Record> list) {
+        if (list.size() > 0) {
+            Record record = list.get(0);
+            homeData.setRecordList(list);
+            homeData.setRecordCountry(record.getMatchCountry());
+            homeData.setRecordCourt(record.getCourt());
+            homeData.setRecordRound(record.getRound());
+            homeData.setRecordMatch(record.getMatch());
+            refreshLatestMatch();
+        }
+    }
+
+    @Override
+    public void onPlayerUpdated(List<PlayerBean> list) {
+        homeData.setPlayerList(list);
+        refreshPlayers();
     }
 
     private void updateSeasonStyle() {
@@ -556,7 +586,7 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
         Intent intent = new Intent().setClass(this, RecordEditorActivity.class);
         ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(this
                 , Pair.create(findViewById(R.id.group_add),getString(R.string.anim_home_add)));
-        startActivityForResult(intent, REQUEST_EDITOR, transitionActivityOptions.toBundle());
+        startActivity(intent, transitionActivityOptions.toBundle());
     }
 
     private void startScoreActivity() {
@@ -584,7 +614,7 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
         Intent intent = new Intent().setClass(this, RecordActivity.class);
         ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(this
                 , Pair.create(findViewById(R.id.iv_record_bk),getString(R.string.anim_home_date)));
-        startActivityForResult(intent, REQUEST_RECORD_LIST, transitionActivityOptions.toBundle());
+        startActivity(intent, transitionActivityOptions.toBundle());
     }
 
     private void startPlayerH2hActivity() {
@@ -636,18 +666,6 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
                 ftChart.refreshRanks(null);
             }
         }
-        else if (requestCode == REQUEST_EDITOR) {
-            // 增加了记录，刷新home数据
-            if (resultCode == Constants.FLAG_RECORD_UPDATE) {
-                refreshHomeData();
-            }
-        }
-        else if (requestCode == REQUEST_RECORD_LIST) {
-            // 删除了记录，刷新home数据
-            if (resultCode == Constants.FLAG_RECORD_UPDATE) {
-                refreshHomeData();
-            }
-        }
         else if (requestCode == REQUEST_SCORE) {
             if (resultCode == RESULT_OK) {
                 headAdapter.getItem(viewpagerHead.getCurrentItem()).onRankChanged();
@@ -691,4 +709,11 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
         anim.start();
     }
 
+    @Override
+    protected void onDestroy() {
+        if (presenter != null) {
+            presenter.destroy();
+        }
+        super.onDestroy();
+    }
 }

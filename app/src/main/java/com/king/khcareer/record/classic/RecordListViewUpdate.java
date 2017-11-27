@@ -1006,8 +1006,6 @@ public class RecordListViewUpdate implements
 				setNeedReorderData(true);
 				RecordService service = new RecordService();
 				service.delete(realIndex, tempList);
-				// 记录record有修改
-				((Activity) userActivity).setResult(Constants.FLAG_RECORD_UPDATE);
 				reAdapt();
 				break;
 			case R.id.record_item_detailcurrent:

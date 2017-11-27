@@ -14,6 +14,7 @@ import com.king.khcareer.model.sql.player.interfc.DatabaseAccess;
 import com.king.khcareer.model.sql.player.interfc.RecordDAO;
 import com.king.khcareer.common.multiuser.MultiUser;
 import com.king.khcareer.common.config.Configuration;
+import com.king.khcareer.model.sql.player.observe.RecordObserver;
 
 public class RecordDAOImp implements RecordDAO {
 
@@ -59,6 +60,8 @@ public class RecordDAOImp implements RecordDAO {
 		values[DatabaseStruct.COL_round] = record.getRound();
 		values[DatabaseStruct.COL_score] = record.getScore();
 		sqLite.insert(DatabaseStruct.TABLE_RECORD, DatabaseStruct.TABLE_RECORD_COL, values);
+
+		RecordObserver.onRecordUpdate();
 	}
 
 	@Override
@@ -85,6 +88,8 @@ public class RecordDAOImp implements RecordDAO {
 		values[DatabaseStruct.COL_score] = record.getScore();
 		sqLite.update(DatabaseStruct.TABLE_RECORD, "id=?"
 				, new String[]{""+record.getId()}, DatabaseStruct.TABLE_RECORD_COL, values);
+
+		RecordObserver.onRecordUpdate();
 	}
 
 	@Override
@@ -92,6 +97,8 @@ public class RecordDAOImp implements RecordDAO {
 
 		sqLite.delete(DatabaseStruct.TABLE_RECORD, "id=?"
 				, new String[]{""+record.getId()});
+
+		RecordObserver.onRecordUpdate();
 	}
 
 	@Override

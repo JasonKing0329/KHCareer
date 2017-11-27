@@ -224,8 +224,6 @@ public class RecordActivity extends BaseActivity implements IRecordView, OnItemM
         // delete from list
         // 通过调试发现，itemPosition是在整个recycler view里的position，框架对根据position做的3级显示，整个position都是顺序排列的
         recordAdapter.removedItem(record.getItemPosition());
-        // 记录record有修改
-        setResult(Constants.FLAG_RECORD_UPDATE);
     }
 
     @Override

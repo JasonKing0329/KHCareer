@@ -126,8 +126,6 @@ public class RecordEditorActivity extends BaseActivity implements IEditorHolder,
         else if (v == doneView) {
             if (continueView.getVisibility() == View.GONE) {
                 if (insert()) {
-                    // 记录record有修改
-                    setResult(Constants.FLAG_RECORD_UPDATE);
                     Toast.makeText(this, R.string.insert_done, Toast.LENGTH_LONG).show();
                     continueView.setVisibility(View.VISIBLE);
                 }
