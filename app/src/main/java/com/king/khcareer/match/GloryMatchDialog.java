@@ -25,6 +25,8 @@ import com.king.mytennis.view.R;
 
 public class GloryMatchDialog extends CustomDialog implements OnItemLongClickListener {
 
+	public static final String USER_ID = "user_id";
+
 	private ListView listView;
 	private ImageView imageView;
 	private TextView placeView;
@@ -77,7 +79,9 @@ public class GloryMatchDialog extends CustomDialog implements OnItemLongClickLis
 			achieveView.setText(getContext().getResources().getString(R.string.glory_match_achieve)
 					+ record.getRound());
 		}
-		GloryMatchAdapter adapter = new GloryMatchAdapter(context, recordList);
+
+		String userId = (String) map.get(USER_ID);
+		GloryMatchAdapter adapter = new GloryMatchAdapter(context, recordList, userId);
 		listView.setAdapter(adapter);
 	}
 

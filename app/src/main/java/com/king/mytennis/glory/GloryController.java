@@ -139,6 +139,20 @@ public class GloryController {
 		grandSlame.saveData();
 	}
 
+	public List<Record> loadMatchRecord(String match, String date, String userId) {
+		MultiUser user;
+		if (userId != null) {
+			user = MultiUserManager.getInstance().getUser(userId);
+		}
+		else {
+			user = MultiUserManager.getInstance().getCurrentUser();
+		}
+		recordDAO = new RecordDAOImp(user);
+		List<Record> records = recordDAO.queryByWhere(
+				"date_str = ? and match = ?", new String[]{date, match});
+		return records;
+	}
+
 	public List<Record> loadMatchRecord(String match, String date) {
 		recordDAO = new RecordDAOImp();
 		List<Record> records = recordDAO.queryByWhere(

@@ -145,6 +145,7 @@ public class MatchPageActivity extends BaseActivity implements IPageView {
             public void onClickRecord(Record record) {
                 Intent intent = new Intent().setClass(MatchPageActivity.this, PlayerPageActivity.class);
                 intent.putExtra(PlayerPageActivity.KEY_COMPETITOR_NAME, record.getCompetitor());
+                intent.putExtra(PlayerPageActivity.KEY_USER_ID, userId);
                 startActivity(intent);
             }
         });

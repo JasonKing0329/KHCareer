@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.king.khcareer.common.config.Constants;
 import com.king.khcareer.common.image.ImageFactory;
+import com.king.khcareer.common.multiuser.MultiUser;
 import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.common.image.ImageUtil;
@@ -24,19 +25,27 @@ public class GloryMatchAdapter extends BaseAdapter {
 	private Context context;
 	private List<Record> list;
 	private String[] roundArray, roundReferArray;
+	private MultiUser user;
 
 	/**
 	 * 保存首次从文件夹加载的图片序号
 	 */
 	private Map<String, Integer> imageIndexMap;
 
-	public GloryMatchAdapter(Context context, List<Record> list) {
+	public GloryMatchAdapter(Context context, List<Record> list, String userId) {
 
 		this.context = context;
 		this.list = list;
 		imageIndexMap = new HashMap<>();
 		roundArray = Constants.RECORD_MATCH_ROUNDS;
 		roundReferArray = Constants.RECORD_MATCH_ROUNDS_SHORT;
+
+		if (userId == null) {
+			user = MultiUserManager.getInstance().getCurrentUser();
+		}
+		else {
+			user = MultiUserManager.getInstance().getUser(userId);
+		}
 	}
 	@Override
 	public int getCount() {
@@ -97,7 +106,7 @@ public class GloryMatchAdapter extends BaseAdapter {
 		
 		String winner = record.getWinner();
 		if (winner.equals(MultiUserManager.USER_DB_FLAG)) {
-			winner = MultiUserManager.getInstance().getCurrentUser().getDisplayName();
+			winner = user.getDisplayName();
 		}
 		holder.score.setText(winner + " " + record.getScore());
 		

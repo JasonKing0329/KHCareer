@@ -75,7 +75,7 @@ public class PageFragment extends BaseFragment implements IPageCallback {
 
     @Override
     public void onDataLoaded(List<Object> list) {
-        String userId = getArguments().getString(KEY_USER_ID);
+        final String userId = getArguments().getString(KEY_USER_ID);
         MultiUser user;
         if (userId == null) {
             user = MultiUserManager.getInstance().getCurrentUser();
@@ -97,8 +97,9 @@ public class PageFragment extends BaseFragment implements IPageCallback {
 
                     @Override
                     public void onLoadData(HashMap<String, Object> data) {
-                        List<Record> list = new GloryController().loadMatchRecord(record.getMatch(), record.getStrDate());
+                        List<Record> list = new GloryController().loadMatchRecord(record.getMatch(), record.getStrDate(), userId);
                         data.put(CustomDialog.OnCustomDialogActionListener.DATA_TYPE, list);
+                        data.put(GloryMatchDialog.USER_ID, userId);
                     }
 
                     @Override
@@ -115,6 +116,7 @@ public class PageFragment extends BaseFragment implements IPageCallback {
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), MatchPageActivity.class);
                 intent.putExtra(MatchPageActivity.KEY_MATCH_NAME, record.getMatch());
+                intent.putExtra(MatchPageActivity.KEY_USER_ID, getArguments().getString(KEY_USER_ID));
                 ActivityOptions transitionActivityOptions = ActivityOptions.makeSceneTransitionAnimation(getActivity()
                         , Pair.create(view.findViewById(R.id.iv_match),getString(R.string.anim_match_page_head)));
                 startActivity(intent, transitionActivityOptions.toBundle());
