@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -77,14 +78,22 @@ public class PageRecordAdapter extends RecyclerView.Adapter implements View.OnCl
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof TitleHolder) {
-            onBindTitle((TitleHolder) holder, (PageTitleBean) list.get(position));
+            onBindTitle((TitleHolder) holder, (PageTitleBean) list.get(position), position);
         } else {
             onBindRecord((RecordHolder) holder, (Record) list.get(position));
         }
     }
 
-    private void onBindTitle(TitleHolder holder, PageTitleBean pageTitleBean) {
+    private void onBindTitle(TitleHolder holder, PageTitleBean pageTitleBean, int position) {
         holder.tvTitle.setText(pageTitleBean.getYear() + " （" + pageTitleBean.getWin() + "胜" + pageTitleBean.getLose() + "负）");
+        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.vPoint.getLayoutParams();
+        if (position == 0) {
+            params.addRule(RelativeLayout.CENTER_VERTICAL);
+        }
+        else {
+            params.removeRule(RelativeLayout.CENTER_VERTICAL);
+        }
+        holder.vPoint.setLayoutParams(params);
     }
 
     private void onBindRecord(RecordHolder holder, Record record) {
@@ -147,6 +156,8 @@ public class PageRecordAdapter extends RecyclerView.Adapter implements View.OnCl
 
         @BindView(R.id.tv_title)
         TextView tvTitle;
+        @BindView(R.id.v_point)
+        View vPoint;
 
         public TitleHolder(View itemView) {
             super(itemView);

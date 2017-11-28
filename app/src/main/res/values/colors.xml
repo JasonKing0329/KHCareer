@@ -288,6 +288,10 @@
     <color name="round_tag_normal">#aaFF4081</color>
     <color name="round_tag_winner">#aaef9801</color>
 
+    <color name="timeline_line">#efefef</color>
+
+    <color name="match_timeline">@color/colorPrimary</color>
+
     <color name="white">#FFFFFF</color> <!-- 白色 -->
     <color name="ivory">#FFFFF0</color> <!-- 象牙色 -->
     <color name="lightyellow">#FFFFE0</color> <!-- 亮黄色 -->

@@ -94,14 +94,14 @@ public class PageRecordAdapter extends RecyclerView.Adapter implements View.OnCl
         if (winner.equals(MultiUserManager.USER_DB_FLAG)) {
             winner = user.getDisplayName();
             if (record.getRound().equals(Constants.RECORD_MATCH_ROUNDS[0])) {
-                drawable.setColor(holder.tvLevel.getResources().getColor(R.color.round_tag_winner));
+                drawable.setColor(holder.tvLevel.getResources().getColor(R.color.colorAccent));
             }
             else {
-                drawable.setColor(holder.tvLevel.getResources().getColor(R.color.round_tag_normal));
+                drawable.setColor(holder.tvLevel.getResources().getColor(R.color.match_timeline));
             }
         }
         else {
-            drawable.setColor(holder.tvLevel.getResources().getColor(R.color.round_tag_normal));
+            drawable.setColor(holder.tvLevel.getResources().getColor(R.color.match_timeline));
         }
         holder.tvLevel.setBackground(drawable);
         holder.tvLine3.setText(winner + " " + record.getScore());
