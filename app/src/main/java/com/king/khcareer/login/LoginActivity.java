@@ -95,7 +95,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener, Call
 				//		, Configuration.getInstance().DEF_FILE);
 
 				//从assets中复制
-				Configuration.initialize(LoginActivity.this);
+				Configuration.initialize();
 				handler.sendMessage(new Message());
 			}
 		}.start();

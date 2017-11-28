@@ -7,13 +7,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.king.khcareer.base.KApplication;
+import com.king.khcareer.common.image.glide.GlideOptions;
 import com.king.khcareer.model.sql.player.interfc.H2HDAO;
 import com.king.khcareer.model.sql.player.H2HDAODB;
 import com.king.khcareer.common.image.ImageFactory;
 import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.model.sql.pubdata.bean.PlayerBean;
-import com.king.khcareer.common.image.ImageUtil;
 import com.king.khcareer.player.page.PlayerPageActivity;
 import com.king.mytennis.view.R;
 
@@ -109,7 +111,10 @@ public class PlayerEditPage implements View.OnClickListener {
         tvCompetitor.setText(bean.getNameChn().concat("(").concat(bean.getCountry()).concat(")"));
         tvBirthday.setText(bean.getBirthday());
         tvNameEng.setText(bean.getNameEng());
-        ImageUtil.load("file://" + ImageFactory.getDetailPlayerPath(bean.getNameChn()), ivPlayer, R.drawable.view7_folder_cover_player);
+        Glide.with(KApplication.getInstance())
+                .load(ImageFactory.getDetailPlayerPath(bean.getNameChn()))
+                .apply(GlideOptions.getEditorPlayerOptions())
+                .into(ivPlayer);
 
         h2HDAO = new H2HDAODB(bean.getNameChn());
         tvH2h.setText("H2H  " + h2HDAO.getWin() + "-" + h2HDAO.getLose());
@@ -147,5 +152,15 @@ public class PlayerEditPage implements View.OnClickListener {
         record.setCompetitor(playerBean.getNameChn());
         record.setCptCountry(playerBean.getCountry());
         return null;
+    }
+
+    public void initWithRecord(Record record, PlayerBean player) {
+        et_rankp1.setText(String.valueOf(record.getRank()));
+        et_seedp1.setText(String.valueOf(record.getSeed()));
+        et_rank.setText(String.valueOf(record.getCptRank()));
+        et_seed.setText(String.valueOf(record.getCptSeed()));
+
+        onPlayerSelected(player);
+        fillRecord(record);
     }
 }

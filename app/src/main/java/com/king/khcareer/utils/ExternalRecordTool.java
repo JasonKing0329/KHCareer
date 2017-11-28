@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Calendar;
 
+import com.king.khcareer.base.KApplication;
 import com.king.khcareer.common.config.Configuration;
 import com.king.khcareer.model.sql.player.DatabaseStruct;
 import com.king.khcareer.common.helper.MenuService;
@@ -36,9 +37,9 @@ public class ExternalRecordTool {
 
 	/**
 	 * 从assets目录复制的方法
-	 * @param context
+	 * @param dbFile
 	 */
-	public static void copyDbFromAssets(Context context, String dbFile) {
+	public static void copyDbFromAssets(String dbFile) {
 
 		SQLiteDatabase db = null;
 		//先检查是否存在，不存在才复制
@@ -50,7 +51,7 @@ public class ExternalRecordTool {
 		}
 		if (db == null) {
 			try {
-				InputStream assetsIn = context.getAssets().open(dbFile);
+				InputStream assetsIn = KApplication.getInstance().getAssets().open(dbFile);
 				File file = new File(Configuration.DATABASE_CONTENT);
 				if (!file.exists()) {
 					file.mkdir();
@@ -76,9 +77,9 @@ public class ExternalRecordTool {
 
 	/**
 	 * 从assets目录复制的方法
-	 * @param context
+	 * @param dbFile
 	 */
-	public static void copyPublicDbFromAssets(Context context, String dbFile) {
+	public static void copyPublicDbFromAssets(String dbFile) {
 
 		//先检查是否存在，不存在才复制
 		File file = new File(Configuration.CONF_DIR + DatabaseStruct.DATABASE_PUBLIC);
@@ -86,7 +87,7 @@ public class ExternalRecordTool {
 			return;
 		}
 		try {
-			InputStream assetsIn = context.getAssets().open(dbFile);
+			InputStream assetsIn = KApplication.getInstance().getAssets().open(dbFile);
 			OutputStream fileOut = new FileOutputStream(file);
 			byte[] buffer = new byte[1024];
 			int length;
@@ -104,14 +105,15 @@ public class ExternalRecordTool {
 
 	/**
 	 * 从assets目录复制res文件
-	 * @param context
+	 * @param resFile
+	 * @param targetPath
 	 */
-	public static void copyResFromAssets(Context context, String resFile, String targetPath) {
+	public static void copyResFromAssets(String resFile, String targetPath) {
 
 		File file = new File(targetPath);
 		if (!file.exists()) {
 			try {
-				InputStream assetsIn = context.getAssets().open(resFile);
+				InputStream assetsIn = KApplication.getInstance().getAssets().open(resFile);
 				OutputStream fileOut = new FileOutputStream(targetPath);
 				byte[] buffer = new byte[1024];
 				int length;

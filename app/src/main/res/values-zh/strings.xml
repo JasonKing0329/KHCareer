@@ -72,6 +72,7 @@
     <string name="winner">胜者</string>
     <string name="next_page">下一页</string>
     <string name="previous_page">上一页</string>
+    <string name="update_failed">修改失败</string>
     <string name="insert_done">完成</string>
     <string name="insert_continue">继续添加</string>
     <string name="insert_warning">警告：一些搜索或删除操作已执行，list与数据库的记录已经存在不一致。请在载入全部记录的情况下执行此操作。</string>

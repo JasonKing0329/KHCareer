@@ -11,7 +11,7 @@ public interface RecordDAO {
 	public void add(Record record);
 	public void update(Record record);
 	public void delete(Record record);
-	public Record get(Record record);
+	public Record get(int recordId);
 	public DatabaseAccess getSqLite();
 	public void addRecords(ArrayList<Record> list);
 	public ArrayList<Record> queryAll();

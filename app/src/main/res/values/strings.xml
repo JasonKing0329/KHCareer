@@ -75,6 +75,7 @@
     <string name="winner">winner</string>
     <string name="next_page">next page</string>
     <string name="previous_page">previous page</string>
+    <string name="update_failed">Update failed</string>
     <string name="insert_done">Done</string>
     <string name="insert_continue">Continue insert</string>
     <string name="insert_warning">Notice: Some search or delete operations have been done! Please take the insert action in the situation that all records have loaded in.</string>

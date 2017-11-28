@@ -28,6 +28,7 @@ import com.king.khcareer.record.DetailsDialog;
 import com.king.khcareer.record.RecordFilterDialog;
 import com.king.khcareer.record.RecordService;
 import com.king.khcareer.record.detail.DetailGallery;
+import com.king.khcareer.record.editor.RecordEditorActivity;
 import com.king.khcareer.record.editor.UpdateDialog;
 import com.king.mytennis.view.R;
 import com.nightonke.boommenu.BoomButtons.ButtonPlaceAlignmentEnum;
@@ -52,6 +53,8 @@ import butterknife.ButterKnife;
  */
 public class RecordActivity extends BaseActivity implements IRecordView, OnItemMenuListener, OnHeadLongClickListener
     , OnBMClickListener {
+
+    private final int REQUEST_UPDATE = 100;
 
     @BindView(R.id.rv_record)
     RecyclerView rvRecord;
@@ -165,15 +168,9 @@ public class RecordActivity extends BaseActivity implements IRecordView, OnItemM
 
     @Override
     public void onUpdateRecord(final RecordItem recordItem) {
-        UpdateDialog updateDialog = new UpdateDialog(this, recordItem.getRecord());
-        updateDialog.initData();
-        updateDialog.setOnUpdateListener(new UpdateDialog.OnUpdateListener() {
-            @Override
-            public void OnRecordUpdated(Record record) {
-                recordAdapter.notifyItemChanged(recordItem.getItemPosition());
-            }
-        });
-        updateDialog.show();
+        Intent intent = new Intent().setClass(this, RecordEditorActivity.class);
+        intent.putExtra(RecordEditorActivity.KEY_RECORD_ID, String.valueOf(recordItem.getRecord().getId()));
+        startActivityForResult(intent, REQUEST_UPDATE);
     }
 
     private void showSearchDialog() {
@@ -197,6 +194,14 @@ public class RecordActivity extends BaseActivity implements IRecordView, OnItemM
         });
         dialog.setTitle(getString(R.string.filter_title));
         dialog.show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (recordPresenter != null) {
+            recordPresenter.destroy();
+        }
+        super.onDestroy();
     }
 
     @Override

@@ -14,7 +14,8 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.schedulers.Schedulers;
 
 /**
- * 描述:
+ * 描述: record表的响应式监听
+ * Home/Record list 界面涉及注册Observer
  * <p/>作者：景阳
  * <p/>创建时间: 2017/11/27 15:42
  */
@@ -37,6 +38,10 @@ public class RecordObserver {
         observers.remove(observer);
     }
 
+    /**
+     * 查询全部记录
+     * @return
+     */
     public static Observable<List<Record>> getQuery() {
         return Observable.create(new ObservableOnSubscribe<List<Record>>() {
             @Override

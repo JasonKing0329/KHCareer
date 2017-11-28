@@ -107,6 +107,7 @@ public class HomeHeadFragment extends BaseFragment {
             @Override
             public void onPageDataLoaded(ScorePageData data) {
                 onScoreLoaded(data.getCountScore(), scorePrensenter.loadRank().getRank());
+                tvMatchNumber.setText("Match count " + String.valueOf(data.getScoreList().size()));
             }
         });
         scorePrensenter.query52WeekRecords();

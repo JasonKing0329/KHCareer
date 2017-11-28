@@ -5,6 +5,7 @@ import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.model.sql.player.RecordDAOImp;
 import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.khcareer.model.sql.player.interfc.RecordDAO;
+import com.king.khcareer.model.sql.player.observe.RecordObserver;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -17,8 +18,12 @@ import java.util.Map;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
+import io.reactivex.ObservableSource;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -30,11 +35,54 @@ public class RecordPresenter {
 
     private IRecordView recordView;
 
-    private ArrayList<Record> recordList;
+    private List<Record> recordList;
 
     public RecordPresenter(IRecordView recordView) {
         this.recordView = recordView;
+        // 监听record变化
+        RecordObserver.addObserver(recordObserver);
     }
+
+    public void destroy() {
+        // 删除监听
+        RecordObserver.removeObserver(recordObserver);
+    }
+
+    private Observer<List<Record>> recordObserver = new Observer<List<Record>>() {
+        @Override
+        public void onSubscribe(Disposable d) {
+
+        }
+
+        @Override
+        public void onNext(List<Record> records) {
+            recordList = records;
+            Collections.reverse(recordList);
+            getParser().subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Consumer<RecordPageData>() {
+                        @Override
+                        public void accept(RecordPageData recordPageData) throws Exception {
+                            recordView.onRecordDataLoaded(recordPageData);
+                        }
+                    }, new Consumer<Throwable>() {
+                        @Override
+                        public void accept(Throwable throwable) throws Exception {
+                            throwable.printStackTrace();
+                        }
+                    });
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            e.printStackTrace();
+        }
+
+        @Override
+        public void onComplete() {
+
+        }
+    };
 
     /**
      * 按照当前的recordList组装3级数据
@@ -53,12 +101,31 @@ public class RecordPresenter {
         executeLoad();
     }
 
-    private void executeLoad() {
-        Observable.create(new ObservableOnSubscribe<RecordPageData>() {
+    private Observable getParser() {
+        return Observable.create(new ObservableOnSubscribe<RecordPageData>() {
             @Override
             public void subscribe(ObservableEmitter<RecordPageData> e) throws Exception {
                 RecordPageData headerList = createHeaderList();
                 e.onNext(headerList);
+            }
+        });
+    }
+
+    private void executeLoad() {
+        Observable.create(new ObservableOnSubscribe<List<Record>>() {
+            @Override
+            public void subscribe(ObservableEmitter<List<Record>> e) throws Exception {
+                RecordDAO dao = new RecordDAOImp();
+                if (recordList == null) {
+                    recordList = dao.queryAll();
+                    Collections.reverse(recordList);
+                }
+                e.onNext(recordList);
+            }
+        }).flatMap(new Function<List<Record>, ObservableSource<RecordPageData>>() {
+            @Override
+            public ObservableSource<RecordPageData> apply(List<Record> records) throws Exception {
+                return getParser();
             }
         }).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -77,12 +144,7 @@ public class RecordPresenter {
 
     private RecordPageData createHeaderList() {
         RecordPageData data = new RecordPageData();
-        
-        RecordDAO dao = new RecordDAOImp();
-        if (recordList == null) {
-            recordList = dao.queryAll();
-            Collections.reverse(recordList);
-        }
+
         data.setRecordList(recordList);
 
         List<YearItem> yearList = new ArrayList<>();

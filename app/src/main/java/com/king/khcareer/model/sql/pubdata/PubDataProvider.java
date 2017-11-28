@@ -66,6 +66,11 @@ public interface PubDataProvider {
      */
     void deleteMatch(int matchId);
 
+    /**
+     * MatchNameBean includes MatchBean
+     * @param match
+     * @return MatchNameBean includes MatchBean
+     */
     MatchNameBean getMatchByName(String match);
 
     void insertPlayer(PlayerBean bean);

@@ -102,7 +102,7 @@ public class RecordDAOImp implements RecordDAO {
 	}
 
 	@Override
-	public Record get(Record record) {
+	public Record get(int recordId) {
 		//query(table, columns, selection, selectionArgs, groupBy, having, orderBy);
 		//query里的参数其实就是将select语句分块
 		//table表名，colums是查询的列名string[]，selection则是where子句(动态编译)
@@ -110,7 +110,8 @@ public class RecordDAOImp implements RecordDAO {
 		SQLiteDatabase db = sqLite.getSQLHelper().getWritableDatabase();
 		Cursor cursor=db.query(
 				DatabaseStruct.TABLE_RECORD, DatabaseStruct.TABLE_RECORD_COL
-				, "id = ?", new String[]{""+record.getId()}, null, null, null);
+				, "id = ?", new String[]{String.valueOf(recordId)}, null, null, null);
+		Record record = new Record();
 		if (cursor.moveToNext()){
 			adaptRecord(cursor, record);
 		}

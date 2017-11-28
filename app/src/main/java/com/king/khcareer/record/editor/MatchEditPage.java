@@ -9,14 +9,16 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.king.khcareer.base.KApplication;
 import com.king.khcareer.common.config.Configuration;
 import com.king.khcareer.common.config.Constants;
 import com.king.khcareer.common.image.ImageFactory;
+import com.king.khcareer.common.image.glide.GlideOptions;
 import com.king.khcareer.model.PubProviderHelper;
 import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.model.sql.pubdata.bean.MatchNameBean;
-import com.king.khcareer.common.image.ImageUtil;
 import com.king.khcareer.base.CustomDialog;
 import com.king.mytennis.view.R;
 import com.king.khcareer.settings.AutoFillItem;
@@ -100,13 +102,11 @@ public class MatchEditPage implements View.OnClickListener {
                 .setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         sp_round.setAdapter(spinnerAdapter);
         sp_round.setOnItemSelectedListener(spinnerListener);
-
-        initData();
     }
 
-    private void initData() {
+    public void initData() {
         Configuration conf = Configuration.getInstance();
-        conf.loadFromPreference(editorHolder.getActivity());
+        conf.loadFromPreference();
         String match = conf.autoFillItem.getMatch();
         if (TextUtils.isEmpty(match)) {
             return;
@@ -126,7 +126,11 @@ public class MatchEditPage implements View.OnClickListener {
         tvMatchLevel.setText(conf.autoFillItem.getLevel());
         cur_round = getRoundIndex(conf.autoFillItem.getRound());
         sp_round.setSelection(cur_round);
-        ImageUtil.load("file://" + ImageFactory.getMatchHeadPath(match, court), ivMatch, R.drawable.default_img);
+
+        Glide.with(KApplication.getInstance())
+                .load(ImageFactory.getMatchHeadPath(match, court))
+                .apply(GlideOptions.getEditorMatchOptions())
+                .into(ivMatch);
     }
 
     /**
@@ -192,24 +196,17 @@ public class MatchEditPage implements View.OnClickListener {
     public void onMatchSelected(MatchNameBean bean) {
         matchBean = bean;
 
-        // 保存为默认填写
-        AutoFillItem item = new AutoFillItem();
-        item.setMatch(bean.getName());
-        item.setCountry(bean.getMatchBean().getCountry());
-        item.setCity(bean.getMatchBean().getCity());
-        item.setLevel(bean.getMatchBean().getLevel());
-        item.setCourt(bean.getMatchBean().getCourt());
-        item.setRegion(bean.getMatchBean().getRegion());
-        item.setMonth(bean.getMatchBean().getMonth());
-        Configuration.getInstance().createPreference(editorHolder.getActivity(), item);
-
         groupMatch.setVisibility(View.VISIBLE);
         tvMatch.setText(bean.getName());
         tvMatchCountry.setText(bean.getMatchBean().getCountry());
         tvMatchLevel.setText(bean.getMatchBean().getLevel());
         tvMatchCourt.setText(bean.getMatchBean().getCourt());
         tvMatchCity.setText(bean.getMatchBean().getCity());
-        ImageUtil.load("file://" + ImageFactory.getMatchHeadPath(bean.getName(), bean.getMatchBean().getCourt()), ivMatch);
+
+        Glide.with(KApplication.getInstance())
+                .load(ImageFactory.getMatchHeadPath(bean.getName(), bean.getMatchBean().getCourt()))
+                .apply(GlideOptions.getEditorMatchOptions())
+                .into(ivMatch);
     }
 
     public String fillRecord(Record record) {
@@ -250,6 +247,44 @@ public class MatchEditPage implements View.OnClickListener {
         conf.index_month = cur_month;
         conf.index_year = cur_year;
         return null;
+    }
+
+    public void initWithRecord(Record record, MatchNameBean match) {
+
+        onMatchSelected(match);
+
+        mStrScore = record.getScore();
+        mStrWinner = MultiUserManager.USER_DB_FLAG.equals(record.getWinner()) ?
+                MultiUserManager.getInstance().getCurrentUser().getDisplayName()
+                : record.getWinner();
+        tvScore.setText(record.getScore());
+        tvWinner.setText(mStrWinner);
+        groupWinner.setVisibility(View.VISIBLE);
+        for (int i = 0; i < arr_year.length; i ++) {
+            String year = arr_year[i];
+            if (year.equals(record.getStrDate().split("-")[0])) {
+                sp_year.setSelection(i);
+                break;
+            }
+        }
+
+        sp_round.setSelection(getRoundIndex(record.getRound()));
+
+        fillRecord(record);
+    }
+
+    public void saveAutoFill() {
+        // 保存为默认填写
+        AutoFillItem item = new AutoFillItem();
+        item.setMatch(matchBean.getName());
+        item.setCountry(matchBean.getMatchBean().getCountry());
+        item.setCity(matchBean.getMatchBean().getCity());
+        item.setLevel(matchBean.getMatchBean().getLevel());
+        item.setCourt(matchBean.getMatchBean().getCourt());
+        item.setRegion(matchBean.getMatchBean().getRegion());
+        item.setMonth(matchBean.getMatchBean().getMonth());
+        Configuration.getInstance().createPreference(item);
+
     }
 
     private class SpinnerListener implements AdapterView.OnItemSelectedListener {

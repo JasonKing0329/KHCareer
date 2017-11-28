@@ -9,7 +9,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.king.khcareer.common.config.Constants;
 import com.king.khcareer.match.manage.MatchCache;
 import com.king.khcareer.match.manage.MatchManageActivity;
 import com.king.khcareer.model.sql.player.bean.Record;
@@ -25,7 +24,9 @@ import com.king.mytennis.view.R;
  * <p/>作者：景阳
  * <p/>创建时间: 2017/3/13 13:23
  */
-public class RecordEditorActivity extends BaseActivity implements IEditorHolder, View.OnClickListener {
+public class RecordEditorActivity extends BaseActivity implements IEditorView, IEditorHolder, View.OnClickListener {
+
+    public static final String KEY_RECORD_ID = "record_id";
 
     private final int REQUEST_CHANGE_MATCH = 101;
     private final int REQUEST_CHANGE_PLAYER = 102;
@@ -36,6 +37,16 @@ public class RecordEditorActivity extends BaseActivity implements IEditorHolder,
 
     private PlayerEditPage playerEditPage;
     private MatchEditPage matchEditPage;
+
+    private EditorPresenter presenter;
+
+    private Record record;
+    private MatchNameBean matchNameBean;
+
+    /**
+     * 修改模式
+     */
+    private boolean isUpdateMode;
 
     @Override
     protected void onDestroy() {
@@ -48,9 +59,18 @@ public class RecordEditorActivity extends BaseActivity implements IEditorHolder,
 
         setContentView(R.layout.activity_record_editor);
 
+        presenter = new EditorPresenter(this);
+
         initParentView();
 
         showPlayerView();
+
+        String recordId = getIntent().getStringExtra(KEY_RECORD_ID);
+        // 修改模式
+        if (recordId != null) {
+            isUpdateMode = true;
+            presenter.loadRecord(Integer.parseInt(recordId));
+        }
 
         super.onCreate(savedInstanceState);
     }
@@ -102,6 +122,12 @@ public class RecordEditorActivity extends BaseActivity implements IEditorHolder,
         if (matchEditPage == null) {
             matchEditPage = new MatchEditPage(this);
             matchEditPage.initView();
+            if (matchNameBean == null) {
+                matchEditPage.initData();
+            }
+            else {
+                matchEditPage.initWithRecord(record, matchNameBean);
+            }
         }
         groupPlayer.setVisibility(View.GONE);
         groupMatch.setVisibility(View.VISIBLE);
@@ -115,26 +141,35 @@ public class RecordEditorActivity extends BaseActivity implements IEditorHolder,
             nextPageView.setVisibility(View.GONE);
             doneView.setVisibility(View.VISIBLE);
             showMatchView();
-        }
-        else if (v == previousPageView) {
+        } else if (v == previousPageView) {
             toolbar.setTitle(getResources().getString(R.string.player_infor));
             previousPageView.setVisibility(View.GONE);
             nextPageView.setVisibility(View.VISIBLE);
             doneView.setVisibility(View.GONE);
             showPlayerView();
-        }
-        else if (v == doneView) {
-            if (continueView.getVisibility() == View.GONE) {
-                if (insert()) {
-                    Toast.makeText(this, R.string.insert_done, Toast.LENGTH_LONG).show();
-                    continueView.setVisibility(View.VISIBLE);
+        } else if (v == doneView) {
+            // 修改
+            if (isUpdateMode) {
+                if (update()) {
+                    finish();
+                }
+                else {
+                    Toast.makeText(this, R.string.update_failed, Toast.LENGTH_LONG).show();
                 }
             }
+            // 添加
             else {
-                finish();
+                if (continueView.getVisibility() == View.GONE) {
+                    if (insert()) {
+                        matchEditPage.saveAutoFill();
+                        Toast.makeText(this, R.string.insert_done, Toast.LENGTH_LONG).show();
+                        continueView.setVisibility(View.VISIBLE);
+                    }
+                } else {
+                    finish();
+                }
             }
-        }
-        else if (v == continueView) {
+        } else if (v == continueView) {
             continueInsert();
         }
     }
@@ -151,12 +186,10 @@ public class RecordEditorActivity extends BaseActivity implements IEditorHolder,
     }
 
     /**
-     * 执行添加
+     * 执行修改
      * @return
      */
-    private boolean insert() {
-
-        Record record=new Record();
+    private boolean update() {
         String errorMsg = playerEditPage.fillRecord(record);
         if (errorMsg == null) {
             errorMsg = matchEditPage.fillRecord(record);
@@ -165,8 +198,28 @@ public class RecordEditorActivity extends BaseActivity implements IEditorHolder,
             Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show();
             return false;
         }
-        RecordService service = new RecordService();
-        return service.insert(record);
+
+        return presenter.updateRecord(record);
+    }
+
+    /**
+     * 执行添加
+     *
+     * @return
+     */
+    private boolean insert() {
+
+        Record record = new Record();
+        String errorMsg = playerEditPage.fillRecord(record);
+        if (errorMsg == null) {
+            errorMsg = matchEditPage.fillRecord(record);
+        }
+        if (errorMsg != null) {
+            Toast.makeText(this, errorMsg, Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        return presenter.insertRecord(record);
     }
 
     @Override
@@ -215,4 +268,10 @@ public class RecordEditorActivity extends BaseActivity implements IEditorHolder,
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    public void onRecordLoaded(Record record, PlayerBean player, MatchNameBean match) {
+        this.record = record;
+        this.matchNameBean = match;
+        playerEditPage.initWithRecord(record, player);
+    }
 }

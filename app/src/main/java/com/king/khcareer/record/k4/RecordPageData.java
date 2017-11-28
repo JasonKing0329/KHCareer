@@ -2,7 +2,6 @@ package com.king.khcareer.record.k4;
 
 import com.king.khcareer.model.sql.player.bean.Record;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -10,7 +9,7 @@ import java.util.List;
  */
 
 public class RecordPageData {
-    private ArrayList<Record> recordList;
+    private List<Record> recordList;
     private List<YearItem> yearList;
     private int careerWin;
     private int careerLose;
@@ -75,11 +74,11 @@ public class RecordPageData {
         this.yearRate = yearRate;
     }
 
-    public ArrayList<Record> getRecordList() {
+    public List<Record> getRecordList() {
         return recordList;
     }
 
-    public void setRecordList(ArrayList<Record> recordList) {
+    public void setRecordList(List<Record> recordList) {
         this.recordList = recordList;
     }
 }

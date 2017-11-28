@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.Locale;
 
+import com.king.khcareer.base.KApplication;
 import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.utils.ExternalRecordTool;
 import com.king.khcareer.settings.AutoFillItem;
@@ -139,7 +140,7 @@ public class Configuration implements Serializable {
 		index_year = 0;
 	}
 
-	public static void initialize(Context context) {
+	public static void initialize() {
 		createDir(new File(DEF_CONTENT));
 		createDir(new File(IMG_BK_BASE));
 		createDir(new File(IMG_DEFAULT_BASE));
@@ -157,17 +158,17 @@ public class Configuration implements Serializable {
 		createDir(new File(DOWNLOAD_IMAGE));
 		createDir(new File(EXTEND_RES_DIR));
 		createDir(new File(APP_UPDATE_DIR));
-		ExternalRecordTool.copyDbFromAssets(context, ExternalRecordTool.DATABASE);
-		ExternalRecordTool.copyDbFromAssets(context, ExternalRecordTool.DATABASE_PLAYER);
-		ExternalRecordTool.copyDbFromAssets(context, ExternalRecordTool.DATABASE_TIANQI);
-		ExternalRecordTool.copyDbFromAssets(context, ExternalRecordTool.DATABASE_FLAMENCO);
-		ExternalRecordTool.copyDbFromAssets(context, ExternalRecordTool.DATABASE_HENRY);
-		ExternalRecordTool.copyPublicDbFromAssets(context, ExternalRecordTool.DATABASE_PUBLIC);
-		ExternalRecordTool.copyResFromAssets(context, ASSETS_RES_COLOR, EXTEND_RES_COLOR);
-		ExternalRecordTool.copyResFromAssets(context, ASSETS_RES_DIMEN, EXTEND_RES_DIMEN);
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		ExternalRecordTool.copyDbFromAssets(ExternalRecordTool.DATABASE);
+		ExternalRecordTool.copyDbFromAssets(ExternalRecordTool.DATABASE_PLAYER);
+		ExternalRecordTool.copyDbFromAssets(ExternalRecordTool.DATABASE_TIANQI);
+		ExternalRecordTool.copyDbFromAssets(ExternalRecordTool.DATABASE_FLAMENCO);
+		ExternalRecordTool.copyDbFromAssets(ExternalRecordTool.DATABASE_HENRY);
+		ExternalRecordTool.copyPublicDbFromAssets(ExternalRecordTool.DATABASE_PUBLIC);
+		ExternalRecordTool.copyResFromAssets(ASSETS_RES_COLOR, EXTEND_RES_COLOR);
+		ExternalRecordTool.copyResFromAssets(ASSETS_RES_DIMEN, EXTEND_RES_DIMEN);
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(KApplication.getInstance());
 		supportMultiAutoFill = preferences.getBoolean("setting_feature_mult_form", true);
-		MultiUserManager.getInstance().loadUsers(context);
+		MultiUserManager.getInstance().loadUsers();
 		USERAGENT_MOBILE = getLocalUserAgent();
 	}
 
@@ -177,10 +178,10 @@ public class Configuration implements Serializable {
 		}
 	}
 
-	public void createPreference(Context context, AutoFillItem item) {
+	public void createPreference(AutoFillItem item) {
 		autoFillItem = item;
 
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(KApplication.getInstance());
 		SharedPreferences.Editor editor = preferences.edit();
 		editor.putString(PREF_INSERT_CITY, autoFillItem.getCity());
 		editor.putString(PREF_INSERT_COUNTRY, autoFillItem.getCountry());
@@ -193,8 +194,8 @@ public class Configuration implements Serializable {
 		editor.commit();
 	}
 
-	public void loadFromPreference(Context context) {
-		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(context);
+	public void loadFromPreference() {
+		SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(KApplication.getInstance());
 
 		if (autoFillItem == null) {
 			autoFillItem = new AutoFillItem();

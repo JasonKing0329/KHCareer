@@ -213,14 +213,14 @@ public class MultiUserManager {
 		multiUserManager = null;
 	}
 
-	public void loadUsers(Context context) {
-		String[] array = context.getResources().getStringArray(R.array.multiuser_list);
-		String[] array1 = context.getResources().getStringArray(R.array.multiuser_display_list);
-		String[] countries = context.getResources().getStringArray(R.array.multiuser_country);
-		String[] birthdays = context.getResources().getStringArray(R.array.multiuser_birthday);
-		String[] heights = context.getResources().getStringArray(R.array.multiuser_height);
-		String[] weights = context.getResources().getStringArray(R.array.multiuser_weight);
-		String[] fullNames = context.getResources().getStringArray(R.array.multiuser_fullname);
+	public void loadUsers() {
+		String[] array = KApplication.getInstance().getResources().getStringArray(R.array.multiuser_list);
+		String[] array1 = KApplication.getInstance().getResources().getStringArray(R.array.multiuser_display_list);
+		String[] countries = KApplication.getInstance().getResources().getStringArray(R.array.multiuser_country);
+		String[] birthdays = KApplication.getInstance().getResources().getStringArray(R.array.multiuser_birthday);
+		String[] heights = KApplication.getInstance().getResources().getStringArray(R.array.multiuser_height);
+		String[] weights = KApplication.getInstance().getResources().getStringArray(R.array.multiuser_weight);
+		String[] fullNames = KApplication.getInstance().getResources().getStringArray(R.array.multiuser_fullname);
 		int[] resIds = new int[] {
 				R.drawable.flag_china,
 				R.drawable.flag_france,

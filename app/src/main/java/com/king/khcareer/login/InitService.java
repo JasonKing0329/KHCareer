@@ -33,7 +33,7 @@ public class InitService implements Handler.Callback {
     private void loadConfiguration() {
 
         Configuration.setInstance(new FileIO().readConfigInfor());
-        MultiUserManager.getInstance().loadUsers(activity);
+        MultiUserManager.getInstance().loadUsers();
         MultiUserManager.getInstance().loadFromPreference();
     }
 

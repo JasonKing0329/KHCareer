@@ -10,33 +10,40 @@ import com.king.mytennis.view.R;
  */
 public class GlideOptions {
 
-    private static RequestOptions commonOptions;
-
     public static RequestOptions getCommonOptions() {
-        if (commonOptions == null) {
-            commonOptions = new RequestOptions();
-            commonOptions.centerCrop();
+        RequestOptions commonOptions = new RequestOptions();
+        commonOptions.centerCrop();
 //            commonOptions.placeholder(R.drawable.default_loading);
-            commonOptions.error(R.drawable.default_img);
-        }
+        commonOptions.error(R.drawable.default_img);
         return commonOptions;
     }
 
     public static RequestOptions getDefaultPlayerOptions() {
-        if (commonOptions == null) {
-            commonOptions = new RequestOptions();
-            commonOptions.centerCrop();
-            commonOptions.error(R.drawable.pic_def);
-        }
+        RequestOptions commonOptions = new RequestOptions();
+        commonOptions.centerCrop();
+        commonOptions.error(R.drawable.pic_def);
         return commonOptions;
     }
 
     public static RequestOptions getDefaultMatchOptions() {
-        if (commonOptions == null) {
-            commonOptions = new RequestOptions();
-            commonOptions.centerCrop();
-            commonOptions.error(R.drawable.default_img);
-        }
+        RequestOptions commonOptions = new RequestOptions();
+        commonOptions.centerCrop();
+        commonOptions.error(R.drawable.default_img);
         return commonOptions;
     }
+
+    public static RequestOptions getEditorPlayerOptions() {
+        RequestOptions commonOptions = new RequestOptions();
+        commonOptions.centerCrop();
+        commonOptions.error(R.drawable.view7_folder_cover_player);
+        return commonOptions;
+    }
+
+    public static RequestOptions getEditorMatchOptions() {
+        RequestOptions commonOptions = new RequestOptions();
+        commonOptions.centerCrop();
+        commonOptions.error(R.drawable.view7_folder_cover_more);
+        return commonOptions;
+    }
+
 }

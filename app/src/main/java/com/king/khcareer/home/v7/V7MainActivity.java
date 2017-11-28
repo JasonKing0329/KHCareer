@@ -70,7 +70,7 @@ public class V7MainActivity extends BaseActivity implements OnClickListener
 		super.onCreate(savedInstanceState);
 
 		//check default user
-		MultiUserManager.getInstance().loadUsers(this);
+		MultiUserManager.getInstance().loadUsers();
 		MultiUserManager.getInstance().loadFromPreference();
 
 		setContentView(R.layout.activity_view7_0_main);
