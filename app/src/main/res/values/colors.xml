@@ -212,8 +212,8 @@
     <color name="record_item_text_normal">#333333</color>
     <color name="record_item_text_gray">#999999</color>
 
-    <color name="h2hlist_color_win">#c43336</color>
-    <color name="h2hlist_color_lose">#434343</color>
+    <color name="h2hlist_color_win">#ff0000</color>
+    <color name="h2hlist_color_lose">#999999</color>
     <color name="h2hlist_color_tie">#FFD600</color>
 
     <color name="gradientPeriodicClouds_c1">#3453d1</color>

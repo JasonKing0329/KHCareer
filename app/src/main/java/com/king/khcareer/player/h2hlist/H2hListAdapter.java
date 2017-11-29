@@ -17,6 +17,7 @@ import com.king.khcareer.common.image.glide.GlideOptions;
 import com.king.khcareer.model.sql.player.bean.H2hParentBean;
 import com.king.khcareer.model.sql.pubdata.bean.PlayerBean;
 import com.king.khcareer.pubview.SideBar;
+import com.king.khcareer.utils.ScreenUtils;
 import com.king.mytennis.view.R;
 
 import java.util.HashMap;
@@ -91,6 +92,16 @@ public class H2hListAdapter extends RecyclerView.Adapter<H2hListAdapter.ParentHo
 
         holder.groupRecord.setTag(bean);
         holder.groupRecord.setOnClickListener(this);
+
+        //
+        ViewGroup.MarginLayoutParams params = (ViewGroup.MarginLayoutParams) holder.groupCard.getLayoutParams();
+        if (position == getItemCount() - 1) {
+            params.bottomMargin = ScreenUtils.dp2px(40);
+        }
+        else {
+            params.bottomMargin = 0;
+        }
+        holder.groupCard.setLayoutParams(params);
     }
 
     public int[] getWinLose() {
@@ -162,6 +173,8 @@ public class H2hListAdapter extends RecyclerView.Adapter<H2hListAdapter.ParentHo
         TextView tvLose;
         @BindView(R.id.group_record)
         LinearLayout groupRecord;
+        @BindView(R.id.group_card)
+        ViewGroup groupCard;
         
         public ParentHolder(View itemView) {
             super(itemView);
