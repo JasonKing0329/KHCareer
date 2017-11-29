@@ -13,11 +13,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.king.khcareer.base.BaseActivity;
 import com.king.khcareer.base.CustomDialog;
-import com.king.khcareer.common.config.Constants;
 import com.king.khcareer.common.image.ImageFactory;
-import com.king.khcareer.common.image.ImageUtil;
+import com.king.khcareer.common.image.glide.GlideOptions;
 import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.common.viewsys.DefaultDialogManager;
 import com.king.khcareer.match.page.MatchPageActivity;
@@ -29,7 +29,6 @@ import com.king.khcareer.record.RecordFilterDialog;
 import com.king.khcareer.record.RecordService;
 import com.king.khcareer.record.detail.DetailGallery;
 import com.king.khcareer.record.editor.RecordEditorActivity;
-import com.king.khcareer.record.editor.UpdateDialog;
 import com.king.mytennis.view.R;
 import com.nightonke.boommenu.BoomButtons.ButtonPlaceAlignmentEnum;
 import com.nightonke.boommenu.BoomButtons.ButtonPlaceEnum;
@@ -160,7 +159,11 @@ public class RecordActivity extends BaseActivity implements IRecordView, OnItemM
         }
         Record record = data.getYearList().get(0).getChildItemList().get(0).getRecord();
         String path = ImageFactory.getMatchHeadPath(record.getMatch(), record.getCourt());
-        ImageUtil.load("file://" + path, ivRecordHead, R.drawable.default_img);
+
+        Glide.with(this)
+                .load(path)
+                .apply(GlideOptions.getEditorMatchOptions())
+                .into(ivRecordHead);
 
         // expand the first item, it's 1, not 0
         recordAdapter.expandParent(1);

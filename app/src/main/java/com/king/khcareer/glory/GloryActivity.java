@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.github.mikephil.charting.charts.PieChart;
 import com.king.khcareer.base.BaseActivity;
 import com.king.khcareer.common.config.Constants;
-import com.king.khcareer.common.image.ImageUtil;
 import com.king.khcareer.glory.bean.GloryTitle;
 import com.king.khcareer.glory.gs.GsFragment;
 import com.king.khcareer.glory.gs.MasterFragment;
@@ -118,7 +117,6 @@ public class GloryActivity extends BaseActivity implements IGloryHolder, IGloryV
 
         showProgress(null);
 
-        ImageUtil.initImageLoader(this, R.drawable.default_img);
         presenter.loadDatas();
 
         groupRoot.post(new Runnable() {

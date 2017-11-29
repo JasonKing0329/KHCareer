@@ -6,10 +6,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.github.siyamed.shapeimageview.CircularImageView;
 import com.github.siyamed.shapeimageview.RoundedImageView;
+import com.king.khcareer.base.KApplication;
 import com.king.khcareer.common.image.ImageFactory;
-import com.king.khcareer.common.image.ImageUtil;
+import com.king.khcareer.common.image.glide.GlideOptions;
 import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.mytennis.view.R;
@@ -34,8 +37,13 @@ public class SeqListAdapter extends RecyclerView.Adapter<SeqListAdapter.ItemHold
     private boolean showLose;
     private List<String> titleList;
 
+    private RequestOptions matchOptions;
+    private RequestOptions playerOptions;
+
     public SeqListAdapter(List<Record> recordList) {
         this.recordList = recordList;
+        matchOptions = GlideOptions.getDefaultMatchOptions();
+        playerOptions = GlideOptions.getDefaultPlayerOptions();
     }
 
     @Override
@@ -84,7 +92,10 @@ public class SeqListAdapter extends RecyclerView.Adapter<SeqListAdapter.ItemHold
             holder.tvSeq.setText(String.valueOf(getItemCount() - position));
         }
 
-        ImageUtil.load("file://" + ImageFactory.getMatchHeadPath(record.getMatch(), record.getCourt()), holder.ivMatch);
+        Glide.with(KApplication.getInstance())
+                .load(ImageFactory.getMatchHeadPath(record.getMatch(), record.getCourt()))
+                .apply(matchOptions)
+                .into(holder.ivMatch);
 
         holder.groupItem.setTag(position);
         holder.groupItem.setOnClickListener(this);
@@ -93,7 +104,10 @@ public class SeqListAdapter extends RecyclerView.Adapter<SeqListAdapter.ItemHold
             holder.groupCompetitor.setVisibility(View.VISIBLE);
             holder.tvCompetitor.setText(record.getCompetitor() + "(" + record.getCptCountry() + ")");
             holder.tvScore.setText(record.getScore());
-            ImageUtil.load("file://" + ImageFactory.getPlayerHeadPath(record.getCompetitor()), holder.ivCompetitor);
+            Glide.with(KApplication.getInstance())
+                    .load(ImageFactory.getPlayerHeadPath(record.getCompetitor()))
+                    .apply(playerOptions)
+                    .into(holder.ivCompetitor);
         }
         else {
             holder.groupCompetitor.setVisibility(View.GONE);

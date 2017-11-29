@@ -5,8 +5,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.king.khcareer.base.KApplication;
 import com.king.khcareer.common.image.ImageFactory;
-import com.king.khcareer.common.image.ImageUtil;
+import com.king.khcareer.common.image.glide.GlideOptions;
 import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.khcareer.pubview.CircleImageView;
@@ -37,8 +40,11 @@ public class RecordItemAdapter extends AbstractExpandableAdapterItem implements 
     
     private RecordItem curRecordItem;
 
+    private RequestOptions playerOptions;
+
     public RecordItemAdapter(OnItemMenuListener onItemMenuListener) {
         this.onItemMenuListener = onItemMenuListener;
+        playerOptions = GlideOptions.getDefaultPlayerOptions();
     }
 
     @Override
@@ -100,7 +106,10 @@ public class RecordItemAdapter extends AbstractExpandableAdapterItem implements 
         groupRecord.setOnClickListener(this);
 
         String path = ImageFactory.getPlayerHeadPath(curRecord.getCompetitor());
-        ImageUtil.load("file://" + path, ivPlayer, R.drawable.icon_list);
+        Glide.with(KApplication.getInstance())
+                .load(path)
+                .apply(playerOptions)
+                .into(ivPlayer);
     }
 
     @Override

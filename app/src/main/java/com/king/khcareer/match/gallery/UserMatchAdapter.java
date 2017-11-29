@@ -1,24 +1,24 @@
 package com.king.khcareer.match.gallery;
 
-import android.app.Activity;
-import android.app.ActivityOptions;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.king.khcareer.base.KApplication;
+import com.king.khcareer.common.image.glide.GlideOptions;
 import com.king.khcareer.common.image.interaction.ImageManager;
 import com.king.khcareer.match.page.MatchPageActivity;
 import com.king.khcareer.model.http.Command;
 import com.king.khcareer.model.http.bean.ImageUrlBean;
 import com.king.khcareer.common.config.Constants;
 import com.king.khcareer.common.image.ImageFactory;
-import com.king.khcareer.common.image.ImageUtil;
 import com.king.mytennis.view.R;
 import com.king.khcareer.match.gallery.UserMatchAdapter.ItemHolder;
 import com.king.khcareer.common.image.interaction.controller.InteractionController;
@@ -53,6 +53,8 @@ public class UserMatchAdapter extends RecyclerView.Adapter<ItemHolder> implement
 
     private ImageManager imageManager;
 
+    private RequestOptions matchOptions;
+
     public UserMatchAdapter(Context mContext, List<UserMatchBean> list) {
         this.list = list;
         this.mContext = mContext;
@@ -80,6 +82,8 @@ public class UserMatchAdapter extends RecyclerView.Adapter<ItemHolder> implement
                 notifyDataSetChanged();
             }
         });
+
+        matchOptions = GlideOptions.getDefaultMatchOptions();
     }
 
     @Override
@@ -100,7 +104,12 @@ public class UserMatchAdapter extends RecyclerView.Adapter<ItemHolder> implement
             filePath = ImageFactory.getMatchHeadPath(bean.getNameBean().getName()
                     , bean.getNameBean().getMatchBean().getCourt(), imageIndexMap.get(bean.getNameBean().getName()));
         }
-        ImageUtil.load("file://" + filePath, holder.image, R.drawable.default_img);
+
+        Glide.with(KApplication.getInstance())
+                .load(filePath)
+                .apply(matchOptions)
+                .into(holder.image);
+
         holder.level.setText(bean.getNameBean().getMatchBean().getLevel());
         holder.court.setText(bean.getNameBean().getMatchBean().getCourt());
         holder.total.setText("总胜负  " + bean.getWin() + "胜" + bean.getLose() + "负");

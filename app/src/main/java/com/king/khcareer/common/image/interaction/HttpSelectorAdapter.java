@@ -4,11 +4,14 @@ import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.king.khcareer.base.KApplication;
+import com.king.khcareer.common.image.glide.GlideOptions;
 import com.king.khcareer.model.http.Command;
 import com.king.khcareer.model.http.bean.ImageItemBean;
 import com.king.khcareer.model.http.bean.ImageUrlBean;
 import com.king.khcareer.common.config.Configuration;
-import com.king.khcareer.common.image.ImageUtil;
 import com.king.khcareer.settings.SettingProperty;
 
 import java.io.File;
@@ -18,15 +21,20 @@ import java.io.File;
  */
 public class HttpSelectorAdapter extends ImageSelectorAdapter {
 
+    private RequestOptions imageOptions;
+
     public HttpSelectorAdapter(Context context, ImageUrlBean imageUrlBean) {
         super(context, imageUrlBean);
+        imageOptions = GlideOptions.getCommonOptions();
     }
 
     @Override
     public void onBindItemImage(ImageView imageView, ImageItemBean bean) {
 
-        String url = "http://" + SettingProperty.getServerBaseUrl(mContext) + bean.getUrl();
-        ImageUtil.load(url, imageView);
+        Glide.with(KApplication.getInstance())
+                .load(SettingProperty.getServerBaseUrl(mContext) + bean.getUrl())
+                .apply(imageOptions)
+                .into(imageView);
     }
 
     @Override

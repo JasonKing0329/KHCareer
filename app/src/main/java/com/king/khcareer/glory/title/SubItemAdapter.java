@@ -4,10 +4,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 import com.github.siyamed.shapeimageview.CircularImageView;
 import com.github.siyamed.shapeimageview.RoundedImageView;
+import com.king.khcareer.base.KApplication;
 import com.king.khcareer.common.image.ImageFactory;
-import com.king.khcareer.common.image.ImageUtil;
+import com.king.khcareer.common.image.glide.GlideOptions;
 import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.mytennis.view.R;
@@ -57,12 +60,17 @@ public class SubItemAdapter extends AbstractExpandableAdapterItem implements Vie
     private boolean showLose;
     private OnRecordItemListener onRecordItemListener;
 
+    private RequestOptions matchOptions;
+    private RequestOptions playerOptions;
+
     public SubItemAdapter(boolean showCompetitor, boolean hideSequence, boolean showLose
             , OnRecordItemListener onRecordItemListener) {
         this.showCompetitor = showCompetitor;
         this.hideSequence = hideSequence;
         this.showLose = showLose;
         this.onRecordItemListener = onRecordItemListener;
+        matchOptions = GlideOptions.getDefaultMatchOptions();
+        playerOptions = GlideOptions.getDefaultPlayerOptions();
     }
 
     @Override
@@ -99,7 +107,10 @@ public class SubItemAdapter extends AbstractExpandableAdapterItem implements Vie
             tvSeq.setText(String.valueOf(subItem.getGroupCount() - subItem.getItemPosition()));
         }
 
-        ImageUtil.load("file://" + ImageFactory.getMatchHeadPath(record.getMatch(), record.getCourt()), ivMatch);
+        Glide.with(KApplication.getInstance())
+                .load(ImageFactory.getMatchHeadPath(record.getMatch(), record.getCourt()))
+                .apply(matchOptions)
+                .into(ivMatch);
 
         groupItem.setTag(position);
         groupItem.setOnClickListener(this);
@@ -108,7 +119,12 @@ public class SubItemAdapter extends AbstractExpandableAdapterItem implements Vie
             groupCompetitor.setVisibility(View.VISIBLE);
             tvCompetitor.setText(record.getCompetitor() + "(" + record.getCptCountry() + ")");
             tvScore.setText(record.getScore());
-            ImageUtil.load("file://" + ImageFactory.getPlayerHeadPath(record.getCompetitor()), ivCompetitor);
+
+            Glide.with(KApplication.getInstance())
+                    .load(ImageFactory.getPlayerHeadPath(record.getCompetitor()))
+                    .apply(playerOptions)
+                    .into(ivCompetitor);
+
         }
         else {
             groupCompetitor.setVisibility(View.GONE);

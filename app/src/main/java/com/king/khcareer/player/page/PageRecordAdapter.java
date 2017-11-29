@@ -86,14 +86,6 @@ public class PageRecordAdapter extends RecyclerView.Adapter implements View.OnCl
 
     private void onBindTitle(TitleHolder holder, PageTitleBean pageTitleBean, int position) {
         holder.tvTitle.setText(pageTitleBean.getYear() + " （" + pageTitleBean.getWin() + "胜" + pageTitleBean.getLose() + "负）");
-        RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) holder.vPoint.getLayoutParams();
-        if (position == 0) {
-            params.addRule(RelativeLayout.CENTER_VERTICAL);
-        }
-        else {
-            params.removeRule(RelativeLayout.CENTER_VERTICAL);
-        }
-        holder.vPoint.setLayoutParams(params);
     }
 
     private void onBindRecord(RecordHolder holder, Record record) {
@@ -156,8 +148,6 @@ public class PageRecordAdapter extends RecyclerView.Adapter implements View.OnCl
 
         @BindView(R.id.tv_title)
         TextView tvTitle;
-        @BindView(R.id.v_point)
-        View vPoint;
 
         public TitleHolder(View itemView) {
             super(itemView);

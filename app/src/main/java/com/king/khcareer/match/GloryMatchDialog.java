@@ -14,11 +14,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.AdapterView.OnItemLongClickListener;
 
+import com.bumptech.glide.Glide;
+import com.king.khcareer.base.KApplication;
 import com.king.khcareer.common.config.Constants;
 import com.king.khcareer.common.image.ImageFactory;
+import com.king.khcareer.common.image.glide.GlideOptions;
 import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.khcareer.common.multiuser.MultiUserManager;
-import com.king.khcareer.common.image.ImageUtil;
 import com.king.khcareer.base.CustomDialog;
 import com.king.khcareer.player.page.PlayerPageActivity;
 import com.king.mytennis.view.R;
@@ -57,7 +59,10 @@ public class GloryMatchDialog extends CustomDialog implements OnItemLongClickLis
 		setTitle(record.getMatch());
 		dateView.setText(record.getStrDate());
 
-		ImageUtil.load("file://" + ImageFactory.getMatchHeadPath(record.getMatch(), record.getCourt()), imageView);
+		Glide.with(KApplication.getInstance())
+				.load(ImageFactory.getMatchHeadPath(record.getMatch(), record.getCourt()))
+				.apply(GlideOptions.getDefaultMatchOptions())
+				.into(imageView);
 
 		placeView.setText(record.getMatchCountry() + "/" + record.getCity());
 		levelCourtView.setText(record.getLevel() + "/" + record.getCourt());

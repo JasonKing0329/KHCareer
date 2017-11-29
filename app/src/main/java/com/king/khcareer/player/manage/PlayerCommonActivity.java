@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.king.khcareer.common.image.glide.GlideOptions;
 import com.king.khcareer.model.PubProviderHelper;
 import com.king.khcareer.player.page.PlayerPageActivity;
 import com.king.lib.tool.ui.RippleFactory;
@@ -16,7 +18,6 @@ import com.king.khcareer.common.multiuser.MultiUser;
 import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.model.sql.pubdata.PubDataProvider;
 import com.king.khcareer.model.sql.pubdata.bean.PlayerBean;
-import com.king.khcareer.common.image.ImageUtil;
 import com.king.khcareer.utils.ConstellationUtil;
 import com.king.khcareer.base.BaseActivity;
 import com.king.mytennis.view.R;
@@ -141,7 +142,10 @@ public class PlayerCommonActivity extends BaseActivity implements ICommonView {
             tvPlayerBirthday.setText(birthday);
         }
 
-        ImageUtil.load("file://" + ImageFactory.getDetailPlayerPath(playerBean.getNameChn()), ivImage, R.drawable.view7_folder_cover_player);
+        Glide.with(this)
+                .load(ImageFactory.getDetailPlayerPath(playerBean.getNameChn()))
+                .apply(GlideOptions.getEditorPlayerOptions())
+                .into(ivImage);
 
         loadH2hs();
     }

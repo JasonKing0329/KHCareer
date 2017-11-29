@@ -7,9 +7,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.king.khcareer.base.KApplication;
+import com.king.khcareer.common.image.glide.GlideOptions;
 import com.king.khcareer.match.gallery.UserMatchBean;
 import com.king.khcareer.common.image.ImageFactory;
-import com.king.khcareer.common.image.ImageUtil;
 import com.king.mytennis.view.R;
 
 import java.util.List;
@@ -22,9 +25,11 @@ public class HomeMatchAdapter extends RecyclerView.Adapter<HomeMatchAdapter.Item
 
     private List<UserMatchBean> list;
     private View.OnClickListener itemOnclickListener;
+    private RequestOptions matchOptions;
 
     public HomeMatchAdapter(List<UserMatchBean> list) {
         this.list = list;
+        matchOptions = GlideOptions.getDefaultMatchOptions();
     }
 
     @Override
@@ -37,7 +42,11 @@ public class HomeMatchAdapter extends RecyclerView.Adapter<HomeMatchAdapter.Item
         UserMatchBean bean = list.get(position);
         String filePath = ImageFactory.getMatchHeadPath(bean.getNameBean().getName()
                 , bean.getNameBean().getMatchBean().getCourt());
-        ImageUtil.load("file://" + filePath, holder.image, R.drawable.default_img);
+        Glide.with(KApplication.getInstance())
+                .load(filePath)
+                .apply(matchOptions)
+                .into(holder.image);
+
         holder.level.setText(bean.getNameBean().getMatchBean().getLevel());
         holder.court.setText(bean.getNameBean().getMatchBean().getCourt());
         holder.name.setText(bean.getNameBean().getName());

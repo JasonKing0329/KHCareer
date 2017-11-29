@@ -4,12 +4,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.king.khcareer.base.KApplication;
 import com.king.khcareer.common.config.Constants;
 import com.king.khcareer.common.image.ImageFactory;
+import com.king.khcareer.common.image.glide.GlideOptions;
 import com.king.khcareer.common.multiuser.MultiUser;
 import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.khcareer.common.multiuser.MultiUserManager;
-import com.king.khcareer.common.image.ImageUtil;
 import com.king.mytennis.view.R;
 
 import android.content.Context;
@@ -27,6 +30,8 @@ public class GloryMatchAdapter extends BaseAdapter {
 	private String[] roundArray, roundReferArray;
 	private MultiUser user;
 
+	private RequestOptions playerOptions;
+
 	/**
 	 * 保存首次从文件夹加载的图片序号
 	 */
@@ -39,6 +44,8 @@ public class GloryMatchAdapter extends BaseAdapter {
 		imageIndexMap = new HashMap<>();
 		roundArray = Constants.RECORD_MATCH_ROUNDS;
 		roundReferArray = Constants.RECORD_MATCH_ROUNDS_SHORT;
+
+		playerOptions = GlideOptions.getDefaultPlayerOptions();
 
 		if (userId == null) {
 			user = MultiUserManager.getInstance().getCurrentUser();
@@ -92,7 +99,11 @@ public class GloryMatchAdapter extends BaseAdapter {
 		else {
 			filePath = ImageFactory.getPlayerHeadPath(record.getCompetitor(), imageIndexMap.get(record.getCompetitor()));
 		}
-		ImageUtil.load("file://" + filePath, holder.head, R.drawable.icon_list);
+
+		Glide.with(KApplication.getInstance())
+				.load(filePath)
+				.apply(playerOptions)
+				.into(holder.head);
 
 		holder.player.setText(record.getCompetitor());
 		for (int i = 0; i < roundArray.length; i ++) {
