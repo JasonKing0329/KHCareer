@@ -9,7 +9,10 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
+            <option value="$PROJECT_DIR$/MPChartLib" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$PROJECT_DIR$/boommenu" />
+            <option value="$PROJECT_DIR$/expandablerecycleradapter" />
             <option value="$PROJECT_DIR$/libcolorpicker" />
             <option value="$PROJECT_DIR$/libresmanager" />
             <option value="$PROJECT_DIR$/libtool" />

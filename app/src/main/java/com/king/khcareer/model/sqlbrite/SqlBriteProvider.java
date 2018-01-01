@@ -115,6 +115,7 @@ public class SqlBriteProvider implements PubDataProvider {
     public void insertMatch(MatchNameBean bean) {
         matchDao.insertMatchBean(bean.getMatchBean());
         bean.setMatchId(matchDao.queryLastMatchBeanSequence());
+        bean.getMatchBean().setId(bean.getMatchId());
         matchDao.insertMatchNameBean(bean);
         bean.setId(matchDao.queryLastMatchNameBeanSequence());
     }

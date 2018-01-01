@@ -3,7 +3,10 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/KHCareer.iml" filepath="$PROJECT_DIR$/KHCareer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/MPChartLib/MPChartLib.iml" filepath="$PROJECT_DIR$/MPChartLib/MPChartLib.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/boommenu/boommenu.iml" filepath="$PROJECT_DIR$/boommenu/boommenu.iml" />
+      <module fileurl="file://$PROJECT_DIR$/expandablerecycleradapter/expandablerecycleradapter.iml" filepath="$PROJECT_DIR$/expandablerecycleradapter/expandablerecycleradapter.iml" />
       <module fileurl="file://$PROJECT_DIR$/libcolorpicker/libcolorpicker.iml" filepath="$PROJECT_DIR$/libcolorpicker/libcolorpicker.iml" />
       <module fileurl="file://$PROJECT_DIR$/libresmanager/libresmanager.iml" filepath="$PROJECT_DIR$/libresmanager/libresmanager.iml" />
       <module fileurl="file://$PROJECT_DIR$/libtool/libtool.iml" filepath="$PROJECT_DIR$/libtool/libtool.iml" />

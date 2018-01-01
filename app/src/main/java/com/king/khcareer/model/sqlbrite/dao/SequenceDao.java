@@ -13,7 +13,7 @@ import com.squareup.sqlbrite2.BriteDatabase;
 public class SequenceDao {
 
     public int queryTableSequence(BriteDatabase db, String table) {
-        String sql = "SELECT * FROM %s WHERE %s=?";
+        String sql = "SELECT seq FROM %s WHERE %s=?";
         sql = String.format(sql, TSequence.TABLE_NAME, TSequence.COLUMN_NAME);
         String[] args = new String[]{table};
         Cursor cursor = null;
