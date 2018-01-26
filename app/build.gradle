@@ -1,7 +1,8 @@
 apply plugin: 'com.android.application'
+apply plugin: 'org.greenrobot.greendao'
 
-ext.appVersionName = "5.3.1"
-ext.appVersionCode = 95
+ext.appVersionName = "5.3.1.1"
+ext.appVersionCode = 96
 ext.appReleaseDir = "E:/temp/release/KHCareer"
 
 android {
@@ -77,6 +78,9 @@ dependencies {
 
     /*sqlbrite2*/
     compile "com.squareup.sqlbrite2:sqlbrite:${SQLBRITE_VERSION}"
+
+    /*green dao*/
+    implementation 'org.greenrobot:greendao:3.2.2'
 
     compile project(':libresmanager')
     compile project(':libtool')

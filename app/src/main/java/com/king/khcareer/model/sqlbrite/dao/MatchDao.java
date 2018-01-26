@@ -190,4 +190,40 @@ public class MatchDao {
         }
         return map;
     }
+
+    public List<MatchBean> getMatchDbList() {
+        List<MatchBean> list = new ArrayList<>();
+        String sql = "SELECT * FROM " +  TMatch.TABLE_NAME;
+
+        Cursor cursor = null;
+        try {
+            cursor = db.query(sql, new String[]{});
+            while (cursor.moveToNext()) {
+                list.add(TMatch.parseMatchBean(cursor));
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return list;
+    }
+
+    public List<MatchNameBean> getMatchNameDbList() {
+        List<MatchNameBean> list = new ArrayList<>();
+        String sql = "SELECT * FROM " +  TMatchName.TABLE_NAME;
+
+        Cursor cursor = null;
+        try {
+            cursor = db.query(sql, new String[]{});
+            while (cursor.moveToNext()) {
+                list.add(TMatchName.parseMatchNameBean(cursor));
+            }
+        } finally {
+            if (cursor != null) {
+                cursor.close();
+            }
+        }
+        return list;
+    }
 }

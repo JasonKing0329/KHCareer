@@ -5,6 +5,7 @@ import android.content.Context;
 import com.king.khcareer.model.sql.player.bean.MatchIdBean;
 import com.king.khcareer.model.sql.pubdata.PubDataProvider;
 import com.king.khcareer.model.sql.pubdata.VirtualManager;
+import com.king.khcareer.model.sql.pubdata.bean.MatchBean;
 import com.king.khcareer.model.sql.pubdata.bean.MatchNameBean;
 import com.king.khcareer.model.sql.pubdata.bean.PlayerBean;
 import com.king.khcareer.model.sqlbrite.dao.MatchDao;
@@ -84,6 +85,14 @@ public class SqlBriteProvider implements PubDataProvider {
     @Override
     public List<MatchNameBean> getMatchList() {
         return matchDao.queryMatchList(null);
+    }
+
+    public List<MatchBean> getMatchDbList() {
+        return matchDao.getMatchDbList();
+    }
+
+    public List<MatchNameBean> getMatchNameDbList() {
+        return matchDao.getMatchNameDbList();
     }
 
     @Override

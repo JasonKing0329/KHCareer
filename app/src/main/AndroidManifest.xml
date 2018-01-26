@@ -110,13 +110,13 @@
             android:theme="@style/ActionBarBlue" />
         <activity
             android:name="com.king.khcareer.player.page.PlayerPageActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/HomeTheme" />
         <activity
             android:name="com.king.khcareer.match.page.MatchPageActivity"
-            android:screenOrientation="portrait"
             android:launchMode="singleTask"
+            android:screenOrientation="portrait"
             android:theme="@style/HomeTheme" />
         <activity
             android:name="com.king.khcareer.match.manage.MatchManageActivity"
@@ -164,7 +164,8 @@
             android:theme="@style/HomeTheme" />
         <activity
             android:name="com.king.khcareer.settings.k4.SettingActivityK4"
-            android:label="@string/title_activity_ksettings"/>
+            android:label="@string/title_activity_ksettings" />
+        <activity android:name="com.king.converter.ConvertActivity"></activity>
     </application>
 
 </manifest>
