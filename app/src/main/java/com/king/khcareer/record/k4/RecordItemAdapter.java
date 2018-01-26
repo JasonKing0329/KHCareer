@@ -8,6 +8,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.king.khcareer.base.KApplication;
+import com.king.khcareer.common.config.Constants;
 import com.king.khcareer.common.image.ImageFactory;
 import com.king.khcareer.common.image.glide.GlideOptions;
 import com.king.khcareer.common.multiuser.MultiUserManager;
@@ -96,7 +97,7 @@ public class RecordItemAdapter extends AbstractExpandableAdapterItem implements 
         tvPlayer.setText(curRecord.getCompetitor());
         tvRankSeed.setText("(".concat(String.valueOf(curRecord.getCptRank())).concat("/")
             .concat(String.valueOf(curRecord.getCptSeed()).concat(")")));
-        tvRound.setText(curRecord.getRound());
+        tvRound.setText(Constants.getRoundShortName(curRecord.getRound()));
         if (MultiUserManager.USER_DB_FLAG.equals(curRecord.getWinner())) {
             tvScore.setText(MultiUserManager.getInstance().getCurrentUser().getDisplayName() + "  " + curRecord.getScore());
         }

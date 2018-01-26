@@ -124,6 +124,24 @@ public class Constants {
 	 * @param round
 	 * @return
 	 */
+	public static final String getRoundShortName(String round) {
+		if (TextUtils.isEmpty(round)) {
+			return "--";
+		}
+		String glory = "--";
+		for (int i = 0; i < RECORD_MATCH_ROUNDS.length; i ++) {
+			if (RECORD_MATCH_ROUNDS[i].equals(round)) {
+				glory = RECORD_MATCH_ROUNDS_SHORT[i];
+			}
+		}
+		return glory;
+	}
+
+	/**
+	 * RECORD_MATCH_ROUNDS对照的RECORD_GS_ROUNDS_GLORY
+	 * @param round
+	 * @return
+	 */
 	public static final String getMasterGloryForRound(String round) {
 		if (TextUtils.isEmpty(round)) {
 			return "--";

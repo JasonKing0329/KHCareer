@@ -33,8 +33,11 @@
 		    android:orientation="horizontal" >
 			<TextView
 	        	android:id="@+id/tv_player"
-			    android:layout_width="wrap_content"
+			    android:layout_width="0dp"
+				android:layout_weight="1"
 			    android:layout_height="wrap_content"
+				android:maxLines="1"
+				android:ellipsize="end"
 		    	android:textStyle="bold"
 	    		android:textSize="16sp"
 		    	android:textColor="@color/colorPrimary"/>
@@ -44,13 +47,6 @@
 			    android:layout_height="wrap_content"
 		    	android:textSize="14sp"
 		    	android:textColor="@color/record_item_text_gray"/>
-			<TextView
-				android:id="@+id/tv_round"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_marginLeft="20dp"
-				android:textSize="14sp"
-				android:textColor="@color/record_item_text_gray"/>
 		</LinearLayout>
 		<TextView
         	android:id="@+id/tv_score"
@@ -59,6 +55,15 @@
 	    	android:textSize="14sp"
 	    	android:textColor="@color/record_item_text_gray"/>
 	</LinearLayout>
+
+	<TextView
+		android:id="@+id/tv_round"
+		android:layout_width="30dp"
+		android:layout_height="wrap_content"
+		android:layout_marginLeft="5dp"
+		android:gravity="right"
+		android:textSize="14sp"
+		android:textColor="@color/record_item_text_gray"/>
 
 	<com.nightonke.boommenu.BoomMenuButton
 		android:id="@+id/bmb_menu"
