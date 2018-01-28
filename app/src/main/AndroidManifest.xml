@@ -165,7 +165,8 @@
         <activity
             android:name="com.king.khcareer.settings.k4.SettingActivityK4"
             android:label="@string/title_activity_ksettings" />
-        <activity android:name="com.king.converter.ConvertActivity"></activity>
+        <activity android:name="com.king.converter.ConvertActivity">
+        </activity>
     </application>
 
 </manifest>

@@ -1,14 +1,14 @@
 package com.king.converter.entity;
 
+import org.greenrobot.greendao.DaoException;
 import org.greenrobot.greendao.annotation.Entity;
+import org.greenrobot.greendao.annotation.Generated;
 import org.greenrobot.greendao.annotation.Id;
+import org.greenrobot.greendao.annotation.NotNull;
 import org.greenrobot.greendao.annotation.ToMany;
 import org.greenrobot.greendao.annotation.ToOne;
 
 import java.util.List;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.DaoException;
-import org.greenrobot.greendao.annotation.NotNull;
 
 /**
  * 描述:
@@ -38,6 +38,15 @@ public class Record {
 
     @ToOne(joinProperty = "playerId")
     private PlayerBean competitor;
+
+    /**
+     * 0: normal player
+     * 1: virtual user
+     */
+    private int playerFlag;
+
+    @ToOne(joinProperty = "playerId")
+    private User competitorUser;
 
     private long matchNameId;
 
@@ -74,10 +83,11 @@ public class Record {
     @Generated(hash = 765166123)
     private transient RecordDao myDao;
 
-    @Generated(hash = 350023155)
+    @Generated(hash = 961687897)
     public Record(Long id, long userId, int rankCpt, int rank, int seedpCpt,
-            int seed, long playerId, long matchNameId, String dateStr,
-            long dateLong, String round, long winnerFlag, long retireFlag) {
+            int seed, long playerId, int playerFlag, long matchNameId,
+            String dateStr, long dateLong, String round, long winnerFlag,
+            long retireFlag) {
         this.id = id;
         this.userId = userId;
         this.rankCpt = rankCpt;
@@ -85,6 +95,7 @@ public class Record {
         this.seedpCpt = seedpCpt;
         this.seed = seed;
         this.playerId = playerId;
+        this.playerFlag = playerFlag;
         this.matchNameId = matchNameId;
         this.dateStr = dateStr;
         this.dateLong = dateLong;
@@ -151,6 +162,14 @@ public class Record {
 
     public void setPlayerId(long playerId) {
         this.playerId = playerId;
+    }
+
+    public int getPlayerFlag() {
+        return this.playerFlag;
+    }
+
+    public void setPlayerFlag(int playerFlag) {
+        this.playerFlag = playerFlag;
     }
 
     public long getMatchNameId() {
@@ -271,6 +290,43 @@ public class Record {
             this.competitor = competitor;
             playerId = competitor.getId();
             competitor__resolvedKey = playerId;
+        }
+    }
+
+    @Generated(hash = 1306963252)
+    private transient Long competitorUser__resolvedKey;
+
+    /** To-one relationship, resolved on first access. */
+    @Generated(hash = 958262335)
+    public User getCompetitorUser() {
+        long __key = this.playerId;
+        if (competitorUser__resolvedKey == null
+                || !competitorUser__resolvedKey.equals(__key)) {
+            final DaoSession daoSession = this.daoSession;
+            if (daoSession == null) {
+                throw new DaoException("Entity is detached from DAO context");
+            }
+            UserDao targetDao = daoSession.getUserDao();
+            User competitorUserNew = targetDao.load(__key);
+            synchronized (this) {
+                competitorUser = competitorUserNew;
+                competitorUser__resolvedKey = __key;
+            }
+        }
+        return competitorUser;
+    }
+
+    /** called by internal mechanisms, do not call yourself. */
+    @Generated(hash = 400439826)
+    public void setCompetitorUser(@NotNull User competitorUser) {
+        if (competitorUser == null) {
+            throw new DaoException(
+                    "To-one property 'playerId' has not-null constraint; cannot set to-one to null");
+        }
+        synchronized (this) {
+            this.competitorUser = competitorUser;
+            playerId = competitorUser.getId();
+            competitorUser__resolvedKey = playerId;
         }
     }
 

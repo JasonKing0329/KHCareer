@@ -4,27 +4,27 @@ import android.content.Context;
 
 import com.king.converter.entity.DaoMaster;
 import com.king.converter.entity.DaoSession;
-import com.king.converter.entity.MatchBeanDao;
 import com.king.converter.entity.MatchNameBeanDao;
 import com.king.converter.entity.PlayerBeanDao;
 import com.king.converter.entity.Score;
 import com.king.converter.entity.User;
 import com.king.converter.entity.UserDao;
+import com.king.khcareer.base.KApplication;
 import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.model.PubProviderHelper;
 import com.king.khcareer.model.sql.player.RecordDAOImp;
 import com.king.khcareer.model.sql.player.bean.Record;
 import com.king.khcareer.model.sql.player.interfc.RecordDAO;
-import com.king.khcareer.model.sql.pubdata.PubDataProvider;
 import com.king.khcareer.model.sql.pubdata.bean.MatchBean;
 import com.king.khcareer.model.sql.pubdata.bean.MatchNameBean;
 import com.king.khcareer.model.sql.pubdata.bean.PlayerBean;
-import com.king.khcareer.model.sqlbrite.SqlBriteProvider;
+import com.king.khcareer.utils.DBExportor;
 
 import org.greenrobot.greendao.AbstractDao;
 import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.query.QueryBuilder;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -48,13 +48,22 @@ public class ConvertManager {
 
     private DaoSession daoSession;
 
-    private List<com.king.converter.entity.Record> recordList;
-
     private List<com.king.converter.entity.H2HBean> h2hList;
 
     private List<com.king.converter.entity.Score> scorelist;
 
     public ConvertManager(Context context) {
+
+        String dbPath = KApplication.getInstance().getFilesDir().getParent() + "/databases/khcareer.db";
+        File file = new File(dbPath);
+        if (!file.exists()) {
+            dbPath = KApplication.getInstance().getFilesDir().getParent() + "/databases/khcareer";
+            file = new File(dbPath);
+        }
+        if (file.exists()) {
+            file.delete();
+        }
+
         DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, "khcareer");
         Database db = helper.getWritableDb();
         daoSession = new DaoMaster(db).newSession();
@@ -90,7 +99,7 @@ public class ConvertManager {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        e.printStackTrace();
                     }
 
                     @Override
@@ -112,13 +121,14 @@ public class ConvertManager {
 
         createScores();
 
+        DBExportor.execute();
     }
 
     private void createUsers() {
         List<User> users = new ArrayList<>();
         User bean = new User();
         bean.setNameChn("King");
-        bean.setNameEng("Hao King");
+        bean.setNameEng("King Hao");
         bean.setBirthday("1991-03-29");
         bean.setNamePinyin("hao king");
         bean.setCountry("中国");
@@ -139,7 +149,7 @@ public class ConvertManager {
         users.add(bean);
         bean = new User();
         bean.setNameChn("Qi");
-        bean.setNameEng("Tian Qi");
+        bean.setNameEng("Qi Tian");
         bean.setNamePinyin("tian qi");
         bean.setCountry("中国");
         bean.setCity("成都");
@@ -165,7 +175,7 @@ public class ConvertManager {
     }
 
     private void createMatches() {
-        Map<Long, com.king.converter.entity.MatchBean> oldMap = new HashMap<>();
+        Map<Integer, com.king.converter.entity.MatchBean> oldMap = new HashMap<>();
         List<com.king.converter.entity.MatchNameBean> nameList = new ArrayList<>();
         List<MatchNameBean> names = PubProviderHelper.getProvider().getMatchList();
         for (MatchNameBean bean:names) {
@@ -182,11 +192,12 @@ public class ConvertManager {
                 matchBean.setMonth(match.getMonth());
                 matchBean.setRegion(match.getRegion());
                 matchBean.setWeek(match.getWeek());
+                oldMap.put(match.getId(), matchBean);
                 daoSession.getMatchBeanDao().insert(matchBean);
             }
 
             com.king.converter.entity.MatchNameBean nameBean = new com.king.converter.entity.MatchNameBean();
-            nameBean.setMatchId(match.getId());
+            nameBean.setMatchId(matchBean.getId());
             nameBean.setName(bean.getName());
             nameList.add(nameBean);
 
@@ -196,6 +207,8 @@ public class ConvertManager {
 
     private void createRecords() {
 
+        scorelist = new ArrayList<>();
+        MultiUserManager.getInstance().loadUsers();
         long userId = daoSession.getUserDao().queryBuilder()
                 .where(UserDao.Properties.NameChn.eq("King"))
                 .build().unique().getId();
@@ -257,7 +270,17 @@ public class ConvertManager {
                 com.king.converter.entity.PlayerBean player = daoSession.getPlayerBeanDao().queryBuilder()
                         .where(PlayerBeanDao.Properties.NameChn.eq(record.getCompetitor()))
                         .build().unique();
-                rec.setPlayerId(player.getId());
+                if (player == null) {
+                    User user = daoSession.getUserDao().queryBuilder()
+                            .where(UserDao.Properties.NameEng.eq(record.getCompetitor()))
+                            .build().unique();
+                    rec.setPlayerId(user.getId());
+                    rec.setPlayerFlag(1);
+                }
+                else {
+                    rec.setPlayerId(player.getId());
+                    rec.setPlayerFlag(0);
+                }
 
                 com.king.converter.entity.MatchNameBean match = daoSession.getMatchNameBeanDao().queryBuilder()
                         .where(MatchNameBeanDao.Properties.Name.eq(record.getMatch()))
@@ -286,10 +309,11 @@ public class ConvertManager {
             scoreEntity.setSetNo(i + 1);
 
             String[] fullArray = arrays[i].split("\\(");
-            if (score.startsWith("6-7") || score.startsWith("7-6")
-                    || score.startsWith("6-6")) {
+            if (arrays[i].startsWith("6-7") || arrays[i].startsWith("7-6")) {
                 scoreEntity.setIsTiebreak(true);
-                int tiebreak = Integer.parseInt(fullArray[1].substring(0, fullArray[1].indexOf("(")));
+                int index = fullArray[1].indexOf(")");
+//                index = fullArray[1].indexOf("\\(");
+                int tiebreak = Integer.parseInt(fullArray[1].substring(0, index));
                 if (rec.getWinnerFlag() == 1) {
                     scoreEntity.setCompetitorTiebreak(tiebreak);
                 }

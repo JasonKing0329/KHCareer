@@ -1,9 +1,10 @@
 package com.king.converter;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.king.khcareer.model.sql.player.MySQLHelper;
 import com.king.mytennis.view.R;
 
 public class ConvertActivity extends AppCompatActivity {
@@ -13,7 +14,8 @@ public class ConvertActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_convert);
 
-        final ConvertManager manager = new ConvertManager();
+        MySQLHelper.initAppContext(this);
+        final ConvertManager manager = new ConvertManager(this);
         findViewById(R.id.btn_start).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
