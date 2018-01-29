@@ -18,7 +18,7 @@ public class DBExportor {
 
 		String dbPath = KApplication.getInstance().getFilesDir().getParent() + "/databases";
 	//	String dbPath = Environment.getExternalStorageDirectory() + "/tcslSystem";
-		String targetPath = Configuration.APP_UPDATE_DIR;
+		String targetPath = Configuration.EXPORT_DIR;
 		try {
 			DBExportor.copyDirectiory(dbPath, targetPath);
 		} catch (IOException e) {

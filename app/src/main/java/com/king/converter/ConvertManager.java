@@ -9,7 +9,6 @@ import com.king.converter.entity.PlayerBeanDao;
 import com.king.converter.entity.Score;
 import com.king.converter.entity.User;
 import com.king.converter.entity.UserDao;
-import com.king.khcareer.base.KApplication;
 import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.model.PubProviderHelper;
 import com.king.khcareer.model.sql.player.RecordDAOImp;
@@ -18,13 +17,11 @@ import com.king.khcareer.model.sql.player.interfc.RecordDAO;
 import com.king.khcareer.model.sql.pubdata.bean.MatchBean;
 import com.king.khcareer.model.sql.pubdata.bean.MatchNameBean;
 import com.king.khcareer.model.sql.pubdata.bean.PlayerBean;
-import com.king.khcareer.utils.DBExportor;
 
 import org.greenrobot.greendao.AbstractDao;
 import org.greenrobot.greendao.database.Database;
 import org.greenrobot.greendao.query.QueryBuilder;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -46,25 +43,24 @@ import io.reactivex.schedulers.Schedulers;
  */
 public class ConvertManager {
 
+    private class ConvertProgress {
+        String message;
+
+        public ConvertProgress(String message) {
+            this.message = message;
+        }
+    }
+
     private DaoSession daoSession;
 
-    private List<com.king.converter.entity.H2HBean> h2hList;
+    private ConvertCallback callback;
 
     private List<com.king.converter.entity.Score> scorelist;
 
-    public ConvertManager(Context context) {
+    public ConvertManager(Context context, ConvertCallback callback) {
+        this.callback = callback;
 
-        String dbPath = KApplication.getInstance().getFilesDir().getParent() + "/databases/khcareer.db";
-        File file = new File(dbPath);
-        if (!file.exists()) {
-            dbPath = KApplication.getInstance().getFilesDir().getParent() + "/databases/khcareer";
-            file = new File(dbPath);
-        }
-        if (file.exists()) {
-            file.delete();
-        }
-
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, "khcareer");
+        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(context, "khcareer.db");
         Database db = helper.getWritableDb();
         daoSession = new DaoMaster(db).newSession();
 
@@ -82,7 +78,7 @@ public class ConvertManager {
                     dao.deleteAll();
                 }
 
-                loadRecords();
+                loadRecords(e);
             }
         }).observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
@@ -94,12 +90,18 @@ public class ConvertManager {
 
                     @Override
                     public void onNext(Object o) {
-
+                        if (o instanceof ConvertProgress) {
+                            callback.appendStatus(((ConvertProgress) o).message);
+                        }
+                        else {
+                            callback.onSuccess();
+                        }
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         e.printStackTrace();
+                        callback.onFailed(e.getMessage());
                     }
 
                     @Override
@@ -109,19 +111,25 @@ public class ConvertManager {
                 });
     }
 
-    private void loadRecords() {
+    private void loadRecords(ObservableEmitter<Object> e) {
 
+        e.onNext(new ConvertProgress("create users..."));
         createUsers();
 
+        e.onNext(new ConvertProgress("create players..."));
         createPlayers();
 
+        e.onNext(new ConvertProgress("create matches..."));
         createMatches();
 
+        e.onNext(new ConvertProgress("create records..."));
         createRecords();
 
+        e.onNext(new ConvertProgress("create scores..."));
         createScores();
 
-        DBExportor.execute();
+        e.onNext(new Object());
+        e.onComplete();
     }
 
     private void createUsers() {
@@ -340,4 +348,9 @@ public class ConvertManager {
         daoSession.getScoreDao().insertInTx(scorelist);
     }
 
+    public interface ConvertCallback {
+        void onSuccess();
+        void onFailed(String msg);
+        void appendStatus(String message);
+    }
 }

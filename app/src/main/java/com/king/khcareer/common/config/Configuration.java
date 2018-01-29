@@ -52,6 +52,8 @@ public class Configuration implements Serializable {
 	public static final String TEMP_HTTP_DIR = TEMP_DIR + "http/";
 	public static final String TEMP_IMAGE_DIR = TEMP_DIR + "image/";
 
+	public static final String EXPORT_DIR = DEF_CONTENT + "/export";
+
 	public static final String IMG_DIR = DEF_CONTENT + "/img";
 	public static final String IMG_CARDBK_DIR = IMG_DIR + "/card_bk";
 
@@ -150,6 +152,7 @@ public class Configuration implements Serializable {
 		createDir(new File(HISTORY_BASE));
 		createDir(new File(HISTORY_PLAYER_BASE));
 		createDir(new File(CONF_DIR));
+		createDir(new File(EXPORT_DIR));
 		createDir(new File(AUTOFILL_DIR));
 		createDir(new File(TEMP_DIR));
 		createDir(new File(TEMP_HTTP_DIR));

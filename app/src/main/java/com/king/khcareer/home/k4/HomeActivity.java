@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.github.siyamed.shapeimageview.RoundedImageView;
+import com.king.converter.ConvertActivity;
 import com.king.khcareer.common.config.Constants;
 import com.king.khcareer.common.image.glide.GlideOptions;
 import com.king.khcareer.glory.GloryActivity;
@@ -468,6 +469,9 @@ public class HomeActivity extends BaseActivity implements IHomeView, OnBMClickLi
                 break;
             case R.id.menu_home_saveas:
                 executeSaveAs();
+                break;
+            case R.id.menu_convert:
+                startActivity(new Intent().setClass(this, ConvertActivity.class));
                 break;
             case R.id.menu_home_exit:
                 executeExit();

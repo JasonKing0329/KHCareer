@@ -9,6 +9,10 @@
         android:title="@string/menu_saveas"/>
 
     <item
+        android:id="@+id/menu_convert"
+        android:title="Convert"/>
+
+    <item
         android:id="@+id/menu_home_exit"
         android:title="@string/exit"/>
 </menu>
