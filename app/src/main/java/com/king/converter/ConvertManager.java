@@ -6,9 +6,11 @@ import com.king.converter.entity.DaoMaster;
 import com.king.converter.entity.DaoSession;
 import com.king.converter.entity.MatchNameBeanDao;
 import com.king.converter.entity.PlayerBeanDao;
+import com.king.converter.entity.Rank;
 import com.king.converter.entity.Score;
 import com.king.converter.entity.User;
 import com.king.converter.entity.UserDao;
+import com.king.khcareer.common.multiuser.MultiUser;
 import com.king.khcareer.common.multiuser.MultiUserManager;
 import com.king.khcareer.model.PubProviderHelper;
 import com.king.khcareer.model.sql.player.RecordDAOImp;
@@ -17,6 +19,8 @@ import com.king.khcareer.model.sql.player.interfc.RecordDAO;
 import com.king.khcareer.model.sql.pubdata.bean.MatchBean;
 import com.king.khcareer.model.sql.pubdata.bean.MatchNameBean;
 import com.king.khcareer.model.sql.pubdata.bean.PlayerBean;
+import com.king.khcareer.rank.RankFinalBean;
+import com.king.khcareer.rank.RankFinalDao;
 
 import org.greenrobot.greendao.AbstractDao;
 import org.greenrobot.greendao.database.Database;
@@ -72,7 +76,6 @@ public class ConvertManager {
         Observable.create(new ObservableOnSubscribe<Object>() {
             @Override
             public void subscribe(ObservableEmitter<Object> e) throws Exception {
-
                 Collection<AbstractDao<?, ?>> daos = daoSession.getAllDaos();
                 for (AbstractDao<?, ?> dao:daos) {
                     dao.deleteAll();
@@ -113,8 +116,13 @@ public class ConvertManager {
 
     private void loadRecords(ObservableEmitter<Object> e) {
 
+        MultiUserManager.getInstance().loadUsers();
+
         e.onNext(new ConvertProgress("create users..."));
         createUsers();
+
+        e.onNext(new ConvertProgress("create ranks..."));
+        createRanks();
 
         e.onNext(new ConvertProgress("create players..."));
         createPlayers();
@@ -132,38 +140,94 @@ public class ConvertManager {
         e.onComplete();
     }
 
+    private User parseUser(MultiUser user) {
+        User bean = new User();
+        bean.setNameChn(user.getFullName());
+        bean.setNameEng(user.getFullName());
+        bean.setBirthday(user.getBirthday());
+        bean.setNameShort(user.getDisplayName());
+        bean.setCountry(user.getCountry());
+        return bean;
+    }
+
     private void createUsers() {
         List<User> users = new ArrayList<>();
-        User bean = new User();
-        bean.setNameChn("King");
-        bean.setNameEng("King Hao");
-        bean.setBirthday("1991-03-29");
+
+        MultiUser user = MultiUserManager.getInstance().getUserKing();
+        User bean = parseUser(user);
         bean.setNamePinyin("hao king");
-        bean.setCountry("中国");
         users.add(bean);
-        bean = new User();
-        bean.setNameChn("Flamenco");
-        bean.setNameEng("John Flamenco");
+
+        user = MultiUserManager.getInstance().getUserFlamenco();
+        bean = parseUser(user);
         bean.setNamePinyin("john flamenco");
-        bean.setCountry("法国");
-        bean.setBirthday("1997-05-04");
         users.add(bean);
-        bean = new User();
-        bean.setNameChn("Henry");
-        bean.setNameEng("Michael Henry");
+
+        user = MultiUserManager.getInstance().getUserHenry();
+        bean = parseUser(user);
         bean.setNamePinyin("michael henry");
-        bean.setCountry("美国");
-        bean.setBirthday("1998-05-26");
         users.add(bean);
-        bean = new User();
-        bean.setNameChn("Qi");
-        bean.setNameEng("Qi Tian");
+
+        user = MultiUserManager.getInstance().getUserQi();
+        bean = parseUser(user);
         bean.setNamePinyin("tian qi");
-        bean.setCountry("中国");
-        bean.setCity("成都");
-        bean.setBirthday("1991-03-27");
+        bean.setNameShort("Qi");
         users.add(bean);
+
         daoSession.getUserDao().insertInTx(users);
+    }
+
+    private void createRanks() {
+        List<Rank> rankList = new ArrayList<>();
+        List<RankFinalBean> beans = new RankFinalDao(MultiUserManager.getInstance().getUserKing()).queryRanks();
+        for (RankFinalBean bean:beans) {
+            long userId = daoSession.getUserDao().queryBuilder()
+                    .where(UserDao.Properties.NameEng.eq(MultiUserManager.getInstance().getUserKing().getFullName()))
+                    .build().unique().getId();
+            Rank rank = new Rank();
+            rank.setUserId(userId);
+            rank.setYear(bean.getYear());
+            rank.setRank(bean.getRank());
+            rankList.add(rank);
+        }
+
+        beans = new RankFinalDao(MultiUserManager.getInstance().getUserFlamenco()).queryRanks();
+        for (RankFinalBean bean:beans) {
+            long userId = daoSession.getUserDao().queryBuilder()
+                    .where(UserDao.Properties.NameEng.eq(MultiUserManager.getInstance().getUserFlamenco().getFullName()))
+                    .build().unique().getId();
+            Rank rank = new Rank();
+            rank.setUserId(userId);
+            rank.setYear(bean.getYear());
+            rank.setRank(bean.getRank());
+            rankList.add(rank);
+        }
+
+        beans = new RankFinalDao(MultiUserManager.getInstance().getUserHenry()).queryRanks();
+        for (RankFinalBean bean:beans) {
+            long userId = daoSession.getUserDao().queryBuilder()
+                    .where(UserDao.Properties.NameEng.eq(MultiUserManager.getInstance().getUserHenry().getFullName()))
+                    .build().unique().getId();
+            Rank rank = new Rank();
+            rank.setUserId(userId);
+            rank.setYear(bean.getYear());
+            rank.setRank(bean.getRank());
+            rankList.add(rank);
+        }
+
+        beans = new RankFinalDao(MultiUserManager.getInstance().getUserQi()).queryRanks();
+        for (RankFinalBean bean:beans) {
+            long userId = daoSession.getUserDao().queryBuilder()
+                    .where(UserDao.Properties.NameEng.eq(MultiUserManager.getInstance().getUserQi().getFullName()))
+                    .build().unique().getId();
+            Rank rank = new Rank();
+            rank.setUserId(userId);
+            rank.setYear(bean.getYear());
+            rank.setRank(bean.getRank());
+            rankList.add(rank);
+        }
+
+        daoSession.getRankDao().insertInTx(rankList);
     }
 
     private void createPlayers() {
@@ -216,30 +280,29 @@ public class ConvertManager {
     private void createRecords() {
 
         scorelist = new ArrayList<>();
-        MultiUserManager.getInstance().loadUsers();
         long userId = daoSession.getUserDao().queryBuilder()
-                .where(UserDao.Properties.NameChn.eq("King"))
+                .where(UserDao.Properties.NameEng.eq(MultiUserManager.getInstance().getUserKing().getFullName()))
                 .build().unique().getId();
         RecordDAO dao = new RecordDAOImp(MultiUserManager.getInstance().getUserKing());
         ArrayList<Record> list = dao.queryAll();
         parseRecords(list, userId);
 
         userId = daoSession.getUserDao().queryBuilder()
-                .where(UserDao.Properties.NameChn.eq("Flamenco"))
+                .where(UserDao.Properties.NameEng.eq(MultiUserManager.getInstance().getUserFlamenco().getFullName()))
                 .build().unique().getId();
         dao = new RecordDAOImp(MultiUserManager.getInstance().getUserFlamenco());
         list = dao.queryAll();
         parseRecords(list, userId);
 
         userId = daoSession.getUserDao().queryBuilder()
-                .where(UserDao.Properties.NameChn.eq("Henry"))
+                .where(UserDao.Properties.NameEng.eq(MultiUserManager.getInstance().getUserHenry().getFullName()))
                 .build().unique().getId();
         dao = new RecordDAOImp(MultiUserManager.getInstance().getUserHenry());
         list = dao.queryAll();
         parseRecords(list, userId);
 
         userId = daoSession.getUserDao().queryBuilder()
-                .where(UserDao.Properties.NameChn.eq("Qi"))
+                .where(UserDao.Properties.NameEng.eq(MultiUserManager.getInstance().getUserQi().getFullName()))
                 .build().unique().getId();
         dao = new RecordDAOImp(MultiUserManager.getInstance().getUserQi());
         list = dao.queryAll();

@@ -4,6 +4,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.king.khcareer.common.multiuser.MultiUser;
 import com.king.khcareer.model.sql.player.interfc.DatabaseAccess;
 import com.king.khcareer.model.sql.player.DatabaseStruct;
 import com.king.khcareer.model.sql.player.SQLiteDB;
@@ -22,6 +23,10 @@ public class RankFinalDao {
 
     public RankFinalDao() {
         sqLite = new SQLiteDB();
+    }
+
+    public RankFinalDao(MultiUser user) {
+        sqLite = new SQLiteDB(user);
     }
 
     /**
