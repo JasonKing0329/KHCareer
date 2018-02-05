@@ -126,10 +126,10 @@
 		<item>China</item>
 	</string-array>
 	<string-array name="multiuser_birthday" translatable="false">
-		<item>1991.03.29</item>
-		<item>1997.05.04</item>
-		<item>1998.05.26</item>
-		<item>1991.03.27</item>
+		<item>1991-03-29</item>
+		<item>1997-05-04</item>
+		<item>1998-05-26</item>
+		<item>1991-03-27</item>
 	</string-array>
 	<string-array name="multiuser_height" translatable="false">
 		<item>188cm</item>
