@@ -22,9 +22,12 @@ public class User {
     private String country;
     private String city;
     private String birthday;
-    @Generated(hash = 1840821913)
+    private int height;
+    private double weight;
+    @Generated(hash = 254217657)
     public User(Long id, String nameEng, String nameChn, String namePinyin,
-            String nameShort, String country, String city, String birthday) {
+            String nameShort, String country, String city, String birthday,
+            int height, double weight) {
         this.id = id;
         this.nameEng = nameEng;
         this.nameChn = nameChn;
@@ -33,6 +36,8 @@ public class User {
         this.country = country;
         this.city = city;
         this.birthday = birthday;
+        this.height = height;
+        this.weight = weight;
     }
     @Generated(hash = 586692638)
     public User() {
@@ -84,6 +89,18 @@ public class User {
     }
     public void setBirthday(String birthday) {
         this.birthday = birthday;
+    }
+    public int getHeight() {
+        return this.height;
+    }
+    public void setHeight(int height) {
+        this.height = height;
+    }
+    public double getWeight() {
+        return this.weight;
+    }
+    public void setWeight(double weight) {
+        this.weight = weight;
     }
 
 }

@@ -7,6 +7,8 @@ import com.king.converter.entity.DaoSession;
 import com.king.converter.entity.MatchNameBeanDao;
 import com.king.converter.entity.PlayerBeanDao;
 import com.king.converter.entity.Rank;
+import com.king.converter.entity.RankCareer;
+import com.king.converter.entity.RankCareerDao;
 import com.king.converter.entity.Score;
 import com.king.converter.entity.User;
 import com.king.converter.entity.UserDao;
@@ -124,6 +126,9 @@ public class ConvertManager {
         e.onNext(new ConvertProgress("create ranks..."));
         createRanks();
 
+        e.onNext(new ConvertProgress("create rank career..."));
+        createRankCareer();
+
         e.onNext(new ConvertProgress("create players..."));
         createPlayers();
 
@@ -156,22 +161,30 @@ public class ConvertManager {
         MultiUser user = MultiUserManager.getInstance().getUserKing();
         User bean = parseUser(user);
         bean.setNamePinyin("hao king");
+        bean.setHeight(188);
+        bean.setWeight(79);
         users.add(bean);
 
         user = MultiUserManager.getInstance().getUserFlamenco();
         bean = parseUser(user);
         bean.setNamePinyin("john flamenco");
+        bean.setHeight(187);
+        bean.setWeight(79);
         users.add(bean);
 
         user = MultiUserManager.getInstance().getUserHenry();
         bean = parseUser(user);
         bean.setNamePinyin("michael henry");
+        bean.setHeight(183);
+        bean.setWeight(78);
         users.add(bean);
 
         user = MultiUserManager.getInstance().getUserQi();
         bean = parseUser(user);
         bean.setNamePinyin("tian qi");
         bean.setNameShort("Qi");
+        bean.setHeight(178);
+        bean.setWeight(75);
         users.add(bean);
 
         daoSession.getUserDao().insertInTx(users);
@@ -228,6 +241,37 @@ public class ConvertManager {
         }
 
         daoSession.getRankDao().insertInTx(rankList);
+    }
+
+    private void createRankCareer() {
+        RankCareerDao dao = daoSession.getRankCareerDao();
+        RankCareer career = new RankCareer();
+        career.setUserId(1);
+        career.setRankCurrent(1);
+        career.setRankHighest(1);
+        career.setTop1Week(182);
+        dao.insert(career);
+
+        career = new RankCareer();
+        career.setUserId(2);
+        career.setRankCurrent(3);
+        career.setRankHighest(2);
+        career.setTop1Week(0);
+        dao.insert(career);
+
+        career = new RankCareer();
+        career.setUserId(3);
+        career.setRankCurrent(2);
+        career.setRankHighest(2);
+        career.setTop1Week(0);
+        dao.insert(career);
+
+        career = new RankCareer();
+        career.setUserId(4);
+        career.setRankCurrent(11);
+        career.setRankHighest(11);
+        career.setTop1Week(0);
+        dao.insert(career);
     }
 
     private void createPlayers() {
