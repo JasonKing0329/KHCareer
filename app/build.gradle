@@ -82,12 +82,13 @@ dependencies {
     /*green dao*/
     implementation 'org.greenrobot:greendao:3.2.2'
 
-    compile project(':libresmanager')
-    compile project(':libtool')
-    compile project(':prjcolorpicker')
-    compile project(':pulltozoomview')
-    compile project(':shapimageview')
-    compile project(':MPChartLib')
-    compile project(':expandablerecycleradapter')
-    compile project(':boommenu')
+    implementation project(':libresmanager')
+    implementation project(':libtool')
+    implementation project(':prjcolorpicker')
+    implementation project(':libcolorpicker')
+    implementation project(':pulltozoomview')
+    implementation project(':shapimageview')
+    implementation project(':MPChartLib')
+    implementation project(':expandablerecycleradapter')
+    implementation project(':boommenu')
 }
